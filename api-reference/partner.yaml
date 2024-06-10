@@ -1,0 +1,341 @@
+openapi: 3.0.1
+info:
+    title: API
+    version: '1.0'
+servers:
+    - url: https://app.getswipe.in/partner
+tags:
+    - name: doc
+      description: Document related operations
+    - name: customer
+      description: Customer related operations
+paths:
+    /v1/customer:
+        put:
+            tags:
+                - customer
+            summary: Update a customer
+            description: Update a customer
+            operationId: put_customer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/BaseCustomer'
+                required: true
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Response'
+                '400':
+                    description: Validation Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+            x-codegen-request-body-name: payload
+        post:
+            tags:
+                - customer
+            summary: Add a customer
+            description: Add a customer
+            operationId: post_customer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/BaseCustomer'
+                    examples:
+                        simple:
+                            value: 'value'
+                required: true
+            responses:
+                '201':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Response'
+                '400':
+                    description: Validation Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+            x-codegen-request-body-name: payload
+    /v1/customer/{customer_id}:
+        get:
+            tags:
+                - customer
+            summary: Get a customer
+            description: Get a customer
+            operationId: get_customer
+            parameters:
+                - name: customer_id
+                  in: path
+                  description: The customer ID to be fetched
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GET_Response'
+                '404':
+                    description: Customer not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        delete:
+            tags:
+                - customer
+            summary: Delete a customer
+            description: Delete a customer
+            operationId: delete_customer
+            parameters:
+                - name: customer_id
+                  in: path
+                  description: The customer ID to be deleted
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Response'
+                '400':
+                    description: Customer not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+    /v1/doc/pdf/{doc_hash_id}:
+        get:
+            tags:
+                - doc
+            summary: Retrieve a PDF document by its hash ID
+            description: |-
+                Fetch a PDF document by its hash ID
+                :param doc_hash_id: The hash id of the document to be fetched.
+                :return: The requested PDF document.
+            operationId: get_pdf
+            parameters:
+                - name: doc_hash_id
+                  in: path
+                  description: The hash id of the document to be fetched
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: File will be downloaded
+                    content: {}
+                '400':
+                    description: Invalid Document Hash ID
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                '500':
+                    description: Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+components:
+    schemas:
+        Error:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: false
+                message:
+                    type: string
+                    description: Response message
+                    example: Validation Error
+                errors:
+                    type: object
+                    properties: {}
+                    description: Validation errors
+                    example:
+                        name: Invalid name.
+        BaseCustomer:
+            type: object
+            properties:
+                customer_id:
+                    type: string
+                    description: Customer ID
+                    example: '123'
+                name:
+                    type: string
+                    description: Customer name
+                    example: TATA RATAN
+                phone:
+                    type: integer
+                    description: Phone number
+                    example: 1234567890
+                email:
+                    type: string
+                    description: Email address
+                    example: reddi@reddi.reddi
+                discount:
+                    type: integer
+                    description: Discount
+                    example: 10
+                gstin:
+                    type: string
+                    description: GSTIN
+                    example: 27AARCS7202C1ZD
+                company_name:
+                    type: string
+                    description: Company name
+                    example: GSTN
+                opening_balance:
+                    type: string
+                    description: Opening balance
+                    example: '1245'
+                credit_limit:
+                    type: integer
+                    description: Credit limit
+                    example: 200
+                billing_address:
+                    type: array
+                    description: List of billing addresses
+                    items:
+                        $ref: '#/components/schemas/Address'
+                shipping_address:
+                    type: array
+                    description: List of shipping addresses
+                    items:
+                        $ref: '#/components/schemas/Address'
+                opening_balance_type:
+                    type: integer
+                    description: 'Credit[0] / Debit[1]'
+                    example: 1
+                dial_code:
+                    type: string
+                    description: Dial code
+                    example: '91'
+                profile_image:
+                    type: string
+                    description: Profile image URL
+                    example: ''
+                pan:
+                    type: string
+                    description: PAN
+                    example: ABCD1234F
+                is_tcs:
+                    type: boolean
+                    description: Indicates whether TCS is applicable
+                    example: true
+                tcs_section_id:
+                    type: integer
+                    description: TCS section ID
+                    example: 42
+                price_list_id:
+                    type: integer
+                    description: Price list ID
+                    example: 23
+                notes:
+                    type: string
+                    description: Notes
+                    example: Testing api
+                tags:
+                    type: array
+                    description: List of tags
+                    items:
+                        $ref: '#/components/schemas/Tag'
+                cc_emails:
+                    type: string
+                    description: CC email addresses
+                    example: 'reddi@reddi.reddi,acb.a@bcd.con'
+                export_customer:
+                    type: integer
+                    description: Export customer
+                    example: 0
+        Address:
+            type: object
+            properties:
+                line1:
+                    type: string
+                    description: Address line 1
+                    example: ''
+                line2:
+                    type: string
+                    description: Address line 2
+                    example: ''
+                pincode:
+                    type: integer
+                    description: Pincode
+                    example: 0
+                city:
+                    type: string
+                    description: City
+                    example: ''
+                state1:
+                    type: string
+                    description: State code
+                    example: ''
+                state:
+                    type: string
+                    description: State code
+                    example: ''
+                is_edit:
+                    type: boolean
+                    description: Indicates whether the address is editable
+                    example: false
+                addr_id:
+                    type: integer
+                    description: Address ID
+                    example: 0
+        Tag:
+            type: object
+            properties:
+                tag_name:
+                    type: string
+                    description: Tag name
+                    example: immediate
+                id:
+                    type: integer
+                    description: Tag ID
+                    example: 6
+        GET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                customer_details:
+                    $ref: '#/components/schemas/BaseCustomer'
+        Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                message:
+                    type: string
+                    description: Response message
+                    example: Customer added successfully
+    responses:
+        ParseError:
+            description: When a mask can't be parsed
+            content: {}
+        MaskError:
+            description: When any error occurs on mask
+            content: {}
+x-original-swagger-version: '2.0'
