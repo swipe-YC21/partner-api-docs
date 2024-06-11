@@ -39,14 +39,14 @@
             "url": "https://community.getswipe.in/categories"
         },
         {
-            "name": "Community",
-            "icon": "slack",
-            "url": "https://community.getswipe.in/latest"
-        },
-        {
             "name": "Blog",
             "icon": "newspaper",
             "url": "https://getswipe.in/blog"
+        },
+        {
+            "name": "Community",
+            "icon": "slack",
+            "url": "https://community.getswipe.in/latest"
         }
     ],
     "navigation": [
@@ -57,6 +57,22 @@
         {
             "group": "API Documentation",
             "pages": ["api-reference/introduction"]
+        },
+        {
+            "group": "Customer",
+            "pages": [
+                "api-reference/customer/update-a-customer",
+                "api-reference/customer/add-a-customer",
+                "api-reference/customer/get-a-customer",
+                "api-reference/customer/delete-a-customer"
+            ]
+        },
+        {
+            "group": "Document",
+            "pages": [
+                "api-reference/document/create-a-document",
+                "api-reference/document/get-document-pdf"
+            ]
         },
         {
             "group": "Endpoint Examples",

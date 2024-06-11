@@ -1,21 +1,23 @@
 openapi: 3.0.1
 info:
-    title: API
+    title: SwipeAPI
+    description: Partner API
     version: '1.0'
 servers:
-    - url: https://app.getswipe.in/partner
+    - url: http://app.getswipe.in/partner
+security:
+    - bearerAuth: []
 tags:
-    - name: doc
+    - name: Document
       description: Document related operations
-    - name: customer
+    - name: Customer
       description: Customer related operations
 paths:
     /v1/customer:
         put:
             tags:
-                - customer
+                - Customer
             summary: Update a customer
-            description: Update a customer
             operationId: put_customer
             requestBody:
                 content:
@@ -39,18 +41,14 @@ paths:
             x-codegen-request-body-name: payload
         post:
             tags:
-                - customer
+                - Customer
             summary: Add a customer
-            description: Add a customer
             operationId: post_customer
             requestBody:
                 content:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/BaseCustomer'
-                    examples:
-                        simple:
-                            value: 'value'
                 required: true
             responses:
                 '201':
@@ -69,9 +67,8 @@ paths:
     /v1/customer/{customer_id}:
         get:
             tags:
-                - customer
+                - Customer
             summary: Get a customer
-            description: Get a customer
             operationId: get_customer
             parameters:
                 - name: customer_id
@@ -95,9 +92,8 @@ paths:
                                 $ref: '#/components/schemas/Error'
         delete:
             tags:
-                - customer
+                - Customer
             summary: Delete a customer
-            description: Delete a customer
             operationId: delete_customer
             parameters:
                 - name: customer_id
@@ -119,15 +115,38 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
+    /v1/doc/:
+        post:
+            tags:
+                - Document
+            summary: Create a document
+            operationId: post_invoice_resource
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/BaseDocument'
+                required: true
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SuccessResponse'
+                '400':
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+            x-codegen-request-body-name: payload
     /v1/doc/pdf/{doc_hash_id}:
         get:
             tags:
-                - doc
-            summary: Retrieve a PDF document by its hash ID
-            description: |-
-                Fetch a PDF document by its hash ID
-                :param doc_hash_id: The hash id of the document to be fetched.
-                :return: The requested PDF document.
+                - Document
+            summary: Get document PDF
+            description: Get document PDF
             operationId: get_pdf
             parameters:
                 - name: doc_hash_id
@@ -171,7 +190,313 @@ components:
                     description: Validation errors
                     example:
                         name: Invalid name.
+        BaseDocument:
+            required:
+                - customers
+                - document_date
+                - document_type
+                - items
+                - net_amount
+                - signature
+                - tax_amount
+                - total_amount
+            type: object
+            properties:
+                document_type:
+                    type: string
+                    description: Document Type
+                    example: invoice
+                    enum:
+                        - invoice
+                document_date:
+                    type: string
+                    description: Document Date
+                    example: 11-06-2024
+                customers:
+                    type: array
+                    description: Customers
+                    items:
+                        $ref: '#/components/schemas/Customer'
+                due_date:
+                    type: string
+                    description: Due Date
+                    example: 11-06-2024
+                reference:
+                    type: string
+                    description: Reference
+                    example: Reference Text
+                notes:
+                    type: string
+                    description: Notes
+                    example: Notes for the document
+                terms:
+                    type: string
+                    description: Terms
+                    example: Terms and Conditions
+                items:
+                    type: array
+                    description: Items
+                    items:
+                        $ref: '#/components/schemas/Item'
+                net_amount:
+                    type: number
+                    description: Net Amount
+                    example: 1000.0
+                tax_amount:
+                    type: number
+                    description: Tax Amount
+                    example: 180.0
+                items_discount:
+                    type: number
+                    description: Items Discount
+                    example: 50.0
+                extra_discount:
+                    type: number
+                    description: Extra Discount
+                    example: 20.0
+                total_amount:
+                    type: number
+                    description: Total Amount
+                    example: 1180.0
+                round_off:
+                    type: number
+                    description: Round Off
+                    example: 0.0
+                payment:
+                    type: array
+                    description: Payment Methods
+                    items:
+                        $ref: '#/components/schemas/Payment'
+                cess_amount:
+                    type: number
+                    description: Cess Amount
+                    example: 0.0
+                cess_on_quantity:
+                    type: number
+                    description: Cess On Quantity
+                    example: 0.0
+                company_shipping_address:
+                    type: object
+                    description: Company Shipping Address
+                    allOf:
+                        - $ref: '#/components/schemas/ShippingAddress'
+                customer_shipping_address:
+                    type: object
+                    description: Customer Shipping Address
+                    allOf:
+                        - $ref: '#/components/schemas/ShippingAddress'
+                signature:
+                    type: string
+                    description: Signature URL
+                    example: https://example.com/signature.jpg
+        Customer:
+            required:
+                - id
+                - name
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: Customer ID
+                    example: CUST123
+                name:
+                    type: string
+                    description: Name
+                    example: John Doe
+                country_code:
+                    type: string
+                    description: Country Code
+                    example: '91'
+                phone_number:
+                    type: string
+                    description: Phone Number
+                    example: '1234567890'
+                email:
+                    type: string
+                    description: Email
+                    example: johndoe@example.com
+        Item:
+            required:
+                - id
+                - item_type
+                - name
+                - net_amount
+                - price_with_tax
+                - quantity
+                - tax_amount
+                - tax_rate
+                - total_amount
+                - unit_price
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: ID
+                    example: ITEM123
+                name:
+                    type: string
+                    description: Name
+                    example: Item Name
+                quantity:
+                    type: number
+                    description: Quantity
+                    example: 1.0
+                unit_price:
+                    type: number
+                    description: Unit Price
+                    example: 100.0
+                tax_rate:
+                    type: number
+                    description: Tax Rate
+                    example: 18.0
+                tax_amount:
+                    type: number
+                    description: Tax Amount
+                    example: 18.0
+                price_with_tax:
+                    type: number
+                    description: Price With Tax
+                    example: 118.0
+                net_amount:
+                    type: number
+                    description: Net Amount
+                    example: 100.0
+                total_amount:
+                    type: number
+                    description: Total Amount
+                    example: 118.0
+                discount_amount:
+                    type: number
+                    description: Discount Amount
+                    example: 10.0
+                discount_percent:
+                    type: number
+                    description: Discount Percent
+                    example: 10.0
+                description:
+                    type: string
+                    description: Description
+                    example: Item Description
+                hsn_code:
+                    type: string
+                    description: HSN Code
+                    example: '1234'
+                item_type:
+                    type: string
+                    description: Item Type
+                    example: goods
+                    enum:
+                        - goods
+                        - service
+                unit:
+                    type: string
+                    description: Unit
+                    example: kg
+                    enum:
+                        - kg
+                        - g
+                        - l
+                        - ml
+                        - m
+                        - cm
+                        - sqm
+                        - sqcm
+                        - sqft
+                        - sqkm
+                        - unit
+                cess_amount:
+                    type: number
+                    description: Cess Amount
+                    example: 0.0
+                cess_on_quantity:
+                    type: number
+                    description: Cess On Quantity
+                    example: 0.0
+                category:
+                    type: string
+                    description: Category
+                    example: Electronics
+        Payment:
+            required:
+                - amount
+                - method
+            type: object
+            properties:
+                amount:
+                    type: number
+                    description: Amount
+                    example: 100.0
+                method:
+                    type: string
+                    description: Method
+                    example: upi
+                    enum:
+                        - cash
+                        - card
+                        - upi
+                        - netBanking
+                        - check
+                        - emi
+                notes:
+                    type: string
+                    description: Notes
+                    example: Payment notes
+        ShippingAddress:
+            required:
+                - address_line1
+                - address_line2
+                - city
+                - country
+                - pincode
+                - state
+            type: object
+            properties:
+                address_line1:
+                    type: string
+                    description: Address Line 1
+                    example: 123 Street
+                address_line2:
+                    type: string
+                    description: Address Line 2
+                    example: Apt 4B
+                city:
+                    type: string
+                    description: City
+                    example: City Name
+                state:
+                    type: string
+                    description: State
+                    example: State Name
+                country:
+                    type: string
+                    description: Country
+                    example: Country Name
+                pincode:
+                    type: string
+                    description: Pincode
+                    example: '123456'
+        SuccessResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success
+                    example: true
+                message:
+                    type: string
+                    description: Message
+                    example: Document created successfully
+                serialNumber:
+                    type: string
+                    description: Serial Number
+                    example: SL123
+                hashId:
+                    type: string
+                    description: Hash ID
+                    example: SL123
         BaseCustomer:
+            required:
+                - name
             type: object
             properties:
                 customer_id:
@@ -195,6 +520,7 @@ components:
                     description: Discount
                     example: 10
                 gstin:
+                    pattern: '^(|[0-9A-Z]{15})$'
                     type: string
                     description: GSTIN
                     example: 27AARCS7202C1ZD
@@ -338,4 +664,8 @@ components:
         MaskError:
             description: When any error occurs on mask
             content: {}
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
 x-original-swagger-version: '2.0'
