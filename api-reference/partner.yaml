@@ -31,13 +31,19 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Response'
+                                $ref: '#/components/schemas/CustomerResponse'
                 '400':
                     description: Validation Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Error'
+                                $ref: '#/components/schemas/CustomerError'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerError'
             x-codegen-request-body-name: payload
         post:
             tags:
@@ -56,13 +62,19 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Response'
+                                $ref: '#/components/schemas/CustomerResponse'
                 '400':
                     description: Validation Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Error'
+                                $ref: '#/components/schemas/CustomerError'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerError'
             x-codegen-request-body-name: payload
     /v1/customer/{customer_id}:
         get:
@@ -84,12 +96,24 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/GET_Response'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerError'
                 '404':
                     description: Customer not found
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Error'
+                                $ref: '#/components/schemas/CustomerError'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerError'
         delete:
             tags:
                 - Customer
@@ -108,13 +132,19 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Response'
+                                $ref: '#/components/schemas/CustomerResponse'
                 '400':
                     description: Customer not found
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Error'
+                                $ref: '#/components/schemas/CustomerError'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerError'
     /v1/doc/:
         post:
             tags:
@@ -140,13 +170,24 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                '500':
+                    description: Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
             x-codegen-request-body-name: payload
     /v1/doc/pdf/{doc_hash_id}:
         get:
             tags:
                 - Document
             summary: Get document PDF
-            description: Get document PDF
             operationId: get_pdf
             parameters:
                 - name: doc_hash_id
@@ -165,6 +206,12 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
                 '500':
                     description: Server Error
                     content:
@@ -178,18 +225,12 @@ components:
             properties:
                 success:
                     type: boolean
-                    description: Success flag
                     example: false
+                    default: false
                 message:
                     type: string
-                    description: Response message
-                    example: Validation Error
-                errors:
-                    type: object
-                    properties: {}
-                    description: Validation errors
-                    example:
-                        name: Invalid name.
+                    description: Error message
+                    example: Some error occurred
         BaseDocument:
             required:
                 - customers
@@ -637,16 +678,24 @@ components:
                     type: integer
                     description: Tag ID
                     example: 6
-        GET_Response:
+        CustomerError:
             type: object
             properties:
                 success:
                     type: boolean
                     description: Success flag
-                    example: true
-                customer_details:
-                    $ref: '#/components/schemas/BaseCustomer'
-        Response:
+                    example: false
+                message:
+                    type: string
+                    description: Response message
+                    example: Error Message
+                errors:
+                    type: object
+                    properties: {}
+                    description: Validation errors
+                    example:
+                        name: Invalid name.
+        CustomerResponse:
             type: object
             properties:
                 success:
@@ -657,6 +706,15 @@ components:
                     type: string
                     description: Response message
                     example: Customer added successfully
+        GET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                customer_details:
+                    $ref: '#/components/schemas/BaseCustomer'
     responses:
         ParseError:
             description: When a mask can't be parsed
