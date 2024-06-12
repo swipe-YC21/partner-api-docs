@@ -145,7 +145,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/CustomerError'
-    /v1/doc/:
+    /v1/doc:
         post:
             tags:
                 - Document
@@ -156,6 +156,88 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/BaseDocument'
+                        examples:
+                            basic:
+                                value:
+                                    document_type: invoice
+                                    document_date: '01-04-2024'
+                                    customers:
+                                        - id: cus123
+                                          name: Charan Cus
+                                    items:
+                                        - id: p123
+                                          name: Book
+                                          item_type: goods
+                                          quantity: 1
+                                          unit_price: 100
+                                          tax_rate: 10
+                                          tax_amount: 10
+                                          price_with_tax: 110
+                                          net_amount: 100
+                                          total_amount: 110
+                                    net_amount: 100
+                                    tax_amount: 10
+                                    total_amount: 110
+                            advanced:
+                                value:
+                                    document_type: invoice
+                                    document_date: '11-06-2024'
+                                    customers:
+                                        - id: CUST123
+                                          name: John Doe
+                                          country_code: '91'
+                                          phone_number: '1234567890'
+                                          email: johndoe@example.com
+                                    due_date: '11-06-2024'
+                                    reference: Reference Text
+                                    notes: Notes for the document
+                                    terms: Terms and Conditions
+                                    items:
+                                        - id: ITEM123
+                                          name: Item Name
+                                          quantity: 10
+                                          unit_price: 100
+                                          tax_rate: 18
+                                          cess_rate: 10
+                                          price_with_tax: 128
+                                          cess_amount: 90
+                                          tax_amount: 252
+                                          discount_percent: 10
+                                          discount_amount: 100
+                                          net_amount: 900
+                                          total_amount: 1152
+                                          description: Item Description
+                                          hsn_code: '1234'
+                                          item_type: goods
+                                          unit: kg
+                                          category: Electronics
+                                    cess_amount: 90
+                                    cess_on_quantity: 0
+                                    net_amount: 900
+                                    tax_amount: 252
+                                    items_discount: 100
+                                    extra_discount: 20
+                                    total_amount: 1132
+                                    round_off: 0
+                                    payment:
+                                        - amount: 100
+                                          method: upi
+                                          notes: Payment notes
+                                    company_shipping_address:
+                                        address_line1: 123 Street
+                                        address_line2: Apt 4B
+                                        city: City Name
+                                        state: State Name
+                                        country: Country Name
+                                        pincode: '123456'
+                                    customer_shipping_address:
+                                        address_line1: 123 Street
+                                        address_line2: Apt 4B
+                                        city: City Name
+                                        state: State Name
+                                        country: Country Name
+                                        pincode: '123456'
+                                    signature: https://example.com/signature.jpg
                 required: true
             responses:
                 '200':
