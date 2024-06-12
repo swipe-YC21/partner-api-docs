@@ -4,7 +4,7 @@ info:
     description: Partner API
     version: '1.0'
 servers:
-    - url: http://app.getswipe.in/partner
+    - url: https://app.getswipe.in/api/partner
 security:
     - bearerAuth: []
 tags:
