@@ -1,33 +1,48 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Intro section for showcasing API configuration'
 ---
-
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
 
 ## Welcome
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+Thank you for choosing Swipe API for your integration needs. This documentation will guide you through the process of integrating with Swipe's powerful API.
+
+To get started, please follow these steps:
+
+1. Create an account on [Swipe](https://app.getswipe.in) if you haven't already done so. This will give you access to the Swipe API and other features.
+
+2. Reach out to our customer support team to generate an API key for your account. They will provide you with the necessary credentials to authenticate your API requests.
+
+3. Once you have your API key, you can test it using our API playground. Visit [API Playground](https://developers.getswipe.in/api-reference/document/create-a-document). Enter your API key and explore the available endpoints to ensure everything is working correctly.
+
+4. If you need to customize your invoice templates, settings, or any other configurations, you can do so from the [https://app.getswipe.in](https://app.getswipe.in) portal. Simply log in to your account and navigate to the respective sections to make the desired changes.
+
+5. With the Swipe API, you can create, edit invoices, manage customer data, and utilize other Swipe features. We are continuously integrating all Swipe features with the Swipe API as well.
+
+6. Finally, once your integration is complete, you can use the [https://app.getswipe.in](https://app.getswipe.in) portal to view and manage all your invoices and related data. This provides a convenient way to track and monitor your transactions.
+
+Feel free to explore the rest of this documentation for detailed information on the available API endpoints and how to use them effectively.
 
 <Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
+    title="API Documentation"
+    icon="book"
+    href="https://app.getswipe.in/docs/api-reference"
 >
-  View the OpenAPI specification file
+    View the full API documentation
+</Card>
+
+<Card
+    title="API Playground"
+    icon="play"
+    href="https://developers.getswipe.in/api-reference/document/create-a-documentn"
+>
+    Test your API key in the playground
+</Card>
+
+<Card title="Support" icon="question" href="https://app.getswipe.in/help">
+    Contact our customer support team
 </Card>
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
-
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
-```
+All API endpoints are authenticated using Bearer tokens. Please refer to the API documentation for more details on how to include the authentication token in your requests.

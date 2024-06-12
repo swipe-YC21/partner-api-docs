@@ -52,7 +52,7 @@
     "navigation": [
         {
             "group": "Get Started",
-            "pages": ["introduction", "quick start"]
+            "pages": ["introduction"]
         },
         {
             "group": "API Documentation",
