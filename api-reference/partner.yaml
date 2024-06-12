@@ -238,20 +238,19 @@ components:
                 - document_type
                 - items
                 - net_amount
-                - signature
                 - tax_amount
                 - total_amount
             type: object
             properties:
                 document_type:
                     type: string
-                    description: Document Type
+                    description: Value should always be the string 'invoice'
                     example: invoice
                     enum:
                         - invoice
                 document_date:
                     type: string
-                    description: Document Date
+                    description: Invoice date (Need not to the current date)
                     example: 11-06-2024
                 customers:
                     type: array
@@ -260,75 +259,79 @@ components:
                         $ref: '#/components/schemas/Customer'
                 due_date:
                     type: string
-                    description: Due Date
+                    description: Payment Due date for the invoice
                     example: 11-06-2024
                 reference:
                     type: string
-                    description: Reference
+                    description: Any references you want to add to the doc
                     example: Reference Text
                 notes:
                     type: string
-                    description: Notes
+                    description: Notes to show in invoice
                     example: Notes for the document
                 terms:
                     type: string
-                    description: Terms
+                    description: Terms to show in invoice
                     example: Terms and Conditions
                 items:
                     type: array
-                    description: Items
+                    description: 'Array of Products/Services, refer Item Object below for parameters'
                     items:
                         $ref: '#/components/schemas/Item'
                 net_amount:
                     type: number
-                    description: Net Amount
+                    description: Sum of Net amounts of all Items
                     example: 1000.0
                 tax_amount:
                     type: number
-                    description: Tax Amount
+                    description: Total Tax Amount
                     example: 180.0
                 items_discount:
                     type: number
-                    description: Items Discount
+                    description: Sum of discounts of all items
                     example: 50.0
                 extra_discount:
                     type: number
-                    description: Extra Discount
+                    description: 'Adjustment on overall invoice, doesn’t effect any tax amounts.'
                     example: 20.0
                 total_amount:
                     type: number
-                    description: Total Amount
+                    description: Final invoice amount
                     example: 1180.0
                 round_off:
                     type: number
-                    description: Round Off
+                    description: Round Off amount
                     example: 0.0
                 payment:
                     type: array
-                    description: Payment Methods
+                    description: 'Array of Payments, refer Payment Object  for parameters'
                     items:
                         $ref: '#/components/schemas/Payment'
                 cess_amount:
                     type: number
-                    description: Cess Amount
+                    description: CESS amount value
                     example: 0.0
                 cess_on_quantity:
                     type: number
-                    description: Cess On Quantity
+                    description: CESS on Quantity amount value
                     example: 0.0
                 company_shipping_address:
                     type: object
-                    description: Company Shipping Address
+                    description:
+                        "Company shipping from Address, refer Shipping Address Object\
+                        \ for parameters"
                     allOf:
                         - $ref: '#/components/schemas/ShippingAddress'
                 customer_shipping_address:
                     type: object
-                    description: Customer Shipping Address
+                    description:
+                        "Customer shipping to Address, refer Shipping Address Object\
+                        \ for parameters"
                     allOf:
                         - $ref: '#/components/schemas/ShippingAddress'
                 signature:
                     type: string
-                    description: Signature URL
+                    description: Invoice signature image URL
                     example: https://example.com/signature.jpg
         Customer:
             required:
@@ -338,23 +341,29 @@ components:
             properties:
                 id:
                     type: string
-                    description: Customer ID
+                    description:
+                        "Unique id for each customer. If a new id  is sent, a new Customer\
+                        \ with the below details will be automatically created. \n           \
+                        \                                           If existing Customer id is\
+                        \ sent the details will not override the original customer details. \n\
+                        \                                                      They will be applicable\
+                        \ only to the current invoice"
                     example: CUST123
                 name:
                     type: string
-                    description: Name
+                    description: Name of the Customer
                     example: John Doe
                 country_code:
                     type: string
-                    description: Country Code
+                    description: Customer Phone Number Country code
                     example: '91'
                 phone_number:
                     type: string
-                    description: Phone Number
+                    description: Customer Phone Number
                     example: '1234567890'
                 email:
                     type: string
-                    description: Email
+                    description: Customer Email
                     example: johndoe@example.com
         Item:
             required:
@@ -372,11 +381,15 @@ components:
             properties:
                 id:
                     type: string
-                    description: ID
+                    description:
+                        "Unique id for each item. If a new id  is sent, a new Item\
+                        \ with the below details will be automatically created. if existing Item\
+                        \ id is sent the details will not override the original item details.\
+                        \ They will be applicable only to the current invoice"
                     example: ITEM123
                 name:
                     type: string
-                    description: Name
+                    description: Name of the Product
                     example: Item Name
                 quantity:
                     type: number
@@ -384,19 +397,19 @@ components:
                     example: 1.0
                 unit_price:
                     type: number
-                    description: Unit Price
+                    description: Price per item without Tax
                     example: 100.0
                 tax_rate:
                     type: number
-                    description: Tax Rate
+                    description: Tax percentage for each item
                     example: 18.0
                 tax_amount:
                     type: number
-                    description: Tax Amount
+                    description: Item Taxable amount (after discount)
                     example: 18.0
                 price_with_tax:
                     type: number
-                    description: Price With Tax
+                    description: Price per item with Tax
                     example: 118.0
                 net_amount:
                     type: number
@@ -404,7 +417,7 @@ components:
                     example: 100.0
                 total_amount:
                     type: number
-                    description: Total Amount
+                    description: Item total amount (Net Amount + Tax)
                     example: 118.0
                 discount_amount:
                     type: number
@@ -416,7 +429,7 @@ components:
                     example: 10.0
                 description:
                     type: string
-                    description: Description
+                    description: Item Description
                     example: Item Description
                 hsn_code:
                     type: string
@@ -424,14 +437,14 @@ components:
                     example: '1234'
                 item_type:
                     type: string
-                    description: Item Type
+                    description: Goods or Services enum
                     example: goods
                     enum:
                         - goods
                         - service
                 unit:
                     type: string
-                    description: Unit
+                    description: item quantity unit
                     example: kg
                     enum:
                         - kg
@@ -451,7 +464,7 @@ components:
                     example: 0.0
                 cess_on_quantity:
                     type: number
-                    description: Cess On Quantity
+                    description: Additional CESS
                     example: 0.0
                 category:
                     type: string
@@ -465,11 +478,11 @@ components:
             properties:
                 amount:
                     type: number
-                    description: Amount
+                    description: Payment Amount
                     example: 100.0
                 method:
                     type: string
-                    description: Method
+                    description: 'Payment method, use only specified values'
                     example: upi
                     enum:
                         - cash
@@ -480,7 +493,7 @@ components:
                         - emi
                 notes:
                     type: string
-                    description: Notes
+                    description: Any internal notes for payment
                     example: Payment notes
         ShippingAddress:
             required:
@@ -695,6 +708,15 @@ components:
                     description: Validation errors
                     example:
                         name: Invalid name.
+        GET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                customer_details:
+                    $ref: '#/components/schemas/BaseCustomer'
         CustomerResponse:
             type: object
             properties:
@@ -706,15 +728,6 @@ components:
                     type: string
                     description: Response message
                     example: Customer added successfully
-        GET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                customer_details:
-                    $ref: '#/components/schemas/BaseCustomer'
     responses:
         ParseError:
             description: When a mask can't be parsed
