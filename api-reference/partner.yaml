@@ -82,7 +82,7 @@ paths:
         get:
             tags:
                 - Customer
-            summary: Get payment ledger for the Customer
+            summary: Get payment ledger
             operationId: get_customer_ledger
             parameters:
                 - name: start_date
@@ -364,7 +364,7 @@ paths:
         post:
             tags:
                 - Payment
-            summary: Record a payment for the Customer
+            summary: Record payment
             operationId: post_payment
             requestBody:
                 content:

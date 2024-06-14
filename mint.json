@@ -67,12 +67,12 @@
                 "api-reference/customer/add-a-customer",
                 "api-reference/customer/get-a-customer",
                 "api-reference/customer/delete-a-customer",
-                "api-reference/customer/get-payment-ledger-for-the-customer"
+                "api-reference/customer/get-payment-ledger"
             ]
         },
         {
             "group": "Payment",
-            "pages": ["api-reference/payment/record-a-payment-for-the-customer"]
+            "pages": ["api-reference/payment/record-payment"]
         }
     ],
     "footerSocials": {
