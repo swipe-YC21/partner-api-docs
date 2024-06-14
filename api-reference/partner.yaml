@@ -12,6 +12,8 @@ tags:
       description: Document related operations
     - name: Customer
       description: Customer related operations
+    - name: Payment
+      description: Payment related operations
 paths:
     /v1/customer:
         put:
@@ -76,6 +78,70 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/CustomerError'
             x-codegen-request-body-name: payload
+    /v1/customer/ledger:
+        get:
+            tags:
+                - Customer
+            summary: Get payment ledger for the Customer
+            operationId: get_customer_ledger
+            parameters:
+                - name: start_date
+                  in: query
+                  description: 'Start date for the ledger, [DD-MM-YYY]'
+                  required: true
+                  schema:
+                      type: string
+                      default: 01-01-2024
+                - name: end_date
+                  in: query
+                  description: 'End date for the ledger, [DD-MM-YYY]'
+                  required: true
+                  schema:
+                      type: string
+                      default: 31-12-2024
+                - name: customer_id
+                  in: query
+                  description: Customer ID
+                  required: true
+                  schema:
+                      type: string
+                - name: num_records
+                  in: query
+                  description: Number of records to fetch
+                  schema:
+                      type: integer
+                      default: 10
+                - name: page
+                  in: query
+                  description: Page number
+                  schema:
+                      type: integer
+                      default: 1
+            responses:
+                '200':
+                    description: Payment details fetched successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Payment_GET_Response'
+                '400':
+                    description: Error in fetching payment details
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerError'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerError'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerError'
     /v1/customer/{customer_id}:
         get:
             tags:
@@ -294,6 +360,44 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
+    /v1/payment:
+        post:
+            tags:
+                - Payment
+            summary: Record a payment for the Customer
+            operationId: post_payment
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/RecordPayment'
+                required: true
+            responses:
+                '200':
+                    description: Payment recorded successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PaymentResponse'
+                '400':
+                    description: Error in recording payment
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PaymentError'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PaymentError'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PaymentError'
+            x-codegen-request-body-name: payload
 components:
     schemas:
         Error:
@@ -321,6 +425,7 @@ components:
                     example: invoice
                     enum:
                         - invoice
+                        - subscription
                 document_date:
                     type: string
                     description:
@@ -388,10 +493,15 @@ components:
                         \ for parameters"
                     allOf:
                         - $ref: '#/components/schemas/ShippingAddress'
-                signature:
-                    type: string
-                    description: Invoice signature image URL
-                    example: https://example.com/signature.jpg
+                is_subscription:
+                    type: boolean
+                    description: Is Subscription
+                    example: false
+                subscription_details:
+                    type: object
+                    description: Subscription Details
+                    allOf:
+                        - $ref: '#/components/schemas/Subscription'
         Customer:
             required:
                 - id
@@ -598,6 +708,36 @@ components:
                     type: string
                     description: Pincode
                     example: '123456'
+        Subscription:
+            type: object
+            properties:
+                start_time:
+                    type: string
+                    description: 'Start Time [DD-MM-YYY]'
+                    format: date
+                    example: 0016-12-14
+                end_time:
+                    type: string
+                    description: 'End Time [DD-MM-YYY]'
+                    format: date
+                    example: 0016-12-14
+                repeat:
+                    type: integer
+                    description: 'Repeat in value, Frequency of the repetition '
+                    example: 1
+                repeat_type:
+                    type: string
+                    description: 'Repeat type, Entity of the repetition'
+                    example: days
+                    enum:
+                        - days
+                        - weeks
+                        - months
+                        - years
+                send_email:
+                    type: boolean
+                send_sms:
+                    type: boolean
         SuccessResponse:
             type: object
             properties:
@@ -624,7 +764,7 @@ components:
             properties:
                 customer_id:
                     type: string
-                    description: Customer ID
+                    description: Your Customer ID
                     example: '123'
                 name:
                     type: string
@@ -685,35 +825,18 @@ components:
                     type: string
                     description: PAN
                     example: ABCD1234F
-                is_tcs:
-                    type: boolean
-                    description: Indicates whether TCS is applicable
-                    example: true
-                tcs_section_id:
-                    type: integer
-                    description: TCS section ID
-                    example: 42
-                price_list_id:
-                    type: integer
-                    description: Price list ID
-                    example: 23
                 notes:
                     type: string
                     description: Notes
                     example: Testing api
-                tags:
-                    type: array
-                    description: List of tags
-                    items:
-                        $ref: '#/components/schemas/Tag'
                 cc_emails:
                     type: string
                     description: CC email addresses
                     example: 'reddi@reddi.reddi,acb.a@bcd.con'
-                export_customer:
-                    type: integer
-                    description: Export customer
-                    example: 0
+                status:
+                    type: string
+                    description: Status
+                    example: Active
         Address:
             type: object
             properties:
@@ -741,25 +864,6 @@ components:
                     type: string
                     description: State code
                     example: ''
-                is_edit:
-                    type: boolean
-                    description: Indicates whether the address is editable
-                    example: false
-                addr_id:
-                    type: integer
-                    description: Address ID
-                    example: 0
-        Tag:
-            type: object
-            properties:
-                tag_name:
-                    type: string
-                    description: Tag name
-                    example: immediate
-                id:
-                    type: integer
-                    description: Tag ID
-                    example: 6
         CustomerError:
             type: object
             properties:
@@ -775,17 +879,7 @@ components:
                     type: object
                     properties: {}
                     description: Validation errors
-                    example:
-                        name: Invalid name.
-        GET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                customer_details:
-                    $ref: '#/components/schemas/BaseCustomer'
+                    example: List of errors
         CustomerResponse:
             type: object
             properties:
@@ -797,6 +891,173 @@ components:
                     type: string
                     description: Response message
                     example: Customer added successfully
+                customer:
+                    $ref: '#/components/schemas/BaseCustomer'
+        GET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                customer_details:
+                    $ref: '#/components/schemas/BaseCustomer'
+        Payment_GET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                ledger:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/LedgerRecord'
+                closing_balance:
+                    type: number
+                    description: Closing Balance
+                    example: 100.0
+                is_paid:
+                    type: boolean
+                    description: Is Fully paid
+                    example: true
+                total_records:
+                    type: integer
+                    description: Total Records available
+                    example: 10
+        LedgerRecord:
+            type: object
+            properties:
+                serial_number:
+                    type: string
+                    description: Serial Number
+                    example: PAYIN-2
+                total_amount:
+                    type: number
+                    description: Total Amount
+                    example: 100.0
+                amount_pending:
+                    type: number
+                    description: Amount pending
+                    example: 0.0
+                balance:
+                    type: number
+                    description: Balance as of this record
+                    example: -16795.8
+                date:
+                    type: string
+                    description: Payment Date
+                    example: 13-06-2024
+                mode:
+                    type: string
+                    description: Payment Mode
+                    example: UPI
+                bank_details:
+                    $ref: '#/components/schemas/BankDetails'
+                created_time:
+                    type: string
+                    description: 'Created Time of the Payment [YYYY-MM-DD HH:MM:SS] GMT '
+                    example: 2024-06-13 10:08:13
+                notes:
+                    type: string
+                    description: Notes
+                    example: ''
+                status:
+                    type: string
+                    description: Payment Status
+                    example: Success
+        RecordPayment:
+            required:
+                - amount
+                - customer
+                - payment_date
+                - payment_mode
+            type: object
+            properties:
+                amount:
+                    type: number
+                    description: Amount to be paid
+                    example: 27.0
+                payment_date:
+                    type: string
+                    description: 'Payment date [DD-MM-YYY]'
+                    example: 13-06-2024
+                bank_details:
+                    $ref: '#/components/schemas/BankDetails'
+                payment_mode:
+                    type: string
+                    description: Payment mode
+                    example: UPI
+                notes:
+                    type: string
+                    description: 'Notes, will be shared with the customer'
+                    example: ''
+                send_sms:
+                    type: boolean
+                    description: 'Send SMS, customer will be notified through SMS'
+                    example: true
+                send_email:
+                    type: boolean
+                    description: 'Send Email, customer will be notified through Email'
+                    example: true
+                exclusive_notes:
+                    type: string
+                    description: Exclusive Notes for internal purpose
+                    example: ''
+                customer:
+                    type: string
+                    description: Customer ID
+                    example: CUST123
+                documents:
+                    type: array
+                    description: 'Documents to be settled, if any'
+                    example:
+                        - amount_paying: 27
+                          hash_id: SLascded
+                    items:
+                        $ref: '#/components/schemas/DocumentsList'
+        DocumentsList:
+            required:
+                - amount_paying
+                - hash_id
+            type: object
+            properties:
+                amount_paying:
+                    type: number
+                    description: Amount to be settled for the document
+                    example: 27.0
+                hash_id:
+                    type: string
+                    description: Document Hash ID
+                    example: SLascded
+        PaymentError:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: false
+                message:
+                    type: string
+                    description: Response message
+                    example: Error Message
+                errors:
+                    type: object
+                    properties: {}
+                    description: Validation errors
+                    example:
+                        customer_id: Invalid ID.
+        PaymentResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                message:
+                    type: string
+                    description: Response message
+                    example: Payment Recorded successfully
     responses:
         ParseError:
             description: When a mask can't be parsed

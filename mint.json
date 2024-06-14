@@ -2,8 +2,8 @@
     "$schema": "https://mintlify.com/schema.json",
     "name": "Swipe",
     "logo": {
-        "dark": "/logo/logo-dark.png",
-        "light": "/logo/logo-light.png",
+        "dark": "/logo/dark.svg",
+        "light": "/logo/light.svg",
         "href": "https://getswipe.in"
     },
     "favicon": "/favicon.svg",
@@ -66,8 +66,13 @@
                 "api-reference/customer/update-a-customer",
                 "api-reference/customer/add-a-customer",
                 "api-reference/customer/get-a-customer",
-                "api-reference/customer/delete-a-customer"
+                "api-reference/customer/delete-a-customer",
+                "api-reference/customer/get-payment-ledger-for-the-customer"
             ]
+        },
+        {
+            "group": "Payment",
+            "pages": ["api-reference/payment/record-a-payment-for-the-customer"]
         }
     ],
     "footerSocials": {
