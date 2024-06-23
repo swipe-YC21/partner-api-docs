@@ -297,7 +297,67 @@ paths:
                                         state: State Name
                                         country: Country Name
                                         pincode: '123456'
-                                    signature: https://example.com/signature.jpg
+                            subscription:
+                                value:
+                                    document_type: subscription
+                                    document_date: 11-06-2024
+                                    customer:
+                                        id: CUST1
+                                        name: Charan
+                                        country_code: '91'
+                                        phone_number: '8768906785'
+                                        email: charanrockstar@gmail.com
+                                    due_date: 11-06-2024
+                                    reference: Example Subcsription for API's
+                                    notes: Example Note
+                                    terms: Terms and Conditions
+                                    items:
+                                        - id: ITEM123
+                                          name: Item Name
+                                          quantity: 10
+                                          unit_price: 100
+                                          tax_rate: 18
+                                          cess_rate: 10
+                                          price_with_tax: 128
+                                          tax_amount: 252
+                                          discount_percent: 10
+                                          discount_amount: 100
+                                          net_amount: 900
+                                          total_amount: 1152
+                                          description: Item Description
+                                          hsn_code: '1234'
+                                          item_type: goods
+                                          unit: kg
+                                          category: Electronics
+                                    extra_discount: 20
+                                    round_off: 0
+                                    bank_details:
+                                        account_number: '1234567890'
+                                        bank_name: Example Bank
+                                        branch: Main Branch
+                                        ifsc: IFSC0001234
+                                    company_shipping_address:
+                                        address_line1: 123 Street
+                                        address_line2: Apt 4B
+                                        city: City Name
+                                        state: State Name
+                                        country: Country Name
+                                        pincode: '123456'
+                                    customer_shipping_address:
+                                        address_line1: C/o Swipe
+                                        address_line2: Red Steert 40
+                                        city: Kansar
+                                        state: Kansar
+                                        country: India
+                                        pincode: '000007'
+                                    is_subscription: true
+                                    subscription_details:
+                                        start_time: 13-06-2024
+                                        end_time: 14-07-2024
+                                        repeat: 1
+                                        repeat_type: days
+                                        send_email: true
+                                        send_sms: true
                 required: true
             responses:
                 '200':
@@ -407,10 +467,18 @@ components:
                     type: boolean
                     example: false
                     default: false
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: INVALID_HASH_ID
                 message:
                     type: string
                     description: Error message
                     example: Some error occurred
+                errors:
+                    type: object
+                    properties: {}
+                    description: Error details
         BaseDocument:
             required:
                 - customer
@@ -871,6 +939,10 @@ components:
                     type: boolean
                     description: Success flag
                     example: false
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: INVALID_CUSTOMER_ID
                 message:
                     type: string
                     description: Response message
@@ -1041,6 +1113,10 @@ components:
                     type: string
                     description: Response message
                     example: Error Message
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: HASH_ID_MISSING
                 errors:
                     type: object
                     properties: {}
