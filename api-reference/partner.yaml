@@ -1190,6 +1190,10 @@ components:
                     type: string
                     description: GSTIN of the customer
                     example: ''
+                swipe_id:
+                    type: string
+                    description: Swipe ID assigned to the customer
+                    example: '1'
         ListCustomerMapErrorModel:
             type: object
             properties:
