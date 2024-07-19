@@ -162,13 +162,6 @@ paths:
                   schema:
                       type: integer
                       default: 1
-                - name: show_swipe_ids
-                  in: query
-                  description:
-                      "To get swipe ids, which are assigned to the customer, default:\
-                      \ 0"
-                  schema:
-                      type: integer
             responses:
                 '200':
                     description: Customer List fetched successfully
@@ -1047,6 +1040,15 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
+        GET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                customer_details:
+                    $ref: '#/components/schemas/BaseCustomer'
         CustomerResponse:
             type: object
             properties:
@@ -1058,15 +1060,6 @@ components:
                     type: string
                     description: Response message
                     example: Customer added successfully
-        GET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                customer_details:
-                    $ref: '#/components/schemas/BaseCustomer'
         Payment_GET_Response:
             type: object
             properties:
