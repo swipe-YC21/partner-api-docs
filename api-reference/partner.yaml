@@ -142,6 +142,101 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/CustomerError'
+    /v1/customer/list:
+        get:
+            tags:
+                - Customer
+            summary: Get list of customers
+            operationId: get_customer_list
+            parameters:
+                - name: num_records
+                  in: query
+                  description:
+                      "Number of records to fetch, deafult : all customers will be\
+                      \ sent in response"
+                  schema:
+                      type: integer
+                - name: page
+                  in: query
+                  description: Page number
+                  schema:
+                      type: integer
+                      default: 1
+                - name: show_swipe_ids
+                  in: query
+                  description:
+                      "To get swipe ids, which are assigned to the customer, default:\
+                      \ 0"
+                  schema:
+                      type: integer
+            responses:
+                '200':
+                    description: Customer List fetched successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListGETResponse'
+                '400':
+                    description: Error in fetching Customer List
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerError'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerError'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerError'
+        post:
+            tags:
+                - Customer
+            summary: Update customer mapping
+            operationId: post_customer_list
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ListCustomerMapModel'
+                required: true
+            responses:
+                '200':
+                    description: Updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponse'
+                '400':
+                    description: Error in mapping Customer List
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerError'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerError'
+                '409':
+                    description: Error in mapping Customer List
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListCustomerMapErrorModel'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerError'
+            x-codegen-request-body-name: payload
     /v1/customer/{customer_id}:
         get:
             tags:
@@ -839,9 +934,9 @@ components:
                     description: Customer name
                     example: TATA RATAN
                 phone:
-                    type: integer
+                    type: string
                     description: Phone number
-                    example: 1234567890
+                    example: '1234567890'
                 email:
                     type: string
                     description: Email address
@@ -963,8 +1058,6 @@ components:
                     type: string
                     description: Response message
                     example: Customer added successfully
-                customer:
-                    $ref: '#/components/schemas/BaseCustomer'
         GET_Response:
             type: object
             properties:
@@ -1038,6 +1131,97 @@ components:
                     type: string
                     description: Payment Status
                     example: Success
+        ListCustomerMapModel:
+            required:
+                - customer_mapping
+            type: object
+            properties:
+                customer_mapping:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+        CustomerMapModel:
+            required:
+                - customer_id
+                - swipe_id
+            type: object
+            properties:
+                customer_id:
+                    type: string
+                    description: Customer ID
+                swipe_id:
+                    type: string
+                    description: Swipe ID
+                    example: '1'
+                force_update:
+                    type: boolean
+                    description:
+                        "Updates even if the customer id is already mapped with other\
+                        \ swipe id, no customer details will be updated"
+                    example: true
+        ListGETResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                customers:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerListRecord'
+                total_records:
+                    type: integer
+                    description: Total Records available
+                    example: 10
+        CustomerListRecord:
+            type: object
+            properties:
+                customer_id:
+                    type: string
+                    description: Customer ID
+                    example: CUST-2
+                name:
+                    type: string
+                    description: Name of the Customer
+                    example: Customer
+                phone:
+                    type: string
+                    description: Phone Number of the customer
+                    example: '1234567890'
+                email:
+                    type: string
+                    description: Email of the customer
+                    example: john@doe.com
+                gstin:
+                    type: string
+                    description: GSTIN of the customer
+                    example: ''
+        ListCustomerMapErrorModel:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                customer_mapping:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                duplicate_customer_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                duplicate_swipe_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                not_found_swipe_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                message:
+                    type: string
+                    example: Customer ID already mapped !
         RecordPayment:
             required:
                 - amount

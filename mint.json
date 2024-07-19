@@ -67,7 +67,9 @@
                 "api-reference/customer/add-a-customer",
                 "api-reference/customer/get-a-customer",
                 "api-reference/customer/delete-a-customer",
-                "api-reference/customer/get-payment-ledger"
+                "api-reference/customer/get-payment-ledger",
+                "api-reference/customer/get-list-of-customers",
+                "api-reference/customer/update-customer-mapping"
             ]
         },
         {
