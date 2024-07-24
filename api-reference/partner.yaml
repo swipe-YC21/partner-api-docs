@@ -666,13 +666,10 @@ components:
             properties:
                 id:
                     type: string
-                    description:
-                        "Unique id for each customer. If a new id  is sent, a new Customer\
-                        \ with the below details will be automatically created. \n           \
-                        \                                           If existing Customer id is\
-                        \ sent the details will not override the original customer details. \n\
-                        \                                                      They will be applicable\
-                        \ only to the current invoice"
+                    description: |-
+                        Unique id for each customer. If a new id  is sent, a new Customer with the below details will be automatically created.
+                                                                              If existing Customer id is sent the details will not override the original customer details.
+                                                                              They will be applicable only to the current invoice
                     example: CUST123
                 name:
                     type: string
@@ -1040,15 +1037,6 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
-        GET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                customer_details:
-                    $ref: '#/components/schemas/BaseCustomer'
         CustomerResponse:
             type: object
             properties:
@@ -1060,6 +1048,15 @@ components:
                     type: string
                     description: Response message
                     example: Customer added successfully
+        GET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                customer_details:
+                    $ref: '#/components/schemas/BaseCustomer'
         Payment_GET_Response:
             type: object
             properties:
@@ -1152,6 +1149,31 @@ components:
                         "Updates even if the customer id is already mapped with other\
                         \ swipe id, no customer details will be updated"
                     example: true
+        ListCustomerMapErrorModel:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                customer_mapping:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                duplicate_customer_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                duplicate_swipe_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                not_found_swipe_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                message:
+                    type: string
+                    example: Customer ID already mapped !
         ListGETResponse:
             type: object
             properties:
@@ -1194,31 +1216,6 @@ components:
                     type: string
                     description: Swipe ID assigned to the customer
                     example: '1'
-        ListCustomerMapErrorModel:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    example: false
-                customer_mapping:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                duplicate_customer_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                duplicate_swipe_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                not_found_swipe_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                message:
-                    type: string
-                    example: Customer ID already mapped !
         RecordPayment:
             required:
                 - amount
@@ -1241,6 +1238,17 @@ components:
                     type: string
                     description: Payment mode
                     example: UPI
+                    enum:
+                        - Cash
+                        - Cheque
+                        - UPI
+                        - Card
+                        - Net Banking
+                        - paylater
+                        - cardless_emi
+                        - EMI
+                        - TDS
+                        - Credits
                 notes:
                     type: string
                     description: 'Notes, will be shared with the customer'
