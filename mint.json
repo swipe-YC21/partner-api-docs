@@ -75,6 +75,17 @@
         {
             "group": "Payment",
             "pages": ["api-reference/payment/record-payment"]
+        },
+        {
+            "group": "Product",
+            "pages": [
+                "api-reference/product/add-an-item",
+                "api-reference/product/get-list-of-items",
+                "api-reference/product/update-a-item",
+                "api-reference/product/delete-a-item",
+                "api-reference/product/get-a-item-details",
+                "api-reference/product/update-items-mapping"
+            ]
         }
     ],
     "footerSocials": {

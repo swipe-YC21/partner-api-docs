@@ -14,6 +14,8 @@ tags:
       description: Customer related operations
     - name: Payment
       description: Payment related operations
+    - name: Product
+      description: Product related operations
 paths:
     /v1/customer:
         put:
@@ -546,6 +548,226 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/PaymentError'
             x-codegen-request-body-name: payload
+    /v1/product:
+        put:
+            tags:
+                - Product
+            summary: Update a Item
+            operationId: put_product
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Item'
+                required: true
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProdductResponse'
+                '400':
+                    description: Validation Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductError'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductError'
+            x-codegen-request-body-name: payload
+        post:
+            tags:
+                - Product
+            summary: Add an Item
+            operationId: post_product
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Item'
+                required: true
+            responses:
+                '201':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProdductResponse'
+                '400':
+                    description: Validation Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductError'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductError'
+            x-codegen-request-body-name: payload
+    /v1/product/list:
+        get:
+            tags:
+                - Product
+            summary: Get list of items
+            operationId: get_item_list
+            parameters:
+                - name: num_records
+                  in: query
+                  description:
+                      "Number of records to fetch, deafult : all items will be sent\
+                      \ in response"
+                  schema:
+                      type: integer
+                - name: page
+                  in: query
+                  description: Page number
+                  schema:
+                      type: integer
+                      default: 1
+            responses:
+                '200':
+                    description: Item List fetched successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListGETResponse'
+                '400':
+                    description: Error in fetching Item List
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductError'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductError'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductError'
+        post:
+            tags:
+                - Product
+            summary: Update items mapping
+            operationId: post_item_list
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ListItemMapModel'
+                required: true
+            responses:
+                '200':
+                    description: Updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProdductResponse'
+                '400':
+                    description: Error in mapping Item List
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductError'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductError'
+                '409':
+                    description: Error in mapping Item List
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListItemMapErrorModel'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductError'
+            x-codegen-request-body-name: payload
+    /v1/product/{item_id}:
+        get:
+            tags:
+                - Product
+            summary: Get a Item Details
+            operationId: get_product
+            parameters:
+                - name: item_id
+                  in: path
+                  description: Item ID to be fetched
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GET_Response'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductError'
+                '404':
+                    description: Item not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductError'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductError'
+        delete:
+            tags:
+                - Product
+            summary: Delete a Item
+            operationId: delete_product
+            parameters:
+                - name: item_id
+                  in: path
+                  description: The item ID to be deleted
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProdductResponse'
+                '400':
+                    description: Item not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductError'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductError'
 components:
     schemas:
         Error:
@@ -696,20 +918,14 @@ components:
                 - id
                 - item_type
                 - name
-                - net_amount
                 - price_with_tax
                 - quantity
-                - total_amount
                 - unit_price
             type: object
             properties:
                 id:
                     type: string
-                    description:
-                        "Unique id for each item. If a new id  is sent, a new Item\
-                        \ with the below details will be automatically created. if existing Item\
-                        \ id is sent the details will not override the original item details.\
-                        \ They will be applicable only to the current invoice"
+                    description: Unique id for each item.
                     example: ITEM123
                 name:
                     type: string
@@ -717,7 +933,7 @@ components:
                     example: Item Name
                 quantity:
                     type: number
-                    description: Quantity
+                    description: Opening Quantity
                     example: 1.0
                 unit_price:
                     type: number
@@ -731,21 +947,9 @@ components:
                     type: number
                     description: Price per item with Tax
                     example: 118.0
-                net_amount:
-                    type: number
-                    description: Net Amount
-                    example: 100.0
-                total_amount:
-                    type: number
-                    description: Item total amount (Net Amount + Tax)
-                    example: 118.0
                 discount_percent:
                     type: number
-                    description: Discount Percent
-                    example: 10.0
-                discount_amount:
-                    type: number
-                    description: 'Discount Amount, will be ignored if discount_percent is provided'
+                    description: Default Discount Percent
                     example: 10.0
                 description:
                     type: string
@@ -782,6 +986,10 @@ components:
                     type: string
                     description: Category
                     example: Electronics
+                status:
+                    type: string
+                    description: Status of the Item
+                    example: Active
         Payment:
             required:
                 - amount
@@ -1041,6 +1249,15 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
+        GET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                item:
+                    $ref: '#/components/schemas/Item'
         CustomerResponse:
             type: object
             properties:
@@ -1052,15 +1269,6 @@ components:
                     type: string
                     description: Response message
                     example: Customer added successfully
-        GET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                customer_details:
-                    $ref: '#/components/schemas/BaseCustomer'
         Payment_GET_Response:
             type: object
             properties:
@@ -1153,6 +1361,90 @@ components:
                         "Updates even if the customer id is already mapped with other\
                         \ swipe id, no customer details will be updated"
                     example: true
+        ListGETResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ItemList'
+                total_records:
+                    type: integer
+                    description: Total Records available
+                    example: 10
+        ItemList:
+            required:
+                - id
+                - item_type
+                - name
+                - price_with_tax
+                - quantity
+                - unit_price
+            type: object
+            properties:
+                id:
+                    type: string
+                    description:
+                        "Unique id for each item. If a new id  is sent, a new Item\
+                        \ with the below details will be automatically created. if existing Item\
+                        \ id is sent the details will not override the original item details.\
+                        \ They will be applicable only to the current invoice"
+                    example: ITEM123
+                name:
+                    type: string
+                    description: Name of the Product
+                    example: Item Name
+                quantity:
+                    type: number
+                    description: Current Quantity
+                    example: 1.0
+                unit_price:
+                    type: number
+                    description: Price per item without Tax
+                    example: 100.0
+                tax_rate:
+                    type: number
+                    description: Tax percentage for each item . Only valid tax rates are accepted
+                    example: 18.0
+                price_with_tax:
+                    type: number
+                    description: Price per item with Tax
+                    example: 118.0
+                discount_percent:
+                    type: number
+                    description: Default Discount Percent
+                    example: 10.0
+                description:
+                    type: string
+                    description: Item Description
+                    example: Item Description
+                hsn_code:
+                    type: string
+                    description: HSN Code
+                    example: '1234'
+                item_type:
+                    type: string
+                    description: Goods or Services enum
+                    example: goods
+                    enum:
+                        - goods
+                        - service
+                unit:
+                    type: string
+                    description: item quantity unit
+                    example: kg
+                category:
+                    type: string
+                    description: Category
+                    example: Electronics
+                swipe_id:
+                    type: string
+                    description: Swipe ID assigned to the item
+                    example: '1'
         ListCustomerMapErrorModel:
             type: object
             properties:
@@ -1178,48 +1470,6 @@ components:
                 message:
                     type: string
                     example: Customer ID already mapped !
-        ListGETResponse:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                customers:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerListRecord'
-                total_records:
-                    type: integer
-                    description: Total Records available
-                    example: 10
-        CustomerListRecord:
-            type: object
-            properties:
-                customer_id:
-                    type: string
-                    description: Customer ID
-                    example: CUST-2
-                name:
-                    type: string
-                    description: Name of the Customer
-                    example: Customer
-                phone:
-                    type: string
-                    description: Phone Number of the customer
-                    example: '1234567890'
-                email:
-                    type: string
-                    description: Email of the customer
-                    example: john@doe.com
-                gstin:
-                    type: string
-                    description: GSTIN of the customer
-                    example: ''
-                swipe_id:
-                    type: string
-                    description: Swipe ID assigned to the customer
-                    example: '1'
         RecordPayment:
             required:
                 - amount
@@ -1327,6 +1577,90 @@ components:
                     type: string
                     description: Response message
                     example: Payment Recorded successfully
+        ProductError:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: false
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: INVALID_PRODUCT_ID
+                message:
+                    type: string
+                    description: Response message
+                    example: Error Message
+                errors:
+                    type: object
+                    properties: {}
+                    description: Validation errors
+                    example: List of errors
+        ProdductResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                message:
+                    type: string
+                    description: Response message
+                    example: Product added successfully
+        ListItemMapModel:
+            required:
+                - item_mapping
+            type: object
+            properties:
+                item_mapping:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ItemMapModel'
+        ItemMapModel:
+            required:
+                - item_id
+                - swipe_id
+            type: object
+            properties:
+                item_id:
+                    type: string
+                    description: Item ID
+                swipe_id:
+                    type: string
+                    description: Swipe ID
+                    example: '1'
+                force_update:
+                    type: boolean
+                    description:
+                        "Updates even if the item id is already mapped with other swipe\
+                        \ id, no item details will be updated"
+                    example: true
+        ListItemMapErrorModel:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                item_mapping:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ItemMapModel'
+                duplicate_item_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ItemMapModel'
+                duplicate_swipe_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ItemMapModel'
+                not_found_swipe_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ItemMapModel'
+                message:
+                    type: string
+                    example: Item ID already mapped !
     responses:
         ParseError:
             description: When a mask can't be parsed
