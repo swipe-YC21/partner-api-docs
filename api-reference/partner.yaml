@@ -318,8 +318,8 @@ paths:
                                     document_type: invoice
                                     document_date: '01-04-2024'
                                     customer:
-                                        - id: cus123
-                                          name: Charan Cus
+                                        id: cus123
+                                        name: Charan Cus
                                     items:
                                         - id: p123
                                           name: Book
@@ -841,9 +841,10 @@ components:
                     description: 'Adjustment on overall invoice, doesn’t effect any tax amounts.'
                     example: 20.0
                 round_off:
-                    type: number
-                    description: Round Off amount
-                    example: 0.0
+                    type: boolean
+                    description: Should Round Off total amount
+                    example: true
+                    default: false
                 payments:
                     type: array
                     description: 'Array of Payments, refer Payment Object for parameters'
@@ -868,6 +869,13 @@ components:
                     type: object
                     description:
                         "Customer shipping to Address, refer Shipping Address Object\
+                        \ for parameters"
+                    allOf:
+                        - $ref: '#/components/schemas/ShippingAddress'
+                customer_billing_address:
+                    type: object
+                    description:
+                        "Customer billing to Address, refer Shipping Address Object\
                         \ for parameters"
                     allOf:
                         - $ref: '#/components/schemas/ShippingAddress'
@@ -905,6 +913,10 @@ components:
                     type: string
                     description: Customer Phone Number
                     example: '1234567890'
+                company_name:
+                    type: string
+                    description: Company Name
+                    example: Company Name
                 email:
                     type: string
                     description: Customer Email
@@ -1214,9 +1226,9 @@ components:
                     description: Address line 2
                     example: ''
                 pincode:
-                    type: integer
+                    type: string
                     description: Pincode
-                    example: 0
+                    example: '500075'
                 city:
                     type: string
                     description: City
@@ -1249,15 +1261,6 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
-        GET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                item:
-                    $ref: '#/components/schemas/Item'
         CustomerResponse:
             type: object
             properties:
@@ -1269,6 +1272,15 @@ components:
                     type: string
                     description: Response message
                     example: Customer added successfully
+        GET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                item:
+                    $ref: '#/components/schemas/Item'
         Payment_GET_Response:
             type: object
             properties:
@@ -1361,6 +1373,31 @@ components:
                         "Updates even if the customer id is already mapped with other\
                         \ swipe id, no customer details will be updated"
                     example: true
+        ListCustomerMapErrorModel:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                customer_mapping:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                duplicate_customer_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                duplicate_swipe_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                not_found_swipe_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                message:
+                    type: string
+                    example: Customer ID already mapped !
         ListGETResponse:
             type: object
             properties:
@@ -1445,31 +1482,6 @@ components:
                     type: string
                     description: Swipe ID assigned to the item
                     example: '1'
-        ListCustomerMapErrorModel:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    example: false
-                customer_mapping:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                duplicate_customer_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                duplicate_swipe_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                not_found_swipe_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                message:
-                    type: string
-                    example: Customer ID already mapped !
         RecordPayment:
             required:
                 - amount
