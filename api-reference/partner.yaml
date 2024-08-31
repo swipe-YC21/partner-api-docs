@@ -251,7 +251,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/GET_Response'
+                                $ref: '#/components/schemas/CustomerGET_Response'
                 '401':
                     description: Unauthorized
                     content:
@@ -792,7 +792,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/GET_Response'
+                                $ref: '#/components/schemas/ProductGET_Response'
                 '401':
                     description: Unauthorized
                     content:
@@ -1603,89 +1603,15 @@ components:
                     type: string
                     description: Response message
                     example: Customer added successfully
-        GET_Response:
+        CustomerGET_Response:
             type: object
             properties:
                 success:
                     type: boolean
                     description: Success flag
                     example: true
-                item:
-                    $ref: '#/components/schemas/Item'
-        Item:
-            required:
-                - id
-                - item_type
-                - name
-                - price_with_tax
-                - quantity
-                - unit_price
-            type: object
-            properties:
-                id:
-                    type: string
-                    description: Unique id for each item.
-                    example: ITEM123
-                name:
-                    type: string
-                    description: Name of the Product
-                    example: Item Name
-                quantity:
-                    type: number
-                    description: Opening Quantity
-                    example: 1.0
-                unit_price:
-                    type: number
-                    description: Price per item without Tax
-                    example: 100.0
-                tax_rate:
-                    type: number
-                    description: Tax percentage for each item . Only valid tax rates are accepted
-                    example: 18.0
-                price_with_tax:
-                    type: number
-                    description: Price per item with Tax
-                    example: 118.0
-                discount_percent:
-                    type: number
-                    description: Default Discount Percent
-                    example: 10.0
-                description:
-                    type: string
-                    description: Item Description
-                    example: Item Description
-                hsn_code:
-                    type: string
-                    description: HSN Code
-                    example: '1234'
-                item_type:
-                    type: string
-                    description: Product or Service enum
-                    example: Product
-                unit:
-                    type: string
-                    description: item quantity unit
-                    example: kg
-                    enum:
-                        - kg
-                        - g
-                        - l
-                        - ml
-                        - m
-                        - cm
-                        - sqm
-                        - sqcm
-                        - sqft
-                        - sqkm
-                        - unit
-                category:
-                    type: string
-                    description: Category
-                    example: Electronics
-                status:
-                    type: string
-                    description: Status of the Item
-                    example: Active
+                customer_details:
+                    $ref: '#/components/schemas/BaseCustomer'
         Payment_GET_Response:
             type: object
             properties:
@@ -1991,6 +1917,80 @@ components:
                     type: string
                     description: Response message
                     example: Payment Recorded successfully
+        Item:
+            required:
+                - id
+                - item_type
+                - name
+                - price_with_tax
+                - quantity
+                - unit_price
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: Unique id for each item.
+                    example: ITEM123
+                name:
+                    type: string
+                    description: Name of the Product
+                    example: Item Name
+                quantity:
+                    type: number
+                    description: Opening Quantity
+                    example: 1.0
+                unit_price:
+                    type: number
+                    description: Price per item without Tax
+                    example: 100.0
+                tax_rate:
+                    type: number
+                    description: Tax percentage for each item . Only valid tax rates are accepted
+                    example: 18.0
+                price_with_tax:
+                    type: number
+                    description: Price per item with Tax
+                    example: 118.0
+                discount_percent:
+                    type: number
+                    description: Default Discount Percent
+                    example: 10.0
+                description:
+                    type: string
+                    description: Item Description
+                    example: Item Description
+                hsn_code:
+                    type: string
+                    description: HSN Code
+                    example: '1234'
+                item_type:
+                    type: string
+                    description: Product or Service enum
+                    example: Product
+                unit:
+                    type: string
+                    description: item quantity unit
+                    example: kg
+                    enum:
+                        - kg
+                        - g
+                        - l
+                        - ml
+                        - m
+                        - cm
+                        - sqm
+                        - sqcm
+                        - sqft
+                        - sqkm
+                        - unit
+                category:
+                    type: string
+                    description: Category
+                    example: Electronics
+                status:
+                    type: string
+                    description: Status of the Item
+                    example: Active
         ProductError:
             type: object
             properties:
@@ -2022,6 +2022,15 @@ components:
                     type: string
                     description: Response message
                     example: Product added successfully
+        ProductGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                item:
+                    $ref: '#/components/schemas/Item'
         ListItemMapModel:
             required:
                 - item_mapping
