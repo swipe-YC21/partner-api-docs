@@ -89,14 +89,14 @@ paths:
             parameters:
                 - name: start_date
                   in: query
-                  description: 'Start date for the ledger, [DD-MM-YYY]'
+                  description: 'Start date for the ledger, [DD-MM-YYYY]'
                   required: true
                   schema:
                       type: string
                       default: 01-01-2024
                 - name: end_date
                   in: query
-                  description: 'End date for the ledger, [DD-MM-YYY]'
+                  description: 'End date for the ledger, [DD-MM-YYYY]'
                   required: true
                   schema:
                       type: string
@@ -448,6 +448,80 @@ paths:
                                         repeat_type: days
                                         send_email: true
                                         send_sms: true
+                            e-invoice:
+                                value:
+                                    document_type: invoice
+                                    document_date: 11-06-2024
+                                    customer:
+                                        id: '236'
+                                        name: Vasu
+                                        country_code: '91'
+                                        phone_number: '1234567890'
+                                        email: johndoe@example.com
+                                        company_name: Vason Company
+                                        gstin: 36ACZPT7516P1ZA
+                                    due_date: 11-06-2024
+                                    reference: Reference Text
+                                    notes: Notes for the document
+                                    terms: Terms and Conditions
+                                    items:
+                                        - id: ac_1.56
+                                          name: Ac 1.56 Ton 5 Star
+                                          quantity: 1
+                                          unit_price: 100
+                                          tax_rate: 18
+                                          price_with_tax: 118
+                                          tax_amount: 16.2
+                                          discount_percent: 10
+                                          discount_amount: 10
+                                          net_amount: 90
+                                          total_amount: 106.2
+                                          description: Item Description
+                                          hsn_code: '04022910'
+                                          item_type: Product
+                                          unit: kg
+                                          category: Electronics
+                                    extra_discount: 20
+                                    round_off: true
+                                    payments:
+                                        - amount: 100
+                                          method: upi
+                                          notes: Payment notes
+                                    bank_details:
+                                        account_number: '1234567890'
+                                        bank_name: Example Bank
+                                        branch: Main Branch
+                                        ifsc: IFSC0001234
+                                    company_shipping_address:
+                                        address_line1: 123 Street
+                                        address_line2: ''
+                                        city: Banglore
+                                        state: KARNATAKA
+                                        country: India
+                                        pincode: '560001'
+                                    customer_shipping_address:
+                                        address_line1: 5-11, vema street
+                                        address_line2: ''
+                                        city: Hyderabad South East
+                                        state: TELANGANA
+                                        country: India
+                                        pincode: '500030'
+                                    customer_billing_address:
+                                        address_line1: 5-11, vema street
+                                        address_line2: ''
+                                        city: Hyderabad
+                                        state: TELANGANA
+                                        country: India
+                                        pincode: '500032'
+                                    einvoice: true
+                                    is_export: true
+                                    export_invoice_details:
+                                        shipping_bill_date: 27-08-2024
+                                        shipping_bill_number: ''
+                                        shipping_port_code: ''
+                                        export_type: SEZ without IGST Payment
+                                        conversion_factor: 1
+                                        country_id: India
                 required: true
             responses:
                 '200':
@@ -888,6 +962,19 @@ components:
                     description: Subscription Details
                     allOf:
                         - $ref: '#/components/schemas/Subscription'
+                einvoice:
+                    type: boolean
+                    description: Generate einvoice
+                    example: false
+                is_export:
+                    type: boolean
+                    description: Is Export
+                    example: false
+                export_invoice_details:
+                    type: object
+                    description: Export Invoice Details
+                    allOf:
+                        - $ref: '#/components/schemas/ExportInvoiceDetails'
         Customer:
             required:
                 - id
@@ -991,11 +1078,8 @@ components:
                     example: '1234'
                 item_type:
                     type: string
-                    description: Goods or Services enum
-                    example: goods
-                    enum:
-                        - goods
-                        - service
+                    description: Product or Service enum
+                    example: Product
                 unit:
                     type: string
                     description: item quantity unit
@@ -1104,14 +1188,14 @@ components:
             properties:
                 start_time:
                     type: string
-                    description: 'Start Time [DD-MM-YYY]'
+                    description: 'Start Time [DD-MM-YYYY]'
                     format: date
-                    example: 0016-12-14
+                    example: 14-02-2024
                 end_time:
                     type: string
-                    description: 'End Time [DD-MM-YYY]'
+                    description: 'End Time [DD-MM-YYYY]'
                     format: date
-                    example: 0016-12-14
+                    example: 14-02-2025
                 repeat:
                     type: integer
                     description: 'Repeat in value, Frequency of the repetition '
@@ -1129,6 +1213,231 @@ components:
                     type: boolean
                 send_sms:
                     type: boolean
+        ExportInvoiceDetails:
+            required:
+                - conversion_factor
+                - export_type
+            type: object
+            properties:
+                shipping_bill_date:
+                    type: string
+                shipping_bill_number:
+                    type: string
+                shipping_port_code:
+                    type: string
+                export_type:
+                    type: string
+                    description: Export Type
+                    example: With Payment of Tax
+                    enum:
+                        - Export under bond/LUT
+                        - Export with IGST
+                        - SEZ with IGST Payment
+                        - SEZ without IGST Payment
+                        - Deemed Export
+                conversion_factor:
+                    type: number
+                country_id:
+                    type: string
+                    description: Country ID
+                    example: Afghanistan
+                    enum:
+                        - Afghanistan
+                        - Albania
+                        - Algeria
+                        - Andorra
+                        - Angola
+                        - Antigua and Barbuda
+                        - Argentina
+                        - Armenia
+                        - Australia
+                        - Austria
+                        - Azerbaijan
+                        - Bahamas
+                        - Bahrain
+                        - Bangladesh
+                        - Barbados
+                        - Belarus
+                        - Belgium
+                        - Belize
+                        - Benin
+                        - Bhutan
+                        - Bolivia
+                        - Bosnia and Herzegovina
+                        - Botswana
+                        - Brazil
+                        - Brunei
+                        - Bulgaria
+                        - Burkina Faso
+                        - Burundi
+                        - Cabo Verde
+                        - Cambodia
+                        - Cameroon
+                        - Canada
+                        - Central African Republic
+                        - Chad
+                        - Chile
+                        - China
+                        - Colombia
+                        - Comoros
+                        - 'Congo, Democratic Republic of the'
+                        - 'Congo, Republic of the'
+                        - Costa Rica
+                        - Croatia
+                        - Cuba
+                        - Cyprus
+                        - Czechia
+                        - Denmark
+                        - Djibouti
+                        - Dominica
+                        - Dominican Republic
+                        - Ecuador
+                        - Egypt
+                        - El Salvador
+                        - Equatorial Guinea
+                        - Eritrea
+                        - Estonia
+                        - Eswatini
+                        - Ethiopia
+                        - Fiji
+                        - Finland
+                        - France
+                        - Gabon
+                        - Gambia
+                        - Georgia
+                        - Germany
+                        - Ghana
+                        - Greece
+                        - Grenada
+                        - Guatemala
+                        - Guinea
+                        - Guinea-Bissau
+                        - Guyana
+                        - Haiti
+                        - Honduras
+                        - Hungary
+                        - Iceland
+                        - India
+                        - Indonesia
+                        - Iran
+                        - Iraq
+                        - Ireland
+                        - Israel
+                        - Italy
+                        - Jamaica
+                        - Japan
+                        - Jordan
+                        - Kazakhstan
+                        - Kenya
+                        - Kiribati
+                        - 'Korea, North'
+                        - 'Korea, South'
+                        - Kosovo
+                        - Kuwait
+                        - Kyrgyzstan
+                        - Laos
+                        - Latvia
+                        - Lebanon
+                        - Lesotho
+                        - Liberia
+                        - Libya
+                        - Liechtenstein
+                        - Lithuania
+                        - Luxembourg
+                        - Madagascar
+                        - Malawi
+                        - Malaysia
+                        - Maldives
+                        - Mali
+                        - Malta
+                        - Marshall Islands
+                        - Mauritania
+                        - Mauritius
+                        - Mexico
+                        - Micronesia
+                        - Moldova
+                        - Monaco
+                        - Mongolia
+                        - Montenegro
+                        - Morocco
+                        - Mozambique
+                        - Myanmar
+                        - Namibia
+                        - Nauru
+                        - Nepal
+                        - Netherlands
+                        - New Zealand
+                        - Nicaragua
+                        - Niger
+                        - Nigeria
+                        - North Macedonia
+                        - Norway
+                        - Oman
+                        - Pakistan
+                        - Palau
+                        - Palestine
+                        - Panama
+                        - Papua New Guinea
+                        - Paraguay
+                        - Peru
+                        - Philippines
+                        - Poland
+                        - Portugal
+                        - Qatar
+                        - Romania
+                        - Russia
+                        - Rwanda
+                        - Saint Kitts and Nevis
+                        - Saint Lucia
+                        - Saint Vincent and the Grenadines
+                        - Samoa
+                        - San Marino
+                        - Sao Tome and Principe
+                        - Saudi Arabia
+                        - Senegal
+                        - Serbia
+                        - Seychelles
+                        - Sierra Leone
+                        - Singapore
+                        - Slovakia
+                        - Slovenia
+                        - Solomon Islands
+                        - Somalia
+                        - South Africa
+                        - South Sudan
+                        - Spain
+                        - Sri Lanka
+                        - Sudan
+                        - Suriname
+                        - Sweden
+                        - Switzerland
+                        - Syria
+                        - Taiwan
+                        - Tajikistan
+                        - Tanzania
+                        - Thailand
+                        - Timor-Leste
+                        - Togo
+                        - Tonga
+                        - Trinidad and Tobago
+                        - Tunisia
+                        - Turkey
+                        - Turkmenistan
+                        - Tuvalu
+                        - Uganda
+                        - Ukraine
+                        - United Arab Emirates
+                        - United Kingdom
+                        - United States
+                        - Uruguay
+                        - Uzbekistan
+                        - Vanuatu
+                        - Vatican City
+                        - Venezuela
+                        - Vietnam
+                        - Yemen
+                        - Zambia
+                        - Zimbabwe
         SuccessResponse:
             type: object
             properties:
@@ -1148,6 +1457,14 @@ components:
                     type: string
                     description: Hash ID
                     example: SL123
+                einvoiceSuccess:
+                    type: boolean
+                    description: EInvoice Success
+                    example: true
+                einvoiceMessage:
+                    type: string
+                    description: EInvoice Message
+                    example: 'true'
         BaseCustomer:
             required:
                 - name
@@ -1343,11 +1660,8 @@ components:
                     example: '1234'
                 item_type:
                     type: string
-                    description: Goods or Services enum
-                    example: goods
-                    enum:
-                        - goods
-                        - service
+                    description: Product or Service enum
+                    example: Product
                 unit:
                     type: string
                     description: item quantity unit
@@ -1556,11 +1870,8 @@ components:
                     example: '1234'
                 item_type:
                     type: string
-                    description: Goods or Services enum
-                    example: goods
-                    enum:
-                        - goods
-                        - service
+                    description: Product or Service enum
+                    example: Product
                 unit:
                     type: string
                     description: item quantity unit
@@ -1587,7 +1898,7 @@ components:
                     example: 27.0
                 payment_date:
                     type: string
-                    description: 'Payment date [DD-MM-YYY]'
+                    description: 'Payment date [DD-MM-YYYY]'
                     example: 13-06-2024
                 bank_details:
                     $ref: '#/components/schemas/BankDetails'
