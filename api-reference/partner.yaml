@@ -934,6 +934,100 @@ components:
                         \ be used, else new bank details will be added to your swipe account"
                     allOf:
                         - $ref: '#/components/schemas/BankDetails'
+                tds_id:
+                    type: integer
+                    description:
+                        "The provided array contains data where each object has a unique\
+                        \ TDS_ID. This TDS_ID maps to the rest of the data in the object. Here\
+                        \ are the details:\n\nTDS_ID: 1,  NAME: EPF premature withdrawal,  SECTION:\
+                        \ 192A,  APPLIED ON: net_amount,  TAX: 10.0\n\nTDS_ID: 2,  NAME: Interest\
+                        \ of securities,  SECTION: 193,  APPLIED ON: net_amount,  TAX: 10.0\n\n\
+                        TDS_ID: 3,  NAME: Dividends,  SECTION: 194,  APPLIED ON: net_amount, \
+                        \ TAX: 10.0\n\nTDS_ID: 4,  NAME: Interest (Banks),  SECTION: 194A,  APPLIED\
+                        \ ON: net_amount,  TAX: 10.0\n\nTDS_ID: 5,  NAME: Senior Citizens,  SECTION:\
+                        \ 194A,  APPLIED ON: net_amount,  TAX: 10.0\n\nTDS_ID: 6,  NAME: Single\
+                        \ contractor payment (Individual & HUF),  SECTION: 194C,  APPLIED ON:\
+                        \ net_amount,  TAX: 1.0\n\nTDS_ID: 7,  NAME: Aggregate contractor payment\
+                        \ (Individual & HUF),  SECTION: 194C,  APPLIED ON: net_amount,  TAX: 1.0\n\
+                        \nTDS_ID: 8,  NAME: Insurance commission,  SECTION: 194D,  APPLIED ON:\
+                        \ net_amount,  TAX: 5.0\n\nTDS_ID: 9,  NAME: Insurance commission on Life\
+                        \ Insurance policies,  SECTION: 194DA,  APPLIED ON: net_amount,  TAX:\
+                        \ 5.0\n\nTDS_ID: 10,  NAME: NSS,  SECTION: 194EE,  APPLIED ON: net_amount,\
+                        \  TAX: 10.0\n\nTDS_ID: 11,  NAME: Repurchase Units by MFs,  SECTION:\
+                        \ 194F,  APPLIED ON: net_amount,  TAX: 20.0\n\nTDS_ID: 12,  NAME: Commission\
+                        \ – Lottery,  SECTION: 194G,  APPLIED ON: net_amount,  TAX: 5.0\n\nTDS_ID:\
+                        \ 13,  NAME: Commission/Brokerage,  SECTION: 194H,  APPLIED ON: net_amount,\
+                        \  TAX: 5.0\n\nTDS_ID: 14,  NAME: Plant/Equipment/Machinery Rent,  SECTION:\
+                        \ 194I(a),  APPLIED ON: net_amount,  TAX: 2.0\n\nTDS_ID: 15,  NAME: Land\
+                        \ Building and furniture rent,  SECTION: 194I(b),  APPLIED ON: net_amount,\
+                        \  TAX: 10.0\n\nTDS_ID: 16,  NAME: Transfer of certain immovable property\
+                        \ other than agricultural land,  SECTION: 194IA,  APPLIED ON: net_amount,\
+                        \  TAX: 1.0\n\nTDS_ID: 17,  NAME: Rent by Individual / HUF,  SECTION:\
+                        \ 194IB,  APPLIED ON: net_amount,  TAX: 5.0\n\nTDS_ID: 18,  NAME: Payment\
+                        \ under specified agreement applicable for F.Y: 2017-18 onwards,  SECTION:\
+                        \ 194IC,  APPLIED ON: net_amount,  TAX: 10.0\n\nTDS_ID: 19,  NAME: Fees-tech\
+                        \ services, call centre, royalty for sale etc.,  SECTION: 194J(a),  APPLIED\
+                        \ ON: net_amount,  TAX: 2.0\n\nTDS_ID: 20,  NAME: Fee for professional\
+                        \ service or royalty etc..,  SECTION: 194J(b),  APPLIED ON: net_amount,\
+                        \  TAX: 10.0\n\nTDS_ID: 21,  NAME: Payment of dividends by mutual funds,\
+                        \  SECTION: 194K,  APPLIED ON: net_amount,  TAX: 10.0\n\nTDS_ID: 22, \
+                        \ NAME: Compensation on the transfer of certain immovable property other\
+                        \ than agricultural land,  SECTION: 194LA,  APPLIED ON: net_amount,  TAX:\
+                        \ 10.0\n\nTDS_ID: 23,  NAME: Income on infrastructure debt fund(non-resident),\
+                        \  SECTION: 194LB,  APPLIED ON: net_amount,  TAX: 5.0\n\nTDS_ID: 24, \
+                        \ NAME: Income from a business trust (applicable from 01.10.2014),  SECTION:\
+                        \ 194LBA,  APPLIED ON: net_amount,  TAX: 10.0\n\nTDS_ID: 25,  NAME: Income\
+                        \ from a business trust to non-resident (applicable from 01.10.2014),\
+                        \  SECTION: 194LBA,  APPLIED ON: net_amount,  TAX: 5.0\n\nTDS_ID: 26,\
+                        \  NAME: Interest on certain bonds and Govt. securities (from 01.06.2013),\
+                        \  SECTION: 194LD,  APPLIED ON: net_amount,  TAX: 5.0\n\nTDS_ID: 27, \
+                        \ NAME: Payment to commission or brokerage by individual & HUF,  SECTION:\
+                        \ 194M,  APPLIED ON: net_amount,  TAX: 5.0\n\nTDS_ID: 28,  NAME: Cash\
+                        \ withdrawal exceeding 1 crore during the previous year from 1 or more\
+                        \ accounts with a bank or co,  SECTION: 194N,  APPLIED ON: net_amount,\
+                        \  TAX: 2.0\n\nTDS_ID: 29,  NAME: TDS on e-commerce participants,  SECTION:\
+                        \ 194O,  APPLIED ON: net_amount,  TAX: 1.0\n\nTDS_ID: 30,  NAME: Purchase\
+                        \ of Goods (Recommended by Income Tax),  SECTION: 194Q,  APPLIED ON: total_amount,\
+                        \  TAX: 0.1\n\nTDS_ID: 31,  NAME: Single contractor payment (Others),\
+                        \  SECTION: 194C,  APPLIED ON: net_amount,  TAX: 2.0\n\nTDS_ID: 32,  NAME:\
+                        \ Aggregate contractor payment (Others),  SECTION: 194C,  APPLIED ON:\
+                        \ net_amount,  TAX: 2.0\n\nTDS_ID: 33,  NAME: Perquisite or benefit to\
+                        \ a business or\r\nprofession,  SECTION: 194R,  APPLIED ON: net_amount,\
+                        \  TAX: 10.0\n\nTDS_ID: 34,  NAME: TDS on the transfer of virtual digital\
+                        \ assets,  SECTION: 194S,  APPLIED ON: net_amount,  TAX: 1.0\n\nTDS_ID:\
+                        \ 45,  NAME: Purchase of Goods (Taxable Amount). Use this on your own\
+                        \ discretion.,  SECTION: 194Q,  APPLIED ON: net_amount,  TAX: 0.1\n\n"
+                tcs_id:
+                    type: integer
+                    description: |+
+                        The provided array contains data where each object has a unique TCS_ID. This TCS_ID maps to the rest of the data in the object. Here are the details:
+
+                        TCS_ID: 35,  NAME: TCS upon receivables,  SECTION: 206C(IH),  APPLIED ON: total_amount,  TAX: 0.1
+
+                        TCS_ID: 36,  NAME: Liquor of alcoholic nature, made for consumption by humans,  SECTION: 206C,  APPLIED ON: total_amount,  TAX: 1.0
+
+                        TCS_ID: 37,  NAME: Timber wood under a forest leased,  SECTION: 206C,  APPLIED ON: total_amount,  TAX: 2.5
+
+                        TCS_ID: 38,  NAME: Tendu leaves,  SECTION: 206C,  APPLIED ON: total_amount,  TAX: 5.0
+
+                        TCS_ID: 39,  NAME: Timber wood by any other mode than forest leased,  SECTION: 206c,  APPLIED ON: total_amount,  TAX: 2.5
+
+                        TCS_ID: 40,  NAME: Forest produce other than Tendu leaves and timber,  SECTION: 206C,  APPLIED ON: total_amount,  TAX: 2.5
+
+                        TCS_ID: 41,  NAME: Scrap,  SECTION: 206C,  APPLIED ON: total_amount,  TAX: 1.0
+
+                        TCS_ID: 42,  NAME: Minerals like lignite, coal and iron ore,  SECTION: 206C,  APPLIED ON: total_amount,  TAX: 1.0
+
+                        TCS_ID: 43,  NAME: Purchase of Motor vehicle exceeding Rs.10 Lakhs,  SECTION: 206C,  APPLIED ON: total_amount,  TAX: 1.0
+
+                        TCS_ID: 44,  NAME: Parking lot, Toll Plaza and Mining and Quarrying,  SECTION: 206C,  APPLIED ON: total_amount,  TAX: 2.0
+
+                        TCS_ID: 46,  NAME: Remittance out of India under the  Liberalized Remittance Scheme of RBI,  SECTION: 206C(1G)(a),  APPLIED ON: net_amount,  TAX: 5.0
+
+                        TCS_ID: 47,  NAME: TCS on selling of overseas tour package,  SECTION: 206C(1G)(b),  APPLIED ON: net_amount,  TAX: 5.0
+
+                        TCS_ID: 48,  NAME: Collection at source on remittance under LRS except for the purposes of education or medical treatme,  SECTION: 206C,  APPLIED ON: net_amount,  TAX: 20.0
+
                 company_shipping_address:
                     type: object
                     description:
@@ -1177,6 +1271,45 @@ components:
                     type: string
                     description: State
                     example: State Name
+                    enum:
+                        - JAMMU AND KASHMIR
+                        - HIMACHAL PRADESH
+                        - PUNJAB
+                        - CHANDIGARH
+                        - UTTARAKHAND
+                        - HARYANA
+                        - DELHI
+                        - RAJASTHAN
+                        - UTTAR PRADESH
+                        - BIHAR
+                        - SIKKIM
+                        - ARUNACHAL PRADESH
+                        - NAGALAND
+                        - MANIPUR
+                        - MIZORAM
+                        - TRIPURA
+                        - MEGHALAYA
+                        - ASSAM
+                        - WEST BENGAL
+                        - JHARKHAND
+                        - ODISHA
+                        - CHATTISGARH
+                        - MADHYA PRADESH
+                        - GUJARAT
+                        - DADRA & NAGAR HAVELI & DAMAN & DIU
+                        - MAHARASHTRA
+                        - ANDHRAPRADESH(BEFOREADDED)
+                        - KARNATAKA
+                        - GOA
+                        - LAKSHWADEEP
+                        - KERALA
+                        - TAMIL NADU
+                        - PUDUCHERRY
+                        - ANDAMAN & NICOBAR
+                        - TELANGANA
+                        - ANDHRA PRADESH
+                        - LADAKH(NEWLYADDED)
+                        - OTHER TERRITORY
                 country:
                     type: string
                     description: Country
@@ -1548,6 +1681,8 @@ components:
                     description: Status
                     example: Active
         Address:
+            required:
+                - state
             type: object
             properties:
                 line1:
@@ -1566,14 +1701,49 @@ components:
                     type: string
                     description: City
                     example: ''
-                state1:
-                    type: string
-                    description: State code
-                    example: ''
                 state:
                     type: string
-                    description: State code
-                    example: ''
+                    description: State
+                    example: State Name
+                    enum:
+                        - JAMMU AND KASHMIR
+                        - HIMACHAL PRADESH
+                        - PUNJAB
+                        - CHANDIGARH
+                        - UTTARAKHAND
+                        - HARYANA
+                        - DELHI
+                        - RAJASTHAN
+                        - UTTAR PRADESH
+                        - BIHAR
+                        - SIKKIM
+                        - ARUNACHAL PRADESH
+                        - NAGALAND
+                        - MANIPUR
+                        - MIZORAM
+                        - TRIPURA
+                        - MEGHALAYA
+                        - ASSAM
+                        - WEST BENGAL
+                        - JHARKHAND
+                        - ODISHA
+                        - CHATTISGARH
+                        - MADHYA PRADESH
+                        - GUJARAT
+                        - DADRA & NAGAR HAVELI & DAMAN & DIU
+                        - MAHARASHTRA
+                        - ANDHRAPRADESH(BEFOREADDED)
+                        - KARNATAKA
+                        - GOA
+                        - LAKSHWADEEP
+                        - KERALA
+                        - TAMIL NADU
+                        - PUDUCHERRY
+                        - ANDAMAN & NICOBAR
+                        - TELANGANA
+                        - ANDHRA PRADESH
+                        - LADAKH(NEWLYADDED)
+                        - OTHER TERRITORY
         CustomerError:
             type: object
             properties:
@@ -1594,15 +1764,6 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
-        CustomerGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                customer_details:
-                    $ref: '#/components/schemas/BaseCustomer'
         CustomerResponse:
             type: object
             properties:
@@ -1614,6 +1775,15 @@ components:
                     type: string
                     description: Response message
                     example: Customer added successfully
+        CustomerGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                customer_details:
+                    $ref: '#/components/schemas/BaseCustomer'
         Payment_GET_Response:
             type: object
             properties:
@@ -1706,6 +1876,31 @@ components:
                         "Updates even if the customer id is already mapped with other\
                         \ swipe id, no customer details will be updated"
                     example: true
+        ListCustomerMapErrorModel:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                customer_mapping:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                duplicate_customer_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                duplicate_swipe_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                not_found_swipe_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                message:
+                    type: string
+                    example: Customer ID already mapped !
         ListGETResponse:
             type: object
             properties:
@@ -1787,31 +1982,6 @@ components:
                     type: string
                     description: Swipe ID assigned to the item
                     example: '1'
-        ListCustomerMapErrorModel:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    example: false
-                customer_mapping:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                duplicate_customer_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                duplicate_swipe_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                not_found_swipe_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                message:
-                    type: string
-                    example: Customer ID already mapped !
         RecordPayment:
             required:
                 - amount
@@ -2013,15 +2183,6 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
-        ProductGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                item:
-                    $ref: '#/components/schemas/Item'
         ProdductResponse:
             type: object
             properties:
@@ -2033,6 +2194,15 @@ components:
                     type: string
                     description: Response message
                     example: Product added successfully
+        ProductGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                item:
+                    $ref: '#/components/schemas/Item'
         ListItemMapModel:
             required:
                 - item_mapping
