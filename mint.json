@@ -57,7 +57,8 @@
             "group": "Document",
             "pages": [
                 "api-reference/document/create-a-document",
-                "api-reference/document/get-document-pdf"
+                "api-reference/document/get-document-pdf",
+                "api-reference/document/cancel-a-document"
             ]
         },
         {

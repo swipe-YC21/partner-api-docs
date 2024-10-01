@@ -584,6 +584,56 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
+    /v1/doc/{doc_hash_id}:
+        delete:
+            tags:
+                - Document
+            summary: Cancel a document
+            operationId: delete_cancel_invoice
+            parameters:
+                - name: doc_hash_id
+                  in: path
+                  description: The hash id of the document to be cancelled
+                  required: true
+                  schema:
+                      type: string
+                - name: cancel_einvoice
+                  in: query
+                  description: Set to 1 if you want to cancel a document with e-invoice
+                  schema:
+                      type: integer
+                      default: 0
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SuccessResponse'
+                '400':
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                '404':
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                '500':
+                    description: Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
     /v1/payment:
         post:
             tags:
@@ -871,6 +921,10 @@ components:
                 - items
             type: object
             properties:
+                serial_number:
+                    type: string
+                    description: Serial Number, if not sent will be auto generated
+                    example: INV123
                 document_type:
                     type: string
                     description: Value should always be the string 'invoice'
@@ -996,7 +1050,15 @@ components:
                         \  TAX: 10.0\n\nTDS_ID: 34,  NAME: TDS on the transfer of virtual digital\
                         \ assets,  SECTION: 194S,  APPLIED ON: net_amount,  TAX: 1.0\n\nTDS_ID:\
                         \ 45,  NAME: Purchase of Goods (Taxable Amount). Use this on your own\
-                        \ discretion.,  SECTION: 194Q,  APPLIED ON: net_amount,  TAX: 0.1\n\n"
+                        \ discretion.,  SECTION: 194Q,  APPLIED ON: net_amount,  TAX: 0.1\n\n\
+                        TDS_ID: 49,  NAME: Short Term Capital gains under section 111A,  SECTION:\
+                        \ 195,  APPLIED ON: net_amount,  TAX: 15.0\n\nTDS_ID: 50,  NAME: Insurance\
+                        \ commission on Life Insurance policies - New,  SECTION: 194DA,  APPLIED\
+                        \ ON: net_amount,  TAX: 2.0\n\nTDS_ID: 51,  NAME: Commission – Lottery\
+                        \ - New,  SECTION: 194G,  APPLIED ON: net_amount,  TAX: 2.0\n\nTDS_ID:\
+                        \ 52,  NAME: TDS on e-commerce participants - New,  SECTION: 194O,  APPLIED\
+                        \ ON: net_amount,  TAX: 0.1\n\nTDS_ID: 53,  NAME: Commission/Brokerage\
+                        \ - New,  SECTION: 194H,  APPLIED ON: net_amount,  TAX: 2.0\n\n"
                 tcs_id:
                     type: integer
                     description: |+
@@ -1293,7 +1355,7 @@ components:
                         - WEST BENGAL
                         - JHARKHAND
                         - ODISHA
-                        - CHATTISGARH
+                        - CHHATTISGARH
                         - MADHYA PRADESH
                         - GUJARAT
                         - DADRA & NAGAR HAVELI & DAMAN & DIU
@@ -1592,6 +1654,10 @@ components:
                     type: string
                     description: Hash ID
                     example: SL123
+                irn:
+                    type: string
+                    description: IRN
+                    example: SL123
                 einvoiceSuccess:
                     type: boolean
                     description: EInvoice Success
@@ -1727,7 +1793,7 @@ components:
                         - WEST BENGAL
                         - JHARKHAND
                         - ODISHA
-                        - CHATTISGARH
+                        - CHHATTISGARH
                         - MADHYA PRADESH
                         - GUJARAT
                         - DADRA & NAGAR HAVELI & DAMAN & DIU
