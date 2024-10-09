@@ -915,7 +915,6 @@ components:
                     description: Error details
         BaseDocument:
             required:
-                - customer
                 - document_date
                 - document_type
                 - items
@@ -923,7 +922,7 @@ components:
             properties:
                 serial_number:
                     type: string
-                    description: Serial Number, if not sent will be auto generated
+                    description: 'Serial Number, if not sent will be auto generated'
                     example: INV123
                 document_type:
                     type: string
@@ -944,9 +943,14 @@ components:
                     example: 11-06-2024
                 customer:
                     type: object
-                    description: Customer
+                    description: 'Customer (deprecated, please use party)'
                     allOf:
                         - $ref: '#/components/schemas/Customer'
+                party:
+                    type: object
+                    description: Party
+                    allOf:
+                        - $ref: '#/components/schemas/Party'
                 due_date:
                     type: string
                     description: 'DD-MM-YYYY, Payment Due date for the invoice (Ex: 11-06-2024)'
@@ -1167,6 +1171,51 @@ components:
                 email:
                     type: string
                     description: Customer Email
+                    example: johndoe@example.com
+                gstin:
+                    type: string
+                    description: GSTIN
+                    example: 27AARCS7202C1ZD
+        Party:
+            required:
+                - id
+                - name
+                - type
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: |-
+                        Unique id for each party. If a new id  is sent, a new Party with the below details will be automatically created.
+                                                                              If existing Party id is sent the details will not override the original party details.
+                                                                              They will be applicable only to the current invoice
+                    example: CUST123
+                type:
+                    type: string
+                    description: 'Party type, use only specified values'
+                    example: customer
+                    enum:
+                        - customer
+                        - vendor
+                name:
+                    type: string
+                    description: Name of the Party
+                    example: John Doe
+                country_code:
+                    type: string
+                    description: Party Phone Number Country code
+                    example: '91'
+                phone_number:
+                    type: string
+                    description: Party Phone Number
+                    example: '1234567890'
+                company_name:
+                    type: string
+                    description: Company Name
+                    example: Company Name
+                email:
+                    type: string
+                    description: Party Email
                     example: johndoe@example.com
                 gstin:
                     type: string
@@ -1832,6 +1881,15 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
+        CustomerGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                customer_details:
+                    $ref: '#/components/schemas/BaseCustomer'
         CustomerResponse:
             type: object
             properties:
@@ -1843,15 +1901,6 @@ components:
                     type: string
                     description: Response message
                     example: Customer added successfully
-        CustomerGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                customer_details:
-                    $ref: '#/components/schemas/BaseCustomer'
         Payment_GET_Response:
             type: object
             properties:
@@ -1944,31 +1993,6 @@ components:
                         "Updates even if the customer id is already mapped with other\
                         \ swipe id, no customer details will be updated"
                     example: true
-        ListCustomerMapErrorModel:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    example: false
-                customer_mapping:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                duplicate_customer_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                duplicate_swipe_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                not_found_swipe_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                message:
-                    type: string
-                    example: Customer ID already mapped !
         ListGETResponse:
             type: object
             properties:
@@ -2050,6 +2074,31 @@ components:
                     type: string
                     description: Swipe ID assigned to the item
                     example: '1'
+        ListCustomerMapErrorModel:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                customer_mapping:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                duplicate_customer_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                duplicate_swipe_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                not_found_swipe_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                message:
+                    type: string
+                    example: Customer ID already mapped !
         RecordPayment:
             required:
                 - amount
@@ -2251,6 +2300,15 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
+        ProductGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                item:
+                    $ref: '#/components/schemas/Item'
         ProdductResponse:
             type: object
             properties:
@@ -2262,15 +2320,6 @@ components:
                     type: string
                     description: Response message
                     example: Product added successfully
-        ProductGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                item:
-                    $ref: '#/components/schemas/Item'
         ListItemMapModel:
             required:
                 - item_mapping
