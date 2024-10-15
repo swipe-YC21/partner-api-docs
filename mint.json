@@ -87,6 +87,10 @@
                 "api-reference/product/get-a-item-details",
                 "api-reference/product/update-items-mapping"
             ]
+        },
+        {
+            "group": "Utility",
+            "pages": ["api-reference/utility/get-gstin"]
         }
     ],
     "footerSocials": {

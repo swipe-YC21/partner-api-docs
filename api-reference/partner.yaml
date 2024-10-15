@@ -16,6 +16,8 @@ tags:
       description: Payment related operations
     - name: Product
       description: Product related operations
+    - name: Utility
+      description: Generic operations
 paths:
     /v1/customer:
         put:
@@ -892,6 +894,43 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ProductError'
+    /v1/utils/gstin/{gstin}:
+        get:
+            tags:
+                - Utility
+            operationId: get_utils
+            parameters:
+                - name: gstin
+                  in: path
+                  description: GSTIN Number
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ResponseUtils'
+                '400':
+                    description: error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ResponseUtils'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ResponseUtils'
+                '500':
+                    description: Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ResponseUtils'
 components:
     schemas:
         Error:
@@ -943,7 +982,7 @@ components:
                     example: 11-06-2024
                 customer:
                     type: object
-                    description: 'Customer (deprecated, please use party)'
+                    description: 'Customer (deprecated, please use Party)'
                     allOf:
                         - $ref: '#/components/schemas/Customer'
                 party:
@@ -2373,6 +2412,29 @@ components:
                 message:
                     type: string
                     example: Item ID already mapped !
+        ResponseUtils:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success
+                    example: false
+                message:
+                    type: string
+                    description: Message
+                    example: ''
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: ''
+                errors:
+                    type: object
+                    properties: {}
+                    description: Error details
+                data:
+                    type: object
+                    properties: {}
+                    description: Data
     responses:
         ParseError:
             description: When a mask can't be parsed
