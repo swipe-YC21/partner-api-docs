@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
     title: SwipeAPI
     description: Partner API
-    version: '1.0'
+    version: '2.0'
 servers:
     - url: https://app.getswipe.in/api/partner
 security:
@@ -18,6 +18,14 @@ tags:
       description: Product related operations
     - name: Utility
       description: Generic operations
+    - name: Document V2
+      description: Document related operations
+    - name: Customer V2
+      description: Customer related operations
+    - name: Payment V2
+      description: Payment related operations
+    - name: Product V2
+      description: Product related operations
 paths:
     /v1/customer:
         put:
@@ -912,25 +920,703 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ResponseUtils'
+                                $ref: '#/components/schemas/GSTResponseModel'
                 '400':
                     description: error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ResponseUtils'
+                                $ref: '#/components/schemas/GSTErrorModel'
                 '401':
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ResponseUtils'
+                                $ref: '#/components/schemas/GSTErrorModel'
                 '500':
                     description: Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ResponseUtils'
+                                $ref: '#/components/schemas/GSTErrorModel'
+    /v2/customer:
+        put:
+            tags:
+                - Customer V2
+            summary: Update a customer
+            operationId: v2_put_customer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/BaseCustomer'
+                required: true
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+                '400':
+                    description: Validation Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+            x-codegen-request-body-name: payload
+        post:
+            tags:
+                - Customer V2
+            summary: Add a customer
+            operationId: v2_post_customer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/BaseCustomer'
+                required: true
+            responses:
+                '201':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+                '400':
+                    description: Validation Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+            x-codegen-request-body-name: payload
+    /v2/customer/ledger:
+        get:
+            tags:
+                - Customer V2
+            summary: Get payment ledger
+            operationId: v2_get_customer_ledger
+            parameters:
+                - name: start_date
+                  in: query
+                  description: 'Start date for the ledger, [DD-MM-YYYY]'
+                  required: true
+                  schema:
+                      type: string
+                      default: 01-01-2024
+                - name: end_date
+                  in: query
+                  description: 'End date for the ledger, [DD-MM-YYYY]'
+                  required: true
+                  schema:
+                      type: string
+                      default: 31-12-2024
+                - name: customer_id
+                  in: query
+                  description: Customer ID
+                  required: true
+                  schema:
+                      type: string
+                - name: num_records
+                  in: query
+                  description: Number of records to fetch
+                  schema:
+                      type: integer
+                      default: 10
+                - name: page
+                  in: query
+                  description: Page number
+                  schema:
+                      type: integer
+                      default: 1
+            responses:
+                '200':
+                    description: Payment details fetched successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+                '400':
+                    description: Error in fetching payment details
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+    /v2/customer/list:
+        get:
+            tags:
+                - Customer V2
+            summary: Get list of customers
+            operationId: v2_get_customer_list
+            parameters:
+                - name: num_records
+                  in: query
+                  description:
+                      "Number of records to fetch, deafult : all customers will be\
+                      \ sent in response"
+                  schema:
+                      type: integer
+                - name: page
+                  in: query
+                  description: Page number
+                  schema:
+                      type: integer
+                      default: 1
+            responses:
+                '200':
+                    description: Customer List fetched successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListGETResponse'
+                '400':
+                    description: Error in fetching Customer List
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+        post:
+            tags:
+                - Customer V2
+            summary: Update customer mapping
+            operationId: v2_post_customer_list
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ListCustomerMapModel'
+                required: true
+            responses:
+                '200':
+                    description: Updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+                '400':
+                    description: Error in mapping Customer List
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+                '409':
+                    description: Error in mapping Customer List
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+            x-codegen-request-body-name: payload
+    /v2/customer/{customer_id}:
+        get:
+            tags:
+                - Customer V2
+            summary: Get a customer
+            operationId: v2_get_customer
+            parameters:
+                - name: customer_id
+                  in: path
+                  description: The customer ID to be fetched
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+                '404':
+                    description: Customer not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+        delete:
+            tags:
+                - Customer V2
+            summary: Delete a customer
+            operationId: v2_delete_customer
+            parameters:
+                - name: customer_id
+                  in: path
+                  description: The customer ID to be deleted
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+                '400':
+                    description: Customer not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomerResponseV2'
+    /v2/doc/pdf/{doc_hash_id}:
+        get:
+            tags:
+                - Document V2
+            summary: Get document PDF
+            operationId: v2_get_pdf
+            parameters:
+                - name: doc_hash_id
+                  in: path
+                  description: The hash id of the document to be fetched
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: File will be downloaded
+                    content: {}
+                '400':
+                    description: Invalid Document Hash ID
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocResponseV2'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocResponseV2'
+                '500':
+                    description: Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocResponseV2'
+    /v2/doc/{document_type}:
+        post:
+            tags:
+                - Document V2
+            summary: Create a document
+            operationId: v2_post_invoice_resource
+            parameters:
+                - name: document_type
+                  in: path
+                  description: The document type to be fetched
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/BaseDocument'
+                required: true
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocResponseV2'
+                '400':
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocResponseV2'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocResponseV2'
+                '500':
+                    description: Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocResponseV2'
+            x-codegen-request-body-name: payload
+    /v2/doc/{document_type}/{doc_hash_id}:
+        delete:
+            tags:
+                - Document V2
+            summary: Cancel a document
+            operationId: v2_delete_cancel_invoice
+            parameters:
+                - name: document_type
+                  in: path
+                  description: The document type to be fetched
+                  required: true
+                  schema:
+                      type: string
+                - name: doc_hash_id
+                  in: path
+                  description: The hash id of the document to be cancelled
+                  required: true
+                  schema:
+                      type: string
+                - name: cancel_einvoice
+                  in: query
+                  description: Set to 1 if you want to cancel a document with e-invoice
+                  schema:
+                      type: integer
+                      default: 0
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocResponseV2'
+                '400':
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocResponseV2'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocResponseV2'
+                '404':
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocResponseV2'
+                '500':
+                    description: Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocResponseV2'
+    /v2/payment:
+        post:
+            tags:
+                - Payment V2
+            summary: Record payment
+            operationId: v2_post_payment
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/RecordPayment'
+                required: true
+            responses:
+                '200':
+                    description: Payment recorded successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PaymentResponseV2'
+                '400':
+                    description: Error in recording payment
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PaymentResponseV2'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PaymentResponseV2'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PaymentResponseV2'
+            x-codegen-request-body-name: payload
+    /v2/product:
+        put:
+            tags:
+                - Product V2
+            summary: Update a Item
+            operationId: v2_put_product
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Item'
+                required: true
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
+                '400':
+                    description: Validation Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
+            x-codegen-request-body-name: payload
+        post:
+            tags:
+                - Product V2
+            summary: Add an Item
+            operationId: v2_post_product
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Item'
+                required: true
+            responses:
+                '201':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
+                '400':
+                    description: Validation Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
+            x-codegen-request-body-name: payload
+    /v2/product/list:
+        get:
+            tags:
+                - Product V2
+            summary: Get list of items
+            operationId: v2_get_item_list
+            parameters:
+                - name: num_records
+                  in: query
+                  description:
+                      "Number of records to fetch, deafult : all items will be sent\
+                      \ in response"
+                  schema:
+                      type: integer
+                - name: page
+                  in: query
+                  description: Page number
+                  schema:
+                      type: integer
+                      default: 1
+            responses:
+                '200':
+                    description: Item List fetched successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListGETResponse'
+                '400':
+                    description: Error in fetching Item List
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
+        post:
+            tags:
+                - Product V2
+            summary: Update items mapping
+            operationId: v2_post_item_list
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ListItemMapModel'
+                required: true
+            responses:
+                '200':
+                    description: Updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
+                '400':
+                    description: Error in mapping Item List
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
+                '409':
+                    description: Error in mapping Item List
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
+            x-codegen-request-body-name: payload
+    /v2/product/{item_id}:
+        get:
+            tags:
+                - Product V2
+            summary: Get a Item Details
+            operationId: v2_get_product
+            parameters:
+                - name: item_id
+                  in: path
+                  description: Item ID to be fetched
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
+                '404':
+                    description: Item not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
+        delete:
+            tags:
+                - Product V2
+            summary: Delete a Item
+            operationId: v2_delete_product
+            parameters:
+                - name: item_id
+                  in: path
+                  description: The item ID to be deleted
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
+                '400':
+                    description: Item not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductResponseV2'
 components:
     schemas:
         Error:
@@ -955,7 +1641,6 @@ components:
         BaseDocument:
             required:
                 - document_date
-                - document_type
                 - items
             type: object
             properties:
@@ -963,28 +1648,12 @@ components:
                     type: string
                     description: 'Serial Number, if not sent will be auto generated'
                     example: INV123
-                document_type:
-                    type: string
-                    description: Value should always be the string 'invoice'
-                    example: invoice
-                    enum:
-                        - invoice
-                        - subscription
-                        - pro_forma_invoice
-                        - estimate
-                        - sales_return
-                        - purchase_return
                 document_date:
                     type: string
                     description:
                         "DD-MM-YYYY, Invoice date (Ex: 11-06-2024 Need not to the current\
                         \ date)"
                     example: 11-06-2024
-                customer:
-                    type: object
-                    description: 'Customer (deprecated, please use Party)'
-                    allOf:
-                        - $ref: '#/components/schemas/Customer'
                 party:
                     type: object
                     description: Party
@@ -1142,29 +1811,6 @@ components:
                         \ for parameters"
                     allOf:
                         - $ref: '#/components/schemas/ShippingAddress'
-                customer_shipping_address:
-                    type: object
-                    description:
-                        "Customer shipping to Address, refer Shipping Address Object\
-                        \ for parameters"
-                    allOf:
-                        - $ref: '#/components/schemas/ShippingAddress'
-                customer_billing_address:
-                    type: object
-                    description:
-                        "Customer billing to Address, refer Shipping Address Object\
-                        \ for parameters"
-                    allOf:
-                        - $ref: '#/components/schemas/ShippingAddress'
-                is_subscription:
-                    type: boolean
-                    description: Is Subscription
-                    example: false
-                subscription_details:
-                    type: object
-                    description: Subscription Details
-                    allOf:
-                        - $ref: '#/components/schemas/Subscription'
                 einvoice:
                     type: boolean
                     description: Generate einvoice
@@ -1178,43 +1824,6 @@ components:
                     description: Export Invoice Details
                     allOf:
                         - $ref: '#/components/schemas/ExportInvoiceDetails'
-        Customer:
-            required:
-                - id
-                - name
-            type: object
-            properties:
-                id:
-                    type: string
-                    description: |-
-                        Unique id for each customer. If a new id  is sent, a new Customer with the below details will be automatically created.
-                                                                              If existing Customer id is sent the details will not override the original customer details.
-                                                                              They will be applicable only to the current invoice
-                    example: CUST123
-                name:
-                    type: string
-                    description: Name of the Customer
-                    example: John Doe
-                country_code:
-                    type: string
-                    description: Customer Phone Number Country code
-                    example: '91'
-                phone_number:
-                    type: string
-                    description: Customer Phone Number
-                    example: '1234567890'
-                company_name:
-                    type: string
-                    description: Company Name
-                    example: Company Name
-                email:
-                    type: string
-                    description: Customer Email
-                    example: johndoe@example.com
-                gstin:
-                    type: string
-                    description: GSTIN
-                    example: 27AARCS7202C1ZD
         Party:
             required:
                 - id
@@ -1260,6 +1869,93 @@ components:
                     type: string
                     description: GSTIN
                     example: 27AARCS7202C1ZD
+                shipping_address:
+                    type: object
+                    description:
+                        "Party shipping to Address, refer Shipping Address Object for\
+                        \ parameters"
+                    allOf:
+                        - $ref: '#/components/schemas/ShippingAddress'
+                billing_address:
+                    type: object
+                    description:
+                        "Party billing to Address, refer Shipping Address Object for\
+                        \ parameters"
+                    allOf:
+                        - $ref: '#/components/schemas/ShippingAddress'
+        ShippingAddress:
+            required:
+                - address_line1
+                - address_line2
+                - city
+                - country
+                - pincode
+                - state
+            type: object
+            properties:
+                address_line1:
+                    type: string
+                    description: Address Line 1
+                    example: 123 Street
+                address_line2:
+                    type: string
+                    description: Address Line 2
+                    example: Apt 4B
+                city:
+                    type: string
+                    description: City
+                    example: City Name
+                state:
+                    type: string
+                    description: State
+                    example: State Name
+                    enum:
+                        - JAMMU AND KASHMIR
+                        - HIMACHAL PRADESH
+                        - PUNJAB
+                        - CHANDIGARH
+                        - UTTARAKHAND
+                        - HARYANA
+                        - DELHI
+                        - RAJASTHAN
+                        - UTTAR PRADESH
+                        - BIHAR
+                        - SIKKIM
+                        - ARUNACHAL PRADESH
+                        - NAGALAND
+                        - MANIPUR
+                        - MIZORAM
+                        - TRIPURA
+                        - MEGHALAYA
+                        - ASSAM
+                        - WEST BENGAL
+                        - JHARKHAND
+                        - ODISHA
+                        - CHHATTISGARH
+                        - MADHYA PRADESH
+                        - GUJARAT
+                        - DADRA & NAGAR HAVELI & DAMAN & DIU
+                        - MAHARASHTRA
+                        - ANDHRAPRADESH(BEFOREADDED)
+                        - KARNATAKA
+                        - GOA
+                        - LAKSHWADEEP
+                        - KERALA
+                        - TAMIL NADU
+                        - PUDUCHERRY
+                        - ANDAMAN & NICOBAR
+                        - TELANGANA
+                        - ANDHRA PRADESH
+                        - LADAKH(NEWLYADDED)
+                        - OTHER TERRITORY
+                country:
+                    type: string
+                    description: Country
+                    example: Country Name
+                pincode:
+                    type: string
+                    description: Pincode
+                    example: '123456'
         DocItem:
             required:
                 - id
@@ -1397,109 +2093,6 @@ components:
                     type: string
                     description: Branch
                     example: Mumbai
-        ShippingAddress:
-            required:
-                - address_line1
-                - address_line2
-                - city
-                - country
-                - pincode
-                - state
-            type: object
-            properties:
-                address_line1:
-                    type: string
-                    description: Address Line 1
-                    example: 123 Street
-                address_line2:
-                    type: string
-                    description: Address Line 2
-                    example: Apt 4B
-                city:
-                    type: string
-                    description: City
-                    example: City Name
-                state:
-                    type: string
-                    description: State
-                    example: State Name
-                    enum:
-                        - JAMMU AND KASHMIR
-                        - HIMACHAL PRADESH
-                        - PUNJAB
-                        - CHANDIGARH
-                        - UTTARAKHAND
-                        - HARYANA
-                        - DELHI
-                        - RAJASTHAN
-                        - UTTAR PRADESH
-                        - BIHAR
-                        - SIKKIM
-                        - ARUNACHAL PRADESH
-                        - NAGALAND
-                        - MANIPUR
-                        - MIZORAM
-                        - TRIPURA
-                        - MEGHALAYA
-                        - ASSAM
-                        - WEST BENGAL
-                        - JHARKHAND
-                        - ODISHA
-                        - CHHATTISGARH
-                        - MADHYA PRADESH
-                        - GUJARAT
-                        - DADRA & NAGAR HAVELI & DAMAN & DIU
-                        - MAHARASHTRA
-                        - ANDHRAPRADESH(BEFOREADDED)
-                        - KARNATAKA
-                        - GOA
-                        - LAKSHWADEEP
-                        - KERALA
-                        - TAMIL NADU
-                        - PUDUCHERRY
-                        - ANDAMAN & NICOBAR
-                        - TELANGANA
-                        - ANDHRA PRADESH
-                        - LADAKH(NEWLYADDED)
-                        - OTHER TERRITORY
-                country:
-                    type: string
-                    description: Country
-                    example: Country Name
-                pincode:
-                    type: string
-                    description: Pincode
-                    example: '123456'
-        Subscription:
-            type: object
-            properties:
-                start_time:
-                    type: string
-                    description: 'Start Time [DD-MM-YYYY]'
-                    format: date
-                    example: 0019-08-17
-                end_time:
-                    type: string
-                    description: 'End Time [DD-MM-YYYY]'
-                    format: date
-                    example: 0019-08-18
-                repeat:
-                    type: integer
-                    description: 'Repeat in value, Frequency of the repetition '
-                    example: 1
-                repeat_type:
-                    type: string
-                    description: 'Repeat type, Entity of the repetition'
-                    example: days
-                    enum:
-                        - days
-                        - weeks
-                        - months
-                        - years
-                send_email:
-                    type: boolean
-                send_sms:
-                    type: boolean
         ExportInvoiceDetails:
             required:
                 - conversion_factor
@@ -2039,6 +2632,23 @@ components:
                     type: boolean
                     description: Success flag
                     example: true
+                message:
+                    type: string
+                    description: Response message
+                    example: ''
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: ''
+                errors:
+                    type: object
+                    properties: {}
+                    description: Errors
+                data:
+                    $ref: '#/components/schemas/ProductList'
+        ProductList:
+            type: object
+            properties:
                 items:
                     type: array
                     items:
@@ -2412,7 +3022,7 @@ components:
                 message:
                     type: string
                     example: Item ID already mapped !
-        ResponseUtils:
+        GSTErrorModel:
             type: object
             properties:
                 success:
@@ -2431,6 +3041,158 @@ components:
                     type: object
                     properties: {}
                     description: Error details
+                data:
+                    type: object
+                    properties: {}
+                    description: Data
+        GSTResponseModel:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success
+                    example: false
+                message:
+                    type: string
+                    description: Message
+                    example: ''
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: ''
+                errors:
+                    type: object
+                    properties: {}
+                    description: Error details
+                data:
+                    $ref: '#/components/schemas/GSTGetResponse'
+        GSTGetResponse:
+            type: object
+            properties:
+                company_name:
+                    type: string
+                    description: Company Name
+                    example: XYZ Company
+                status:
+                    type: string
+                    description: Status
+                is_sez:
+                    type: boolean
+                    description: Sez
+                is_ecom:
+                    type: boolean
+                    description: ECom
+                billing:
+                    $ref: '#/components/schemas/BillingAddress'
+        BillingAddress:
+            type: object
+            properties:
+                address_1:
+                    type: string
+                    description: Address Line 1
+                    example: 123 Street
+                address_2:
+                    type: string
+                    description: Address Line 2
+                    example: Apt 4B
+                city:
+                    type: string
+                    description: City
+                    example: City Name
+                pincode:
+                    type: string
+                    description: Pincode
+                    example: '123456'
+                state:
+                    type: string
+                    description: State
+                    example: State Name
+        DocResponseV2:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: true
+                    default: true
+                message:
+                    type: string
+                    description: Success Message
+                    example: Message
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: ''
+                errors:
+                    type: object
+                    properties: {}
+                    description: Error details
+                data:
+                    type: object
+                    properties: {}
+                    description: Details
+        CustomerResponseV2:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                message:
+                    type: string
+                    description: Response message
+                    example: ''
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: ''
+                errors:
+                    type: object
+                    properties: {}
+                    description: Errors
+                data:
+                    $ref: '#/components/schemas/BaseCustomer'
+        PaymentResponseV2:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                message:
+                    type: string
+                    description: Response message
+                    example: Message
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: ''
+                errors:
+                    type: object
+                    properties: {}
+                    description: Errors
+                data:
+                    type: object
+                    properties: {}
+                    description: Data
+        ProductResponseV2:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                message:
+                    type: string
+                    description: Response message
+                    example: Message
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: ''
+                errors:
+                    type: object
+                    properties: {}
+                    description: Errors
                 data:
                     type: object
                     properties: {}

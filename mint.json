@@ -91,6 +91,41 @@
         {
             "group": "Utility",
             "pages": ["api-reference/utility/get-gstin"]
+        },
+        {
+            "group": "Customer V2",
+            "pages": [
+                "api-reference/customer-v2/update-a-customer",
+                "api-reference/customer-v2/add-a-customer",
+                "api-reference/customer-v2/get-payment-ledger",
+                "api-reference/customer-v2/get-list-of-customers",
+                "api-reference/customer-v2/update-customer-mapping",
+                "api-reference/customer-v2/get-a-customer",
+                "api-reference/customer-v2/delete-a-customer"
+            ]
+        },
+        {
+            "group": "Document V2",
+            "pages": [
+                "api-reference/document-v2/get-document-pdf",
+                "api-reference/document-v2/create-a-document",
+                "api-reference/document-v2/cancel-a-document"
+            ]
+        },
+        {
+            "group": "Payment V2",
+            "pages": ["api-reference/payment-v2/record-payment"]
+        },
+        {
+            "group": "Product V2",
+            "pages": [
+                "api-reference/product-v2/update-a-item",
+                "api-reference/product-v2/add-an-item",
+                "api-reference/product-v2/get-list-of-items",
+                "api-reference/product-v2/update-items-mapping",
+                "api-reference/product-v2/get-a-item-details",
+                "api-reference/product-v2/delete-a-item"
+            ]
         }
     ],
     "footerSocials": {
