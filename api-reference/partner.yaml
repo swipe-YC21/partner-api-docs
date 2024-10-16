@@ -1628,7 +1628,7 @@ components:
                     default: false
                 error_code:
                     type: string
-                    description: Error Code
+                    description: Error Code unique for a specific error. For e-invoice portal errors, error_code will be PORTAL_ERROR_[einvoice_portal_errorcode]  ex- PORTAL_ERROR_2247, we can refer description for error code from  here https://einv-apisandbox.nic.in/api-error-codes-list.html
                     example: INVALID_HASH_ID
                 message:
                     type: string
@@ -2341,6 +2341,10 @@ components:
                     type: string
                     description: IRN
                     example: SL123
+                qrCode:
+                    type: string
+                    description: QR Code
+                    example: ''
                 einvoiceSuccess:
                     type: boolean
                     description: EInvoice Success
