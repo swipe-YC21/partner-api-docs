@@ -1,3 +1,11 @@
 ---
 openapi: post /v2/doc
 ---
+
+<Note>
+    Customer id and Product id should be unique, if a new id is sent, a new
+    Customer/Product with given details will be automatically created. For
+    Product If an existing id is sent, the details will not override the
+    original product details. They will be applicable only to the current
+    document. For updating the product details, use the update product API
+</Note>
