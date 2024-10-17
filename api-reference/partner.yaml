@@ -1639,10 +1639,8 @@ components:
                 serial_number:
                     type: string
                     description:
-                        "Serial Number, if not sent will be auto generated.\n     \
-                        \                      We will insert default prefixes for the company\
-                        \ if none exist, then use the document prefix to generate a document number\
-                        \ and create the serial number.\n                        "
+                        "Serial Number, if not sent will be auto generated based on\
+                        \ the default prefix."
                     example: INV123
                 document_type:
                     type: string
@@ -1834,10 +1832,7 @@ components:
             properties:
                 id:
                     type: string
-                    description: |-
-                        Unique id for each party. If a new id  is sent, a new Party with the below details will be automatically created.
-                                                                              If existing Party id is sent the details will not override the original party details.
-                                                                              They will be applicable only to the current invoice
+                    description: Unique id for each party.
                     example: CUST123
                 type:
                     type: string
@@ -1899,6 +1894,13 @@ components:
                 - state
             type: object
             properties:
+                addr_id:
+                    type: integer
+                    description:
+                        "Address ID.\n                                            \
+                        \     It will automatically update the existing address if the address\
+                        \ ID already exists.\n                                  "
+                    example: -1
                 address_line1:
                     type: string
                     description: Address Line 1
@@ -2467,11 +2469,11 @@ components:
                 - state
             type: object
             properties:
-                line1:
+                address_line1:
                     type: string
                     description: Address line 1
                     example: ''
-                line2:
+                address_line2:
                     type: string
                     description: Address line 2
                     example: ''
@@ -2546,15 +2548,6 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
-        CustomerGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                customer_details:
-                    $ref: '#/components/schemas/BaseCustomer'
         CustomerResponse:
             type: object
             properties:
@@ -2566,6 +2559,15 @@ components:
                     type: string
                     description: Response message
                     example: Customer added successfully
+        CustomerGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                customer_details:
+                    $ref: '#/components/schemas/BaseCustomer'
         Payment_GET_Response:
             type: object
             properties:
@@ -2985,15 +2987,6 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
-        ProductGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                item:
-                    $ref: '#/components/schemas/Item'
         ProdductResponse:
             type: object
             properties:
@@ -3005,6 +2998,15 @@ components:
                     type: string
                     description: Response message
                     example: Product added successfully
+        ProductGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                item:
+                    $ref: '#/components/schemas/Item'
         ListItemMapModel:
             required:
                 - item_mapping
