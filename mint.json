@@ -93,6 +93,14 @@
             "pages": ["api-reference/utility/get-gstin"]
         },
         {
+            "group": "Document V2",
+            "pages": [
+                "api-reference/document-v2/create-a-document",
+                "api-reference/document-v2/get-document-pdf",
+                "api-reference/document-v2/cancel-a-document"
+            ]
+        },
+        {
             "group": "Customer V2",
             "pages": [
                 "api-reference/customer-v2/update-a-customer",
@@ -105,18 +113,6 @@
             ]
         },
         {
-            "group": "Document V2",
-            "pages": [
-                "api-reference/document-v2/get-document-pdf",
-                "api-reference/document-v2/create-a-document",
-                "api-reference/document-v2/cancel-a-document"
-            ]
-        },
-        {
-            "group": "Payment V2",
-            "pages": ["api-reference/payment-v2/record-payment"]
-        },
-        {
             "group": "Product V2",
             "pages": [
                 "api-reference/product-v2/update-a-item",
@@ -126,6 +122,10 @@
                 "api-reference/product-v2/get-a-item-details",
                 "api-reference/product-v2/delete-a-item"
             ]
+        },
+        {
+            "group": "Payment V2",
+            "pages": ["api-reference/payment-v2/record-payment"]
         }
     ],
     "footerSocials": {

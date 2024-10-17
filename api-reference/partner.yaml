@@ -1223,6 +1223,44 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/CustomerResponseV2'
+    /v2/doc:
+        post:
+            tags:
+                - Document V2
+            summary: Create a document
+            operationId: v2_post_invoice_resource
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/BaseDocument'
+                required: true
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocResponseV2'
+                '400':
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocResponseV2'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocResponseV2'
+                '500':
+                    description: Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocResponseV2'
+            x-codegen-request-body-name: payload
     /v2/doc/pdf/{doc_hash_id}:
         get:
             tags:
@@ -1258,64 +1296,13 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/DocResponseV2'
-    /v2/doc/{document_type}:
-        post:
-            tags:
-                - Document V2
-            summary: Create a document
-            operationId: v2_post_invoice_resource
-            parameters:
-                - name: document_type
-                  in: path
-                  description: The document type to be fetched
-                  required: true
-                  schema:
-                      type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/BaseDocument'
-                required: true
-            responses:
-                '200':
-                    description: Success
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/DocResponseV2'
-                '400':
-                    description: Error
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/DocResponseV2'
-                '401':
-                    description: Unauthorized
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/DocResponseV2'
-                '500':
-                    description: Server Error
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/DocResponseV2'
-            x-codegen-request-body-name: payload
-    /v2/doc/{document_type}/{doc_hash_id}:
+    /v2/doc/{doc_hash_id}:
         delete:
             tags:
                 - Document V2
             summary: Cancel a document
             operationId: v2_delete_cancel_invoice
             parameters:
-                - name: document_type
-                  in: path
-                  description: The document type to be fetched
-                  required: true
-                  schema:
-                      type: string
                 - name: doc_hash_id
                   in: path
                   description: The hash id of the document to be cancelled
@@ -1628,7 +1615,11 @@ components:
                     default: false
                 error_code:
                     type: string
-                    description: Error Code unique for a specific error. For e-invoice portal errors, error_code will be PORTAL_ERROR_[einvoice_portal_errorcode]  ex- PORTAL_ERROR_2247, we can refer description for error code from  here https://einv-apisandbox.nic.in/api-error-codes-list.html
+                    description:
+                        "Error Code unique for a specific error. For e-invoice portal\
+                        \ errors, error_code will be PORTAL_ERROR_[einvoice_portal_errorcode]\
+                        \ ex: PORTAL_ERROR_2247, we can refer description for error code from\
+                        \ here https://einv-apisandbox.nic.in/api-error-codes-list.html"
                     example: INVALID_HASH_ID
                 message:
                     type: string
@@ -1641,18 +1632,32 @@ components:
         BaseDocument:
             required:
                 - document_date
+                - document_type
                 - items
             type: object
             properties:
                 serial_number:
                     type: string
-                    description: 'Serial Number, if not sent will be auto generated'
+                    description:
+                        "Serial Number, if not sent will be auto generated.\n     \
+                        \                      We will insert default prefixes for the company\
+                        \ if none exist, then use the document prefix to generate a document number\
+                        \ and create the serial number.\n                        "
                     example: INV123
+                document_type:
+                    type: string
+                    description: Value should always be the string 'invoice'
+                    example: invoice
+                    enum:
+                        - invoice
+                        - subscription
+                        - pro_forma_invoice
+                        - estimate
+                        - sales_return
+                        - purchase_return
                 document_date:
                     type: string
-                    description:
-                        "DD-MM-YYYY, Invoice date (Ex: 11-06-2024 Need not to the current\
-                        \ date)"
+                    description: DD-MM-YYYY
                     example: 11-06-2024
                 party:
                     type: object
@@ -1661,7 +1666,7 @@ components:
                         - $ref: '#/components/schemas/Party'
                 due_date:
                     type: string
-                    description: 'DD-MM-YYYY, Payment Due date for the invoice (Ex: 11-06-2024)'
+                    description: DD-MM-YYYY
                     example: 11-06-2024
                 reference:
                     type: string
@@ -1669,11 +1674,15 @@ components:
                     example: Reference Text
                 notes:
                     type: string
-                    description: Notes to show in invoice
+                    description:
+                        Notes to show in invoice - please check template in swipe application
+                        to see where this is displayed
                     example: Notes for the document
                 terms:
                     type: string
-                    description: Terms to show in invoice
+                    description:
+                        Terms to show in invoice - please check template in swipe application
+                        to see where this is displayed
                     example: Terms and Conditions
                 items:
                     type: array
@@ -1694,14 +1703,6 @@ components:
                     description: 'Array of Payments, refer Payment Object for parameters'
                     items:
                         $ref: '#/components/schemas/Payment'
-                bank_details:
-                    type: object
-                    description:
-                        "Bank Details, refer Bank Details Object below for parameters,\
-                        \ If account_number, ifsc matched with existing bank details, it will\
-                        \ be used, else new bank details will be added to your swipe account"
-                    allOf:
-                        - $ref: '#/components/schemas/BankDetails'
                 tds_id:
                     type: integer
                     description:
@@ -1840,7 +1841,12 @@ components:
                     example: CUST123
                 type:
                     type: string
-                    description: 'Party type, use only specified values'
+                    description:
+                        "Party type, use only specified values.\n                 \
+                        \          Party type customer can be used for creating invoices, sales\
+                        \ returns, estimates, pro forma invoices and delivery challans.\n    \
+                        \                       Party type vendor can be used for creating purchases,\
+                        \ purchase orders & purchase returns, .\n                           "
                     example: customer
                     enum:
                         - customer
@@ -1907,7 +1913,9 @@ components:
                     example: City Name
                 state:
                     type: string
-                    description: State
+                    description:
+                        "State.\n                               Select OTHER TERRITORY\
+                        \ for countries other than India\n                               "
                     example: State Name
                     enum:
                         - JAMMU AND KASHMIR
@@ -1974,7 +1982,8 @@ components:
                         "Unique id for each item. If a new id  is sent, a new Item\
                         \ with the below details will be automatically created. if existing Item\
                         \ id is sent the details will not override the original item details.\
-                        \ They will be applicable only to the current invoice"
+                        \ They will be applicable only to the current documents. Use update item\
+                        \ to actually update the item details in swipe"
                     example: ITEM123
                 name:
                     type: string
@@ -2002,7 +2011,12 @@ components:
                     example: 100.0
                 total_amount:
                     type: number
-                    description: Item total amount (Net Amount + Tax)
+                    description:
+                        "Item total amount (Net Amount + Tax).\n                  \
+                        \         We calculate the discount amount by multiplying the item's quantity,\
+                        \ unit price, and discount percentage. If a discount amount is provided\
+                        \ instead, we reverse-calculate the percentage. If no discount is given,\
+                        \ it is set to 0.\n                        "
                     example: 118.0
                 discount_percent:
                     type: number
@@ -2018,12 +2032,15 @@ components:
                     example: Item Description
                 hsn_code:
                     type: string
-                    description: HSN Code
+                    description: 'HSN Code. HSN Code can only be of length 4,6 & 8'
                     example: '1234'
                 item_type:
                     type: string
                     description: Product or Service enum
                     example: Product
+                    enum:
+                        - Product
+                        - Service
                 unit:
                     type: string
                     description: item quantity unit
@@ -2069,6 +2086,14 @@ components:
                     type: string
                     description: Any internal notes for payment
                     example: Payment notes
+                bank_details:
+                    type: object
+                    description:
+                        "Bank Details, refer Bank Details Object below for parameters,\
+                        \ If account_number, ifsc matched with existing bank details, it will\
+                        \ be used, else new bank details will be added to your swipe account"
+                    allOf:
+                        - $ref: '#/components/schemas/BankDetails'
         BankDetails:
             required:
                 - account_number
@@ -2117,6 +2142,10 @@ components:
                         - Deemed Export
                 conversion_factor:
                     type: number
+                    description:
+                        A conversion factor is the number or formula you need to convert
+                        a measurement in one set of units to the same measurement in another set
+                        of units.
                 country_id:
                     type: string
                     description: Country ID
@@ -2629,6 +2658,31 @@ components:
                         "Updates even if the customer id is already mapped with other\
                         \ swipe id, no customer details will be updated"
                     example: true
+        ListCustomerMapErrorModel:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                customer_mapping:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                duplicate_customer_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                duplicate_swipe_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                not_found_swipe_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                message:
+                    type: string
+                    example: Customer ID already mapped !
         ListGETResponse:
             type: object
             properties:
@@ -2727,31 +2781,6 @@ components:
                     type: string
                     description: Swipe ID assigned to the item
                     example: '1'
-        ListCustomerMapErrorModel:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    example: false
-                customer_mapping:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                duplicate_customer_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                duplicate_swipe_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                not_found_swipe_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                message:
-                    type: string
-                    example: Customer ID already mapped !
         RecordPayment:
             required:
                 - amount
@@ -2909,6 +2938,9 @@ components:
                     type: string
                     description: Product or Service enum
                     example: Product
+                    enum:
+                        - Product
+                        - Service
                 unit:
                     type: string
                     description: item quantity unit
