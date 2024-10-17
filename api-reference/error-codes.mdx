@@ -1,0 +1,68 @@
+## Document Errors
+
+| Error Code                                        | Description                                         |
+| ------------------------------------------------- | --------------------------------------------------- |
+| `HASH_ID_MISSING`                                 | The hash ID is missing.                             |
+| `INVALID_HASH_ID`                                 | The provided hash ID is invalid.                    |
+| `TCS_DETAILS_NOT_FOUND`                           | TCS details could not be found.                     |
+| `TDS_DETAILS_NOT_FOUND`                           | TDS details could not be found.                     |
+| `SUBSCRIPTION_DETAILS_NOT_FOUND`                  | Subscription details could not be found.            |
+| `EINVOICE_NOT_FOUND`                              | The e-invoice could not be found.                   |
+| `ITEM_NOT_FOUND`                                  | The item could not be found.                        |
+| `DUPLICATE_DOC_SERIAL_NUMBER`                     | The document serial number is duplicate.            |
+| `DOCUMENT_TYPE_NOT_FOUND`                         | The document type could not be found.               |
+| `BATCH_OR_SERIAL_NUMBER_NOT_SELECTED`             | Batch or serial number not selected.                |
+| `RETURN_NOT_POSSIBLE_FOR_AVAILABLE_SERIAL_NUMBER` | Return not possible for available serial number.    |
+| `INVALID_DOCUMENT_NUMBER`                         | The document number is invalid.                     |
+| `INVALID_SERIAL_NUMBER`                           | The serial number is invalid.                       |
+| `FORBIDDEN_USING_BACK_DATE`                       | Forbidden using back date.                          |
+| `DUPLICATE_SUPPLIER_INVOICE_SERIAL_NUMBER`        | Duplicate supplier invoice serial number.           |
+| `CAN_NOT_APPLY_TDS_AND_TCS_TOGETHER`              | Cannot apply TDS and TCS together.                  |
+| `MISSING_BANK_ACCOUNT`                            | The bank account is missing.                        |
+| `AMOUNT_RECEIVED_GREATER_THAN_TOTAL_AMOUNT`       | Amount received is greater than total amount.       |
+| `SUBSCRIPTIONS_NOT_ENABLED`                       | Subscriptions are not enabled.                      |
+| `INVALID_REPEAT`                                  | The repeat value is invalid.                        |
+| `INVALID_CUSTOM_COLUMN_VALUE`                     | The custom column value is invalid.                 |
+| `INVALID_HEADER_FORMAT`                           | The header format is invalid.                       |
+| `FREE_USER_EXPORT_LIMIT_EXCEEDED`                 | Free user export limit exceeded.                    |
+| `BANK_DETAILS_MISSING_NON_CASH`                   | Bank details are missing for non-cash transactions. |
+| `INVALID_TAX_RATE`                                | The provided tax rate is invalid.                   |
+| `DUPLICATE_PRODUCT_SERIAL_NUMBER`                 | The product serial number is duplicate.             |
+| `INSUFFICIENT_STOCK`                              | There is not enough stock available.                |
+| `PRODUCT_ALREADY_EXISTS`                          | The product already exists in the system.           |
+| `CUSTOMER_NOT_FOUND`                              | The customer could not be found.                    |
+| `INVALID_CUSTOMER_ID`                             | The provided customer ID is invalid.                |
+
+## EInvoice Document Errors
+
+| Error Code            | Description                                                                                                                                                                                                                                                                                     |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PORTAL_ERROR_{code}` | Error from E invoice portal. The {code} is the error code received from the e-invoice portal. ex: **PORTAL_ERROR_2247** here 2247 is the error code we got from e-invoice portal, we can check all einvoice portal error code [here](https://einv-apisandbox.nic.in/api-error-codes-list.html). |
+
+## Product Errors
+
+| Error Code               | Description                               |
+| ------------------------ | ----------------------------------------- |
+| `PRODUCT_ALREADY_EXISTS` | The product already exists in the system. |
+
+## Customer Errors
+
+| Error Code                | Description                                |
+| ------------------------- | ------------------------------------------ |
+| `CUSTOMER_NOT_FOUND`      | The customer could not be found.           |
+| `CUSTOMER_ALREADY_EXISTS` | The customer already exists in the system. |
+| `INVALID_CUSTOMER_ID`     | The provided customer ID is invalid.       |
+
+## Authentication and Authorization Errors
+
+| Error Code     | Description                  |
+| -------------- | ---------------------------- |
+| `FORBIDDEN`    | Access is forbidden.         |
+| `UNAUTHORIZED` | The request is unauthorized. |
+
+## General Errors
+
+| Error Code      | Description                          |
+| --------------- | ------------------------------------ |
+| `UNKNOWN_ERROR` | An unknown error has occurred.       |
+| `BAD_REQUEST`   | The request is invalid or malformed. |
