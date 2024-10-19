@@ -51,7 +51,11 @@
         },
         {
             "group": "API Documentation",
-            "pages": ["api-reference/introduction", "api-reference/error-codes"]
+            "pages": [
+                "api-reference/introduction",
+                "api-reference/error-codes",
+                "api-reference/references"
+            ]
         },
         {
             "group": "Document",
