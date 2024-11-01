@@ -93,8 +93,15 @@
             ]
         },
         {
+            "group": "Subscriptions",
+            "pages": [
+                "api-reference/subscriptions/list-of-documents",
+                "api-reference/subscriptions/get-subscription-details"
+            ]
+        },
+        {
             "group": "Utility",
-            "pages": ["api-reference/utility/get-gstin"]
+            "pages": ["api-reference/utility/get-v1utilsgstin"]
         },
         {
             "group": "Document V2",
