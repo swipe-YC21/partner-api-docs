@@ -908,7 +908,7 @@ paths:
         get:
             tags:
                 - Subscriptions
-            summary: List of documents
+            summary: List of Subscriptions
             operationId: get_transactions
             parameters:
                 - name: start_date
