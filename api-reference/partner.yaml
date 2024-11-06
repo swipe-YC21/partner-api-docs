@@ -101,14 +101,14 @@ paths:
             parameters:
                 - name: start_date
                   in: query
-                  description: Start date for the ledger, [DD-MM-YYYY]
+                  description: 'Start date for the ledger, [DD-MM-YYYY]'
                   required: true
                   schema:
                       type: string
                       default: 01-01-2024
                 - name: end_date
                   in: query
-                  description: End date for the ledger, [DD-MM-YYYY]
+                  description: 'End date for the ledger, [DD-MM-YYYY]'
                   required: true
                   schema:
                       type: string
@@ -165,9 +165,9 @@ paths:
             parameters:
                 - name: num_records
                   in: query
-                  description: >-
-                      Number of records to fetch, default : all customers will be sent in
-                      response
+                  description:
+                      "Number of records to fetch, default : all customers will be\
+                      \ sent in response"
                   schema:
                       type: integer
                 - name: page
@@ -756,9 +756,9 @@ paths:
             parameters:
                 - name: num_records
                   in: query
-                  description: >-
-                      Number of records to fetch, default : all items will be sent in
-                      response
+                  description:
+                      "Number of records to fetch, default : all items will be sent\
+                      \ in response"
                   schema:
                       type: integer
                 - name: page
@@ -913,14 +913,14 @@ paths:
             parameters:
                 - name: start_date
                   in: query
-                  description: Start date for the list, [DD-MM-YYY]
+                  description: 'Start date for the list, [DD-MM-YYY]'
                   required: true
                   schema:
                       type: string
                       default: 01-01-2024
                 - name: end_date
                   in: query
-                  description: End date for the list, [DD-MM-YYY]
+                  description: 'End date for the list, [DD-MM-YYY]'
                   required: true
                   schema:
                       type: string
@@ -949,6 +949,11 @@ paths:
                   schema:
                       type: integer
                       default: 1
+                - name: customer_id
+                  in: query
+                  description: Customer ID
+                  schema:
+                      type: string
             responses:
                 '200':
                     description: Subscription List fetched successfully
@@ -1139,14 +1144,14 @@ paths:
             parameters:
                 - name: start_date
                   in: query
-                  description: Start date for the ledger, [DD-MM-YYYY]
+                  description: 'Start date for the ledger, [DD-MM-YYYY]'
                   required: true
                   schema:
                       type: string
                       default: 01-01-2024
                 - name: end_date
                   in: query
-                  description: End date for the ledger, [DD-MM-YYYY]
+                  description: 'End date for the ledger, [DD-MM-YYYY]'
                   required: true
                   schema:
                       type: string
@@ -1203,9 +1208,9 @@ paths:
             parameters:
                 - name: num_records
                   in: query
-                  description: >-
-                      Number of records to fetch, default : all customers will be sent in
-                      response
+                  description:
+                      "Number of records to fetch, default : all customers will be\
+                      \ sent in response"
                   schema:
                       type: integer
                 - name: page
@@ -1584,9 +1589,9 @@ paths:
             parameters:
                 - name: num_records
                   in: query
-                  description: >-
-                      Number of records to fetch, default : all items will be sent in
-                      response
+                  description:
+                      "Number of records to fetch, default : all items will be sent\
+                      \ in response"
                   schema:
                       type: integer
                 - name: page
@@ -1743,11 +1748,11 @@ components:
                     default: false
                 error_code:
                     type: string
-                    description: >-
-                        Error Code unique for a specific error. For e-invoice portal errors,
-                        error_code will be PORTAL_ERROR_[einvoice_portal_errorcode] ex:
-                        PORTAL_ERROR_2247, we can refer description for error code from here
-                        https://einv-apisandbox.nic.in/api-error-codes-list.html
+                    description:
+                        "Error Code unique for a specific error. For e-invoice portal\
+                        \ errors, error_code will be PORTAL_ERROR_[einvoice_portal_errorcode]\
+                        \ ex: PORTAL_ERROR_2247, we can refer description for error code from\
+                        \ here https://einv-apisandbox.nic.in/api-error-codes-list.html"
                     example: INVALID_HASH_ID
                 message:
                     type: string
@@ -1766,9 +1771,9 @@ components:
             properties:
                 serial_number:
                     type: string
-                    description: >-
-                        Serial Number, if not sent will be auto generated based on the
-                        default prefix.
+                    description:
+                        "Serial Number, if not sent will be auto generated based on\
+                        \ the default prefix."
                     example: INV123
                 document_type:
                     type: string
@@ -1783,13 +1788,13 @@ components:
                         - purchase_return
                 document_date:
                     type: string
-                    description: >-
-                        DD-MM-YYYY, Invoice date (Ex: 11-06-2024 Need not to the current
-                        date)
+                    description:
+                        "DD-MM-YYYY, Invoice date (Ex: 11-06-2024 Need not to the current\
+                        \ date)"
                     example: 11-06-2024
                 customer:
                     type: object
-                    description: Customer (deprecated, please use Party)
+                    description: 'Customer (deprecated, please use Party)'
                     allOf:
                         - $ref: '#/components/schemas/Customer'
                 party:
@@ -1815,13 +1820,13 @@ components:
                     example: Terms and Conditions
                 items:
                     type: array
-                    description: Array of Products/Services, refer Item Object below for parameters
+                    description: 'Array of Products/Services, refer Item Object below for parameters'
                     items:
                         $ref: '#/components/schemas/DocItem'
                 extra_discount:
                     type: number
-                    description: Adjustment on overall invoice, doesn’t effect any tax amounts.
-                    example: 20
+                    description: 'Adjustment on overall invoice, doesn’t effect any tax amounts.'
+                    example: 20.0
                 round_off:
                     type: boolean
                     description: Should Round Off total amount
@@ -1829,46 +1834,42 @@ components:
                     default: false
                 payments:
                     type: array
-                    description: Array of Payments, refer Payment Object for parameters
+                    description: 'Array of Payments, refer Payment Object for parameters'
                     items:
                         $ref: '#/components/schemas/Payment'
                 bank_details:
                     type: object
-                    description: >-
-                        Bank Details, refer Bank Details Object below for parameters, If
-                        account_number, ifsc matched with existing bank details, it will be
-                        used, else new bank details will be added to your swipe account
+                    description:
+                        "Bank Details, refer Bank Details Object below for parameters,\
+                        \ If account_number, ifsc matched with existing bank details, it will\
+                        \ be used, else new bank details will be added to your swipe account"
                     allOf:
                         - $ref: '#/components/schemas/BankDetails'
                 tds_id:
                     type: integer
-                    description: >-
-                        You can check the tds id and details mapping from
-                        https://developers.getswipe.in/api-reference/references#tds-tax-deducted-at-source
+                    description: You can check the tds id and details mapping from https://developers.getswipe.in/api-reference/references#tds-tax-deducted-at-source
                 tcs_id:
                     type: integer
-                    description: >-
-                        You can copy the tcs id and details mapping from
-                        https://developers.getswipe.in/api-reference/references#tcs-tax-collected-at-source
+                    description: You can copy the tcs id and details mapping from https://developers.getswipe.in/api-reference/references#tcs-tax-collected-at-source
                 company_shipping_address:
                     type: object
-                    description: >-
-                        Company shipping from Address, refer Shipping Address Object for
-                        parameters
+                    description:
+                        "Company shipping from Address, refer Shipping Address Object\
+                        \ for parameters"
                     allOf:
                         - $ref: '#/components/schemas/ShippingAddress'
                 customer_shipping_address:
                     type: object
-                    description: >-
-                        Customer shipping to Address, refer Shipping Address Object for
-                        parameters
+                    description:
+                        "Customer shipping to Address, refer Shipping Address Object\
+                        \ for parameters"
                     allOf:
                         - $ref: '#/components/schemas/ShippingAddress'
                 customer_billing_address:
                     type: object
-                    description: >-
-                        Customer billing to Address, refer Shipping Address Object for
-                        parameters
+                    description:
+                        "Customer billing to Address, refer Shipping Address Object\
+                        \ for parameters"
                     allOf:
                         - $ref: '#/components/schemas/ShippingAddress'
                 is_subscription:
@@ -1901,9 +1902,8 @@ components:
             properties:
                 id:
                     type: string
-                    description: >-
-                        Unique id for each customer. If a new id  is sent, a new Customer
-                        with the below details will be automatically created.
+                    description: |-
+                        Unique id for each customer. If a new id  is sent, a new Customer with the below details will be automatically created.
                                                                               If existing Customer id is sent the details will not override the original customer details.
                                                                               They will be applicable only to the current invoice
                     example: CUST123
@@ -1944,11 +1944,12 @@ components:
                     example: CUST123
                 type:
                     type: string
-                    description: |-
-                        Party type, use only specified values.
-                                                   Party type customer can be used for creating invoices, sales returns, estimates, pro forma invoices and delivery challans.
-                                                   Party type vendor can be used for creating purchases, purchase orders & purchase returns, .
-
+                    description:
+                        "Party type, use only specified values.\n                 \
+                        \          Party type customer can be used for creating invoices, sales\
+                        \ returns, estimates, pro forma invoices and delivery challans.\n    \
+                        \                       Party type vendor can be used for creating purchases,\
+                        \ purchase orders & purchase returns, .\n                           "
                     example: customer
                     enum:
                         - customer
@@ -1979,16 +1980,16 @@ components:
                     example: 27AARCS7202C1ZD
                 shipping_address:
                     type: object
-                    description: >-
-                        Party shipping to Address, refer Shipping Address Object for
-                        parameters
+                    description:
+                        "Party shipping to Address, refer Shipping Address Object for\
+                        \ parameters"
                     allOf:
                         - $ref: '#/components/schemas/ShippingAddressV2'
                 billing_address:
                     type: object
-                    description: >-
-                        Party billing to Address, refer Shipping Address Object for
-                        parameters
+                    description:
+                        "Party billing to Address, refer Shipping Address Object for\
+                        \ parameters"
                     allOf:
                         - $ref: '#/components/schemas/ShippingAddressV2'
         ShippingAddressV2:
@@ -2004,10 +2005,10 @@ components:
             properties:
                 addr_id:
                     type: integer
-                    description: |-
-                        Address ID.
-                                                                         It will automatically update the existing address if the address ID already exists.
-
+                    description:
+                        "Address ID.\n                                            \
+                        \     It will automatically update the existing address if the address\
+                        \ ID already exists.\n                                  "
                     example: -1
                 address_line1:
                     type: string
@@ -2023,11 +2024,11 @@ components:
                     example: City Name
                 state:
                     type: string
-                    description: |-
-                        State.
-                                                       Select OTHER TERRITORY for countries other than India.
-                                                       You can copy the state details from https://developers.getswipe.in/api-reference/references#state-details
-
+                    description:
+                        "State.\n                               Select OTHER TERRITORY\
+                        \ for countries other than India.\n                               You\
+                        \ can copy the state details from https://developers.getswipe.in/api-reference/references#state-details\n\
+                        \                               "
                     example: State Name
                     enum:
                         - JAMMU AND KASHMIR
@@ -2070,9 +2071,7 @@ components:
                         - OTHER TERRITORY
                 country:
                     type: string
-                    description: >-
-                        Country. You can copy the country details from
-                        https://developers.getswipe.in/api-reference/references#country-array
+                    description: Country. You can copy the country details from https://developers.getswipe.in/api-reference/references#country-array
                     example: Country Name
                 pincode:
                     type: string
@@ -2092,12 +2091,12 @@ components:
             properties:
                 id:
                     type: string
-                    description: >-
-                        Unique id for each item. If a new id  is sent, a new Item with the
-                        below details will be automatically created. if existing Item id is
-                        sent the details will not override the original item details. They
-                        will be applicable only to the current documents. Use update item to
-                        actually update the item details in swipe
+                    description:
+                        "Unique id for each item. If a new id  is sent, a new Item\
+                        \ with the below details will be automatically created. if existing Item\
+                        \ id is sent the details will not override the original item details.\
+                        \ They will be applicable only to the current documents. Use update item\
+                        \ to actually update the item details in swipe"
                     example: ITEM123
                 name:
                     type: string
@@ -2106,45 +2105,47 @@ components:
                 quantity:
                     type: number
                     description: Quantity
-                    example: 1
+                    example: 1.0
                 unit_price:
                     type: number
                     description: Price per item without Tax
-                    example: 100
+                    example: 100.0
                 tax_rate:
                     type: number
                     description: Tax percentage for each item . Only valid tax rates are accepted
-                    example: 18
+                    example: 18.0
                 price_with_tax:
                     type: number
                     description: Price per item with Tax
-                    example: 118
+                    example: 118.0
                 net_amount:
                     type: number
                     description: Net Amount
-                    example: 100
+                    example: 100.0
                 total_amount:
                     type: number
-                    description: |-
-                        Item total amount (Net Amount + Tax).
-                                                   We calculate the discount amount by multiplying the item's quantity, unit price, and discount percentage. If a discount amount is provided instead, we reverse-calculate the percentage. If no discount is given, it is set to 0.
-
-                    example: 118
+                    description:
+                        "Item total amount (Net Amount + Tax).\n                  \
+                        \         We calculate the discount amount by multiplying the item's quantity,\
+                        \ unit price, and discount percentage. If a discount amount is provided\
+                        \ instead, we reverse-calculate the percentage. If no discount is given,\
+                        \ it is set to 0.\n                        "
+                    example: 118.0
                 discount_percent:
                     type: number
                     description: Discount Percent
-                    example: 10
+                    example: 10.0
                 discount_amount:
                     type: number
-                    description: Discount Amount, will be ignored if discount_percent is provided
-                    example: 10
+                    description: 'Discount Amount, will be ignored if discount_percent is provided'
+                    example: 10.0
                 description:
                     type: string
                     description: Item Description
                     example: Item Description
                 hsn_code:
                     type: string
-                    description: HSN Code. HSN Code can only be of length 4,6 & 8
+                    description: 'HSN Code. HSN Code can only be of length 4,6 & 8'
                     example: '1234'
                 item_type:
                     type: string
@@ -2182,10 +2183,10 @@ components:
                 amount:
                     type: number
                     description: Payment Amount
-                    example: 100
+                    example: 100.0
                 method:
                     type: string
-                    description: Payment method, use only specified values
+                    description: 'Payment method, use only specified values'
                     example: upi
                     enum:
                         - cash
@@ -2246,9 +2247,7 @@ components:
                     example: City Name
                 state:
                     type: string
-                    description: >-
-                        State. You can copy the state details from
-                        https://developers.getswipe.in/api-reference/references#state-details
+                    description: State. You can copy the state details from https://developers.getswipe.in/api-reference/references#state-details
                     example: State Name
                     enum:
                         - JAMMU AND KASHMIR
@@ -2291,9 +2290,7 @@ components:
                         - OTHER TERRITORY
                 country:
                     type: string
-                    description: >-
-                        Country. You can copy the country details from
-                        https://developers.getswipe.in/api-reference/references#country-array
+                    description: Country. You can copy the country details from https://developers.getswipe.in/api-reference/references#country-array
                     example: Country Name
                 pincode:
                     type: string
@@ -2304,21 +2301,21 @@ components:
             properties:
                 start_time:
                     type: string
-                    description: Start Time [DD-MM-YYYY]
+                    description: 'Start Time [DD-MM-YYYY]'
                     format: date
-                    example: '1919-08-17T00:00:00.000Z'
+                    example: 1900-08-17
                 end_time:
                     type: string
-                    description: End Time [DD-MM-YYYY]
+                    description: 'End Time [DD-MM-YYYY]'
                     format: date
-                    example: '1919-08-18T00:00:00.000Z'
+                    example: 1900-08-18
                 repeat:
                     type: integer
                     description: 'Repeat in value, Frequency of the repetition '
                     example: 1
                 repeat_type:
                     type: string
-                    description: Repeat type, Entity of the repetition
+                    description: 'Repeat type, Entity of the repetition'
                     example: days
                     enum:
                         - days
@@ -2353,11 +2350,11 @@ components:
                         - Deemed Export
                 conversion_factor:
                     type: number
-                    description: >-
-                        The conversion factor represents the rate used to convert foreign
-                        currencies into Indian rupees. For example, if you're invoicing in
-                        dollars, and 1 dollar equals 84 rupees, the conversion factor would
-                        be 84
+                    description:
+                        "The conversion factor represents the rate used to convert\
+                        \ foreign currencies into Indian rupees. For example, if you're invoicing\
+                        \ in dollars, and 1 dollar equals 84 rupees, the conversion factor would\
+                        \ be 84"
                 country_id:
                     type: string
                     description: Country ID
@@ -2401,8 +2398,8 @@ components:
                         - China
                         - Colombia
                         - Comoros
-                        - Congo, Democratic Republic of the
-                        - Congo, Republic of the
+                        - 'Congo, Democratic Republic of the'
+                        - 'Congo, Republic of the'
                         - Costa Rica
                         - Croatia
                         - Cuba
@@ -2451,8 +2448,8 @@ components:
                         - Kazakhstan
                         - Kenya
                         - Kiribati
-                        - Korea, North
-                        - Korea, South
+                        - 'Korea, North'
+                        - 'Korea, South'
                         - Kosovo
                         - Kuwait
                         - Kyrgyzstan
@@ -2620,7 +2617,7 @@ components:
                     description: Discount
                     example: 10
                 gstin:
-                    pattern: ^(|[0-9A-Z]{15})$
+                    pattern: '^(|[0-9A-Z]{15})$'
                     type: string
                     description: GSTIN
                     example: 27AARCS7202C1ZD
@@ -2648,7 +2645,7 @@ components:
                         $ref: '#/components/schemas/Address'
                 opening_balance_type:
                     type: integer
-                    description: Credit[0] / Debit[1]
+                    description: 'Credit[0] / Debit[1]'
                     example: 1
                 dial_code:
                     type: string
@@ -2669,7 +2666,7 @@ components:
                 cc_emails:
                     type: string
                     description: CC email addresses
-                    example: reddi@reddi.reddi,acb.a@bcd.con
+                    example: 'reddi@reddi.reddi,acb.a@bcd.con'
                 status:
                     type: string
                     description: Status
@@ -2697,9 +2694,7 @@ components:
                     example: ''
                 state:
                     type: string
-                    description: >-
-                        State. You can copy the state details from
-                        https://developers.getswipe.in/api-reference/references#state-details
+                    description: State. You can copy the state details from https://developers.getswipe.in/api-reference/references#state-details
                     example: State Name
                     enum:
                         - JAMMU AND KASHMIR
@@ -2742,9 +2737,7 @@ components:
                         - OTHER TERRITORY
                 country:
                     type: string
-                    description: >-
-                        Country. You can copy the country details from
-                        https://developers.getswipe.in/api-reference/references#country-array
+                    description: Country. You can copy the country details from https://developers.getswipe.in/api-reference/references#country-array
                     example: India
                     enum:
                         - Afghanistan
@@ -2785,8 +2778,8 @@ components:
                         - China
                         - Colombia
                         - Comoros
-                        - Congo, Democratic Republic of the
-                        - Congo, Republic of the
+                        - 'Congo, Democratic Republic of the'
+                        - 'Congo, Republic of the'
                         - Costa Rica
                         - Croatia
                         - Cuba
@@ -2835,8 +2828,8 @@ components:
                         - Kazakhstan
                         - Kenya
                         - Kiribati
-                        - Korea, North
-                        - Korea, South
+                        - 'Korea, North'
+                        - 'Korea, South'
                         - Kosovo
                         - Kuwait
                         - Kyrgyzstan
@@ -2963,15 +2956,6 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
-        CustomerGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                customer_details:
-                    $ref: '#/components/schemas/BaseCustomer'
         CustomerResponse:
             type: object
             properties:
@@ -2983,6 +2967,15 @@ components:
                     type: string
                     description: Response message
                     example: Customer added successfully
+        CustomerGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                customer_details:
+                    $ref: '#/components/schemas/BaseCustomer'
         Payment_GET_Response:
             type: object
             properties:
@@ -2997,7 +2990,7 @@ components:
                 closing_balance:
                     type: number
                     description: Closing Balance
-                    example: 100
+                    example: 100.0
                 is_paid:
                     type: boolean
                     description: Is Fully paid
@@ -3016,11 +3009,11 @@ components:
                 total_amount:
                     type: number
                     description: Total Amount
-                    example: 100
+                    example: 100.0
                 amount_pending:
                     type: number
                     description: Amount pending
-                    example: 0
+                    example: 0.0
                 balance:
                     type: number
                     description: Balance as of this record
@@ -3038,7 +3031,7 @@ components:
                 created_time:
                     type: string
                     description: 'Created Time of the Payment [YYYY-MM-DD HH:MM:SS] GMT '
-                    example: '2024-06-13T10:08:13.000Z'
+                    example: 2024-06-13 10:08:13
                 notes:
                     type: string
                     description: Notes
@@ -3071,9 +3064,9 @@ components:
                     example: '1'
                 force_update:
                     type: boolean
-                    description: >-
-                        Updates even if the customer id is already mapped with other swipe
-                        id, no customer details will be updated
+                    description:
+                        "Updates even if the customer id is already mapped with other\
+                        \ swipe id, no customer details will be updated"
                     example: true
         ListGETResponse:
             type: object
@@ -3170,10 +3163,10 @@ components:
                 amount:
                     type: number
                     description: Amount to be paid
-                    example: 27
+                    example: 27.0
                 payment_date:
                     type: string
-                    description: Payment date [DD-MM-YYYY]
+                    description: 'Payment date [DD-MM-YYYY]'
                     example: 13-06-2024
                 bank_details:
                     $ref: '#/components/schemas/BankDetails'
@@ -3194,15 +3187,15 @@ components:
                         - Credits
                 notes:
                     type: string
-                    description: Notes, will be shared with the customer
+                    description: 'Notes, will be shared with the customer'
                     example: ''
                 send_sms:
                     type: boolean
-                    description: Send SMS, customer will be notified through SMS
+                    description: 'Send SMS, customer will be notified through SMS'
                     example: true
                 send_email:
                     type: boolean
-                    description: Send Email, customer will be notified through Email
+                    description: 'Send Email, customer will be notified through Email'
                     example: true
                 exclusive_notes:
                     type: string
@@ -3214,7 +3207,7 @@ components:
                     example: CUST123
                 documents:
                     type: array
-                    description: Documents to be settled, if any
+                    description: 'Documents to be settled, if any'
                     example:
                         - amount_paying: 27
                           hash_id: SLascded
@@ -3229,7 +3222,7 @@ components:
                 amount_paying:
                     type: number
                     description: Amount to be settled for the document
-                    example: 27
+                    example: 27.0
                 hash_id:
                     type: string
                     description: Document Hash ID
@@ -3287,23 +3280,23 @@ components:
                 quantity:
                     type: number
                     description: Opening Quantity
-                    example: 1
+                    example: 1.0
                 unit_price:
                     type: number
                     description: Price per item without Tax
-                    example: 100
+                    example: 100.0
                 tax_rate:
                     type: number
                     description: Tax percentage for each item . Only valid tax rates are accepted
-                    example: 18
+                    example: 18.0
                 price_with_tax:
                     type: number
                     description: Price per item with Tax
-                    example: 118
+                    example: 118.0
                 discount_percent:
                     type: number
                     description: Default Discount Percent
-                    example: 10
+                    example: 10.0
                 description:
                     type: string
                     description: Item Description
@@ -3363,15 +3356,6 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
-        ProductGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                item:
-                    $ref: '#/components/schemas/Item'
         ProdductResponse:
             type: object
             properties:
@@ -3383,6 +3367,15 @@ components:
                     type: string
                     description: Response message
                     example: Product added successfully
+        ProductGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                item:
+                    $ref: '#/components/schemas/Item'
         ListItemMapModel:
             required:
                 - item_mapping
@@ -3407,9 +3400,9 @@ components:
                     example: '1'
                 force_update:
                     type: boolean
-                    description: >-
-                        Updates even if the item id is already mapped with other swipe id,
-                        no item details will be updated
+                    description:
+                        "Updates even if the item id is already mapped with other swipe\
+                        \ id, no item details will be updated"
                     example: true
         ListItemMapErrorModel:
             type: object
@@ -3580,6 +3573,10 @@ components:
         SubscriptionDetails:
             type: object
             properties:
+                customer_id:
+                    type: string
+                    description: Customer ID
+                    example: Cust123
                 customer_name:
                     type: string
                     description: Customer Name
@@ -3645,7 +3642,7 @@ components:
                 total_amount:
                     type: number
                     description: Total Amount
-                    example: 1000
+                    example: 1000.0
         Invoice:
             type: object
             properties:
@@ -3653,6 +3650,10 @@ components:
                     type: string
                     description: Customer Name
                     example: CUST123
+                id:
+                    type: string
+                    description: Customer ID
+                    example: Cust123
                 serial_number:
                     type: string
                     description: Serial Number
@@ -3665,7 +3666,7 @@ components:
                         - paid
                         - pending
                         - cancelled
-                new_hash_id:
+                hash_id:
                     type: string
                     description: Hash ID
                     example: SUB123
@@ -3676,7 +3677,7 @@ components:
                 total_amount:
                     type: number
                     description: Total Amount
-                    example: 1000
+                    example: 1000.0
         GetSubscriptionInvoices:
             type: object
             properties:
@@ -3747,9 +3748,9 @@ components:
             properties:
                 serial_number:
                     type: string
-                    description: >-
-                        Serial Number, if not sent will be auto generated based on the
-                        default prefix.
+                    description:
+                        "Serial Number, if not sent will be auto generated based on\
+                        \ the default prefix."
                     example: INV123
                 document_type:
                     type: string
@@ -3781,25 +3782,25 @@ components:
                     example: Reference Text
                 notes:
                     type: string
-                    description: >-
-                        Notes to show in invoice - please check template in swipe
-                        application to see where this is displayed
+                    description:
+                        Notes to show in invoice - please check template in swipe application
+                        to see where this is displayed
                     example: Notes for the document
                 terms:
                     type: string
-                    description: >-
-                        Terms to show in invoice - please check template in swipe
-                        application to see where this is displayed
+                    description:
+                        Terms to show in invoice - please check template in swipe application
+                        to see where this is displayed
                     example: Terms and Conditions
                 items:
                     type: array
-                    description: Array of Products/Services, refer Item Object below for parameters
+                    description: 'Array of Products/Services, refer Item Object below for parameters'
                     items:
                         $ref: '#/components/schemas/DocItem'
                 extra_discount:
                     type: number
-                    description: Adjustment on overall invoice, doesn’t effect any tax amounts.
-                    example: 20
+                    description: 'Adjustment on overall invoice, doesn’t effect any tax amounts.'
+                    example: 20.0
                 round_off:
                     type: boolean
                     description: Should Round Off total amount
@@ -3807,24 +3808,20 @@ components:
                     default: false
                 payments:
                     type: array
-                    description: Array of Payments, refer Payment Object for parameters
+                    description: 'Array of Payments, refer Payment Object for parameters'
                     items:
                         $ref: '#/components/schemas/PaymentV2'
                 tds_id:
                     type: integer
-                    description: >-
-                        You can check the tds id and details mapping from
-                        https://developers.getswipe.in/api-reference/references#tds-tax-deducted-at-source
+                    description: You can check the tds id and details mapping from https://developers.getswipe.in/api-reference/references#tds-tax-deducted-at-source
                 tcs_id:
                     type: integer
-                    description: >-
-                        You can check the tcs id and details mapping from
-                        https://developers.getswipe.in/api-reference/references#tcs-tax-collected-at-source
+                    description: You can check the tcs id and details mapping from https://developers.getswipe.in/api-reference/references#tcs-tax-collected-at-source
                 company_shipping_address:
                     type: object
-                    description: >-
-                        Company shipping from Address, refer Shipping Address Object for
-                        parameters
+                    description:
+                        "Company shipping from Address, refer Shipping Address Object\
+                        \ for parameters"
                     allOf:
                         - $ref: '#/components/schemas/ShippingAddressV2'
                 einvoice:
@@ -3858,10 +3855,10 @@ components:
                 amount:
                     type: number
                     description: Payment Amount
-                    example: 100
+                    example: 100.0
                 method:
                     type: string
-                    description: Payment method, use only specified values
+                    description: 'Payment method, use only specified values'
                     example: upi
                     enum:
                         - cash
@@ -3876,10 +3873,10 @@ components:
                     example: Payment notes
                 bank_details:
                     type: object
-                    description: >-
-                        Bank Details, refer Bank Details Object below for parameters, If
-                        account_number, ifsc matched with existing bank details, it will be
-                        used, else new bank details will be added to your swipe account
+                    description:
+                        "Bank Details, refer Bank Details Object below for parameters,\
+                        \ If account_number, ifsc matched with existing bank details, it will\
+                        \ be used, else new bank details will be added to your swipe account"
                     allOf:
                         - $ref: '#/components/schemas/BankDetails'
         DocCreateResponseV2:
@@ -3938,7 +3935,7 @@ components:
                     description: Phone number
                     example: '1234567890'
                 email:
-                    pattern: ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+(\.[a-zA-Z]{2,5})+$
+                    pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+(\\.[a-zA-Z]{2,5})+$"
                     type: string
                     description: Email address
                     example: reddi@reddi.reddi
@@ -3947,7 +3944,7 @@ components:
                     description: Discount
                     example: 10
                 gstin:
-                    pattern: ^(|[0-9A-Z]{15})$
+                    pattern: '^(|[0-9A-Z]{15})$'
                     type: string
                     description: GSTIN
                     example: 27AARCS7202C1ZD
@@ -3975,7 +3972,7 @@ components:
                         $ref: '#/components/schemas/AddressV2'
                 opening_balance_type:
                     type: integer
-                    description: Credit[0] / Debit[1]
+                    description: 'Credit[0] / Debit[1]'
                     example: 1
                 dial_code:
                     type: string
@@ -3996,7 +3993,7 @@ components:
                 cc_emails:
                     type: string
                     description: CC email addresses
-                    example: reddi@reddi.reddi,acb.a@bcd.con
+                    example: 'reddi@reddi.reddi,acb.a@bcd.con'
                 status:
                     type: string
                     description: Status
@@ -4010,9 +4007,9 @@ components:
             properties:
                 addr_id:
                     type: integer
-                    description: >-
-                        Address ID.  It will automatically update the existing address if
-                        the address ID already exists.
+                    description:
+                        Address ID.  It will automatically update the existing address
+                        if the address ID already exists.
                     example: -1
                 address_line1:
                     type: string
@@ -4032,9 +4029,7 @@ components:
                     example: ''
                 state:
                     type: string
-                    description: >-
-                        State. You can copy the state details from
-                        https://developers.getswipe.in/api-reference/references#state-details
+                    description: State. You can copy the state details from https://developers.getswipe.in/api-reference/references#state-details
                     example: State Name
                     enum:
                         - JAMMU AND KASHMIR
@@ -4077,9 +4072,7 @@ components:
                         - OTHER TERRITORY
                 country:
                     type: string
-                    description: >-
-                        Country. You can copy the country details from
-                        https://developers.getswipe.in/api-reference/references#country-array
+                    description: Country. You can copy the country details from https://developers.getswipe.in/api-reference/references#country-array
                     example: India
                     enum:
                         - Afghanistan
@@ -4120,8 +4113,8 @@ components:
                         - China
                         - Colombia
                         - Comoros
-                        - Congo, Democratic Republic of the
-                        - Congo, Republic of the
+                        - 'Congo, Democratic Republic of the'
+                        - 'Congo, Republic of the'
                         - Costa Rica
                         - Croatia
                         - Cuba
@@ -4170,8 +4163,8 @@ components:
                         - Kazakhstan
                         - Kenya
                         - Kiribati
-                        - Korea, North
-                        - Korea, South
+                        - 'Korea, North'
+                        - 'Korea, South'
                         - Kosovo
                         - Kuwait
                         - Kyrgyzstan
@@ -4352,7 +4345,7 @@ components:
                 amount_pending:
                     type: number
                     description: Amount pending
-                    example: 0
+                    example: 0.0
                 balance:
                     type: number
                     description: Balance as of this record
@@ -4364,7 +4357,7 @@ components:
                 created_time:
                     type: string
                     description: 'Created Time of the Payment [YYYY-MM-DD HH:MM:SS] GMT '
-                    example: '2024-06-13T10:08:13.000Z'
+                    example: 2024-06-13 10:08:13
                 mode:
                     type: string
                     description: Payment Mode
@@ -4384,7 +4377,7 @@ components:
                 total_amount:
                     type: number
                     description: Total Amount
-                    example: 100
+                    example: 100.0
         CustomerMappingResponseV2:
             type: object
             properties:
@@ -4522,11 +4515,11 @@ components:
             properties:
                 id:
                     type: string
-                    description: >-
-                        Unique id for each item. If a new id  is sent, a new Item with the
-                        below details will be automatically created. if existing Item id is
-                        sent the details will not override the original item details. They
-                        will be applicable only to the current invoice
+                    description:
+                        "Unique id for each item. If a new id  is sent, a new Item\
+                        \ with the below details will be automatically created. if existing Item\
+                        \ id is sent the details will not override the original item details.\
+                        \ They will be applicable only to the current invoice"
                     example: ITEM123
                 name:
                     type: string
@@ -4535,23 +4528,23 @@ components:
                 quantity:
                     type: number
                     description: Current Quantity
-                    example: 1
+                    example: 1.0
                 unit_price:
                     type: number
                     description: Price per item without Tax
-                    example: 100
+                    example: 100.0
                 tax_rate:
                     type: number
                     description: Tax percentage for each item . Only valid tax rates are accepted
-                    example: 18
+                    example: 18.0
                 price_with_tax:
                     type: number
                     description: Price per item with Tax
-                    example: 118
+                    example: 118.0
                 discount_percent:
                     type: number
                     description: Default Discount Percent
-                    example: 10
+                    example: 10.0
                 description:
                     type: string
                     description: Item Description
