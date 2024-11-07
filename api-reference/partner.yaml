@@ -702,7 +702,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProdductResponse'
+                                $ref: '#/components/schemas/ProductResponse'
                 '400':
                     description: Validation Error
                     content:
@@ -733,7 +733,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProdductResponse'
+                                $ref: '#/components/schemas/ProductResponse'
                 '400':
                     description: Validation Error
                     content:
@@ -809,7 +809,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProdductResponse'
+                                $ref: '#/components/schemas/ProductResponse'
                 '400':
                     description: Error in mapping Item List
                     content:
@@ -891,7 +891,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProdductResponse'
+                                $ref: '#/components/schemas/ProductResponse'
                 '400':
                     description: Item not found
                     content:
@@ -1394,6 +1394,90 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/DocCreateResponseV2'
             x-codegen-request-body-name: payload
+    /v2/doc/list:
+        get:
+            tags:
+                - Document V2
+            summary: List of documents
+            operationId: v2_get_transactions
+            parameters:
+                - name: document_type
+                  in: query
+                  required: true
+                  schema:
+                      type: string
+                      default: invoice
+                      enum:
+                          - invoice
+                          - purchase
+                          - pro_forma_invoice
+                          - estimate
+                          - sales_return
+                          - purchase_return
+                          - delivery_challan
+                          - purchase_order
+                - name: start_date
+                  in: query
+                  description: 'Start date for the list, [DD-MM-YYY]'
+                  required: true
+                  schema:
+                      type: string
+                      default: 01-01-2024
+                - name: end_date
+                  in: query
+                  description: 'End date for the list, [DD-MM-YYY]'
+                  required: true
+                  schema:
+                      type: string
+                      default: 31-12-2024
+                - name: payment_status
+                  in: query
+                  description: Filter list based on payment status of the document.
+                  schema:
+                      type: string
+                      default: all
+                      enum:
+                          - all
+                          - pending
+                          - paid
+                          - cancelled
+                - name: num_records
+                  in: query
+                  description: Number of records to fetch max(100)
+                  schema:
+                      type: string
+                      default: '10'
+                - name: page
+                  in: query
+                  description: Page number
+                  schema:
+                      type: integer
+                      default: 1
+            responses:
+                '200':
+                    description: Documents List fetched successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListTransactionsV2'
+                '400':
+                    description: Error in fetching documents list
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocListErrorResponse'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocListErrorResponse'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocListErrorResponse'
     /v2/doc/pdf/{doc_hash_id}:
         get:
             tags:
@@ -1430,11 +1514,60 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/DocResponseV2'
     /v2/doc/{doc_hash_id}:
+        get:
+            tags:
+                - Document V2
+            summary: Get a document
+            operationId: v2_get_invoice
+            parameters:
+                - name: doc_hash_id
+                  in: path
+                  description: The hash id of the document to be cancelled
+                  required: true
+                  schema:
+                      type: string
+                - name: cancel_einvoice
+                  in: query
+                  description: Set to 1 if you want to cancel a document with e-invoice
+                  schema:
+                      type: integer
+                      default: 0
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetInvoice'
+                '400':
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocResponseV2'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocResponseV2'
+                '404':
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocResponseV2'
+                '500':
+                    description: Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DocResponseV2'
         delete:
             tags:
                 - Document V2
             summary: Cancel a document
-            operationId: v2_delete_cancel_invoice
+            operationId: v2_delete_invoice
             parameters:
                 - name: doc_hash_id
                   in: path
@@ -1517,6 +1650,71 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/PaymentResponseV2'
             x-codegen-request-body-name: payload
+    /v2/payment/list:
+        get:
+            tags:
+                - Payment V2
+            summary: List of documents
+            operationId: v2_get_timeline
+            parameters:
+                - name: start_date
+                  in: query
+                  description: 'Start date for the list, [DD-MM-YYY]'
+                  required: true
+                  schema:
+                      type: string
+                      default: 01-01-2024
+                - name: end_date
+                  in: query
+                  description: 'End date for the list, [DD-MM-YYY]'
+                  required: true
+                  schema:
+                      type: string
+                      default: 31-12-2024
+                - name: status
+                  in: query
+                  description: Filter list based on active status of the payment
+                  required: true
+                  schema:
+                      type: string
+                      default: success
+                - name: num_records
+                  in: query
+                  description: Number of records to fetch
+                  schema:
+                      type: integer
+                      default: 10
+                - name: page
+                  in: query
+                  description: Page number
+                  schema:
+                      type: integer
+                      default: 1
+            responses:
+                '200':
+                    description: Payment details fetched successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListTransactions'
+                '400':
+                    description: Error in fetching payment details
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PaymentListErrorResponse'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PaymentListErrorResponse'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PaymentListErrorResponse'
     /v2/product:
         put:
             tags:
@@ -1902,10 +2100,9 @@ components:
             properties:
                 id:
                     type: string
-                    description: |-
-                        Unique id for each customer. If a new id  is sent, a new Customer with the below details will be automatically created.
-                                                                              If existing Customer id is sent the details will not override the original customer details.
-                                                                              They will be applicable only to the current invoice
+                    description:
+                        "Unique id for each customer. If a new id  is sent, a new Customer\
+                        \ with the below details will be automatically created."
                     example: CUST123
                 name:
                     type: string
@@ -1919,18 +2116,10 @@ components:
                     type: string
                     description: Customer Phone Number
                     example: '1234567890'
-                company_name:
-                    type: string
-                    description: Company Name
-                    example: Company Name
                 email:
                     type: string
                     description: Customer Email
                     example: johndoe@example.com
-                gstin:
-                    type: string
-                    description: GSTIN
-                    example: 27AARCS7202C1ZD
         Party:
             required:
                 - id
@@ -2303,12 +2492,12 @@ components:
                     type: string
                     description: 'Start Time [DD-MM-YYYY]'
                     format: date
-                    example: 1900-08-17
+                    example: 0019-08-17
                 end_time:
                     type: string
                     description: 'End Time [DD-MM-YYYY]'
                     format: date
-                    example: 1900-08-18
+                    example: 0019-08-18
                 repeat:
                     type: integer
                     description: 'Repeat in value, Frequency of the repetition '
@@ -2956,6 +3145,15 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
+        CustomerGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                customer_details:
+                    $ref: '#/components/schemas/BaseCustomer'
         CustomerResponse:
             type: object
             properties:
@@ -2967,15 +3165,6 @@ components:
                     type: string
                     description: Response message
                     example: Customer added successfully
-        CustomerGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                customer_details:
-                    $ref: '#/components/schemas/BaseCustomer'
         Payment_GET_Response:
             type: object
             properties:
@@ -3356,7 +3545,16 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
-        ProdductResponse:
+        ProductGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                item:
+                    $ref: '#/components/schemas/Item'
+        ProductResponse:
             type: object
             properties:
                 success:
@@ -3367,15 +3565,6 @@ components:
                     type: string
                     description: Response message
                     example: Product added successfully
-        ProductGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                item:
-                    $ref: '#/components/schemas/Item'
         ListItemMapModel:
             required:
                 - item_mapping
@@ -3917,6 +4106,281 @@ components:
                 qr_code:
                     type: string
                     description: QR Code
+        DocListErrorResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: true
+                    default: true
+                message:
+                    type: string
+                    description: Success Message
+                    example: Message
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: ''
+                errors:
+                    type: object
+                    properties: {}
+                    description: Error details
+                data:
+                    type: object
+                    properties: {}
+                    description: Data
+        ListTransactionsV2:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                message:
+                    type: string
+                    description: Message
+                    example: Details Fetched
+                error_code:
+                    type: string
+                    description: Error code
+                    example: ''
+                errors:
+                    type: object
+                    properties: {}
+                    description: Error details
+                data:
+                    $ref: '#/components/schemas/ListTransactionData'
+        ListTransactionData:
+            type: object
+            properties:
+                transactions:
+                    type: array
+                    description: List of transactions
+                    items:
+                        $ref: '#/components/schemas/TransactionListModelV2'
+                total_records:
+                    type: integer
+                    description: Total number of records
+                    example: 10
+        TransactionListModelV2:
+            type: object
+            properties:
+                amount_paid:
+                    type: number
+                    description: Amount Paid for the document
+                    example: 28.0
+                amount_pending:
+                    type: number
+                    description: Remaining amount to be paid for the document
+                    example: 90.0
+                customer:
+                    type: object
+                    description: Customer Details for the document
+                    allOf:
+                        - $ref: '#/components/schemas/CustomerV2'
+                due_date:
+                    type: string
+                    description: 'Transaction date [DD-MM-YYYY]'
+                    example: 11-06-2024
+                invoice_date:
+                    type: string
+                    description: 'Transaction date [DD-MM-YYYY]'
+                    example: 11-06-2024
+                is_created_by_recurring:
+                    type: integer
+                    description: Is the invoice created from subscriptions
+                    example: 0
+                net_amount:
+                    type: number
+                    description: Net amount of the transaction
+                    example: 100.0
+                hash_id:
+                    type: string
+                    description: Hash id for the document
+                notes:
+                    type: string
+                    description: Notes for the document
+                payment_status:
+                    type: string
+                    description: Payment status of the document
+                    example: paid
+                    enum:
+                        - paid
+                        - pending
+                        - cancelled
+                payments:
+                    type: array
+                    description: List of payments recorded for this document
+                    items:
+                        $ref: '#/components/schemas/PaymentDocListV2'
+                serial_number:
+                    type: string
+                    description: Invoice number assigned to document
+                    example: INV-12
+                tax_amount:
+                    type: number
+                    description: Tax amount of the transaction
+                    example: 18.0
+                total_amount:
+                    type: number
+                    description: Total amount of the transaction
+                    example: 118.0
+                total_discount:
+                    type: number
+                    description: Discount given on this document
+                    example: 100.0
+        CustomerV2:
+            required:
+                - id
+                - name
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: Unique id for each party.
+                    example: CUST123
+                name:
+                    type: string
+                    description: Name of the Party
+                    example: John Doe
+                country_code:
+                    type: string
+                    description: Party Phone Number Country code
+                    example: '91'
+                phone_number:
+                    type: string
+                    description: Party Phone Number
+                    example: '1234567890'
+                company_name:
+                    type: string
+                    description: Company Name
+                    example: Company Name
+                email:
+                    type: string
+                    description: Party Email
+                    example: johndoe@example.com
+                gstin:
+                    type: string
+                    description: GSTIN
+                    example: 27AARCS7202C1ZD
+        PaymentDocListV2:
+            type: object
+            properties:
+                settled_amount:
+                    type: number
+                    description: Amount settled for this document
+                    example: 5000.0
+                payment_date:
+                    type: string
+                    description: Date of the payment recorded as per the system
+                    example: 14-10-2022
+                payment_mode:
+                    type: string
+                    description: Mode of the payement
+                    example: UPI
+                bank_details:
+                    type: object
+                    description: 'Bank Details, associated with respective payment mode'
+                    allOf:
+                        - $ref: '#/components/schemas/BankDetails'
+        GetInvoice:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                message:
+                    type: string
+                    description: Message
+                    example: Details Fetched
+                error_code:
+                    type: string
+                    description: Error code
+                    example: ''
+                errors:
+                    type: object
+                    properties: {}
+                    description: Error details
+                data:
+                    $ref: '#/components/schemas/GetTransaction'
+        GetTransaction:
+            type: object
+            properties:
+                invoice_details:
+                    $ref: '#/components/schemas/TransactionModelV2'
+        TransactionModelV2:
+            type: object
+            properties:
+                amount_paid:
+                    type: number
+                    description: Amount Paid for the document
+                    example: 28.0
+                amount_pending:
+                    type: number
+                    description: Remaining amount to be paid for the document
+                    example: 90.0
+                customer:
+                    type: object
+                    description: Customer Details for the document
+                    allOf:
+                        - $ref: '#/components/schemas/CustomerV2'
+                due_date:
+                    type: string
+                    description: 'Transaction date [DD-MM-YYYY]'
+                    example: 11-06-2024
+                invoice_date:
+                    type: string
+                    description: 'Transaction date [DD-MM-YYYY]'
+                    example: 11-06-2024
+                is_created_by_recurring:
+                    type: integer
+                    description: Is the invoice created from subscriptions
+                    example: 0
+                net_amount:
+                    type: number
+                    description: Net amount of the transaction
+                    example: 100.0
+                hash_id:
+                    type: string
+                    description: Hash id for the document
+                notes:
+                    type: string
+                    description: Notes for the document
+                payment_status:
+                    type: string
+                    description: Payment status of the document
+                    example: paid
+                    enum:
+                        - paid
+                        - pending
+                        - cancelled
+                payments:
+                    type: array
+                    description: List of payments recorded for this document
+                    items:
+                        $ref: '#/components/schemas/PaymentDocListV2'
+                serial_number:
+                    type: string
+                    description: Invoice number assigned to document
+                    example: INV-12
+                tax_amount:
+                    type: number
+                    description: Tax amount of the transaction
+                    example: 18.0
+                total_amount:
+                    type: number
+                    description: Total amount of the transaction
+                    example: 118.0
+                total_discount:
+                    type: number
+                    description: Discount given on this document
+                    example: 100.0
+                items:
+                    type: array
+                    description: List of items in the document
+                    items:
+                        $ref: '#/components/schemas/DocItem'
         BaseCustomerV2:
             required:
                 - name
@@ -4429,6 +4893,129 @@ components:
                     type: string
                     description: Serial Number
                     example: INV-123
+        PaymentListErrorResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: false
+                error_code:
+                    type: string
+                    description: Error code
+                    example: ''
+                message:
+                    type: string
+                    description: Error message
+                    example: ''
+                errors:
+                    type: object
+                    properties: {}
+                    description: Errors
+                data:
+                    type: object
+                    properties: {}
+                    description: Data
+        ListTransactions:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                message:
+                    type: string
+                    description: Response message
+                    example: Subscription List fetched successfully
+                error_code:
+                    type: string
+                    description: Error code
+                    example: ''
+                errors:
+                    type: object
+                    properties: {}
+                    description: Errors
+                data:
+                    $ref: '#/components/schemas/PaymentList'
+        PaymentList:
+            type: object
+            properties:
+                transactions:
+                    type: array
+                    description: List of transactions
+                    items:
+                        $ref: '#/components/schemas/PaymentTransactionModel'
+                total_records:
+                    type: integer
+                    description: Total number of records
+                    example: 10
+        PaymentTransactionModel:
+            type: object
+            properties:
+                total_amount:
+                    type: number
+                    description: Amount of Payment
+                    example: 1000.0
+                amount_remaining:
+                    type: string
+                    description: Remaining amount after the settlement
+                    example: '900'
+                bank_details:
+                    type: object
+                    description: Bank Details of payment for as document
+                    allOf:
+                        - $ref: '#/components/schemas/BankDetails'
+                customer:
+                    type: object
+                    description: Customer Details for the document
+                    allOf:
+                        - $ref: '#/components/schemas/Customer'
+                payment_date:
+                    type: string
+                    description: 'Payment date [DD-MM-YYYY]'
+                    example: 11-06-2024
+                exclusive_notes:
+                    type: string
+                    description: Internal notes for the payment
+                linked_docs:
+                    type: array
+                    description: List of documents linked to this payment
+                    items:
+                        $ref: '#/components/schemas/LinkedDocs'
+                notes:
+                    type: string
+                    description: Notes for the document
+                payment_mode:
+                    type: string
+                    description: Payment mode of the recorded payment
+                    example: Cash
+                payment_type:
+                    type: string
+                    description: Payment flow of the recorded payment
+                    example: in
+                status:
+                    type: string
+                    description: Active status of the payment
+                    example: success
+                created_by:
+                    type: string
+                    description: Document created by
+                    example: Manoj
+        LinkedDocs:
+            type: object
+            properties:
+                amount_settled:
+                    type: number
+                    description: 'Amount settled for the document, from the payment'
+                    example: 100.0
+                serial_number:
+                    type: string
+                    description: Invoice number assigned to document
+                    example: INV-12
+                document_type:
+                    type: string
+                    description: Type of document
+                    example: invoice
         ProductResponseV2:
             type: object
             properties:
