@@ -1522,16 +1522,10 @@ paths:
             parameters:
                 - name: doc_hash_id
                   in: path
-                  description: The hash id of the document to be cancelled
+                  description: The hash id of the document to be fetched
                   required: true
                   schema:
                       type: string
-                - name: cancel_einvoice
-                  in: query
-                  description: Set to 1 if you want to cancel a document with e-invoice
-                  schema:
-                      type: integer
-                      default: 0
             responses:
                 '200':
                     description: Success
@@ -1567,7 +1561,7 @@ paths:
             tags:
                 - Document V2
             summary: Cancel a document
-            operationId: v2_delete_invoice
+            operationId: delete_invoice
             parameters:
                 - name: doc_hash_id
                   in: path
@@ -3847,7 +3841,7 @@ components:
                     type: string
                     description: Serial Number
                     example: INV-123
-                payment_status:
+                status:
                     type: string
                     description: Status
                     example: active
