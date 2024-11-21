@@ -1367,6 +1367,88 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/BaseDocumentV2'
+                        examples:
+                            custom_columns:
+                                value:
+                                    document_type: invoice
+                                    document_date: '15-11-2024'
+                                    party:
+                                        id: CUST123
+                                        type: customer
+                                        name: John Doe
+                                        country_code: '91'
+                                        phone_number: '1234567890'
+                                        company_name: Company Name
+                                        email: johndoe@example.com
+                                        gstin: 27AARCS7202C1ZD
+                                    shipping_address:
+                                        addr_id: 1
+                                        address_line1: 123 Street
+                                        address_line2: Apt 4B
+                                        city: Hyderabad City
+                                        state: TELANGANA
+                                        country: India
+                                        pincode: '500032'
+                                    billing_address:
+                                        addr_id: 1
+                                        address_line1: 123 Street
+                                        address_line2: Apt 4B
+                                        city: Hyderabad City
+                                        state: TELANGANA
+                                        country: India
+                                        pincode: '500032'
+                                    due_date: '15-11-2024'
+                                    reference: Reference Text
+                                    notes: Notes for the document
+                                    terms: Terms and Conditions
+                                    items:
+                                        - id: ITEM123455667ghg
+                                          name: Item Namgergggree
+                                          quantity: 1.0
+                                          unit_price: 200.0
+                                          tax_rate: 18.0
+                                          price_with_tax: 236.0
+                                          net_amount: 200.0
+                                          total_amount: 236.0
+                                          discount_percent: 0
+                                          discount_amount: 0.0
+                                          description: Item Description
+                                          hsn_code: '1234'
+                                          item_type: Product
+                                          unit: kg
+                                          category: Electronics
+                                          custom_columns:
+                                              - label: Weight
+                                                value: '1236'
+                                        - id: ITEM123fgd4vh5
+                                          name: Item Name12hfdfdf345
+                                          quantity: 1.0
+                                          unit_price: 200.0
+                                          tax_rate: 18.0
+                                          price_with_tax: 236.0
+                                          net_amount: 200.0
+                                          total_amount: 236.0
+                                          discount_percent: 0
+                                          discount_amount: 0.0
+                                          description: Item Description 12345
+                                          hsn_code: '1234'
+                                          item_type: Product
+                                          unit: kg
+                                          category: Electronics
+                                          custom_columns:
+                                              - label: abcd
+                                                value: '45'
+                                              - label: Weight
+                                                value: '1'
+                                    payments:
+                                        - amount: 100.0
+                                          method: upi
+                                          notes: Payment notes
+                                          bank_details:
+                                              account_number: '1234567890'
+                                              ifsc: SBIN0000001
+                                              bank_name: State Bank of India
+                                              branch: Mumbai
                 required: true
             responses:
                 '200':
@@ -2307,12 +2389,7 @@ components:
                     example: 100.0
                 total_amount:
                     type: number
-                    description:
-                        "Item total amount (Net Amount + Tax).\n                  \
-                        \         We calculate the discount amount by multiplying the item's quantity,\
-                        \ unit price, and discount percentage. If a discount amount is provided\
-                        \ instead, we reverse-calculate the percentage. If no discount is given,\
-                        \ it is set to 0.\n                        "
+                    description: Item total amount (Net Amount + Tax)
                     example: 118.0
                 discount_percent:
                     type: number
@@ -2328,7 +2405,7 @@ components:
                     example: Item Description
                 hsn_code:
                     type: string
-                    description: 'HSN Code. HSN Code can only be of length 4,6 & 8'
+                    description: HSN Code
                     example: '1234'
                 item_type:
                     type: string
@@ -2376,7 +2453,7 @@ components:
                         - card
                         - upi
                         - netBanking
-                        - check
+                        - cheque
                         - emi
                 notes:
                     type: string
@@ -3139,15 +3216,6 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
-        CustomerGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                customer_details:
-                    $ref: '#/components/schemas/BaseCustomer'
         CustomerResponse:
             type: object
             properties:
@@ -3159,6 +3227,15 @@ components:
                     type: string
                     description: Response message
                     example: Customer added successfully
+        CustomerGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                customer_details:
+                    $ref: '#/components/schemas/BaseCustomer'
         Payment_GET_Response:
             type: object
             properties:
@@ -3251,6 +3328,31 @@ components:
                         "Updates even if the customer id is already mapped with other\
                         \ swipe id, no customer details will be updated"
                     example: true
+        ListCustomerMapErrorModel:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                customer_mapping:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                duplicate_customer_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                duplicate_swipe_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                not_found_swipe_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                message:
+                    type: string
+                    example: Customer ID already mapped !
         ListGETResponse:
             type: object
             properties:
@@ -3310,31 +3412,6 @@ components:
                     type: string
                     description: Swipe ID assigned to the customer
                     example: '1'
-        ListCustomerMapErrorModel:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    example: false
-                customer_mapping:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                duplicate_customer_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                duplicate_swipe_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                not_found_swipe_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                message:
-                    type: string
-                    example: Customer ID already mapped !
         RecordPayment:
             required:
                 - amount
@@ -3539,15 +3616,6 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
-        ProductGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                item:
-                    $ref: '#/components/schemas/Item'
         ProductResponse:
             type: object
             properties:
@@ -3559,6 +3627,15 @@ components:
                     type: string
                     description: Response message
                     example: Product added successfully
+        ProductGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                item:
+                    $ref: '#/components/schemas/Item'
         ListItemMapModel:
             required:
                 - item_mapping
@@ -3979,7 +4056,7 @@ components:
                     type: array
                     description: 'Array of Products/Services, refer Item Object below for parameters'
                     items:
-                        $ref: '#/components/schemas/DocItem'
+                        $ref: '#/components/schemas/DocItemV2'
                 extra_discount:
                     type: number
                     description: 'Adjustment on overall invoice, doesn’t effect any tax amounts.'
@@ -4029,6 +4106,125 @@ components:
                     description: Subscription Details
                     allOf:
                         - $ref: '#/components/schemas/Subscription'
+                convert:
+                    type: object
+                    description:
+                        Convert Document. Needed only when the document is already
+                        created and you want to convert it to another document
+                    allOf:
+                        - $ref: '#/components/schemas/Convert'
+        DocItemV2:
+            required:
+                - id
+                - item_type
+                - name
+                - net_amount
+                - price_with_tax
+                - quantity
+                - total_amount
+                - unit_price
+            type: object
+            properties:
+                id:
+                    type: string
+                    description:
+                        "Unique id for each item. If a new id  is sent, a new Item\
+                        \ with the below details will be automatically created. if existing Item\
+                        \ id is sent the details will not override the original item details.\
+                        \ They will be applicable only to the current documents. Use update item\
+                        \ to actually update the item details in swipe"
+                    example: ITEM123
+                name:
+                    type: string
+                    description: Name of the Product
+                    example: Item Name
+                quantity:
+                    type: number
+                    description: Quantity
+                    example: 1.0
+                unit_price:
+                    type: number
+                    description: Price per item without Tax
+                    example: 100.0
+                tax_rate:
+                    type: number
+                    description: Tax percentage for each item . Only valid tax rates are accepted
+                    example: 18.0
+                price_with_tax:
+                    type: number
+                    description: Price per item with Tax
+                    example: 118.0
+                net_amount:
+                    type: number
+                    description: Net Amount
+                    example: 100.0
+                total_amount:
+                    type: number
+                    description:
+                        "Item total amount (Net Amount + Tax).\n                  \
+                        \         We calculate the discount amount by multiplying the item's quantity,\
+                        \ unit price, and discount percentage. If a discount amount is provided\
+                        \ instead, we reverse-calculate the percentage. If no discount is given,\
+                        \ it is set to 0.\n                        "
+                    example: 118.0
+                discount_percent:
+                    type: number
+                    description: Discount Percent
+                    example: 10.0
+                discount_amount:
+                    type: number
+                    description: 'Discount Amount, will be ignored if discount_percent is provided'
+                    example: 10.0
+                description:
+                    type: string
+                    description: Item Description
+                    example: Item Description
+                hsn_code:
+                    type: string
+                    description: 'HSN Code. HSN Code can only be of length 4,6 & 8'
+                    example: '1234'
+                item_type:
+                    type: string
+                    description: Product or Service enum
+                    example: Product
+                    enum:
+                        - Product
+                        - Service
+                unit:
+                    type: string
+                    description: item quantity unit
+                    example: kg
+                    enum:
+                        - kg
+                        - g
+                        - l
+                        - ml
+                        - m
+                        - cm
+                        - sqm
+                        - sqcm
+                        - sqft
+                        - sqkm
+                        - unit
+                category:
+                    type: string
+                    description: Category
+                    example: Electronics
+                custom_columns:
+                    type: array
+                    description: Item Custom Fields
+                    example:
+                        - label: Custom Field 1
+                          value: Value 1
+                    items:
+                        $ref: '#/components/schemas/ItemCustomFields'
+        ItemCustomFields:
+            type: object
+            properties:
+                label:
+                    type: string
+                value:
+                    type: string
         PaymentV2:
             required:
                 - amount
@@ -4048,7 +4244,7 @@ components:
                         - card
                         - upi
                         - netBanking
-                        - check
+                        - cheque
                         - emi
                 notes:
                     type: string
@@ -4062,6 +4258,26 @@ components:
                         \ be used, else new bank details will be added to your swipe account"
                     allOf:
                         - $ref: '#/components/schemas/BankDetails'
+        Convert:
+            required:
+                - convert_from
+                - hash_id
+            type: object
+            properties:
+                convert_from:
+                    type: string
+                    description: The document type which is being converted
+                    example: invoice
+                    enum:
+                        - invoice
+                        - estimate
+                        - pro_forma_invoice
+                        - sales_return
+                        - purchase_return
+                hash_id:
+                    type: string
+                    description: Hash ID
+                    example: SL123
         DocCreateResponseV2:
             type: object
             properties:
@@ -4159,14 +4375,14 @@ components:
         TransactionListModelV2:
             type: object
             properties:
-                amount_paid:
-                    type: number
-                    description: Amount Paid for the document
-                    example: 28.0
-                amount_pending:
-                    type: number
-                    description: Remaining amount to be paid for the document
-                    example: 90.0
+                serial_number:
+                    type: string
+                    description: Invoice number assigned to document
+                    example: INV-12
+                document_date:
+                    type: string
+                    description: 'Transaction date [DD-MM-YYYY]'
+                    example: 11-06-2024
                 customer:
                     type: object
                     description: Customer Details for the document
@@ -4176,10 +4392,23 @@ components:
                     type: string
                     description: 'Transaction date [DD-MM-YYYY]'
                     example: 11-06-2024
-                invoice_date:
+                amount_paid:
+                    type: number
+                    description: Amount Paid for the document
+                    example: 28.0
+                amount_pending:
+                    type: number
+                    description: Remaining amount to be paid for the document
+                    example: 90.0
+                reference:
                     type: string
-                    description: 'Transaction date [DD-MM-YYYY]'
-                    example: 11-06-2024
+                    description: Reference Text
+                notes:
+                    type: string
+                    description: Notes for the document
+                terms:
+                    type: string
+                    description: Terms and Conditions
                 is_created_by_recurring:
                     type: integer
                     description: Is the invoice created from subscriptions
@@ -4191,9 +4420,6 @@ components:
                 hash_id:
                     type: string
                     description: Hash id for the document
-                notes:
-                    type: string
-                    description: Notes for the document
                 payment_status:
                     type: string
                     description: Payment status of the document
@@ -4206,11 +4432,7 @@ components:
                     type: array
                     description: List of payments recorded for this document
                     items:
-                        $ref: '#/components/schemas/PaymentDocListV2'
-                serial_number:
-                    type: string
-                    description: Invoice number assigned to document
-                    example: INV-12
+                        $ref: '#/components/schemas/PaymentV2'
                 tax_amount:
                     type: number
                     description: Tax amount of the transaction
@@ -4257,26 +4479,6 @@ components:
                     type: string
                     description: GSTIN
                     example: 27AARCS7202C1ZD
-        PaymentDocListV2:
-            type: object
-            properties:
-                settled_amount:
-                    type: number
-                    description: Amount settled for this document
-                    example: 5000.0
-                payment_date:
-                    type: string
-                    description: Date of the payment recorded as per the system
-                    example: 14-10-2022
-                payment_mode:
-                    type: string
-                    description: Mode of the payement
-                    example: UPI
-                bank_details:
-                    type: object
-                    description: 'Bank Details, associated with respective payment mode'
-                    allOf:
-                        - $ref: '#/components/schemas/BankDetails'
         GetInvoice:
             type: object
             properties:
@@ -4306,6 +4508,23 @@ components:
         TransactionModelV2:
             type: object
             properties:
+                serial_number:
+                    type: string
+                    description: Invoice number assigned to document
+                    example: INV-12
+                document_date:
+                    type: string
+                    description: 'Transaction date [DD-MM-YYYY]'
+                    example: 11-06-2024
+                party:
+                    type: object
+                    description: Party Details for the document
+                    allOf:
+                        - $ref: '#/components/schemas/Party'
+                due_date:
+                    type: string
+                    description: 'Transaction date [DD-MM-YYYY]'
+                    example: 11-06-2024
                 amount_paid:
                     type: number
                     description: Amount Paid for the document
@@ -4314,19 +4533,20 @@ components:
                     type: number
                     description: Remaining amount to be paid for the document
                     example: 90.0
-                customer:
-                    type: object
-                    description: Customer Details for the document
-                    allOf:
-                        - $ref: '#/components/schemas/CustomerV2'
-                due_date:
+                reference:
                     type: string
-                    description: 'Transaction date [DD-MM-YYYY]'
-                    example: 11-06-2024
-                invoice_date:
+                    description: Reference Text
+                notes:
                     type: string
-                    description: 'Transaction date [DD-MM-YYYY]'
-                    example: 11-06-2024
+                    description: Notes for the document
+                terms:
+                    type: string
+                    description: Terms and Conditions
+                items:
+                    type: array
+                    description: List of items in the document
+                    items:
+                        $ref: '#/components/schemas/DocItemV2'
                 is_created_by_recurring:
                     type: integer
                     description: Is the invoice created from subscriptions
@@ -4338,9 +4558,6 @@ components:
                 hash_id:
                     type: string
                     description: Hash id for the document
-                notes:
-                    type: string
-                    description: Notes for the document
                 payment_status:
                     type: string
                     description: Payment status of the document
@@ -4353,11 +4570,7 @@ components:
                     type: array
                     description: List of payments recorded for this document
                     items:
-                        $ref: '#/components/schemas/PaymentDocListV2'
-                serial_number:
-                    type: string
-                    description: Invoice number assigned to document
-                    example: INV-12
+                        $ref: '#/components/schemas/PaymentV2'
                 tax_amount:
                     type: number
                     description: Tax amount of the transaction
@@ -4370,11 +4583,6 @@ components:
                     type: number
                     description: Discount given on this document
                     example: 100.0
-                items:
-                    type: array
-                    description: List of items in the document
-                    items:
-                        $ref: '#/components/schemas/DocItem'
         BaseCustomerV2:
             required:
                 - name
@@ -5052,6 +5260,29 @@ components:
                     description: Errors
                 data:
                     $ref: '#/components/schemas/Item'
+        ProductMappingResponseV2:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                message:
+                    type: string
+                    description: Response message
+                    example: Message
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: ''
+                errors:
+                    type: object
+                    properties: {}
+                    description: Errors
+                data:
+                    type: object
+                    properties: {}
+                    description: Data
         ListGETResponseV2:
             type: object
             properties:
@@ -5150,29 +5381,6 @@ components:
                     type: string
                     description: Swipe ID assigned to the item
                     example: '1'
-        ProductMappingResponseV2:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                message:
-                    type: string
-                    description: Response message
-                    example: Message
-                error_code:
-                    type: string
-                    description: Error Code
-                    example: ''
-                errors:
-                    type: object
-                    properties: {}
-                    description: Errors
-                data:
-                    type: object
-                    properties: {}
-                    description: Data
     responses:
         ParseError:
             description: When a mask can't be parsed
