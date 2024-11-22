@@ -1381,22 +1381,22 @@ paths:
                                         company_name: Company Name
                                         email: johndoe@example.com
                                         gstin: 27AARCS7202C1ZD
-                                    shipping_address:
-                                        addr_id: 1
-                                        address_line1: 123 Street
-                                        address_line2: Apt 4B
-                                        city: Hyderabad City
-                                        state: TELANGANA
-                                        country: India
-                                        pincode: '500032'
-                                    billing_address:
-                                        addr_id: 1
-                                        address_line1: 123 Street
-                                        address_line2: Apt 4B
-                                        city: Hyderabad City
-                                        state: TELANGANA
-                                        country: India
-                                        pincode: '500032'
+                                        shipping_address:
+                                            addr_id: 1
+                                            address_line1: 123 Street
+                                            address_line2: Apt 4B
+                                            city: Hyderabad City
+                                            state: TELANGANA
+                                            country: India
+                                            pincode: '500032'
+                                        billing_address:
+                                            addr_id: 1
+                                            address_line1: 123 Street
+                                            address_line2: Apt 4B
+                                            city: Hyderabad City
+                                            state: TELANGANA
+                                            country: India
+                                            pincode: '500032'
                                     due_date: '15-11-2024'
                                     reference: Reference Text
                                     notes: Notes for the document
