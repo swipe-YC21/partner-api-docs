@@ -1368,6 +1368,299 @@ paths:
                         schema:
                             $ref: '#/components/schemas/BaseDocumentV2'
                         examples:
+                            basic:
+                                value:
+                                    document_type: invoice
+                                    document_date: '15-11-2024'
+                                    party:
+                                        id: CUST123
+                                        type: customer
+                                        name: John Doe
+                                        due_date: '15-11-2024'
+                                    items:
+                                        - id: ITEM123455667ghg
+                                          name: Item Namgergggree
+                                          quantity: 1.0
+                                          unit_price: 200.0
+                                          tax_rate: 18.0
+                                          price_with_tax: 236.0
+                                          net_amount: 200.0
+                                          total_amount: 236.0
+                                          item_type: Product
+                            advanced:
+                                value:
+                                    document_type: invoice
+                                    document_date: '15-11-2024'
+                                    party:
+                                        id: CUST123
+                                        type: customer
+                                        name: John Doe
+                                        country_code: '91'
+                                        phone_number: '1234567890'
+                                        company_name: Company Name
+                                        email: johndoe@example.com
+                                        gstin: 27AARCS7202C1ZD
+                                        shipping_address:
+                                            addr_id: 1
+                                            address_line1: 123 Street
+                                            address_line2: Apt 4B
+                                            city: Hyderabad City
+                                            state: TELANGANA
+                                            country: India
+                                            pincode: '500032'
+                                        billing_address:
+                                            addr_id: 1
+                                            address_line1: 123 Street
+                                            address_line2: Apt 4B
+                                            city: Hyderabad City
+                                            state: TELANGANA
+                                            country: India
+                                            pincode: '500032'
+                                    due_date: '15-11-2024'
+                                    reference: Reference Text
+                                    notes: Notes for the document
+                                    terms: Terms and Conditions
+                                    items:
+                                        - id: ITEM123455667ghg
+                                          name: Item Namgergggree
+                                          quantity: 1.0
+                                          unit_price: 200.0
+                                          tax_rate: 18.0
+                                          price_with_tax: 236.0
+                                          net_amount: 200.0
+                                          total_amount: 236.0
+                                          discount_percent: 0
+                                          discount_amount: 0.0
+                                          description: Item Description
+                                          hsn_code: '1234'
+                                          item_type: Product
+                                          unit: kg
+                                          category: Electronics
+                                        - id: ITEM123fgd4vh5
+                                          name: Item Name12hfdfdf345
+                                          quantity: 1.0
+                                          unit_price: 200.0
+                                          tax_rate: 18.0
+                                          price_with_tax: 236.0
+                                          net_amount: 200.0
+                                          total_amount: 236.0
+                                          discount_percent: 0
+                                          discount_amount: 0.0
+                                          description: Item Description 12345
+                                          hsn_code: '1234'
+                                          item_type: Product
+                                          unit: kg
+                                          category: Electronics
+                                    payments:
+                                        - amount: 100.0
+                                          method: upi
+                                          notes: Payment notes
+                                          bank_details:
+                                              account_number: '1234567890'
+                                              ifsc: SBIN0000001
+                                              bank_name: State Bank of India
+                                              branch: Mumbai
+                            einvoice:
+                                value:
+                                    document_type: invoice
+                                    document_date: '15-11-2024'
+                                    party:
+                                        id: '236'
+                                        name: Vasu
+                                        type: customer
+                                        country_code: '91'
+                                        phone_number: '1234567890'
+                                        email: johndoe@example.com
+                                        company_name: Vason Company
+                                        gstin: 36ACZPT7516P1ZA
+                                        shipping_address:
+                                            addr_id: 1
+                                            address_line1: 5-11, vema street
+                                            address_line2: ''
+                                            city: Hyderabad South East
+                                            state: TELANGANA
+                                            country: India
+                                            pincode: '500030'
+                                        billing_address:
+                                            addr_id: 1
+                                            address_line1: 5-11, vema street
+                                            address_line2: ''
+                                            city: Hyderabad
+                                            state: TELANGANA
+                                            country: India
+                                            pincode: '500032'
+                                    due_date: '15-11-2024'
+                                    reference: Reference Text
+                                    notes: Notes for the document
+                                    terms: Terms and Conditions
+                                    items:
+                                        - id: ac_1.56
+                                          name: Ac 1.56 Ton 5 Star
+                                          quantity: 1
+                                          unit_price: 200
+                                          tax_rate: 18
+                                          price_with_tax: 236
+                                          discount_percent: 0
+                                          discount_amount: 0
+                                          net_amount: 200
+                                          total_amount: 236
+                                          description: Item Description
+                                          hsn_code: '04022910'
+                                          item_type: Product
+                                          unit: kg
+                                          category: Electronics
+                                    payments:
+                                        - amount: 100.0
+                                          method: upi
+                                          notes: Payment notes
+                                          bank_details:
+                                              account_number: '1234567890'
+                                              ifsc: SBIN0000001
+                                              bank_name: State Bank of India
+                                              branch: Mumbai
+                                    einvoice: true
+                            export:
+                                value:
+                                    document_type: invoice
+                                    document_date: '15-11-2024'
+                                    party:
+                                        id: CUST123
+                                        type: customer
+                                        name: John Doe
+                                        country_code: '91'
+                                        phone_number: '1234567890'
+                                        company_name: Company Name
+                                        email: johndoe@example.com
+                                        gstin: 27AARCS7202C1ZD
+                                        shipping_address:
+                                            addr_id: 1
+                                            address_line1: 123 Street
+                                            address_line2: Apt 4B
+                                            city: Hyderabad City
+                                            state: TELANGANA
+                                            country: India
+                                            pincode: '500032'
+                                        billing_address:
+                                            addr_id: 1
+                                            address_line1: 123 Street
+                                            address_line2: Apt 4B
+                                            city: Hyderabad City
+                                            state: TELANGANA
+                                            country: India
+                                            pincode: '500032'
+                                    due_date: '15-11-2024'
+                                    reference: Reference Text
+                                    notes: Notes for the document
+                                    terms: Terms and Conditions
+                                    items:
+                                        - id: ITEM123455667ghg
+                                          name: Item Namgergggree
+                                          quantity: 1.0
+                                          unit_price: 200.0
+                                          tax_rate: 18.0
+                                          price_with_tax: 236.0
+                                          net_amount: 200.0
+                                          total_amount: 236.0
+                                          discount_percent: 0
+                                          discount_amount: 0.0
+                                          description: Item Description
+                                          hsn_code: '1234'
+                                          item_type: Product
+                                          unit: kg
+                                          category: Electronics
+                                        - id: ITEM123fgd4vh5
+                                          name: Item Name12hfdfdf345
+                                          quantity: 1.0
+                                          unit_price: 200.0
+                                          tax_rate: 18.0
+                                          price_with_tax: 236.0
+                                          net_amount: 200.0
+                                          total_amount: 236.0
+                                          discount_percent: 0
+                                          discount_amount: 0.0
+                                          description: Item Description 12345
+                                          hsn_code: '1234'
+                                          item_type: Product
+                                          unit: kg
+                                          category: Electronics
+                                    payments:
+                                        - amount: 100.0
+                                          method: upi
+                                          notes: Payment notes
+                                          bank_details:
+                                              account_number: '1234567890'
+                                              ifsc: SBIN0000001
+                                              bank_name: State Bank of India
+                                              branch: Mumbai
+                                    is_export: true
+                                    export_invoice_details:
+                                        shipping_bill_date: '27-08-2024'
+                                        shipping_bill_number: ''
+                                        shipping_port_code: ''
+                                        export_type: SEZ without IGST Payment
+                                        conversion_factor: 1
+                                        country_id: India
+                            convert_document:
+                                value:
+                                    document_type: sales_return
+                                    document_date: '15-11-2024'
+                                    party:
+                                        id: '236'
+                                        name: Vasu
+                                        type: customer
+                                        country_code: '91'
+                                        phone_number: '1234567890'
+                                        email: johndoe@example.com
+                                        company_name: Vason Company
+                                        gstin: 36ACZPT7516P1ZA
+                                        shipping_address:
+                                            addr_id: 1
+                                            address_line1: 5-11, vema street
+                                            address_line2: ''
+                                            city: Hyderabad South East
+                                            state: TELANGANA
+                                            country: India
+                                            pincode: '500030'
+                                        billing_address:
+                                            addr_id: 1
+                                            address_line1: 5-11, vema street
+                                            address_line2: ''
+                                            city: Hyderabad
+                                            state: TELANGANA
+                                            country: India
+                                            pincode: '500032'
+                                    due_date: '15-11-2024'
+                                    reference: Reference Text
+                                    notes: Notes for the document
+                                    terms: Terms and Conditions
+                                    items:
+                                        - id: ac_1.56
+                                          name: Ac 1.56 Ton 5 Star
+                                          quantity: 1
+                                          unit_price: 200
+                                          tax_rate: 18
+                                          price_with_tax: 236
+                                          discount_percent: 0
+                                          discount_amount: 0
+                                          net_amount: 200
+                                          total_amount: 236
+                                          description: Item Description
+                                          hsn_code: '04022910'
+                                          item_type: Product
+                                          unit: kg
+                                          category: Electronics
+                                    payments:
+                                        - amount: 100.0
+                                          method: upi
+                                          notes: Payment notes
+                                          bank_details:
+                                              account_number: '1234567890'
+                                              ifsc: SBIN0000001
+                                              bank_name: State Bank of India
+                                              branch: Mumbai
+                                    convert:
+                                        convert_from: invoice
+                                        hash_id: SLxrwOh7QQnW
                             custom_columns:
                                 value:
                                     document_type: invoice
