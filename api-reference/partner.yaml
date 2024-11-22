@@ -3509,6 +3509,15 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
+        CustomerGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                customer_details:
+                    $ref: '#/components/schemas/BaseCustomer'
         CustomerResponse:
             type: object
             properties:
@@ -3520,15 +3529,6 @@ components:
                     type: string
                     description: Response message
                     example: Customer added successfully
-        CustomerGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                customer_details:
-                    $ref: '#/components/schemas/BaseCustomer'
         Payment_GET_Response:
             type: object
             properties:
@@ -3621,31 +3621,6 @@ components:
                         "Updates even if the customer id is already mapped with other\
                         \ swipe id, no customer details will be updated"
                     example: true
-        ListCustomerMapErrorModel:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    example: false
-                customer_mapping:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                duplicate_customer_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                duplicate_swipe_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                not_found_swipe_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                message:
-                    type: string
-                    example: Customer ID already mapped !
         ListGETResponse:
             type: object
             properties:
@@ -3705,6 +3680,31 @@ components:
                     type: string
                     description: Swipe ID assigned to the customer
                     example: '1'
+        ListCustomerMapErrorModel:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                customer_mapping:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                duplicate_customer_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                duplicate_swipe_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                not_found_swipe_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                message:
+                    type: string
+                    example: Customer ID already mapped !
         RecordPayment:
             required:
                 - amount
@@ -3909,6 +3909,15 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
+        ProductGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                item:
+                    $ref: '#/components/schemas/Item'
         ProductResponse:
             type: object
             properties:
@@ -3920,15 +3929,6 @@ components:
                     type: string
                     description: Response message
                     example: Product added successfully
-        ProductGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                item:
-                    $ref: '#/components/schemas/Item'
         ListItemMapModel:
             required:
                 - item_mapping
@@ -4406,6 +4406,16 @@ components:
                         created and you want to convert it to another document
                     allOf:
                         - $ref: '#/components/schemas/Convert'
+                custom_headers:
+                    type: array
+                    description:
+                        Document Custom Headers. Custom headers should already be added
+                        in Swipe Portal.
+                    example:
+                        - label: Custom Header 1
+                          value: Value 1
+                    items:
+                        $ref: '#/components/schemas/CustomHeaders'
         DocItemV2:
             required:
                 - id
@@ -4505,13 +4515,18 @@ components:
                     example: Electronics
                 custom_columns:
                     type: array
-                    description: Item Custom Fields
+                    description:
+                        Item Custom Fields. Custom fields should already be added in
+                        Swipe Portal.
                     example:
                         - label: Custom Field 1
                           value: Value 1
                     items:
                         $ref: '#/components/schemas/ItemCustomFields'
         ItemCustomFields:
+            required:
+                - label
+                - value
             type: object
             properties:
                 label:
@@ -4571,6 +4586,16 @@ components:
                     type: string
                     description: Hash ID
                     example: SL123
+        CustomHeaders:
+            required:
+                - label
+                - value
+            type: object
+            properties:
+                label:
+                    type: string
+                value:
+                    type: string
         DocCreateResponseV2:
             type: object
             properties:
@@ -5553,29 +5578,6 @@ components:
                     description: Errors
                 data:
                     $ref: '#/components/schemas/Item'
-        ProductMappingResponseV2:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                message:
-                    type: string
-                    description: Response message
-                    example: Message
-                error_code:
-                    type: string
-                    description: Error Code
-                    example: ''
-                errors:
-                    type: object
-                    properties: {}
-                    description: Errors
-                data:
-                    type: object
-                    properties: {}
-                    description: Data
         ListGETResponseV2:
             type: object
             properties:
@@ -5674,6 +5676,29 @@ components:
                     type: string
                     description: Swipe ID assigned to the item
                     example: '1'
+        ProductMappingResponseV2:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                message:
+                    type: string
+                    description: Response message
+                    example: Message
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: ''
+                errors:
+                    type: object
+                    properties: {}
+                    description: Errors
+                data:
+                    type: object
+                    properties: {}
+                    description: Data
     responses:
         ParseError:
             description: When a mask can't be parsed
