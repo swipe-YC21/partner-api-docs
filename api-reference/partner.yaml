@@ -4382,6 +4382,13 @@ components:
                         \ for parameters"
                     allOf:
                         - $ref: '#/components/schemas/ShippingAddressV2'
+                company_billing_address:
+                    type: object
+                    description:
+                        "Company billing Address, refer Billing Address Object for\
+                        \ parameters"
+                    allOf:
+                        - $ref: '#/components/schemas/ShippingAddressV2'
                 einvoice:
                     type: boolean
                     description: Generate einvoice
