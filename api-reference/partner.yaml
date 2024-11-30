@@ -1423,14 +1423,14 @@ paths:
                                     items:
                                         - id: ITEM123455667ghg
                                           name: Item Namgergggree
-                                          quantity: 1.0
-                                          unit_price: 200.0
-                                          tax_rate: 18.0
-                                          price_with_tax: 236.0
-                                          net_amount: 200.0
-                                          total_amount: 236.0
+                                          quantity: 1
+                                          unit_price: 200
+                                          tax_rate: 18
+                                          price_with_tax: 236
+                                          net_amount: 200
+                                          total_amount: 236
                                           discount_percent: 0
-                                          discount_amount: 0.0
+                                          discount_amount: 0
                                           description: Item Description
                                           hsn_code: '1234'
                                           item_type: Product
@@ -1438,21 +1438,21 @@ paths:
                                           category: Electronics
                                         - id: ITEM123fgd4vh5
                                           name: Item Name12hfdfdf345
-                                          quantity: 1.0
-                                          unit_price: 200.0
-                                          tax_rate: 18.0
-                                          price_with_tax: 236.0
-                                          net_amount: 200.0
-                                          total_amount: 236.0
+                                          quantity: 1
+                                          unit_price: 200
+                                          tax_rate: 18
+                                          price_with_tax: 236
+                                          net_amount: 200
+                                          total_amount: 236
                                           discount_percent: 0
-                                          discount_amount: 0.0
+                                          discount_amount: 0
                                           description: Item Description 12345
                                           hsn_code: '1234'
                                           item_type: Product
                                           unit: kg
                                           category: Electronics
                                     payments:
-                                        - amount: 100.0
+                                        - amount: 100
                                           method: upi
                                           notes: Payment notes
                                           bank_details:
@@ -1460,6 +1460,22 @@ paths:
                                               ifsc: SBIN0000001
                                               bank_name: State Bank of India
                                               branch: Mumbai
+                                    company_shipping_address:
+                                        addr_id: 1
+                                        address_line1: 123 Street
+                                        address_line2: Apt 4B
+                                        city: Hyderabad City
+                                        state: TELANGANA
+                                        country: India
+                                        pincode: '500032'
+                                    company_billing_address:
+                                        addr_id: 1
+                                        address_line1: 123 Street
+                                        address_line2: Apt 4B
+                                        city: Hyderabad City
+                                        state: TELANGANA
+                                        country: India
+                                        pincode: '500032'
                             einvoice:
                                 value:
                                     document_type: invoice
