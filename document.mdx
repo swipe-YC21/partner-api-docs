@@ -1,0 +1,110 @@
+---
+title: Documents
+description: Create, cancel and get document pdfs
+---
+
+We provide a comprehensive API solution for managing essential business documents such as invoices, subscriptions, pro forma invoices, sales returns, and purchase returns. Our APIs are designed to streamline your document creation, management, and retrieval processes with ease and efficiency.
+
+
+## What We Offer
+
+1. [Document Creation](https://developers.getswipe.in/api-reference/document-v2/create-a-document) : Easily generate professional invoices, pro forma invoices, sales returns, and purchase returns tailored to your business needs.
+    ### Steps to create a document:
+    Run the following in your terminal after replacing `api-key` with your API key
+    ```
+    curl --request POST \
+    --url https://app.getswipe.in/api/partner/v2/doc \
+    --header 'Authorization: <api-key>' \
+    --header 'Content-Type: application/json' \
+    --data '{
+    "document_type": "invoice",
+    "document_date": "15-11-2024",
+    "party": {
+        "id": "CUST123",
+        "type": "customer",
+        "name": "John Doe",
+        "due_date": "15-11-2024"
+    },
+    "items": [
+        {
+        "id": "ITEM123455667ghg",
+        "name": "Item Namgergggree",
+        "quantity": 1,
+        "unit_price": 200,
+        "tax_rate": 18,
+        "price_with_tax": 236,
+        "net_amount": 200,
+        "total_amount": 236,
+        "item_type": "Product"
+        }
+    ]
+    }'
+    ```
+    If your API key is valid, this api endpoint returns a 200 response with document details in a specified JSON format.
+    ### You can also manually create the documents on [Swipe Portal](https://app.getswipe.in/create/invoice)
+    <img
+    className="block "
+    src="/images/screenshots/doc_create.png"
+    alt="Hero Light"
+    />
+2. [Get Document](https://developers.getswipe.in/api-reference/document-v2/get-a-document) : Access specific product information quickly for operational needs or customer queries.
+    ### Steps to get particular document details:
+    Run the following in your terminal after replacing `api-key` with your API key and `doc_hash_id` with their corresponding document hash id.
+    ```
+    curl --request GET \
+    --url https://app.getswipe.in/api/partner/v2/doc/{doc_hash_id} \
+    --header 'Authorization: <api-key>'
+    ```
+    If your API key is valid, this api endpoint returns a 200 response with document details in a specified JSON format.
+3. [PDF Generation](https://developers.getswipe.in/api-reference/document-v2/get-document-pdf) : Access pdfs of already created documents.
+    ### Steps to get document PDFs:
+    Run the following in your terminal after replacing `api-key` with your API key and `doc_hash_id` with the document hash id received after creating the document.
+    ```
+    curl --request GET \
+    --url https://app.getswipe.in/api/partner/v2/doc/pdf/{doc_hash_id} \
+    --header 'Authorization: <api-key>'
+    ```
+    If your API key is valid, this api endpoint returns a 200 response along with pdf.
+    ### Snapshot of your document pdf
+    <img
+    className="block "
+    src="/images/screenshots/doc_pdf.png"
+    alt="Hero Light"
+    />
+
+    ### You can view the pdfs from [Swipe Portal](https://app.getswipe.in/list/sales) by clicking on **View**  Button
+    <img
+    className="block "
+    src="/images/screenshots/view_doc_pdf.png"
+    alt="Hero Light"
+    />
+4. [Document Cancellation](https://developers.getswipe.in/api-reference/document-v2/cancel-a-document) : Easily cancel your documents
+    ### Steps to cancel a document:
+    Run the following in your terminal after replacing `api-key` with your API key and `doc_hash_id` with the document hash id received after creating the document.
+    ```
+    curl --request DELETE \
+    --url https://app.getswipe.in/api/partner/v2/doc/{doc_hash_id} \
+    --header 'Authorization: <api-key>'
+    ```
+    If your API key is valid, this api endpoint returns a 200 response with document details in a specified JSON format.
+    ### Keep track of your cancelled documents on [Swipe Portal](https://app.getswipe.in/list/sales?tab=cancelled)
+    <img
+    className="block "
+    src="/images/screenshots/cancel_doc.png"
+    alt="Hero Light"
+    />
+5. [List of documents](https://developers.getswipe.in/api-reference/document-v2/list-of-documents) : Retrieve a complete list of all documents in your system based on the payment status, enabling seamless tracking and management.
+    ### Steps to get list of documents created:
+    Run the following in your terminal after replacing `api-key` with your API key.
+    ```
+    curl --request GET \
+    --url https://app.getswipe.in/api/partner/v2/doc/list \
+    --header 'Authorization: <api-key>'
+    ```
+    If your API key is valid, this api endpoint returns a 200 response with list of all the subscription details in json format.
+    ### You can keep track of all documents on [Swipe Portal](https://app.getswipe.in/list/sales)
+    <img
+    className="block "
+    src="/images/screenshots/documents.png"
+    alt="Hero Light"
+    />

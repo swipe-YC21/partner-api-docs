@@ -1,0 +1,63 @@
+---
+title: Payment
+description: Record payments
+---
+
+Log payments made by customers against their documents with accuracy and efficiency.
+
+## What We Offer
+
+1. [Record Payment](https://developers.getswipe.in/api-reference/payment-v2/record-payment) : Record payments made by customers against their documents with accuracy and efficiency
+    ### Steps to record a payment:
+    Run the following in your terminal after replacing `api-key` with your API key
+    ```
+    curl --request POST \
+    --url https://app.getswipe.in/api/partner/v2/payment \
+    --header 'Authorization: <api-key>' \
+    --header 'Content-Type: application/json' \
+    --data '{
+    "amount": 27,
+    "payment_date": "13-06-2024",
+    "bank_details": {
+        "account_number": "1234567890",
+        "ifsc": "SBIN0000001",
+        "bank_name": "State Bank of India",
+        "branch": "Mumbai"
+    },
+    "payment_mode": "UPI",
+    "notes": "",
+    "send_sms": true,
+    "send_email": true,
+    "exclusive_notes": "",
+    "customer": "CUST123",
+    "documents": [
+        {
+        "amount_paying": 27,
+        "hash_id": "SLascded"
+        }
+    ]
+    }'
+    ```
+    If your API key is valid, this api endpoint returns a 200 response with payment details in a specified JSON format.
+    ### You can also manually record the payments for respective documents on [Swipe Portal](https://app.getswipe.in/create/invoice)
+    <img
+    className="block "
+    src="/images/screenshots/record_payment.png"
+    alt="Hero Light"
+    />
+
+2. [Fetch All Payments](https://developers.getswipe.in/api-reference/payment-v2/list-of-documents) : Retrieve a complete list of all payments in your system based on the status enabling seamless tracking and management.
+    ### Steps to get list of recorded payments:
+    Run the following in your terminal after replacing `api-key` with your API key.
+    ```
+    curl --request GET \
+    --url https://app.getswipe.in/api/partner/v2/payment/list \
+    --header 'Authorization: <api-key>'
+    ```
+    If your API key is valid, this api endpoint returns a 200 response with list of all the payment details in json format.
+    ### You can check payment timeline on [Swipe Portal](https://app.getswipe.in/paymentsTimeline)
+    <img
+    className="block "
+    src="/images/screenshots/timeline.png"
+    alt="Hero Light"
+    />
