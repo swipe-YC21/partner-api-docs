@@ -1957,7 +1957,7 @@ paths:
             tags:
                 - Document V2
             summary: Cancel a document
-            operationId: delete_invoice
+            operationId: v2_delete_invoice
             parameters:
                 - name: doc_hash_id
                   in: path
@@ -2744,6 +2744,7 @@ components:
                         - sqft
                         - sqkm
                         - unit
+                        - OTH
                 category:
                     type: string
                     description: Category
@@ -4322,10 +4323,16 @@ components:
             properties:
                 serial_number:
                     type: string
-                    description:
-                        "Serial Number, if not sent will be auto generated based on\
-                        \ the default prefix."
+                    description: 'Serial Number (deprecated, please use New Serial Number)'
                     example: INV123
+                serial_number_v2:
+                    type: object
+                    example:
+                        prefix: INV
+                        doc_number: 1
+                        suffix: '2024'
+                    allOf:
+                        - $ref: '#/components/schemas/SerialNumber'
                 document_type:
                     type: string
                     description: Value should always be the string 'invoice'
@@ -4391,6 +4398,13 @@ components:
                 tcs_id:
                     type: integer
                     description: You can check the tcs id and details mapping from https://developers.getswipe.in/api-reference/references#tcs-tax-collected-at-source
+                charges_and_deductions:
+                    type: array
+                    description:
+                        "Array of Charges and Deductions, refer Additional Charges\
+                        \ Deductions Object for parameters"
+                    items:
+                        $ref: '#/components/schemas/AdditionalChargesDeductions'
                 company_shipping_address:
                     type: object
                     description:
@@ -4444,6 +4458,20 @@ components:
                           value: Value 1
                     items:
                         $ref: '#/components/schemas/CustomHeaders'
+        SerialNumber:
+            required:
+                - doc_number
+            type: object
+            properties:
+                prefix:
+                    type: string
+                    example: 'INV-, INV/2024, INV-2024/25, INV/2024-25'
+                doc_number:
+                    type: integer
+                    example: 1
+                suffix:
+                    type: string
+                    example: '-suffix, /-suffix,-/suffix, /suffix'
         DocItemV2:
             required:
                 - id
@@ -4526,6 +4554,7 @@ components:
                     description: item quantity unit
                     example: kg
                     enum:
+                        - OTH
                         - kg
                         - g
                         - l
@@ -4594,6 +4623,42 @@ components:
                         \ be used, else new bank details will be added to your swipe account"
                     allOf:
                         - $ref: '#/components/schemas/BankDetails'
+        AdditionalChargesDeductions:
+            required:
+                - amount
+                - id
+                - name
+                - tax_rate
+                - type
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: Unique ID for the charge/deduction.
+                    example: 1
+                name:
+                    type: string
+                    description: Name of the charge/deduction.
+                    example: Delivery Charge
+                amount:
+                    type: number
+                    description: Total Amount
+                    example: 100.0
+                tax_rate:
+                    type: number
+                    description: Tax Rate
+                    example: 18.0
+                sac_code:
+                    type: string
+                    description: SAC Code
+                    example: '1234'
+                type:
+                    type: string
+                    description: Type
+                    example: charge
+                    enum:
+                        - charge
+                        - deduction
         Convert:
             required:
                 - convert_from
