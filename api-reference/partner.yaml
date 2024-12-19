@@ -1957,7 +1957,7 @@ paths:
             tags:
                 - Document V2
             summary: Cancel a document
-            operationId: v2_delete_invoice
+            operationId: delete_invoice
             parameters:
                 - name: doc_hash_id
                   in: path
@@ -1965,7 +1965,7 @@ paths:
                   required: true
                   schema:
                       type: string
-                - name: cancel_einvoice
+                - name: v2_cancel_einvoice
                   in: query
                   description: Set to 1 if you want to cancel a document with e-invoice
                   schema:
@@ -2925,11 +2925,6 @@ components:
                         - Deemed Export
                 conversion_factor:
                     type: number
-                    description:
-                        "The conversion factor represents the rate used to convert\
-                        \ foreign currencies into Indian rupees. For example, if you're invoicing\
-                        \ in dollars, and 1 dollar equals 84 rupees, the conversion factor would\
-                        \ be 84"
                 country_id:
                     type: string
                     description: Country ID
@@ -4404,7 +4399,7 @@ components:
                         "Array of Charges and Deductions, refer Additional Charges\
                         \ Deductions Object for parameters"
                     items:
-                        $ref: '#/components/schemas/AdditionalChargesDeductions'
+                        $ref: '#/components/schemas/AdditionalChargesDeductionsV2'
                 company_shipping_address:
                     type: object
                     description:
@@ -4431,7 +4426,7 @@ components:
                     type: object
                     description: Export Invoice Details
                     allOf:
-                        - $ref: '#/components/schemas/ExportInvoiceDetails'
+                        - $ref: '#/components/schemas/ExportInvoiceDetailsV2'
                 is_subscription:
                     type: boolean
                     description: Is Subscription
@@ -4623,7 +4618,7 @@ components:
                         \ be used, else new bank details will be added to your swipe account"
                     allOf:
                         - $ref: '#/components/schemas/BankDetails'
-        AdditionalChargesDeductions:
+        AdditionalChargesDeductionsV2:
             required:
                 - amount
                 - id
@@ -4659,6 +4654,411 @@ components:
                     enum:
                         - charge
                         - deduction
+        ExportInvoiceDetailsV2:
+            required:
+                - conversion_factor
+                - export_type
+            type: object
+            properties:
+                shipping_bill_date:
+                    type: string
+                    description: 'Shipping Bill Date [DD-MM-YYYY]'
+                    example: 14-02-2024
+                shipping_bill_number:
+                    type: string
+                    description: Shipping Bill Number
+                    example: '123456'
+                shipping_port_code:
+                    type: string
+                    description: Shipping Port Code
+                    example: '123456'
+                export_type:
+                    type: string
+                    description: Export Type
+                    example: With Payment of Tax
+                    enum:
+                        - Export under bond/LUT
+                        - Export with IGST
+                        - SEZ with IGST Payment
+                        - SEZ without IGST Payment
+                        - Deemed Export
+                conversion_factor:
+                    type: number
+                    description:
+                        "The conversion factor represents the rate used to convert\
+                        \ foreign currencies into Indian rupees. For example, if you're invoicing\
+                        \ in dollars, and 1 dollar equals 84 rupees, the conversion factor would\
+                        \ be 84"
+                country_id:
+                    type: string
+                    description: Country ID
+                    example: Afghanistan
+                    enum:
+                        - Afghanistan
+                        - Albania
+                        - Algeria
+                        - Andorra
+                        - Angola
+                        - Antigua and Barbuda
+                        - Argentina
+                        - Armenia
+                        - Australia
+                        - Austria
+                        - Azerbaijan
+                        - Bahamas
+                        - Bahrain
+                        - Bangladesh
+                        - Barbados
+                        - Belarus
+                        - Belgium
+                        - Belize
+                        - Benin
+                        - Bhutan
+                        - Bolivia
+                        - Bosnia and Herzegovina
+                        - Botswana
+                        - Brazil
+                        - Brunei
+                        - Bulgaria
+                        - Burkina Faso
+                        - Burundi
+                        - Cabo Verde
+                        - Cambodia
+                        - Cameroon
+                        - Canada
+                        - Central African Republic
+                        - Chad
+                        - Chile
+                        - China
+                        - Colombia
+                        - Comoros
+                        - 'Congo, Democratic Republic of the'
+                        - 'Congo, Republic of the'
+                        - Costa Rica
+                        - Croatia
+                        - Cuba
+                        - Cyprus
+                        - Czechia
+                        - Denmark
+                        - Djibouti
+                        - Dominica
+                        - Dominican Republic
+                        - Ecuador
+                        - Egypt
+                        - El Salvador
+                        - Equatorial Guinea
+                        - Eritrea
+                        - Estonia
+                        - Eswatini
+                        - Ethiopia
+                        - Fiji
+                        - Finland
+                        - France
+                        - Gabon
+                        - Gambia
+                        - Georgia
+                        - Germany
+                        - Ghana
+                        - Greece
+                        - Grenada
+                        - Guatemala
+                        - Guinea
+                        - Guinea-Bissau
+                        - Guyana
+                        - Haiti
+                        - Honduras
+                        - Hungary
+                        - Iceland
+                        - India
+                        - Indonesia
+                        - Iran
+                        - Iraq
+                        - Ireland
+                        - Israel
+                        - Italy
+                        - Jamaica
+                        - Japan
+                        - Jordan
+                        - Kazakhstan
+                        - Kenya
+                        - Kiribati
+                        - 'Korea, North'
+                        - 'Korea, South'
+                        - Kosovo
+                        - Kuwait
+                        - Kyrgyzstan
+                        - Laos
+                        - Latvia
+                        - Lebanon
+                        - Lesotho
+                        - Liberia
+                        - Libya
+                        - Liechtenstein
+                        - Lithuania
+                        - Luxembourg
+                        - Madagascar
+                        - Malawi
+                        - Malaysia
+                        - Maldives
+                        - Mali
+                        - Malta
+                        - Marshall Islands
+                        - Mauritania
+                        - Mauritius
+                        - Mexico
+                        - Micronesia
+                        - Moldova
+                        - Monaco
+                        - Mongolia
+                        - Montenegro
+                        - Morocco
+                        - Mozambique
+                        - Myanmar
+                        - Namibia
+                        - Nauru
+                        - Nepal
+                        - Netherlands
+                        - New Zealand
+                        - Nicaragua
+                        - Niger
+                        - Nigeria
+                        - North Macedonia
+                        - Norway
+                        - Oman
+                        - Pakistan
+                        - Palau
+                        - Palestine
+                        - Panama
+                        - Papua New Guinea
+                        - Paraguay
+                        - Peru
+                        - Philippines
+                        - Poland
+                        - Portugal
+                        - Qatar
+                        - Romania
+                        - Russia
+                        - Rwanda
+                        - Saint Kitts and Nevis
+                        - Saint Lucia
+                        - Saint Vincent and the Grenadines
+                        - Samoa
+                        - San Marino
+                        - Sao Tome and Principe
+                        - Saudi Arabia
+                        - Senegal
+                        - Serbia
+                        - Seychelles
+                        - Sierra Leone
+                        - Singapore
+                        - Slovakia
+                        - Slovenia
+                        - Solomon Islands
+                        - Somalia
+                        - South Africa
+                        - South Sudan
+                        - Spain
+                        - Sri Lanka
+                        - Sudan
+                        - Suriname
+                        - Sweden
+                        - Switzerland
+                        - Syria
+                        - Taiwan
+                        - Tajikistan
+                        - Tanzania
+                        - Thailand
+                        - Timor-Leste
+                        - Togo
+                        - Tonga
+                        - Trinidad and Tobago
+                        - Tunisia
+                        - Turkey
+                        - Turkmenistan
+                        - Tuvalu
+                        - Uganda
+                        - Ukraine
+                        - United Arab Emirates
+                        - United Kingdom
+                        - United States
+                        - Uruguay
+                        - Uzbekistan
+                        - Vanuatu
+                        - Vatican City
+                        - Venezuela
+                        - Vietnam
+                        - Yemen
+                        - Zambia
+                        - Zimbabwe
+                currency_id:
+                    type: string
+                    description:
+                        "Currency ID, if not provided, the default country currency\
+                        \ will be used"
+                    example: AED
+                    enum:
+                        - AED
+                        - AFN
+                        - ALL
+                        - AMD
+                        - ANG
+                        - AOA
+                        - ARS
+                        - AUD
+                        - AWG
+                        - AZN
+                        - BAM
+                        - BBD
+                        - BDT
+                        - BGN
+                        - BHD
+                        - BIF
+                        - BMD
+                        - BND
+                        - BOB
+                        - BRL
+                        - BSD
+                        - BTN
+                        - BWP
+                        - BYN
+                        - BZD
+                        - CAD
+                        - CDF
+                        - CHF
+                        - CLP
+                        - CNY
+                        - COP
+                        - CRC
+                        - CUP
+                        - CVE
+                        - CZK
+                        - DJF
+                        - DKK
+                        - DOP
+                        - DZD
+                        - EGP
+                        - ERN
+                        - ETB
+                        - EUR
+                        - FJD
+                        - FKP
+                        - FOK
+                        - GBP
+                        - GEL
+                        - GGP
+                        - GHS
+                        - GIP
+                        - GMD
+                        - GNF
+                        - GTQ
+                        - GYD
+                        - HKD
+                        - HNL
+                        - HRK
+                        - HTG
+                        - HUF
+                        - IDR
+                        - ILS
+                        - IMP
+                        - INR
+                        - IQD
+                        - IRR
+                        - ISK
+                        - JEP
+                        - JMD
+                        - JOD
+                        - JPY
+                        - KES
+                        - KGS
+                        - KHR
+                        - KID
+                        - KMF
+                        - KRW
+                        - KWD
+                        - KYD
+                        - KZT
+                        - LAK
+                        - LBP
+                        - LKR
+                        - LRD
+                        - LSL
+                        - LYD
+                        - MAD
+                        - MDL
+                        - MGA
+                        - MKD
+                        - MMK
+                        - MNT
+                        - MOP
+                        - MRU
+                        - MUR
+                        - MVR
+                        - MWK
+                        - MXN
+                        - MYR
+                        - MZN
+                        - NAD
+                        - NGN
+                        - NIO
+                        - NOK
+                        - NPR
+                        - NZD
+                        - OMR
+                        - PAB
+                        - PEN
+                        - PGK
+                        - PHP
+                        - PKR
+                        - PLN
+                        - PYG
+                        - QAR
+                        - RON
+                        - RSD
+                        - RUB
+                        - RWF
+                        - SAR
+                        - SBD
+                        - SCR
+                        - SDG
+                        - SEK
+                        - SGD
+                        - SHP
+                        - SLE
+                        - SLL
+                        - SOS
+                        - SRD
+                        - SSP
+                        - STN
+                        - SYP
+                        - SZL
+                        - THB
+                        - TJS
+                        - TMT
+                        - TND
+                        - TOP
+                        - TRY
+                        - TTD
+                        - TVD
+                        - TWD
+                        - TZS
+                        - UAH
+                        - UGX
+                        - USD
+                        - UYU
+                        - UZS
+                        - VES
+                        - VND
+                        - VUV
+                        - WST
+                        - XAF
+                        - XCD
+                        - XDR
+                        - XOF
+                        - XPF
+                        - YER
+                        - ZAR
+                        - ZMW
+                        - ZWL
         Convert:
             required:
                 - convert_from
