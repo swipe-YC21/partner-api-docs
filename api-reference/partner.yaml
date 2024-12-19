@@ -4639,7 +4639,7 @@ components:
                 name:
                     type: string
                     description: Name of the charge/deduction.
-                    example: Delivery Charge
+                    example: Delivery Charge / Shipping Charge
                 amount:
                     type: number
                     description: Total Amount
