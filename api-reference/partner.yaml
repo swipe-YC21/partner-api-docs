@@ -4895,7 +4895,7 @@ components:
                     type: string
                     description:
                         "Currency ID, if not provided, the default country currency\
-                        \ will be used"
+                        \ will be used, please refer to the currency list from https://developers.getswipe.in/api-reference/references#currency-details"
                     example: AED
                     enum:
                         - AED
