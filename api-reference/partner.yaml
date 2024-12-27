@@ -1958,7 +1958,7 @@ paths:
             tags:
                 - Document V2
             summary: Cancel a document
-            operationId: delete_invoice
+            operationId: v2_delete_invoice
             parameters:
                 - name: doc_hash_id
                   in: path
@@ -1966,7 +1966,7 @@ paths:
                   required: true
                   schema:
                       type: string
-                - name: v2_cancel_einvoice
+                - name: cancel_einvoice
                   in: query
                   description: Set to 1 if you want to cancel a document with e-invoice
                   schema:
@@ -2586,9 +2586,9 @@ components:
                 addr_id:
                     type: integer
                     description:
-                        "Address ID.\n                                            \
-                        \     It will automatically update the existing address if the address\
-                        \ ID already exists.\n                                  "
+                        "Address ID. Value should be n >= 0 and n <= 999999, It will\
+                        \ automatically update the existing address if the address ID already\
+                        \ exists.\n                                  "
                     example: -1
                 address_line1:
                     type: string
@@ -4388,6 +4388,13 @@ components:
                     description: 'Array of Payments, refer Payment Object for parameters'
                     items:
                         $ref: '#/components/schemas/PaymentV2'
+                bank_details:
+                    type: object
+                    description:
+                        "Bank Details, it is used to display bank details in document\
+                        \ PDFs. No payments are associated with these bank details."
+                    allOf:
+                        - $ref: '#/components/schemas/BankDetails'
                 tds_id:
                     type: integer
                     description: You can check the tds id and details mapping from https://developers.getswipe.in/api-reference/references#tds-tax-deducted-at-source
@@ -4630,7 +4637,7 @@ components:
             properties:
                 id:
                     type: integer
-                    description: Unique ID for the charge/deduction.
+                    description: Unique ID for the charge/deduction. 0 < id <= 999999
                     example: 1
                 name:
                     type: string
