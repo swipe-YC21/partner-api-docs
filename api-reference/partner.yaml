@@ -2448,10 +2448,10 @@ components:
                         - $ref: '#/components/schemas/BankDetails'
                 tds_id:
                     type: integer
-                    description: You can check the tds id and details mapping from https://developers.getswipe.in/api-reference/references#tds-tax-deducted-at-source
+                    description: You can check the tds id and details mapping from https://developers.getswipe.in/references#tds-tax-deducted-at-source
                 tcs_id:
                     type: integer
-                    description: You can copy the tcs id and details mapping from https://developers.getswipe.in/api-reference/references#tcs-tax-collected-at-source
+                    description: You can copy the tcs id and details mapping from https://developers.getswipe.in/references#tcs-tax-collected-at-source
                 company_shipping_address:
                     type: object
                     description:
@@ -2619,7 +2619,7 @@ components:
                     description:
                         "State.\n                               Select OTHER TERRITORY\
                         \ for countries other than India.\n                               You\
-                        \ can copy the state details from https://developers.getswipe.in/api-reference/references#state-details\n\
+                        \ can copy the state details from https://developers.getswipe.in/references#state-details\n\
                         \                               "
                     example: State Name
                     enum:
@@ -2663,7 +2663,7 @@ components:
                         - OTHER TERRITORY
                 country:
                     type: string
-                    description: Country. You can copy the country details from https://developers.getswipe.in/api-reference/references#country-array
+                    description: Country. You can copy the country details from https://developers.getswipe.in/references#country-array
                     example: Country Name
                 pincode:
                     type: string
@@ -2835,7 +2835,7 @@ components:
                     example: City Name
                 state:
                     type: string
-                    description: State. You can copy the state details from https://developers.getswipe.in/api-reference/references#state-details
+                    description: State. You can copy the state details from https://developers.getswipe.in/references#state-details
                     example: State Name
                     enum:
                         - JAMMU AND KASHMIR
@@ -2878,7 +2878,7 @@ components:
                         - OTHER TERRITORY
                 country:
                     type: string
-                    description: Country. You can copy the country details from https://developers.getswipe.in/api-reference/references#country-array
+                    description: Country. You can copy the country details from https://developers.getswipe.in/references#country-array
                     example: Country Name
                 pincode:
                     type: string
@@ -3277,7 +3277,7 @@ components:
                     example: ''
                 state:
                     type: string
-                    description: State. You can copy the state details from https://developers.getswipe.in/api-reference/references#state-details
+                    description: State. You can copy the state details from https://developers.getswipe.in/references#state-details
                     example: State Name
                     enum:
                         - JAMMU AND KASHMIR
@@ -3320,7 +3320,7 @@ components:
                         - OTHER TERRITORY
                 country:
                     type: string
-                    description: Country. You can copy the country details from https://developers.getswipe.in/api-reference/references#country-array
+                    description: Country. You can copy the country details from https://developers.getswipe.in/references#country-array
                     example: India
                     enum:
                         - Afghanistan
@@ -4412,10 +4412,10 @@ components:
                         - $ref: '#/components/schemas/BankDetails'
                 tds_id:
                     type: integer
-                    description: You can check the tds id and details mapping from https://developers.getswipe.in/api-reference/references#tds-tax-deducted-at-source
+                    description: You can check the tds id and details mapping from https://developers.getswipe.in/references#tds-tax-deducted-at-source
                 tcs_id:
                     type: integer
-                    description: You can check the tcs id and details mapping from https://developers.getswipe.in/api-reference/references#tcs-tax-collected-at-source
+                    description: You can check the tcs id and details mapping from https://developers.getswipe.in/references#tcs-tax-collected-at-source
                 charges_and_deductions:
                     type: array
                     description:
@@ -4917,7 +4917,7 @@ components:
                     type: string
                     description:
                         "Currency ID, if not provided, the default country currency\
-                        \ will be used, please refer to the currency list from https://developers.getswipe.in/api-reference/references#currency-details"
+                        \ will be used, please refer to the currency list from https://developers.getswipe.in/references#currency-details"
                     example: AED
                     enum:
                         - AED
@@ -5529,7 +5529,7 @@ components:
                     example: ''
                 state:
                     type: string
-                    description: State. You can copy the state details from https://developers.getswipe.in/api-reference/references#state-details
+                    description: State. You can copy the state details from https://developers.getswipe.in/references#state-details
                     example: State Name
                     enum:
                         - JAMMU AND KASHMIR
@@ -5572,7 +5572,7 @@ components:
                         - OTHER TERRITORY
                 country:
                     type: string
-                    description: Country. You can copy the country details from https://developers.getswipe.in/api-reference/references#country-array
+                    description: Country. You can copy the country details from https://developers.getswipe.in/references#country-array
                     example: India
                     enum:
                         - Afghanistan

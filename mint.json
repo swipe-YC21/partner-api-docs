@@ -28,8 +28,12 @@
     },
     "tabs": [
         {
-            "name": "API Reference",
+            "name": "V1 API (DEPRECATED)",
             "url": "api-reference"
+        },
+        {
+            "name": "V2 API Reference",
+            "url": "v2/api-reference"
         }
     ],
     "anchors": [
@@ -47,14 +51,11 @@
     "navigation": [
         {
             "group": "Get Started",
-            "pages": ["introduction"]
-        },
-        {
-            "group": "API Documentation",
             "pages": [
-                "api-reference/introduction",
-                "api-reference/error-codes",
-                "api-reference/references"
+                "introduction",
+                "introduction2",
+                "error-codes",
+                "references"
             ]
         },
         {
@@ -105,43 +106,43 @@
             "pages": ["api-reference/utility/get-v1utilsgstin"]
         },
         {
-            "group": "Customer V2",
+            "group": "Document V2",
             "pages": [
-                "api-reference/customer-v2/add-a-customer",
-                "api-reference/customer-v2/get-a-customer",
-                "api-reference/customer-v2/update-a-customer",
-                "api-reference/customer-v2/delete-a-customer",
-                "api-reference/customer-v2/get-payment-ledger",
-                "api-reference/customer-v2/get-list-of-customers",
-                "api-reference/customer-v2/update-customer-mapping"
+                "v2/api-reference/document-v2/create-a-document",
+                "v2/api-reference/document-v2/get-a-document",
+                "v2/api-reference/document-v2/get-document-pdf",
+                "v2/api-reference/document-v2/cancel-a-document",
+                "v2/api-reference/document-v2/list-of-documents"
             ]
         },
         {
-            "group": "Document V2",
+            "group": "Customer V2",
             "pages": [
-                "api-reference/document-v2/create-a-document",
-                "api-reference/document-v2/get-a-document",
-                "api-reference/document-v2/get-document-pdf",
-                "api-reference/document-v2/cancel-a-document",
-                "api-reference/document-v2/list-of-documents"
+                "v2/api-reference/customer-v2/add-a-customer",
+                "v2/api-reference/customer-v2/get-a-customer",
+                "v2/api-reference/customer-v2/update-a-customer",
+                "v2/api-reference/customer-v2/delete-a-customer",
+                "v2/api-reference/customer-v2/get-payment-ledger",
+                "v2/api-reference/customer-v2/get-list-of-customers",
+                "v2/api-reference/customer-v2/update-customer-mapping"
             ]
         },
         {
             "group": "Payment V2",
             "pages": [
-                "api-reference/payment-v2/record-payment",
-                "api-reference/payment-v2/list-of-documents"
+                "v2/api-reference/payment-v2/record-payment",
+                "v2/api-reference/payment-v2/list-of-documents"
             ]
         },
         {
             "group": "Product V2",
             "pages": [
-                "api-reference/product-v2/add-an-item",
-                "api-reference/product-v2/get-a-item-details",
-                "api-reference/product-v2/update-a-item",
-                "api-reference/product-v2/delete-a-item",
-                "api-reference/product-v2/get-list-of-items",
-                "api-reference/product-v2/update-items-mapping"
+                "v2/api-reference/product-v2/add-an-item",
+                "v2/api-reference/product-v2/get-a-item-details",
+                "v2/api-reference/product-v2/update-a-item",
+                "v2/api-reference/product-v2/delete-a-item",
+                "v2/api-reference/product-v2/get-list-of-items",
+                "v2/api-reference/product-v2/update-items-mapping"
             ]
         }
     ],
