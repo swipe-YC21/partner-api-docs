@@ -4,7 +4,7 @@
     "logo": {
         "dark": "/logo/dark.svg",
         "light": "/logo/light.svg",
-        "href": "https://getswipe.in"
+        "href": "/"
     },
     "favicon": "/favicon.svg",
     "colors": {
@@ -26,12 +26,7 @@
         "name": "Dashboard",
         "url": "https://app.getswipe.in"
     },
-    "tabs": [
-        {
-            "name": "API Reference",
-            "url": "api-reference"
-        }
-    ],
+    "versions": ["v2", "v1 (Deprecated)"],
     "anchors": [
         {
             "name": "Blog",
@@ -54,7 +49,8 @@
             "pages": [
                 "api-reference/introduction",
                 "api-reference/error-codes",
-                "api-reference/references"
+                "api-reference/references",
+                "api-reference/change-log"
             ]
         },
         {
@@ -63,7 +59,13 @@
                 "api-reference/document/create-a-document",
                 "api-reference/document/get-document-pdf",
                 "api-reference/document/cancel-a-document"
-            ]
+            ],
+            "version": "v1 (Deprecated)"
+        },
+        {
+            "group": "Payment",
+            "pages": ["api-reference/payment/record-payment"],
+            "version": "v1 (Deprecated)"
         },
         {
             "group": "Customer",
@@ -75,12 +77,8 @@
                 "api-reference/customer/get-payment-ledger",
                 "api-reference/customer/get-list-of-customers",
                 "api-reference/customer/update-customer-mapping"
-            ]
-        },
-
-        {
-            "group": "Payment",
-            "pages": ["api-reference/payment/record-payment"]
+            ],
+            "version": "v1 (Deprecated)"
         },
         {
             "group": "Product",
@@ -91,18 +89,40 @@
                 "api-reference/product/delete-a-item",
                 "api-reference/product/get-list-of-items",
                 "api-reference/product/update-items-mapping"
-            ]
+            ],
+            "version": "v1 (Deprecated)"
         },
         {
             "group": "Subscriptions",
             "pages": [
                 "api-reference/subscriptions/list-of-subscriptions",
                 "api-reference/subscriptions/get-subscription-details"
-            ]
+            ],
+            "version": "v1 (Deprecated)"
         },
         {
             "group": "Utility",
-            "pages": ["api-reference/utility/get-v1utilsgstin"]
+            "pages": ["api-reference/utility/get-v1utilsgstin"],
+            "version": "v1 (Deprecated)"
+        },
+        {
+            "group": "Document V2",
+            "pages": [
+                "api-reference/document-v2/create-a-document",
+                "api-reference/document-v2/get-a-document",
+                "api-reference/document-v2/get-document-pdf",
+                "api-reference/document-v2/cancel-a-document",
+                "api-reference/document-v2/list-of-documents"
+            ],
+            "version": "v2"
+        },
+        {
+            "group": "Payment V2",
+            "pages": [
+                "api-reference/payment-v2/record-payment",
+                "api-reference/payment-v2/list-of-documents"
+            ],
+            "version": "v2"
         },
         {
             "group": "Customer V2",
@@ -114,24 +134,8 @@
                 "api-reference/customer-v2/get-payment-ledger",
                 "api-reference/customer-v2/get-list-of-customers",
                 "api-reference/customer-v2/update-customer-mapping"
-            ]
-        },
-        {
-            "group": "Document V2",
-            "pages": [
-                "api-reference/document-v2/create-a-document",
-                "api-reference/document-v2/get-a-document",
-                "api-reference/document-v2/get-document-pdf",
-                "api-reference/document-v2/cancel-a-document",
-                "api-reference/document-v2/list-of-documents"
-            ]
-        },
-        {
-            "group": "Payment V2",
-            "pages": [
-                "api-reference/payment-v2/record-payment",
-                "api-reference/payment-v2/list-of-documents"
-            ]
+            ],
+            "version": "v2"
         },
         {
             "group": "Product V2",
@@ -142,7 +146,8 @@
                 "api-reference/product-v2/delete-a-item",
                 "api-reference/product-v2/get-list-of-items",
                 "api-reference/product-v2/update-items-mapping"
-            ]
+            ],
+            "version": "v2"
         }
     ],
     "footerSocials": {
