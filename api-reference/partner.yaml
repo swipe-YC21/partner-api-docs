@@ -2743,21 +2743,10 @@ components:
                         - Service
                 unit:
                     type: string
-                    description: item quantity unit
+                    description:
+                        "Item quantity unit. You can find the GST-approved units in\
+                        \ the UQC Codes section at: https://einvoice1.gst.gov.in/Others/MasterCodes."
                     example: kg
-                    enum:
-                        - kg
-                        - g
-                        - l
-                        - ml
-                        - m
-                        - cm
-                        - sqm
-                        - sqcm
-                        - sqft
-                        - sqkm
-                        - unit
-                        - OTH
                 category:
                     type: string
                     description: Category
@@ -3259,11 +3248,11 @@ components:
                 - state
             type: object
             properties:
-                line1:
+                address_line1:
                     type: string
                     description: Address line 1
                     example: ''
-                line2:
+                address_line2:
                     type: string
                     description: Address line 2
                     example: ''
@@ -3539,6 +3528,15 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
+        CustomerGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                customer_details:
+                    $ref: '#/components/schemas/BaseCustomer'
         CustomerResponse:
             type: object
             properties:
@@ -3550,15 +3548,6 @@ components:
                     type: string
                     description: Response message
                     example: Customer added successfully
-        CustomerGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                customer_details:
-                    $ref: '#/components/schemas/BaseCustomer'
         Payment_GET_Response:
             type: object
             properties:
@@ -3651,31 +3640,6 @@ components:
                         "Updates even if the customer id is already mapped with other\
                         \ swipe id, no customer details will be updated"
                     example: true
-        ListCustomerMapErrorModel:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    example: false
-                customer_mapping:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                duplicate_customer_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                duplicate_swipe_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                not_found_swipe_ids:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CustomerMapModel'
-                message:
-                    type: string
-                    example: Customer ID already mapped !
         ListGETResponse:
             type: object
             properties:
@@ -3735,6 +3699,31 @@ components:
                     type: string
                     description: Swipe ID assigned to the customer
                     example: '1'
+        ListCustomerMapErrorModel:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                customer_mapping:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                duplicate_customer_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                duplicate_swipe_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                not_found_swipe_ids:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CustomerMapModel'
+                message:
+                    type: string
+                    example: Customer ID already mapped !
         RecordPayment:
             required:
                 - amount
@@ -3897,20 +3886,10 @@ components:
                         - Service
                 unit:
                     type: string
-                    description: item quantity unit
+                    description:
+                        "Item quantity unit. You can find the GST-approved units in\
+                        \ the UQC Codes section at: https://einvoice1.gst.gov.in/Others/MasterCodes."
                     example: kg
-                    enum:
-                        - kg
-                        - g
-                        - l
-                        - ml
-                        - m
-                        - cm
-                        - sqm
-                        - sqcm
-                        - sqft
-                        - sqkm
-                        - unit
                 category:
                     type: string
                     description: Category
@@ -3939,6 +3918,15 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
+        ProductGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                item:
+                    $ref: '#/components/schemas/Item'
         ProductResponse:
             type: object
             properties:
@@ -3950,15 +3938,6 @@ components:
                     type: string
                     description: Response message
                     example: Product added successfully
-        ProductGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                item:
-                    $ref: '#/components/schemas/Item'
         ListItemMapModel:
             required:
                 - item_mapping
@@ -4569,21 +4548,10 @@ components:
                         - Service
                 unit:
                     type: string
-                    description: item quantity unit
+                    description:
+                        "Item quantity unit. You can find the GST-approved units in\
+                        \ the UQC Codes section at: https://einvoice1.gst.gov.in/Others/MasterCodes."
                     example: kg
-                    enum:
-                        - OTH
-                        - kg
-                        - g
-                        - l
-                        - ml
-                        - m
-                        - cm
-                        - sqm
-                        - sqcm
-                        - sqft
-                        - sqkm
-                        - unit
                 category:
                     type: string
                     description: Category
@@ -6094,29 +6062,6 @@ components:
                     description: Errors
                 data:
                     $ref: '#/components/schemas/Item'
-        ProductMappingResponseV2:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                message:
-                    type: string
-                    description: Response message
-                    example: Message
-                error_code:
-                    type: string
-                    description: Error Code
-                    example: ''
-                errors:
-                    type: object
-                    properties: {}
-                    description: Errors
-                data:
-                    type: object
-                    properties: {}
-                    description: Data
         ListGETResponseV2:
             type: object
             properties:
@@ -6215,6 +6160,29 @@ components:
                     type: string
                     description: Swipe ID assigned to the item
                     example: '1'
+        ProductMappingResponseV2:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                message:
+                    type: string
+                    description: Response message
+                    example: Message
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: ''
+                errors:
+                    type: object
+                    properties: {}
+                    description: Errors
+                data:
+                    type: object
+                    properties: {}
+                    description: Data
     responses:
         ParseError:
             description: When a mask can't be parsed
