@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
     title: SwipeAPI
     description: Partner API
-    version: '2.0'
+    version: "2.0"
 servers:
     - url: https://app.getswipe.in/api/partner
 security:
@@ -28,6 +28,10 @@ tags:
       description: Payment related operations
     - name: Product V2
       description: Product related operations
+    - name: SubscriptionsV2
+      description: Subscriptions related operations
+    - name: UtilityV2
+      description: Generic operations
 paths:
     /v1/customer:
         put:
@@ -39,27 +43,27 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/BaseCustomer'
+                            $ref: "#/components/schemas/BaseCustomer"
                 required: true
             responses:
-                '200':
+                "200":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponse'
-                '400':
+                                $ref: "#/components/schemas/CustomerResponse"
+                "400":
                     description: Validation Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerError'
-                '401':
+                                $ref: "#/components/schemas/CustomerError"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerError'
+                                $ref: "#/components/schemas/CustomerError"
             x-codegen-request-body-name: payload
         post:
             tags:
@@ -70,27 +74,27 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/BaseCustomer'
+                            $ref: "#/components/schemas/BaseCustomer"
                 required: true
             responses:
-                '201':
+                "201":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponse'
-                '400':
+                                $ref: "#/components/schemas/CustomerResponse"
+                "400":
                     description: Validation Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerError'
-                '401':
+                                $ref: "#/components/schemas/CustomerError"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerError'
+                                $ref: "#/components/schemas/CustomerError"
             x-codegen-request-body-name: payload
     /v1/customer/ledger:
         get:
@@ -101,14 +105,14 @@ paths:
             parameters:
                 - name: start_date
                   in: query
-                  description: 'Start date for the ledger, [DD-MM-YYYY]'
+                  description: "Start date for the ledger, [DD-MM-YYYY]"
                   required: true
                   schema:
                       type: string
                       default: 01-01-2024
                 - name: end_date
                   in: query
-                  description: 'End date for the ledger, [DD-MM-YYYY]'
+                  description: "End date for the ledger, [DD-MM-YYYY]"
                   required: true
                   schema:
                       type: string
@@ -132,30 +136,30 @@ paths:
                       type: integer
                       default: 1
             responses:
-                '200':
+                "200":
                     description: Payment details fetched successfully
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Payment_GET_Response'
-                '400':
+                                $ref: "#/components/schemas/Payment_GET_Response"
+                "400":
                     description: Error in fetching payment details
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerError'
-                '401':
+                                $ref: "#/components/schemas/CustomerError"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerError'
-                '500':
+                                $ref: "#/components/schemas/CustomerError"
+                "500":
                     description: Internal Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerError'
+                                $ref: "#/components/schemas/CustomerError"
     /v1/customer/list:
         get:
             tags:
@@ -166,8 +170,8 @@ paths:
                 - name: num_records
                   in: query
                   description:
-                      "Number of records to fetch, default : all customers will be\
-                      \ sent in response"
+                      'Number of records to fetch, default : all customers will be\
+                      \ sent in response'
                   schema:
                       type: integer
                 - name: page
@@ -177,30 +181,30 @@ paths:
                       type: integer
                       default: 1
             responses:
-                '200':
+                "200":
                     description: Customer List fetched successfully
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListGETResponse'
-                '400':
+                                $ref: "#/components/schemas/ListGETResponse"
+                "400":
                     description: Error in fetching Customer List
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerError'
-                '401':
+                                $ref: "#/components/schemas/CustomerError"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerError'
-                '500':
+                                $ref: "#/components/schemas/CustomerError"
+                "500":
                     description: Internal Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerError'
+                                $ref: "#/components/schemas/CustomerError"
         post:
             tags:
                 - Customer
@@ -210,39 +214,39 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/ListCustomerMapModel'
+                            $ref: "#/components/schemas/ListCustomerMapModel"
                 required: true
             responses:
-                '200':
+                "200":
                     description: Updated successfully
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponse'
-                '400':
+                                $ref: "#/components/schemas/CustomerResponse"
+                "400":
                     description: Error in mapping Customer List
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerError'
-                '401':
+                                $ref: "#/components/schemas/CustomerError"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerError'
-                '409':
+                                $ref: "#/components/schemas/CustomerError"
+                "409":
                     description: Error in mapping Customer List
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListCustomerMapErrorModel'
-                '500':
+                                $ref: "#/components/schemas/ListCustomerMapErrorModel"
+                "500":
                     description: Internal Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerError'
+                                $ref: "#/components/schemas/CustomerError"
             x-codegen-request-body-name: payload
     /v1/customer/{customer_id}:
         get:
@@ -258,30 +262,30 @@ paths:
                   schema:
                       type: string
             responses:
-                '200':
+                "200":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerGET_Response'
-                '401':
+                                $ref: "#/components/schemas/CustomerGET_Response"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerError'
-                '404':
+                                $ref: "#/components/schemas/CustomerError"
+                "404":
                     description: Customer not found
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerError'
-                '500':
+                                $ref: "#/components/schemas/CustomerError"
+                "500":
                     description: Internal Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerError'
+                                $ref: "#/components/schemas/CustomerError"
         delete:
             tags:
                 - Customer
@@ -295,24 +299,24 @@ paths:
                   schema:
                       type: string
             responses:
-                '200':
+                "200":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponse'
-                '400':
+                                $ref: "#/components/schemas/CustomerResponse"
+                "400":
                     description: Customer not found
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerError'
-                '401':
+                                $ref: "#/components/schemas/CustomerError"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerError'
+                                $ref: "#/components/schemas/CustomerError"
     /v1/doc:
         post:
             tags:
@@ -323,12 +327,12 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/BaseDocument'
+                            $ref: "#/components/schemas/BaseDocument"
                         examples:
                             basic:
                                 value:
                                     document_type: invoice
-                                    document_date: '01-04-2024'
+                                    document_date: "01-04-2024"
                                     customer:
                                         id: cus123
                                         name: Charan Cus
@@ -345,14 +349,14 @@ paths:
                             advanced:
                                 value:
                                     document_type: invoice
-                                    document_date: '11-06-2024'
+                                    document_date: "11-06-2024"
                                     customer:
                                         id: CUST123
                                         name: John Doe
-                                        country_code: '91'
-                                        phone_number: '1234567890'
+                                        country_code: "91"
+                                        phone_number: "1234567890"
                                         email: johndoe@example.com
-                                    due_date: '11-06-2024'
+                                    due_date: "11-06-2024"
                                     reference: Reference Text
                                     notes: Notes for the document
                                     terms: Terms and Conditions
@@ -370,7 +374,7 @@ paths:
                                           net_amount: 900
                                           total_amount: 1152
                                           description: Item Description
-                                          hsn_code: '1234'
+                                          hsn_code: "1234"
                                           item_type: goods
                                           unit: kg
                                           category: Electronics
@@ -381,7 +385,7 @@ paths:
                                           method: upi
                                           notes: Payment notes
                                     bank_details:
-                                        account_number: '1234567890'
+                                        account_number: "1234567890"
                                         bank_name: Example Bank
                                         branch: Main Branch
                                         ifsc: IFSC0001234
@@ -391,14 +395,14 @@ paths:
                                         city: City Name
                                         state: State Name
                                         country: Country Name
-                                        pincode: '123456'
+                                        pincode: "123456"
                                     customer_shipping_address:
                                         address_line1: 123 Street
                                         address_line2: Apt 4B
                                         city: City Name
                                         state: State Name
                                         country: Country Name
-                                        pincode: '123456'
+                                        pincode: "123456"
                             subscription:
                                 value:
                                     document_type: subscription
@@ -406,8 +410,8 @@ paths:
                                     customer:
                                         id: CUST1
                                         name: Charan
-                                        country_code: '91'
-                                        phone_number: '8768906785'
+                                        country_code: "91"
+                                        phone_number: "8768906785"
                                         email: charanrockstar@gmail.com
                                     due_date: 11-06-2024
                                     reference: Example Subcsription for API's
@@ -427,14 +431,14 @@ paths:
                                           net_amount: 900
                                           total_amount: 1152
                                           description: Item Description
-                                          hsn_code: '1234'
+                                          hsn_code: "1234"
                                           item_type: goods
                                           unit: kg
                                           category: Electronics
                                     extra_discount: 20
                                     round_off: 0
                                     bank_details:
-                                        account_number: '1234567890'
+                                        account_number: "1234567890"
                                         bank_name: Example Bank
                                         branch: Main Branch
                                         ifsc: IFSC0001234
@@ -444,14 +448,14 @@ paths:
                                         city: City Name
                                         state: State Name
                                         country: Country Name
-                                        pincode: '123456'
+                                        pincode: "123456"
                                     customer_shipping_address:
                                         address_line1: C/o Swipe
                                         address_line2: Red Steert 40
                                         city: Kansar
                                         state: Kansar
                                         country: India
-                                        pincode: '000007'
+                                        pincode: "000007"
                                     is_subscription: true
                                     subscription_details:
                                         start_time: 13-06-2024
@@ -465,10 +469,10 @@ paths:
                                     document_type: invoice
                                     document_date: 11-06-2024
                                     customer:
-                                        id: '236'
+                                        id: "236"
                                         name: Vasu
-                                        country_code: '91'
-                                        phone_number: '1234567890'
+                                        country_code: "91"
+                                        phone_number: "1234567890"
                                         email: johndoe@example.com
                                         company_name: Vason Company
                                         gstin: 36ACZPT7516P1ZA
@@ -489,7 +493,7 @@ paths:
                                           net_amount: 90
                                           total_amount: 106.2
                                           description: Item Description
-                                          hsn_code: '04022910'
+                                          hsn_code: "04022910"
                                           item_type: Product
                                           unit: kg
                                           category: Electronics
@@ -500,66 +504,66 @@ paths:
                                           method: upi
                                           notes: Payment notes
                                     bank_details:
-                                        account_number: '1234567890'
+                                        account_number: "1234567890"
                                         bank_name: Example Bank
                                         branch: Main Branch
                                         ifsc: IFSC0001234
                                     company_shipping_address:
                                         address_line1: 123 Street
-                                        address_line2: ''
+                                        address_line2: ""
                                         city: Banglore
                                         state: KARNATAKA
                                         country: India
-                                        pincode: '560001'
+                                        pincode: "560001"
                                     customer_shipping_address:
                                         address_line1: 5-11, vema street
-                                        address_line2: ''
+                                        address_line2: ""
                                         city: Hyderabad South East
                                         state: TELANGANA
                                         country: India
-                                        pincode: '500030'
+                                        pincode: "500030"
                                     customer_billing_address:
                                         address_line1: 5-11, vema street
-                                        address_line2: ''
+                                        address_line2: ""
                                         city: Hyderabad
                                         state: TELANGANA
                                         country: India
-                                        pincode: '500032'
+                                        pincode: "500032"
                                     einvoice: true
                                     is_export: true
                                     export_invoice_details:
                                         shipping_bill_date: 27-08-2024
-                                        shipping_bill_number: ''
-                                        shipping_port_code: ''
+                                        shipping_bill_number: ""
+                                        shipping_port_code: ""
                                         export_type: SEZ without IGST Payment
                                         conversion_factor: 1
                                         country_id: India
                 required: true
             responses:
-                '200':
+                "200":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SuccessResponse'
-                '400':
+                                $ref: "#/components/schemas/SuccessResponse"
+                "400":
                     description: Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Error'
-                '401':
+                                $ref: "#/components/schemas/Error"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Error'
-                '500':
+                                $ref: "#/components/schemas/Error"
+                "500":
                     description: Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Error'
+                                $ref: "#/components/schemas/Error"
             x-codegen-request-body-name: payload
     /v1/doc/pdf/{doc_hash_id}:
         get:
@@ -575,27 +579,27 @@ paths:
                   schema:
                       type: string
             responses:
-                '200':
+                "200":
                     description: File will be downloaded
                     content: {}
-                '400':
+                "400":
                     description: Invalid Document Hash ID
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Error'
-                '401':
+                                $ref: "#/components/schemas/Error"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Error'
-                '500':
+                                $ref: "#/components/schemas/Error"
+                "500":
                     description: Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Error'
+                                $ref: "#/components/schemas/Error"
     /v1/doc/{doc_hash_id}:
         delete:
             tags:
@@ -616,36 +620,36 @@ paths:
                       type: integer
                       default: 0
             responses:
-                '200':
+                "200":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SuccessResponse'
-                '400':
+                                $ref: "#/components/schemas/SuccessResponse"
+                "400":
                     description: Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Error'
-                '401':
+                                $ref: "#/components/schemas/Error"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Error'
-                '404':
+                                $ref: "#/components/schemas/Error"
+                "404":
                     description: Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Error'
-                '500':
+                                $ref: "#/components/schemas/Error"
+                "500":
                     description: Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Error'
+                                $ref: "#/components/schemas/Error"
     /v1/payment:
         post:
             tags:
@@ -656,33 +660,33 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/RecordPayment'
+                            $ref: "#/components/schemas/RecordPayment"
                 required: true
             responses:
-                '200':
+                "200":
                     description: Payment recorded successfully
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/PaymentResponse'
-                '400':
+                                $ref: "#/components/schemas/PaymentResponse"
+                "400":
                     description: Error in recording payment
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/PaymentError'
-                '401':
+                                $ref: "#/components/schemas/PaymentError"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/PaymentError'
-                '500':
+                                $ref: "#/components/schemas/PaymentError"
+                "500":
                     description: Internal Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/PaymentError'
+                                $ref: "#/components/schemas/PaymentError"
             x-codegen-request-body-name: payload
     /v1/product:
         put:
@@ -694,27 +698,27 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Item'
+                            $ref: "#/components/schemas/Item"
                 required: true
             responses:
-                '200':
+                "200":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponse'
-                '400':
+                                $ref: "#/components/schemas/ProductResponse"
+                "400":
                     description: Validation Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductError'
-                '401':
+                                $ref: "#/components/schemas/ProductError"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductError'
+                                $ref: "#/components/schemas/ProductError"
             x-codegen-request-body-name: payload
         post:
             tags:
@@ -725,27 +729,27 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Item'
+                            $ref: "#/components/schemas/Item"
                 required: true
             responses:
-                '201':
+                "201":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponse'
-                '400':
+                                $ref: "#/components/schemas/ProductResponse"
+                "400":
                     description: Validation Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductError'
-                '401':
+                                $ref: "#/components/schemas/ProductError"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductError'
+                                $ref: "#/components/schemas/ProductError"
             x-codegen-request-body-name: payload
     /v1/product/list:
         get:
@@ -768,30 +772,30 @@ paths:
                       type: integer
                       default: 1
             responses:
-                '200':
+                "200":
                     description: Item List fetched successfully
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListGETResponse'
-                '400':
+                                $ref: "#/components/schemas/ListGETResponse"
+                "400":
                     description: Error in fetching Item List
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductError'
-                '401':
+                                $ref: "#/components/schemas/ProductError"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductError'
-                '500':
+                                $ref: "#/components/schemas/ProductError"
+                "500":
                     description: Internal Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductError'
+                                $ref: "#/components/schemas/ProductError"
         post:
             tags:
                 - Product
@@ -801,39 +805,39 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/ListItemMapModel'
+                            $ref: "#/components/schemas/ListItemMapModel"
                 required: true
             responses:
-                '200':
+                "200":
                     description: Updated successfully
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponse'
-                '400':
+                                $ref: "#/components/schemas/ProductResponse"
+                "400":
                     description: Error in mapping Item List
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductError'
-                '401':
+                                $ref: "#/components/schemas/ProductError"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductError'
-                '409':
+                                $ref: "#/components/schemas/ProductError"
+                "409":
                     description: Error in mapping Item List
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListItemMapErrorModel'
-                '500':
+                                $ref: "#/components/schemas/ListItemMapErrorModel"
+                "500":
                     description: Internal Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductError'
+                                $ref: "#/components/schemas/ProductError"
             x-codegen-request-body-name: payload
     /v1/product/{item_id}:
         get:
@@ -849,30 +853,30 @@ paths:
                   schema:
                       type: string
             responses:
-                '200':
+                "200":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductGET_Response'
-                '401':
+                                $ref: "#/components/schemas/ProductGET_Response"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductError'
-                '404':
+                                $ref: "#/components/schemas/ProductError"
+                "404":
                     description: Item not found
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductError'
-                '500':
+                                $ref: "#/components/schemas/ProductError"
+                "500":
                     description: Internal Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductError'
+                                $ref: "#/components/schemas/ProductError"
         delete:
             tags:
                 - Product
@@ -886,24 +890,24 @@ paths:
                   schema:
                       type: string
             responses:
-                '200':
+                "200":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponse'
-                '400':
+                                $ref: "#/components/schemas/ProductResponse"
+                "400":
                     description: Item not found
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductError'
-                '401':
+                                $ref: "#/components/schemas/ProductError"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductError'
+                                $ref: "#/components/schemas/ProductError"
     /v1/subscriptions/list:
         get:
             tags:
@@ -913,14 +917,14 @@ paths:
             parameters:
                 - name: start_date
                   in: query
-                  description: 'Start date for the list, [DD-MM-YYY]'
+                  description: "Start date for the list, [DD-MM-YYY]"
                   required: true
                   schema:
                       type: string
                       default: 01-01-2024
                 - name: end_date
                   in: query
-                  description: 'End date for the list, [DD-MM-YYY]'
+                  description: "End date for the list, [DD-MM-YYY]"
                   required: true
                   schema:
                       type: string
@@ -942,7 +946,7 @@ paths:
                   description: Number of records to fetch
                   schema:
                       type: string
-                      default: '10'
+                      default: "10"
                 - name: page
                   in: query
                   description: Page number
@@ -955,30 +959,30 @@ paths:
                   schema:
                       type: string
             responses:
-                '200':
+                "200":
                     description: Subscription List fetched successfully
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListSubscriptions'
-                '400':
+                                $ref: "#/components/schemas/ListSubscriptions"
+                "400":
                     description: Error in fetching subscription list
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SubscriptionErrorResponse'
-                '401':
+                                $ref: "#/components/schemas/SubscriptionErrorResponse"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SubscriptionErrorResponse'
-                '500':
+                                $ref: "#/components/schemas/SubscriptionErrorResponse"
+                "500":
                     description: Internal Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SubscriptionErrorResponse'
+                                $ref: "#/components/schemas/SubscriptionErrorResponse"
     /v1/subscriptions/{subscription_hash_id}:
         get:
             tags:
@@ -997,7 +1001,7 @@ paths:
                   description: Number of records to fetch
                   schema:
                       type: string
-                      default: '10'
+                      default: "10"
                 - name: page
                   in: query
                   description: Page number
@@ -1005,36 +1009,36 @@ paths:
                       type: integer
                       default: 1
             responses:
-                '200':
+                "200":
                     description: Subscription fetched successfully
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/GetSubscriptionInvoices'
-                '400':
+                                $ref: "#/components/schemas/GetSubscriptionInvoices"
+                "400":
                     description: Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SubscriptionErrorResponse'
-                '401':
+                                $ref: "#/components/schemas/SubscriptionErrorResponse"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SubscriptionErrorResponse'
-                '404':
+                                $ref: "#/components/schemas/SubscriptionErrorResponse"
+                "404":
                     description: Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SubscriptionErrorResponse'
-                '500':
+                                $ref: "#/components/schemas/SubscriptionErrorResponse"
+                "500":
                     description: Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SubscriptionErrorResponse'
+                                $ref: "#/components/schemas/SubscriptionErrorResponse"
     /v1/utils/gstin/{gstin}:
         get:
             tags:
@@ -1048,30 +1052,30 @@ paths:
                   schema:
                       type: string
             responses:
-                '200':
+                "200":
                     description: success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/GSTResponseModel'
-                '400':
+                                $ref: "#/components/schemas/GSTResponseModel"
+                "400":
                     description: error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/GSTErrorModel'
-                '401':
+                                $ref: "#/components/schemas/GSTErrorModel"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/GSTErrorModel'
-                '500':
+                                $ref: "#/components/schemas/GSTErrorModel"
+                "500":
                     description: Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/GSTErrorModel'
+                                $ref: "#/components/schemas/GSTErrorModel"
     /v2/customer:
         put:
             tags:
@@ -1082,27 +1086,27 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/BaseCustomerV2'
+                            $ref: "#/components/schemas/BaseCustomerV2"
                 required: true
             responses:
-                '200':
+                "200":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
-                '400':
+                                $ref: "#/components/schemas/CustomerResponseV2"
+                "400":
                     description: Validation Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
-                '401':
+                                $ref: "#/components/schemas/CustomerResponseV2"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
+                                $ref: "#/components/schemas/CustomerResponseV2"
             x-codegen-request-body-name: payload
         post:
             tags:
@@ -1113,27 +1117,27 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/BaseCustomerV2'
+                            $ref: "#/components/schemas/BaseCustomerV2"
                 required: true
             responses:
-                '201':
+                "201":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
-                '400':
+                                $ref: "#/components/schemas/CustomerResponseV2"
+                "400":
                     description: Validation Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
-                '401':
+                                $ref: "#/components/schemas/CustomerResponseV2"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
+                                $ref: "#/components/schemas/CustomerResponseV2"
             x-codegen-request-body-name: payload
     /v2/customer/ledger:
         get:
@@ -1144,14 +1148,14 @@ paths:
             parameters:
                 - name: start_date
                   in: query
-                  description: 'Start date for the ledger, [DD-MM-YYYY]'
+                  description: "Start date for the ledger, [DD-MM-YYYY]"
                   required: true
                   schema:
                       type: string
                       default: 01-01-2024
                 - name: end_date
                   in: query
-                  description: 'End date for the ledger, [DD-MM-YYYY]'
+                  description: "End date for the ledger, [DD-MM-YYYY]"
                   required: true
                   schema:
                       type: string
@@ -1175,30 +1179,30 @@ paths:
                       type: integer
                       default: 1
             responses:
-                '200':
+                "200":
                     description: Payment details fetched successfully
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/LedgerDataResponseV2'
-                '400':
+                                $ref: "#/components/schemas/LedgerDataResponseV2"
+                "400":
                     description: Error in fetching payment details
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
-                '401':
+                                $ref: "#/components/schemas/CustomerResponseV2"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
-                '500':
+                                $ref: "#/components/schemas/CustomerResponseV2"
+                "500":
                     description: Internal Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
+                                $ref: "#/components/schemas/CustomerResponseV2"
     /v2/customer/list:
         get:
             tags:
@@ -1220,30 +1224,30 @@ paths:
                       type: integer
                       default: 1
             responses:
-                '200':
+                "200":
                     description: Customer List fetched successfully
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListGETResponse'
-                '400':
+                                $ref: "#/components/schemas/ListGETResponse"
+                "400":
                     description: Error in fetching Customer List
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
-                '401':
+                                $ref: "#/components/schemas/CustomerResponseV2"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
-                '500':
+                                $ref: "#/components/schemas/CustomerResponseV2"
+                "500":
                     description: Internal Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
+                                $ref: "#/components/schemas/CustomerResponseV2"
         post:
             tags:
                 - Customer V2
@@ -1253,39 +1257,39 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/ListCustomerMapModel'
+                            $ref: "#/components/schemas/ListCustomerMapModel"
                 required: true
             responses:
-                '200':
+                "200":
                     description: Updated successfully
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
-                '400':
+                                $ref: "#/components/schemas/CustomerResponseV2"
+                "400":
                     description: Error in mapping Customer List
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
-                '401':
+                                $ref: "#/components/schemas/CustomerResponseV2"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
-                '409':
+                                $ref: "#/components/schemas/CustomerResponseV2"
+                "409":
                     description: Error in mapping Customer List
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerMappingResponseV2'
-                '500':
+                                $ref: "#/components/schemas/CustomerMappingResponseV2"
+                "500":
                     description: Internal Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
+                                $ref: "#/components/schemas/CustomerResponseV2"
             x-codegen-request-body-name: payload
     /v2/customer/{customer_id}:
         get:
@@ -1301,30 +1305,30 @@ paths:
                   schema:
                       type: string
             responses:
-                '200':
+                "200":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
-                '401':
+                                $ref: "#/components/schemas/CustomerResponseV2"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
-                '404':
+                                $ref: "#/components/schemas/CustomerResponseV2"
+                "404":
                     description: Customer not found
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
-                '500':
+                                $ref: "#/components/schemas/CustomerResponseV2"
+                "500":
                     description: Internal Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
+                                $ref: "#/components/schemas/CustomerResponseV2"
         delete:
             tags:
                 - Customer V2
@@ -1338,24 +1342,24 @@ paths:
                   schema:
                       type: string
             responses:
-                '200':
+                "200":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
-                '400':
+                                $ref: "#/components/schemas/CustomerResponseV2"
+                "400":
                     description: Customer not found
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
-                '401':
+                                $ref: "#/components/schemas/CustomerResponseV2"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomerResponseV2'
+                                $ref: "#/components/schemas/CustomerResponseV2"
     /v2/doc:
         post:
             tags:
@@ -1366,17 +1370,17 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/BaseDocumentV2'
+                            $ref: "#/components/schemas/BaseDocumentV2"
                         examples:
                             basic:
                                 value:
                                     document_type: invoice
-                                    document_date: '15-11-2024'
+                                    document_date: "15-11-2024"
                                     party:
                                         id: CUST123
                                         type: customer
                                         name: John Doe
-                                        due_date: '15-11-2024'
+                                        due_date: "15-11-2024"
                                     items:
                                         - id: ITEM123455667ghg
                                           name: Item Namgergggree
@@ -1390,13 +1394,13 @@ paths:
                             advanced:
                                 value:
                                     document_type: invoice
-                                    document_date: '15-11-2024'
+                                    document_date: "15-11-2024"
                                     party:
                                         id: CUST123
                                         type: customer
                                         name: John Doe
-                                        country_code: '91'
-                                        phone_number: '1234567890'
+                                        country_code: "91"
+                                        phone_number: "1234567890"
                                         company_name: Company Name
                                         email: johndoe@example.com
                                         gstin: 27AARCS7202C1ZD
@@ -1407,7 +1411,7 @@ paths:
                                             city: Hyderabad City
                                             state: TELANGANA
                                             country: India
-                                            pincode: '500032'
+                                            pincode: "500032"
                                         billing_address:
                                             addr_id: 1
                                             address_line1: 123 Street
@@ -1415,8 +1419,8 @@ paths:
                                             city: Hyderabad City
                                             state: TELANGANA
                                             country: India
-                                            pincode: '500032'
-                                    due_date: '15-11-2024'
+                                            pincode: "500032"
+                                    due_date: "15-11-2024"
                                     reference: Reference Text
                                     notes: Notes for the document
                                     terms: Terms and Conditions
@@ -1432,7 +1436,7 @@ paths:
                                           discount_percent: 0
                                           discount_amount: 0
                                           description: Item Description
-                                          hsn_code: '1234'
+                                          hsn_code: "1234"
                                           item_type: Product
                                           unit: kg
                                           category: Electronics
@@ -1447,7 +1451,7 @@ paths:
                                           discount_percent: 0
                                           discount_amount: 0
                                           description: Item Description 12345
-                                          hsn_code: '1234'
+                                          hsn_code: "1234"
                                           item_type: Product
                                           unit: kg
                                           category: Electronics
@@ -1456,7 +1460,7 @@ paths:
                                           method: upi
                                           notes: Payment notes
                                           bank_details:
-                                              account_number: '1234567890'
+                                              account_number: "1234567890"
                                               ifsc: SBIN0000001
                                               bank_name: State Bank of India
                                               branch: Mumbai
@@ -1467,7 +1471,7 @@ paths:
                                         city: Hyderabad City
                                         state: TELANGANA
                                         country: India
-                                        pincode: '500032'
+                                        pincode: "500032"
                                     company_billing_address:
                                         addr_id: 1
                                         address_line1: 123 Street
@@ -1475,37 +1479,37 @@ paths:
                                         city: Hyderabad City
                                         state: TELANGANA
                                         country: India
-                                        pincode: '500032'
+                                        pincode: "500032"
                             einvoice:
                                 value:
                                     document_type: invoice
-                                    document_date: '15-11-2024'
+                                    document_date: "15-11-2024"
                                     party:
-                                        id: '236'
+                                        id: "236"
                                         name: Vasu
                                         type: customer
-                                        country_code: '91'
-                                        phone_number: '1234567890'
+                                        country_code: "91"
+                                        phone_number: "1234567890"
                                         email: johndoe@example.com
                                         company_name: Vason Company
                                         gstin: 36ACZPT7516P1ZA
                                         shipping_address:
                                             addr_id: 1
                                             address_line1: 5-11, vema street
-                                            address_line2: ''
+                                            address_line2: ""
                                             city: Hyderabad South East
                                             state: TELANGANA
                                             country: India
-                                            pincode: '500030'
+                                            pincode: "500030"
                                         billing_address:
                                             addr_id: 1
                                             address_line1: 5-11, vema street
-                                            address_line2: ''
+                                            address_line2: ""
                                             city: Hyderabad
                                             state: TELANGANA
                                             country: India
-                                            pincode: '500032'
-                                    due_date: '15-11-2024'
+                                            pincode: "500032"
+                                    due_date: "15-11-2024"
                                     reference: Reference Text
                                     notes: Notes for the document
                                     terms: Terms and Conditions
@@ -1521,7 +1525,7 @@ paths:
                                           net_amount: 200
                                           total_amount: 236
                                           description: Item Description
-                                          hsn_code: '04022910'
+                                          hsn_code: "04022910"
                                           item_type: Product
                                           unit: kg
                                           category: Electronics
@@ -1530,7 +1534,7 @@ paths:
                                           method: upi
                                           notes: Payment notes
                                           bank_details:
-                                              account_number: '1234567890'
+                                              account_number: "1234567890"
                                               ifsc: SBIN0000001
                                               bank_name: State Bank of India
                                               branch: Mumbai
@@ -1538,13 +1542,13 @@ paths:
                             export:
                                 value:
                                     document_type: invoice
-                                    document_date: '15-11-2024'
+                                    document_date: "15-11-2024"
                                     party:
                                         id: CUST123
                                         type: customer
                                         name: John Doe
-                                        country_code: '91'
-                                        phone_number: '1234567890'
+                                        country_code: "91"
+                                        phone_number: "1234567890"
                                         company_name: Company Name
                                         email: johndoe@example.com
                                         gstin: 27AARCS7202C1ZD
@@ -1555,7 +1559,7 @@ paths:
                                             city: London
                                             state: OTHER TERRITORY
                                             country: United Kingdom
-                                            pincode: '788787'
+                                            pincode: "788787"
                                         billing_address:
                                             addr_id: 2
                                             address_line1: 123 Street
@@ -1563,8 +1567,8 @@ paths:
                                             city: London
                                             state: OTHER TERRITORY
                                             country: United Kingdom
-                                            pincode: '788787'
-                                    due_date: '15-11-2024'
+                                            pincode: "788787"
+                                    due_date: "15-11-2024"
                                     reference: Reference Text
                                     notes: Notes for the document
                                     terms: Terms and Conditions
@@ -1580,7 +1584,7 @@ paths:
                                           discount_percent: 0
                                           discount_amount: 0
                                           description: Item Description
-                                          hsn_code: '1234'
+                                          hsn_code: "1234"
                                           item_type: Product
                                           unit: kg
                                           category: Electronics
@@ -1595,7 +1599,7 @@ paths:
                                           discount_percent: 0
                                           discount_amount: 0
                                           description: Item Description 12345
-                                          hsn_code: '1234'
+                                          hsn_code: "1234"
                                           item_type: Product
                                           unit: kg
                                           category: Electronics
@@ -1604,15 +1608,15 @@ paths:
                                           method: upi
                                           notes: Payment notes
                                           bank_details:
-                                              account_number: '1234567890'
+                                              account_number: "1234567890"
                                               ifsc: SBIN0000001
                                               bank_name: State Bank of India
                                               branch: Mumbai
                                     is_export: true
                                     export_invoice_details:
-                                        shipping_bill_date: '27-08-2024'
-                                        shipping_bill_number: ''
-                                        shipping_port_code: ''
+                                        shipping_bill_date: "27-08-2024"
+                                        shipping_bill_number: ""
+                                        shipping_port_code: ""
                                         export_type: SEZ without IGST Payment
                                         conversion_factor: 1
                                         country_id: United Kingdom
@@ -1620,33 +1624,33 @@ paths:
                             convert_document:
                                 value:
                                     document_type: sales_return
-                                    document_date: '15-11-2024'
+                                    document_date: "15-11-2024"
                                     party:
-                                        id: '236'
+                                        id: "236"
                                         name: Vasu
                                         type: customer
-                                        country_code: '91'
-                                        phone_number: '1234567890'
+                                        country_code: "91"
+                                        phone_number: "1234567890"
                                         email: johndoe@example.com
                                         company_name: Vason Company
                                         gstin: 36ACZPT7516P1ZA
                                         shipping_address:
                                             addr_id: 1
                                             address_line1: 5-11, vema street
-                                            address_line2: ''
+                                            address_line2: ""
                                             city: Hyderabad South East
                                             state: TELANGANA
                                             country: India
-                                            pincode: '500030'
+                                            pincode: "500030"
                                         billing_address:
                                             addr_id: 1
                                             address_line1: 5-11, vema street
-                                            address_line2: ''
+                                            address_line2: ""
                                             city: Hyderabad
                                             state: TELANGANA
                                             country: India
-                                            pincode: '500032'
-                                    due_date: '15-11-2024'
+                                            pincode: "500032"
+                                    due_date: "15-11-2024"
                                     reference: Reference Text
                                     notes: Notes for the document
                                     terms: Terms and Conditions
@@ -1662,7 +1666,7 @@ paths:
                                           net_amount: 200
                                           total_amount: 236
                                           description: Item Description
-                                          hsn_code: '04022910'
+                                          hsn_code: "04022910"
                                           item_type: Product
                                           unit: kg
                                           category: Electronics
@@ -1671,7 +1675,7 @@ paths:
                                           method: upi
                                           notes: Payment notes
                                           bank_details:
-                                              account_number: '1234567890'
+                                              account_number: "1234567890"
                                               ifsc: SBIN0000001
                                               bank_name: State Bank of India
                                               branch: Mumbai
@@ -1681,13 +1685,13 @@ paths:
                             custom_fields:
                                 value:
                                     document_type: invoice
-                                    document_date: '15-11-2024'
+                                    document_date: "15-11-2024"
                                     party:
                                         id: CUST123
                                         type: customer
                                         name: John Doe
-                                        country_code: '91'
-                                        phone_number: '1234567890'
+                                        country_code: "91"
+                                        phone_number: "1234567890"
                                         company_name: Company Name
                                         email: johndoe@example.com
                                         gstin: 27AARCS7202C1ZD
@@ -1698,7 +1702,7 @@ paths:
                                             city: Hyderabad City
                                             state: TELANGANA
                                             country: India
-                                            pincode: '500032'
+                                            pincode: "500032"
                                         billing_address:
                                             addr_id: 1
                                             address_line1: 123 Street
@@ -1706,8 +1710,8 @@ paths:
                                             city: Hyderabad City
                                             state: TELANGANA
                                             country: India
-                                            pincode: '500032'
-                                    due_date: '15-11-2024'
+                                            pincode: "500032"
+                                    due_date: "15-11-2024"
                                     reference: Reference Text
                                     notes: Notes for the document
                                     terms: Terms and Conditions
@@ -1723,13 +1727,13 @@ paths:
                                           discount_percent: 0
                                           discount_amount: 0
                                           description: Item Description
-                                          hsn_code: '1234'
+                                          hsn_code: "1234"
                                           item_type: Product
                                           unit: kg
                                           category: Electronics
                                           custom_columns:
                                               - label: Weight
-                                                value: '1236'
+                                                value: "1236"
                                         - id: ITEM123fgd4vh5
                                           name: Item Name12hfdfdf345
                                           quantity: 1
@@ -1741,55 +1745,55 @@ paths:
                                           discount_percent: 0
                                           discount_amount: 0
                                           description: Item Description 12345
-                                          hsn_code: '1234'
+                                          hsn_code: "1234"
                                           item_type: Product
                                           unit: kg
                                           category: Electronics
                                           custom_columns:
                                               - label: abcd
-                                                value: '45'
+                                                value: "45"
                                               - label: Weight
-                                                value: '1'
+                                                value: "1"
                                     payments:
                                         - amount: 100
                                           method: upi
                                           notes: Payment notes
                                           bank_details:
-                                              account_number: '1234567890'
+                                              account_number: "1234567890"
                                               ifsc: SBIN0000001
                                               bank_name: State Bank of India
                                               branch: Mumbai
                                     custom_headers:
                                         - label: JOB DATE
                                           value: xchj
-                                        - label: 'MASTER BL NO :'
-                                          value: '1'
+                                        - label: "MASTER BL NO :"
+                                          value: "1"
                 required: true
             responses:
-                '200':
+                "200":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DocCreateResponseV2'
-                '400':
+                                $ref: "#/components/schemas/DocCreateResponseV2"
+                "400":
                     description: Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DocCreateResponseV2'
-                '401':
+                                $ref: "#/components/schemas/DocCreateResponseV2"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DocCreateResponseV2'
-                '500':
+                                $ref: "#/components/schemas/DocCreateResponseV2"
+                "500":
                     description: Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DocCreateResponseV2'
+                                $ref: "#/components/schemas/DocCreateResponseV2"
             x-codegen-request-body-name: payload
     /v2/doc/list:
         get:
@@ -1815,14 +1819,14 @@ paths:
                           - purchase_order
                 - name: start_date
                   in: query
-                  description: 'Start date for the list, [DD-MM-YYY]'
+                  description: "Start date for the list, [DD-MM-YYY]"
                   required: true
                   schema:
                       type: string
                       default: 01-01-2024
                 - name: end_date
                   in: query
-                  description: 'End date for the list, [DD-MM-YYY]'
+                  description: "End date for the list, [DD-MM-YYY]"
                   required: true
                   schema:
                       type: string
@@ -1843,7 +1847,7 @@ paths:
                   description: Number of records to fetch max(100)
                   schema:
                       type: string
-                      default: '10'
+                      default: "10"
                 - name: page
                   in: query
                   description: Page number
@@ -1856,30 +1860,30 @@ paths:
                   schema:
                       type: string
             responses:
-                '200':
+                "200":
                     description: Documents List fetched successfully
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListTransactionsV2'
-                '400':
+                                $ref: "#/components/schemas/ListTransactionsV2"
+                "400":
                     description: Error in fetching documents list
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DocListErrorResponse'
-                '401':
+                                $ref: "#/components/schemas/DocListErrorResponse"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DocListErrorResponse'
-                '500':
+                                $ref: "#/components/schemas/DocListErrorResponse"
+                "500":
                     description: Internal Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DocListErrorResponse'
+                                $ref: "#/components/schemas/DocListErrorResponse"
     /v2/doc/pdf/{doc_hash_id}:
         get:
             tags:
@@ -1894,27 +1898,27 @@ paths:
                   schema:
                       type: string
             responses:
-                '200':
+                "200":
                     description: File will be downloaded
                     content: {}
-                '400':
+                "400":
                     description: Invalid Document Hash ID
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DocResponseV2'
-                '401':
+                                $ref: "#/components/schemas/DocResponseV2"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DocResponseV2'
-                '500':
+                                $ref: "#/components/schemas/DocResponseV2"
+                "500":
                     description: Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DocResponseV2'
+                                $ref: "#/components/schemas/DocResponseV2"
     /v2/doc/{doc_hash_id}:
         get:
             tags:
@@ -1929,36 +1933,36 @@ paths:
                   schema:
                       type: string
             responses:
-                '200':
+                "200":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/GetInvoice'
-                '400':
+                                $ref: "#/components/schemas/GetInvoice"
+                "400":
                     description: Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DocResponseV2'
-                '401':
+                                $ref: "#/components/schemas/DocResponseV2"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DocResponseV2'
-                '404':
+                                $ref: "#/components/schemas/DocResponseV2"
+                "404":
                     description: Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DocResponseV2'
-                '500':
+                                $ref: "#/components/schemas/DocResponseV2"
+                "500":
                     description: Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DocResponseV2'
+                                $ref: "#/components/schemas/DocResponseV2"
         delete:
             tags:
                 - Document V2
@@ -1978,36 +1982,36 @@ paths:
                       type: integer
                       default: 0
             responses:
-                '200':
+                "200":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DocResponseV2'
-                '400':
+                                $ref: "#/components/schemas/DocResponseV2"
+                "400":
                     description: Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DocResponseV2'
-                '401':
+                                $ref: "#/components/schemas/DocResponseV2"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DocResponseV2'
-                '404':
+                                $ref: "#/components/schemas/DocResponseV2"
+                "404":
                     description: Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DocResponseV2'
-                '500':
+                                $ref: "#/components/schemas/DocResponseV2"
+                "500":
                     description: Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DocResponseV2'
+                                $ref: "#/components/schemas/DocResponseV2"
     /v2/payment:
         post:
             tags:
@@ -2018,33 +2022,33 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/RecordPayment'
+                            $ref: "#/components/schemas/RecordPayment"
                 required: true
             responses:
-                '200':
+                "200":
                     description: Payment recorded successfully
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/PaymentResponseV2'
-                '400':
+                                $ref: "#/components/schemas/PaymentResponseV2"
+                "400":
                     description: Error in recording payment
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/PaymentResponseV2'
-                '401':
+                                $ref: "#/components/schemas/PaymentResponseV2"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/PaymentResponseV2'
-                '500':
+                                $ref: "#/components/schemas/PaymentResponseV2"
+                "500":
                     description: Internal Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/PaymentResponseV2'
+                                $ref: "#/components/schemas/PaymentResponseV2"
             x-codegen-request-body-name: payload
     /v2/payment/list:
         get:
@@ -2055,14 +2059,14 @@ paths:
             parameters:
                 - name: start_date
                   in: query
-                  description: 'Start date for the list, [DD-MM-YYY]'
+                  description: "Start date for the list, [DD-MM-YYY]"
                   required: true
                   schema:
                       type: string
                       default: 01-01-2024
                 - name: end_date
                   in: query
-                  description: 'End date for the list, [DD-MM-YYY]'
+                  description: "End date for the list, [DD-MM-YYY]"
                   required: true
                   schema:
                       type: string
@@ -2087,30 +2091,30 @@ paths:
                       type: integer
                       default: 1
             responses:
-                '200':
+                "200":
                     description: Payment details fetched successfully
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListTransactions'
-                '400':
+                                $ref: "#/components/schemas/ListTransactions"
+                "400":
                     description: Error in fetching payment details
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/PaymentListErrorResponse'
-                '401':
+                                $ref: "#/components/schemas/PaymentListErrorResponse"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/PaymentListErrorResponse'
-                '500':
+                                $ref: "#/components/schemas/PaymentListErrorResponse"
+                "500":
                     description: Internal Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/PaymentListErrorResponse'
+                                $ref: "#/components/schemas/PaymentListErrorResponse"
     /v2/product:
         put:
             tags:
@@ -2121,27 +2125,27 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Item'
+                            $ref: "#/components/schemas/Item"
                 required: true
             responses:
-                '200':
+                "200":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponseV2'
-                '400':
+                                $ref: "#/components/schemas/ProductResponseV2"
+                "400":
                     description: Validation Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponseV2'
-                '401':
+                                $ref: "#/components/schemas/ProductResponseV2"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponseV2'
+                                $ref: "#/components/schemas/ProductResponseV2"
             x-codegen-request-body-name: payload
         post:
             tags:
@@ -2152,27 +2156,27 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Item'
+                            $ref: "#/components/schemas/Item"
                 required: true
             responses:
-                '201':
+                "201":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/GetProductResponseV2'
-                '400':
+                                $ref: "#/components/schemas/GetProductResponseV2"
+                "400":
                     description: Validation Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponseV2'
-                '401':
+                                $ref: "#/components/schemas/ProductResponseV2"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponseV2'
+                                $ref: "#/components/schemas/ProductResponseV2"
             x-codegen-request-body-name: payload
     /v2/product/list:
         get:
@@ -2195,30 +2199,30 @@ paths:
                       type: integer
                       default: 1
             responses:
-                '200':
+                "200":
                     description: Item List fetched successfully
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListGETResponseV2'
-                '400':
+                                $ref: "#/components/schemas/ListGETResponseV2"
+                "400":
                     description: Error in fetching Item List
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponseV2'
-                '401':
+                                $ref: "#/components/schemas/ProductResponseV2"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponseV2'
-                '500':
+                                $ref: "#/components/schemas/ProductResponseV2"
+                "500":
                     description: Internal Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponseV2'
+                                $ref: "#/components/schemas/ProductResponseV2"
         post:
             tags:
                 - Product V2
@@ -2228,39 +2232,39 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/ListItemMapModel'
+                            $ref: "#/components/schemas/ListItemMapModel"
                 required: true
             responses:
-                '200':
+                "200":
                     description: Updated successfully
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponseV2'
-                '400':
+                                $ref: "#/components/schemas/ProductResponseV2"
+                "400":
                     description: Error in mapping Item List
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponseV2'
-                '401':
+                                $ref: "#/components/schemas/ProductResponseV2"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponseV2'
-                '409':
+                                $ref: "#/components/schemas/ProductResponseV2"
+                "409":
                     description: Error in mapping Item List
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductMappingResponseV2'
-                '500':
+                                $ref: "#/components/schemas/ProductMappingResponseV2"
+                "500":
                     description: Internal Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponseV2'
+                                $ref: "#/components/schemas/ProductResponseV2"
             x-codegen-request-body-name: payload
     /v2/product/{item_id}:
         get:
@@ -2276,30 +2280,30 @@ paths:
                   schema:
                       type: string
             responses:
-                '200':
+                "200":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/GetProductResponseV2'
-                '401':
+                                $ref: "#/components/schemas/GetProductResponseV2"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponseV2'
-                '404':
+                                $ref: "#/components/schemas/ProductResponseV2"
+                "404":
                     description: Item not found
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponseV2'
-                '500':
+                                $ref: "#/components/schemas/ProductResponseV2"
+                "500":
                     description: Internal Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponseV2'
+                                $ref: "#/components/schemas/ProductResponseV2"
         delete:
             tags:
                 - Product V2
@@ -2313,24 +2317,192 @@ paths:
                   schema:
                       type: string
             responses:
-                '200':
+                "200":
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponseV2'
-                '400':
+                                $ref: "#/components/schemas/ProductResponseV2"
+                "400":
                     description: Item not found
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponseV2'
-                '401':
+                                $ref: "#/components/schemas/ProductResponseV2"
+                "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProductResponseV2'
+                                $ref: "#/components/schemas/ProductResponseV2"
+    /v2/subscriptions/list:
+        get:
+            tags:
+                - SubscriptionsV2
+            summary: List of Subscriptions
+            operationId: v2get_transactions
+            parameters:
+                - name: start_date
+                  in: query
+                  description: "Start date for the list, [DD-MM-YYY]"
+                  required: true
+                  schema:
+                      type: string
+                      default: 01-01-2024
+                - name: end_date
+                  in: query
+                  description: "End date for the list, [DD-MM-YYY]"
+                  required: true
+                  schema:
+                      type: string
+                      default: 31-12-2024
+                - name: status
+                  in: query
+                  description: Filter list based on status of the document
+                  schema:
+                      type: string
+                      default: all
+                      enum:
+                          - all
+                          - active
+                          - expired
+                          - error
+                          - cancelled
+                - name: num_records
+                  in: query
+                  description: Number of records to fetch
+                  schema:
+                      type: string
+                      default: "10"
+                - name: page
+                  in: query
+                  description: Page number
+                  schema:
+                      type: integer
+                      default: 1
+                - name: customer_id
+                  in: query
+                  description: Customer ID
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Subscription List fetched successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ListSubscriptionsV2"
+                "400":
+                    description: Error in fetching subscription list
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/SubscriptionErrorResponseV2"
+                "401":
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/SubscriptionErrorResponseV2"
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/SubscriptionErrorResponseV2"
+    /v2/subscriptions/{subscription_hash_id}:
+        get:
+            tags:
+                - SubscriptionsV2
+            summary: Get subscription details
+            operationId: v2_get_subscription
+            parameters:
+                - name: subscription_hash_id
+                  in: path
+                  description: The hash id of the document
+                  required: true
+                  schema:
+                      type: string
+                - name: num_records
+                  in: query
+                  description: Number of records to fetch
+                  schema:
+                      type: string
+                      default: "10"
+                - name: page
+                  in: query
+                  description: Page number
+                  schema:
+                      type: integer
+                      default: 1
+            responses:
+                "200":
+                    description: Subscription fetched successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/GetSubscriptionInvoicesV2"
+                "400":
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/SubscriptionErrorResponseV2"
+                "401":
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/SubscriptionErrorResponseV2"
+                "404":
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/SubscriptionErrorResponseV2"
+                "500":
+                    description: Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/SubscriptionErrorResponseV2"
+    /v2/utils/gstin/{gstin}:
+        get:
+            tags:
+                - UtilityV2
+            operationId: v2_get_utils
+            parameters:
+                - name: gstin
+                  in: path
+                  description: GSTIN Number
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/GSTResponseModelV2"
+                "400":
+                    description: error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/GSTErrorModelV2"
+                "401":
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/GSTErrorModelV2"
+                "500":
+                    description: Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/GSTErrorModelV2"
 components:
     schemas:
         Error:
@@ -2394,7 +2566,7 @@ components:
                         \ and any documents linked to this customer's ID will be updated to reflect\
                         \ the changes."
                     allOf:
-                        - $ref: '#/components/schemas/Customer'
+                        - $ref: "#/components/schemas/Customer"
                 party:
                     type: object
                     description:
@@ -2402,10 +2574,10 @@ components:
                         \ we will update those details and any documents linked to this party\
                         \ ID will be updated to reflect the changes."
                     allOf:
-                        - $ref: '#/components/schemas/Party'
+                        - $ref: "#/components/schemas/Party"
                 due_date:
                     type: string
-                    description: 'DD-MM-YYYY, Payment Due date for the invoice (Ex: 11-06-2024)'
+                    description: "DD-MM-YYYY, Payment Due date for the invoice (Ex: 11-06-2024)"
                     example: 11-06-2024
                 reference:
                     type: string
@@ -2421,12 +2593,12 @@ components:
                     example: Terms and Conditions
                 items:
                     type: array
-                    description: 'Array of Products/Services, refer Item Object below for parameters'
+                    description: "Array of Products/Services, refer Item Object below for parameters"
                     items:
-                        $ref: '#/components/schemas/DocItem'
+                        $ref: "#/components/schemas/DocItem"
                 extra_discount:
                     type: number
-                    description: 'Adjustment on overall invoice, doesn’t effect any tax amounts.'
+                    description: "Adjustment on overall invoice, doesn’t effect any tax amounts."
                     example: 20.0
                 round_off:
                     type: boolean
@@ -2435,9 +2607,9 @@ components:
                     default: false
                 payments:
                     type: array
-                    description: 'Array of Payments, refer Payment Object for parameters'
+                    description: "Array of Payments, refer Payment Object for parameters"
                     items:
-                        $ref: '#/components/schemas/Payment'
+                        $ref: "#/components/schemas/Payment"
                 bank_details:
                     type: object
                     description:
@@ -2445,7 +2617,7 @@ components:
                         \ If account_number, ifsc matched with existing bank details, it will\
                         \ be used, else new bank details will be added to your swipe account"
                     allOf:
-                        - $ref: '#/components/schemas/BankDetails'
+                        - $ref: "#/components/schemas/BankDetails"
                 tds_id:
                     type: integer
                     description: You can check the tds id and details mapping from https://developers.getswipe.in/api-reference/references#tds-tax-deducted-at-source
@@ -2458,21 +2630,21 @@ components:
                         "Company shipping from Address, refer Shipping Address Object\
                         \ for parameters"
                     allOf:
-                        - $ref: '#/components/schemas/ShippingAddress'
+                        - $ref: "#/components/schemas/ShippingAddress"
                 customer_shipping_address:
                     type: object
                     description:
                         "Customer shipping to Address, refer Shipping Address Object\
                         \ for parameters"
                     allOf:
-                        - $ref: '#/components/schemas/ShippingAddress'
+                        - $ref: "#/components/schemas/ShippingAddress"
                 customer_billing_address:
                     type: object
                     description:
                         "Customer billing to Address, refer Shipping Address Object\
                         \ for parameters"
                     allOf:
-                        - $ref: '#/components/schemas/ShippingAddress'
+                        - $ref: "#/components/schemas/ShippingAddress"
                 is_subscription:
                     type: boolean
                     description: Is Subscription
@@ -2481,7 +2653,7 @@ components:
                     type: object
                     description: Subscription Details
                     allOf:
-                        - $ref: '#/components/schemas/Subscription'
+                        - $ref: "#/components/schemas/Subscription"
                 einvoice:
                     type: boolean
                     description: Generate einvoice
@@ -2494,7 +2666,7 @@ components:
                     type: object
                     description: Export Invoice Details
                     allOf:
-                        - $ref: '#/components/schemas/ExportInvoiceDetails'
+                        - $ref: "#/components/schemas/ExportInvoiceDetails"
         Customer:
             required:
                 - id
@@ -2514,11 +2686,11 @@ components:
                 country_code:
                     type: string
                     description: Customer Phone Number Country code
-                    example: '91'
+                    example: "91"
                 phone_number:
                     type: string
                     description: Customer Phone Number
-                    example: '1234567890'
+                    example: "1234567890"
                 email:
                     type: string
                     description: Customer Email
@@ -2553,11 +2725,11 @@ components:
                 country_code:
                     type: string
                     description: Party Phone Number Country code
-                    example: '91'
+                    example: "91"
                 phone_number:
                     type: string
                     description: Party Phone Number
-                    example: '1234567890'
+                    example: "1234567890"
                 company_name:
                     type: string
                     description: Company Name
@@ -2576,14 +2748,14 @@ components:
                         "Party shipping to Address, refer Shipping Address Object for\
                         \ parameters"
                     allOf:
-                        - $ref: '#/components/schemas/ShippingAddressV2'
+                        - $ref: "#/components/schemas/ShippingAddressV2"
                 billing_address:
                     type: object
                     description:
                         "Party billing to Address, refer Shipping Address Object for\
                         \ parameters"
                     allOf:
-                        - $ref: '#/components/schemas/ShippingAddressV2'
+                        - $ref: "#/components/schemas/ShippingAddressV2"
         ShippingAddressV2:
             required:
                 - addr_id
@@ -2668,7 +2840,7 @@ components:
                 pincode:
                     type: string
                     description: Pincode
-                    example: '123456'
+                    example: "123456"
         DocItem:
             required:
                 - id
@@ -2724,7 +2896,7 @@ components:
                     example: 10.0
                 discount_amount:
                     type: number
-                    description: 'Discount Amount, will be ignored if discount_percent is provided'
+                    description: "Discount Amount, will be ignored if discount_percent is provided"
                     example: 10.0
                 description:
                     type: string
@@ -2733,7 +2905,7 @@ components:
                 hsn_code:
                     type: string
                     description: HSN Code
-                    example: '1234'
+                    example: "1234"
                 item_type:
                     type: string
                     description: Product or Service enum
@@ -2763,7 +2935,7 @@ components:
                     example: 100.0
                 method:
                     type: string
-                    description: 'Payment method, use only specified values'
+                    description: "Payment method, use only specified values"
                     example: upi
                     enum:
                         - cash
@@ -2787,7 +2959,7 @@ components:
                 account_number:
                     type: string
                     description: Account Number
-                    example: '1234567890'
+                    example: "1234567890"
                 ifsc:
                     type: string
                     description: IFSC Code
@@ -2872,27 +3044,27 @@ components:
                 pincode:
                     type: string
                     description: Pincode
-                    example: '123456'
+                    example: "123456"
         Subscription:
             type: object
             properties:
                 start_time:
                     type: string
-                    description: 'Start Time [DD-MM-YYYY]'
+                    description: "Start Time [DD-MM-YYYY]"
                     format: date
                     example: 0019-08-17
                 end_time:
                     type: string
-                    description: 'End Time [DD-MM-YYYY]'
+                    description: "End Time [DD-MM-YYYY]"
                     format: date
                     example: 0019-08-18
                 repeat:
                     type: integer
-                    description: 'Repeat in value, Frequency of the repetition '
+                    description: "Repeat in value, Frequency of the repetition "
                     example: 1
                 repeat_type:
                     type: string
-                    description: 'Repeat type, Entity of the repetition'
+                    description: "Repeat type, Entity of the repetition"
                     example: days
                     enum:
                         - days
@@ -2970,8 +3142,8 @@ components:
                         - China
                         - Colombia
                         - Comoros
-                        - 'Congo, Democratic Republic of the'
-                        - 'Congo, Republic of the'
+                        - "Congo, Democratic Republic of the"
+                        - "Congo, Republic of the"
                         - Costa Rica
                         - Croatia
                         - Cuba
@@ -3020,8 +3192,8 @@ components:
                         - Kazakhstan
                         - Kenya
                         - Kiribati
-                        - 'Korea, North'
-                        - 'Korea, South'
+                        - "Korea, North"
+                        - "Korea, South"
                         - Kosovo
                         - Kuwait
                         - Kyrgyzstan
@@ -3154,7 +3326,7 @@ components:
                 qrCode:
                     type: string
                     description: QR Code
-                    example: ''
+                    example: ""
                 einvoiceSuccess:
                     type: boolean
                     description: EInvoice Success
@@ -3162,7 +3334,7 @@ components:
                 einvoiceMessage:
                     type: string
                     description: EInvoice Message
-                    example: 'true'
+                    example: "true"
         BaseCustomer:
             required:
                 - name
@@ -3171,7 +3343,7 @@ components:
                 customer_id:
                     type: string
                     description: Your Customer ID
-                    example: '123'
+                    example: "123"
                 name:
                     type: string
                     description: Customer name
@@ -3179,7 +3351,7 @@ components:
                 phone:
                     type: string
                     description: Phone number
-                    example: '1234567890'
+                    example: "1234567890"
                 email:
                     type: string
                     description: Email address
@@ -3189,7 +3361,7 @@ components:
                     description: Discount
                     example: 10
                 gstin:
-                    pattern: '^(|[0-9A-Z]{15})$'
+                    pattern: "^(|[0-9A-Z]{15})$"
                     type: string
                     description: GSTIN
                     example: 27AARCS7202C1ZD
@@ -3200,7 +3372,7 @@ components:
                 opening_balance:
                     type: string
                     description: Opening balance
-                    example: '1245'
+                    example: "1245"
                 credit_limit:
                     type: integer
                     description: Credit limit
@@ -3209,24 +3381,24 @@ components:
                     type: array
                     description: List of billing addresses
                     items:
-                        $ref: '#/components/schemas/Address'
+                        $ref: "#/components/schemas/Address"
                 shipping_address:
                     type: array
                     description: List of shipping addresses
                     items:
-                        $ref: '#/components/schemas/Address'
+                        $ref: "#/components/schemas/Address"
                 opening_balance_type:
                     type: integer
-                    description: 'Credit[0] / Debit[1]'
+                    description: "Credit[0] / Debit[1]"
                     example: 1
                 dial_code:
                     type: string
                     description: Dial code
-                    example: '91'
+                    example: "91"
                 profile_image:
                     type: string
                     description: Profile image URL
-                    example: ''
+                    example: ""
                 pan:
                     type: string
                     description: PAN
@@ -3238,7 +3410,7 @@ components:
                 cc_emails:
                     type: string
                     description: CC email addresses
-                    example: 'reddi@reddi.reddi,acb.a@bcd.con'
+                    example: "reddi@reddi.reddi,acb.a@bcd.con"
                 status:
                     type: string
                     description: Status
@@ -3251,19 +3423,19 @@ components:
                 address_line1:
                     type: string
                     description: Address line 1
-                    example: ''
+                    example: ""
                 address_line2:
                     type: string
                     description: Address line 2
-                    example: ''
+                    example: ""
                 pincode:
                     type: string
                     description: Pincode
-                    example: '500075'
+                    example: "500075"
                 city:
                     type: string
                     description: City
-                    example: ''
+                    example: ""
                 state:
                     type: string
                     description: State. You can copy the state details from https://developers.getswipe.in/api-reference/references#state-details
@@ -3350,8 +3522,8 @@ components:
                         - China
                         - Colombia
                         - Comoros
-                        - 'Congo, Democratic Republic of the'
-                        - 'Congo, Republic of the'
+                        - "Congo, Democratic Republic of the"
+                        - "Congo, Republic of the"
                         - Costa Rica
                         - Croatia
                         - Cuba
@@ -3400,8 +3572,8 @@ components:
                         - Kazakhstan
                         - Kenya
                         - Kiribati
-                        - 'Korea, North'
-                        - 'Korea, South'
+                        - "Korea, North"
+                        - "Korea, South"
                         - Kosovo
                         - Kuwait
                         - Kyrgyzstan
@@ -3536,7 +3708,7 @@ components:
                     description: Success flag
                     example: true
                 customer_details:
-                    $ref: '#/components/schemas/BaseCustomer'
+                    $ref: "#/components/schemas/BaseCustomer"
         CustomerResponse:
             type: object
             properties:
@@ -3558,7 +3730,7 @@ components:
                 ledger:
                     type: array
                     items:
-                        $ref: '#/components/schemas/LedgerRecord'
+                        $ref: "#/components/schemas/LedgerRecord"
                 closing_balance:
                     type: number
                     description: Closing Balance
@@ -3599,15 +3771,15 @@ components:
                     description: Payment Mode
                     example: UPI
                 bank_details:
-                    $ref: '#/components/schemas/BankDetails'
+                    $ref: "#/components/schemas/BankDetails"
                 created_time:
                     type: string
-                    description: 'Created Time of the Payment [YYYY-MM-DD HH:MM:SS] GMT '
+                    description: "Created Time of the Payment [YYYY-MM-DD HH:MM:SS] GMT "
                     example: 2024-06-13 10:08:13
                 notes:
                     type: string
                     description: Notes
-                    example: ''
+                    example: ""
                 status:
                     type: string
                     description: Payment Status
@@ -3620,7 +3792,7 @@ components:
                 customer_mapping:
                     type: array
                     items:
-                        $ref: '#/components/schemas/CustomerMapModel'
+                        $ref: "#/components/schemas/CustomerMapModel"
         CustomerMapModel:
             required:
                 - customer_id
@@ -3633,7 +3805,7 @@ components:
                 swipe_id:
                     type: string
                     description: Swipe ID
-                    example: '1'
+                    example: "1"
                 force_update:
                     type: boolean
                     description:
@@ -3650,24 +3822,24 @@ components:
                 message:
                     type: string
                     description: Response message
-                    example: ''
+                    example: ""
                 error_code:
                     type: string
                     description: Error Code
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
                     description: Errors
                 data:
-                    $ref: '#/components/schemas/CustomerList'
+                    $ref: "#/components/schemas/CustomerList"
         CustomerList:
             type: object
             properties:
                 customers:
                     type: array
                     items:
-                        $ref: '#/components/schemas/CustomerListRecord'
+                        $ref: "#/components/schemas/CustomerListRecord"
                 total_records:
                     type: integer
                     description: Total Records available
@@ -3686,7 +3858,7 @@ components:
                 phone:
                     type: string
                     description: Phone Number of the customer
-                    example: '1234567890'
+                    example: "1234567890"
                 email:
                     type: string
                     description: Email of the customer
@@ -3694,11 +3866,11 @@ components:
                 gstin:
                     type: string
                     description: GSTIN of the customer
-                    example: ''
+                    example: ""
                 swipe_id:
                     type: string
                     description: Swipe ID assigned to the customer
-                    example: '1'
+                    example: "1"
         ListCustomerMapErrorModel:
             type: object
             properties:
@@ -3708,19 +3880,19 @@ components:
                 customer_mapping:
                     type: array
                     items:
-                        $ref: '#/components/schemas/CustomerMapModel'
+                        $ref: "#/components/schemas/CustomerMapModel"
                 duplicate_customer_ids:
                     type: array
                     items:
-                        $ref: '#/components/schemas/CustomerMapModel'
+                        $ref: "#/components/schemas/CustomerMapModel"
                 duplicate_swipe_ids:
                     type: array
                     items:
-                        $ref: '#/components/schemas/CustomerMapModel'
+                        $ref: "#/components/schemas/CustomerMapModel"
                 not_found_swipe_ids:
                     type: array
                     items:
-                        $ref: '#/components/schemas/CustomerMapModel'
+                        $ref: "#/components/schemas/CustomerMapModel"
                 message:
                     type: string
                     example: Customer ID already mapped !
@@ -3738,10 +3910,10 @@ components:
                     example: 27.0
                 payment_date:
                     type: string
-                    description: 'Payment date [DD-MM-YYYY]'
+                    description: "Payment date [DD-MM-YYYY]"
                     example: 13-06-2024
                 bank_details:
-                    $ref: '#/components/schemas/BankDetails'
+                    $ref: "#/components/schemas/BankDetails"
                 payment_mode:
                     type: string
                     description: Payment mode
@@ -3759,32 +3931,32 @@ components:
                         - Credits
                 notes:
                     type: string
-                    description: 'Notes, will be shared with the customer'
-                    example: ''
+                    description: "Notes, will be shared with the customer"
+                    example: ""
                 send_sms:
                     type: boolean
-                    description: 'Send SMS, customer will be notified through SMS'
+                    description: "Send SMS, customer will be notified through SMS"
                     example: true
                 send_email:
                     type: boolean
-                    description: 'Send Email, customer will be notified through Email'
+                    description: "Send Email, customer will be notified through Email"
                     example: true
                 exclusive_notes:
                     type: string
                     description: Exclusive Notes for internal purpose
-                    example: ''
+                    example: ""
                 customer:
                     type: string
                     description: Customer ID
                     example: CUST123
                 documents:
                     type: array
-                    description: 'Documents to be settled, if any'
+                    description: "Documents to be settled, if any"
                     example:
                         - amount_paying: 27
                           hash_id: SLascded
                     items:
-                        $ref: '#/components/schemas/DocumentsList'
+                        $ref: "#/components/schemas/DocumentsList"
         DocumentsList:
             required:
                 - amount_paying
@@ -3876,7 +4048,7 @@ components:
                 hsn_code:
                     type: string
                     description: HSN Code
-                    example: '1234'
+                    example: "1234"
                 item_type:
                     type: string
                     description: Product or Service enum
@@ -3926,7 +4098,7 @@ components:
                     description: Success flag
                     example: true
                 item:
-                    $ref: '#/components/schemas/Item'
+                    $ref: "#/components/schemas/Item"
         ProductResponse:
             type: object
             properties:
@@ -3946,7 +4118,7 @@ components:
                 item_mapping:
                     type: array
                     items:
-                        $ref: '#/components/schemas/ItemMapModel'
+                        $ref: "#/components/schemas/ItemMapModel"
         ItemMapModel:
             required:
                 - item_id
@@ -3959,7 +4131,7 @@ components:
                 swipe_id:
                     type: string
                     description: Swipe ID
-                    example: '1'
+                    example: "1"
                 force_update:
                     type: boolean
                     description:
@@ -3975,19 +4147,19 @@ components:
                 item_mapping:
                     type: array
                     items:
-                        $ref: '#/components/schemas/ItemMapModel'
+                        $ref: "#/components/schemas/ItemMapModel"
                 duplicate_item_ids:
                     type: array
                     items:
-                        $ref: '#/components/schemas/ItemMapModel'
+                        $ref: "#/components/schemas/ItemMapModel"
                 duplicate_swipe_ids:
                     type: array
                     items:
-                        $ref: '#/components/schemas/ItemMapModel'
+                        $ref: "#/components/schemas/ItemMapModel"
                 not_found_swipe_ids:
                     type: array
                     items:
-                        $ref: '#/components/schemas/ItemMapModel'
+                        $ref: "#/components/schemas/ItemMapModel"
                 message:
                     type: string
                     example: Item ID already mapped !
@@ -4001,11 +4173,11 @@ components:
                 message:
                     type: string
                     description: Message
-                    example: ''
+                    example: ""
                 error_code:
                     type: string
                     description: Error Code
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
@@ -4024,17 +4196,17 @@ components:
                 message:
                     type: string
                     description: Message
-                    example: ''
+                    example: ""
                 error_code:
                     type: string
                     description: Error Code
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
                     description: Error details
                 data:
-                    $ref: '#/components/schemas/GSTGetResponse'
+                    $ref: "#/components/schemas/GSTGetResponse"
         GSTGetResponse:
             type: object
             properties:
@@ -4052,7 +4224,7 @@ components:
                     type: boolean
                     description: ECom
                 billing:
-                    $ref: '#/components/schemas/BillingAddress'
+                    $ref: "#/components/schemas/BillingAddress"
         BillingAddress:
             type: object
             properties:
@@ -4071,7 +4243,7 @@ components:
                 pincode:
                     type: string
                     description: Pincode
-                    example: '123456'
+                    example: "123456"
                 state:
                     type: string
                     description: State
@@ -4090,7 +4262,7 @@ components:
                 error_code:
                     type: string
                     description: Error Code
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
@@ -4113,13 +4285,13 @@ components:
                 error_code:
                     type: string
                     description: Error code
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
                     description: Error details
                 data:
-                    $ref: '#/components/schemas/ListSubscriptionData'
+                    $ref: "#/components/schemas/ListSubscriptionData"
         ListSubscriptionData:
             type: object
             properties:
@@ -4127,7 +4299,7 @@ components:
                     type: array
                     description: List of subscriptions
                     items:
-                        $ref: '#/components/schemas/SubscriptionDetails'
+                        $ref: "#/components/schemas/SubscriptionDetails"
                 total_records:
                     type: integer
                     description: Total number of records
@@ -4188,7 +4360,7 @@ components:
                     type: array
                     description: List of invoices under this subscription
                     items:
-                        $ref: '#/components/schemas/Invoice'
+                        $ref: "#/components/schemas/Invoice"
                 last_created_invoice:
                     type: string
                     description: Last Created Invoice Date
@@ -4254,13 +4426,13 @@ components:
                 error_code:
                     type: string
                     description: Error code
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
                     description: Error details
                 data:
-                    $ref: '#/components/schemas/SubscriptionData'
+                    $ref: "#/components/schemas/SubscriptionData"
         SubscriptionData:
             type: object
             properties:
@@ -4268,7 +4440,7 @@ components:
                     type: array
                     description: List of invoices
                     items:
-                        $ref: '#/components/schemas/Invoice'
+                        $ref: "#/components/schemas/Invoice"
                 total_records:
                     type: integer
                     description: Total number of records
@@ -4287,13 +4459,13 @@ components:
                 error_code:
                     type: string
                     description: Error Code
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
                     description: Error details
                 data:
-                    $ref: '#/components/schemas/Data'
+                    $ref: "#/components/schemas/Data"
         Data:
             type: object
             properties:
@@ -4310,16 +4482,16 @@ components:
             properties:
                 serial_number:
                     type: string
-                    description: 'Serial Number (deprecated, please use New Serial Number)'
+                    description: "Serial Number (deprecated, please use New Serial Number)"
                     example: INV123
                 serial_number_v2:
                     type: object
                     example:
                         prefix: INV
                         doc_number: 1
-                        suffix: '2024'
+                        suffix: "2024"
                     allOf:
-                        - $ref: '#/components/schemas/SerialNumber'
+                        - $ref: "#/components/schemas/SerialNumber"
                 document_type:
                     type: string
                     description: Value should always be the string 'invoice'
@@ -4342,7 +4514,7 @@ components:
                         \ we will update those details and any documents linked to this party\
                         \ ID will be updated to reflect the changes."
                     allOf:
-                        - $ref: '#/components/schemas/Party'
+                        - $ref: "#/components/schemas/Party"
                 due_date:
                     type: string
                     description: DD-MM-YYYY
@@ -4365,12 +4537,12 @@ components:
                     example: Terms and Conditions
                 items:
                     type: array
-                    description: 'Array of Products/Services, refer Item Object below for parameters'
+                    description: "Array of Products/Services, refer Item Object below for parameters"
                     items:
-                        $ref: '#/components/schemas/DocItemV2'
+                        $ref: "#/components/schemas/DocItemV2"
                 extra_discount:
                     type: number
-                    description: 'Adjustment on overall invoice, doesn’t effect any tax amounts.'
+                    description: "Adjustment on overall invoice, doesn’t effect any tax amounts."
                     example: 20.0
                 round_off:
                     type: boolean
@@ -4379,16 +4551,16 @@ components:
                     default: false
                 payments:
                     type: array
-                    description: 'Array of Payments, refer Payment Object for parameters'
+                    description: "Array of Payments, refer Payment Object for parameters"
                     items:
-                        $ref: '#/components/schemas/PaymentV2'
+                        $ref: "#/components/schemas/PaymentV2"
                 bank_details:
                     type: object
                     description:
                         "Bank Details, it is used to display bank details in document\
                         \ PDFs. No payments are associated with these bank details."
                     allOf:
-                        - $ref: '#/components/schemas/BankDetails'
+                        - $ref: "#/components/schemas/BankDetails"
                 tds_id:
                     type: integer
                     description: You can check the tds id and details mapping from https://developers.getswipe.in/api-reference/references#tds-tax-deducted-at-source
@@ -4401,21 +4573,21 @@ components:
                         "Array of Charges and Deductions, refer Additional Charges\
                         \ Deductions Object for parameters"
                     items:
-                        $ref: '#/components/schemas/AdditionalChargesDeductionsV2'
+                        $ref: "#/components/schemas/AdditionalChargesDeductionsV2"
                 company_shipping_address:
                     type: object
                     description:
                         "Company shipping from Address, refer Shipping Address Object\
                         \ for parameters"
                     allOf:
-                        - $ref: '#/components/schemas/ShippingAddressV2'
+                        - $ref: "#/components/schemas/ShippingAddressV2"
                 company_billing_address:
                     type: object
                     description:
                         "Company billing Address, refer Billing Address Object for\
                         \ parameters"
                     allOf:
-                        - $ref: '#/components/schemas/ShippingAddressV2'
+                        - $ref: "#/components/schemas/ShippingAddressV2"
                 einvoice:
                     type: boolean
                     description: Generate einvoice
@@ -4428,7 +4600,7 @@ components:
                     type: object
                     description: Export Invoice Details
                     allOf:
-                        - $ref: '#/components/schemas/ExportInvoiceDetailsV2'
+                        - $ref: "#/components/schemas/ExportInvoiceDetailsV2"
                 is_subscription:
                     type: boolean
                     description: Is Subscription
@@ -4437,14 +4609,14 @@ components:
                     type: object
                     description: Subscription Details
                     allOf:
-                        - $ref: '#/components/schemas/Subscription'
+                        - $ref: "#/components/schemas/Subscription"
                 convert:
                     type: object
                     description:
                         Convert Document. Needed only when the document is already
                         created and you want to convert it to another document
                     allOf:
-                        - $ref: '#/components/schemas/Convert'
+                        - $ref: "#/components/schemas/Convert"
                 custom_headers:
                     type: array
                     description:
@@ -4454,7 +4626,7 @@ components:
                         - label: Custom Header 1
                           value: Value 1
                     items:
-                        $ref: '#/components/schemas/CustomHeaders'
+                        $ref: "#/components/schemas/CustomHeaders"
         SerialNumber:
             required:
                 - doc_number
@@ -4462,13 +4634,13 @@ components:
             properties:
                 prefix:
                     type: string
-                    example: 'INV-, INV/2024, INV-2024/25, INV/2024-25'
+                    example: "INV-, INV/2024, INV-2024/25, INV/2024-25"
                 doc_number:
                     type: integer
                     example: 1
                 suffix:
                     type: string
-                    example: '-suffix, /-suffix,-/suffix, /suffix'
+                    example: "-suffix, /-suffix,-/suffix, /suffix"
         DocItemV2:
             required:
                 - id
@@ -4529,7 +4701,7 @@ components:
                     example: 10.0
                 discount_amount:
                     type: number
-                    description: 'Discount Amount, will be ignored if discount_percent is provided'
+                    description: "Discount Amount, will be ignored if discount_percent is provided"
                     example: 10.0
                 description:
                     type: string
@@ -4537,8 +4709,8 @@ components:
                     example: Item Description
                 hsn_code:
                     type: string
-                    description: 'HSN Code. HSN Code can only be of length 4,6 & 8'
-                    example: '1234'
+                    description: "HSN Code. HSN Code can only be of length 4,6 & 8"
+                    example: "1234"
                 item_type:
                     type: string
                     description: Product or Service enum
@@ -4565,7 +4737,7 @@ components:
                         - label: Custom Field 1
                           value: Value 1
                     items:
-                        $ref: '#/components/schemas/ItemCustomFields'
+                        $ref: "#/components/schemas/ItemCustomFields"
         ItemCustomFields:
             required:
                 - label
@@ -4588,7 +4760,7 @@ components:
                     example: 100.0
                 method:
                     type: string
-                    description: 'Payment method, use only specified values'
+                    description: "Payment method, use only specified values"
                     example: upi
                     enum:
                         - cash
@@ -4608,7 +4780,7 @@ components:
                         \ If account_number, ifsc matched with existing bank details, it will\
                         \ be used, else new bank details will be added to your swipe account"
                     allOf:
-                        - $ref: '#/components/schemas/BankDetails'
+                        - $ref: "#/components/schemas/BankDetails"
         AdditionalChargesDeductionsV2:
             required:
                 - amount
@@ -4637,7 +4809,7 @@ components:
                 sac_code:
                     type: string
                     description: SAC Code
-                    example: '1234'
+                    example: "1234"
                 type:
                     type: string
                     description: Type
@@ -4653,16 +4825,16 @@ components:
             properties:
                 shipping_bill_date:
                     type: string
-                    description: 'Shipping Bill Date [DD-MM-YYYY]'
+                    description: "Shipping Bill Date [DD-MM-YYYY]"
                     example: 14-02-2024
                 shipping_bill_number:
                     type: string
                     description: Shipping Bill Number
-                    example: '123456'
+                    example: "123456"
                 shipping_port_code:
                     type: string
                     description: Shipping Port Code
-                    example: '123456'
+                    example: "123456"
                 export_type:
                     type: string
                     description: Export Type
@@ -4723,8 +4895,8 @@ components:
                         - China
                         - Colombia
                         - Comoros
-                        - 'Congo, Democratic Republic of the'
-                        - 'Congo, Republic of the'
+                        - "Congo, Democratic Republic of the"
+                        - "Congo, Republic of the"
                         - Costa Rica
                         - Croatia
                         - Cuba
@@ -4773,8 +4945,8 @@ components:
                         - Kazakhstan
                         - Kenya
                         - Kiribati
-                        - 'Korea, North'
-                        - 'Korea, South'
+                        - "Korea, North"
+                        - "Korea, South"
                         - Kosovo
                         - Kuwait
                         - Kyrgyzstan
@@ -5094,13 +5266,13 @@ components:
                 error_code:
                     type: string
                     description: Error Code
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
                     description: Error details
                 data:
-                    $ref: '#/components/schemas/DocCreateData'
+                    $ref: "#/components/schemas/DocCreateData"
         DocCreateData:
             type: object
             properties:
@@ -5132,7 +5304,7 @@ components:
                 error_code:
                     type: string
                     description: Error Code
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
@@ -5155,13 +5327,13 @@ components:
                 error_code:
                     type: string
                     description: Error code
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
                     description: Error details
                 data:
-                    $ref: '#/components/schemas/ListTransactionData'
+                    $ref: "#/components/schemas/ListTransactionData"
         ListTransactionData:
             type: object
             properties:
@@ -5169,7 +5341,7 @@ components:
                     type: array
                     description: List of transactions
                     items:
-                        $ref: '#/components/schemas/TransactionListModelV2'
+                        $ref: "#/components/schemas/TransactionListModelV2"
                 total_records:
                     type: integer
                     description: Total number of records
@@ -5183,16 +5355,16 @@ components:
                     example: INV-12
                 document_date:
                     type: string
-                    description: 'Transaction date [DD-MM-YYYY]'
+                    description: "Transaction date [DD-MM-YYYY]"
                     example: 11-06-2024
                 customer:
                     type: object
                     description: Customer Details for the document
                     allOf:
-                        - $ref: '#/components/schemas/CustomerV2'
+                        - $ref: "#/components/schemas/CustomerV2"
                 due_date:
                     type: string
-                    description: 'Transaction date [DD-MM-YYYY]'
+                    description: "Transaction date [DD-MM-YYYY]"
                     example: 11-06-2024
                 amount_paid:
                     type: number
@@ -5234,7 +5406,7 @@ components:
                     type: array
                     description: List of payments recorded for this document
                     items:
-                        $ref: '#/components/schemas/PaymentV2'
+                        $ref: "#/components/schemas/PaymentV2"
                 tax_amount:
                     type: number
                     description: Tax amount of the transaction
@@ -5264,11 +5436,11 @@ components:
                 country_code:
                     type: string
                     description: Party Phone Number Country code
-                    example: '91'
+                    example: "91"
                 phone_number:
                     type: string
                     description: Party Phone Number
-                    example: '1234567890'
+                    example: "1234567890"
                 company_name:
                     type: string
                     description: Company Name
@@ -5295,18 +5467,18 @@ components:
                 error_code:
                     type: string
                     description: Error code
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
                     description: Error details
                 data:
-                    $ref: '#/components/schemas/GetTransaction'
+                    $ref: "#/components/schemas/GetTransaction"
         GetTransaction:
             type: object
             properties:
                 invoice_details:
-                    $ref: '#/components/schemas/TransactionModelV2'
+                    $ref: "#/components/schemas/TransactionModelV2"
         TransactionModelV2:
             type: object
             properties:
@@ -5316,16 +5488,16 @@ components:
                     example: INV-12
                 document_date:
                     type: string
-                    description: 'Transaction date [DD-MM-YYYY]'
+                    description: "Transaction date [DD-MM-YYYY]"
                     example: 11-06-2024
                 party:
                     type: object
                     description: Party Details for the document
                     allOf:
-                        - $ref: '#/components/schemas/Party'
+                        - $ref: "#/components/schemas/Party"
                 due_date:
                     type: string
-                    description: 'Transaction date [DD-MM-YYYY]'
+                    description: "Transaction date [DD-MM-YYYY]"
                     example: 11-06-2024
                 amount_paid:
                     type: number
@@ -5348,7 +5520,7 @@ components:
                     type: array
                     description: List of items in the document
                     items:
-                        $ref: '#/components/schemas/DocItemV2'
+                        $ref: "#/components/schemas/DocItemV2"
                 is_created_by_recurring:
                     type: integer
                     description: Is the invoice created from subscriptions
@@ -5372,7 +5544,7 @@ components:
                     type: array
                     description: List of payments recorded for this document
                     items:
-                        $ref: '#/components/schemas/PaymentV2'
+                        $ref: "#/components/schemas/PaymentV2"
                 tax_amount:
                     type: number
                     description: Tax amount of the transaction
@@ -5393,7 +5565,7 @@ components:
                 customer_id:
                     type: string
                     description: Your Customer ID
-                    example: '123'
+                    example: "123"
                 name:
                     type: string
                     description: Customer name
@@ -5401,9 +5573,9 @@ components:
                 phone:
                     type: string
                     description: Phone number
-                    example: '1234567890'
+                    example: "1234567890"
                 email:
-                    pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+(\\.[a-zA-Z]{2,5})+$"
+                    pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+(\\.[a-zA-Z]{2,5})+$'
                     type: string
                     description: Email address
                     example: reddi@reddi.reddi
@@ -5412,7 +5584,7 @@ components:
                     description: Discount
                     example: 10
                 gstin:
-                    pattern: '^(|[0-9A-Z]{15})$'
+                    pattern: "^(|[0-9A-Z]{15})$"
                     type: string
                     description: GSTIN
                     example: 27AARCS7202C1ZD
@@ -5423,7 +5595,7 @@ components:
                 opening_balance:
                     type: string
                     description: Opening balance
-                    example: '1245'
+                    example: "1245"
                 credit_limit:
                     type: integer
                     description: Credit limit
@@ -5432,24 +5604,24 @@ components:
                     type: array
                     description: List of billing addresses
                     items:
-                        $ref: '#/components/schemas/AddressV2'
+                        $ref: "#/components/schemas/AddressV2"
                 shipping_address:
                     type: array
                     description: List of shipping addresses
                     items:
-                        $ref: '#/components/schemas/AddressV2'
+                        $ref: "#/components/schemas/AddressV2"
                 opening_balance_type:
                     type: integer
-                    description: 'Credit[0] / Debit[1]'
+                    description: "Credit[0] / Debit[1]"
                     example: 1
                 dial_code:
                     type: string
                     description: Dial code
-                    example: '91'
+                    example: "91"
                 profile_image:
                     type: string
                     description: Profile image URL
-                    example: ''
+                    example: ""
                 pan:
                     type: string
                     description: PAN
@@ -5461,7 +5633,7 @@ components:
                 cc_emails:
                     type: string
                     description: CC email addresses
-                    example: 'reddi@reddi.reddi,acb.a@bcd.con'
+                    example: "reddi@reddi.reddi,acb.a@bcd.con"
                 status:
                     type: string
                     description: Status
@@ -5482,19 +5654,19 @@ components:
                 address_line1:
                     type: string
                     description: Address line 1
-                    example: ''
+                    example: ""
                 address_line2:
                     type: string
                     description: Address line 2
-                    example: ''
+                    example: ""
                 pincode:
                     type: string
                     description: Pincode
-                    example: '500075'
+                    example: "500075"
                 city:
                     type: string
                     description: City
-                    example: ''
+                    example: ""
                 state:
                     type: string
                     description: State. You can copy the state details from https://developers.getswipe.in/api-reference/references#state-details
@@ -5581,8 +5753,8 @@ components:
                         - China
                         - Colombia
                         - Comoros
-                        - 'Congo, Democratic Republic of the'
-                        - 'Congo, Republic of the'
+                        - "Congo, Democratic Republic of the"
+                        - "Congo, Republic of the"
                         - Costa Rica
                         - Croatia
                         - Cuba
@@ -5631,8 +5803,8 @@ components:
                         - Kazakhstan
                         - Kenya
                         - Kiribati
-                        - 'Korea, North'
-                        - 'Korea, South'
+                        - "Korea, North"
+                        - "Korea, South"
                         - Kosovo
                         - Kuwait
                         - Kyrgyzstan
@@ -5749,17 +5921,17 @@ components:
                 message:
                     type: string
                     description: Response message
-                    example: ''
+                    example: ""
                 error_code:
                     type: string
                     description: Error Code
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
                     description: Errors
                 data:
-                    $ref: '#/components/schemas/EmptyData'
+                    $ref: "#/components/schemas/EmptyData"
         EmptyData:
             type: object
             properties:
@@ -5777,17 +5949,17 @@ components:
                 message:
                     type: string
                     description: Response message
-                    example: ''
+                    example: ""
                 error_code:
                     type: string
                     description: Error Code
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
                     description: Errors
                 data:
-                    $ref: '#/components/schemas/LedgerData'
+                    $ref: "#/components/schemas/LedgerData"
         LedgerData:
             type: object
             properties:
@@ -5806,7 +5978,7 @@ components:
                 ledger:
                     type: array
                     items:
-                        $ref: '#/components/schemas/Ledger'
+                        $ref: "#/components/schemas/Ledger"
         Ledger:
             type: object
             properties:
@@ -5821,10 +5993,10 @@ components:
                 notes:
                     type: string
                     description: Notes
-                    example: ''
+                    example: ""
                 created_time:
                     type: string
-                    description: 'Created Time of the Payment [YYYY-MM-DD HH:MM:SS] GMT '
+                    description: "Created Time of the Payment [YYYY-MM-DD HH:MM:SS] GMT "
                     example: 2024-06-13 10:08:13
                 mode:
                     type: string
@@ -5860,7 +6032,7 @@ components:
                 error_code:
                     type: string
                     description: Error Code
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
@@ -5883,13 +6055,13 @@ components:
                 error_code:
                     type: string
                     description: Error Code
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
                     description: Errors
                 data:
-                    $ref: '#/components/schemas/PaymentResponseData'
+                    $ref: "#/components/schemas/PaymentResponseData"
         PaymentResponseData:
             type: object
             properties:
@@ -5907,11 +6079,11 @@ components:
                 error_code:
                     type: string
                     description: Error code
-                    example: ''
+                    example: ""
                 message:
                     type: string
                     description: Error message
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
@@ -5934,13 +6106,13 @@ components:
                 error_code:
                     type: string
                     description: Error code
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
                     description: Errors
                 data:
-                    $ref: '#/components/schemas/PaymentList'
+                    $ref: "#/components/schemas/PaymentList"
         PaymentList:
             type: object
             properties:
@@ -5948,7 +6120,7 @@ components:
                     type: array
                     description: List of transactions
                     items:
-                        $ref: '#/components/schemas/PaymentTransactionModel'
+                        $ref: "#/components/schemas/PaymentTransactionModel"
                 total_records:
                     type: integer
                     description: Total number of records
@@ -5963,20 +6135,20 @@ components:
                 amount_remaining:
                     type: string
                     description: Remaining amount after the settlement
-                    example: '900'
+                    example: "900"
                 bank_details:
                     type: object
                     description: Bank Details of payment for as document
                     allOf:
-                        - $ref: '#/components/schemas/BankDetails'
+                        - $ref: "#/components/schemas/BankDetails"
                 customer:
                     type: object
                     description: Customer Details for the document
                     allOf:
-                        - $ref: '#/components/schemas/Customer'
+                        - $ref: "#/components/schemas/Customer"
                 payment_date:
                     type: string
-                    description: 'Payment date [DD-MM-YYYY]'
+                    description: "Payment date [DD-MM-YYYY]"
                     example: 11-06-2024
                 exclusive_notes:
                     type: string
@@ -5985,7 +6157,7 @@ components:
                     type: array
                     description: List of documents linked to this payment
                     items:
-                        $ref: '#/components/schemas/LinkedDocs'
+                        $ref: "#/components/schemas/LinkedDocs"
                 notes:
                     type: string
                     description: Notes for the document
@@ -6010,7 +6182,7 @@ components:
             properties:
                 amount_settled:
                     type: number
-                    description: 'Amount settled for the document, from the payment'
+                    description: "Amount settled for the document, from the payment"
                     example: 100.0
                 serial_number:
                     type: string
@@ -6034,13 +6206,13 @@ components:
                 error_code:
                     type: string
                     description: Error Code
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
                     description: Errors
                 data:
-                    $ref: '#/components/schemas/EmptyData'
+                    $ref: "#/components/schemas/EmptyData"
         GetProductResponseV2:
             type: object
             properties:
@@ -6055,13 +6227,13 @@ components:
                 error_code:
                     type: string
                     description: Error Code
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
                     description: Errors
                 data:
-                    $ref: '#/components/schemas/Item'
+                    $ref: "#/components/schemas/Item"
         ListGETResponseV2:
             type: object
             properties:
@@ -6072,24 +6244,24 @@ components:
                 message:
                     type: string
                     description: Response message
-                    example: ''
+                    example: ""
                 error_code:
                     type: string
                     description: Error Code
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
                     description: Errors
                 data:
-                    $ref: '#/components/schemas/ProductListV2'
+                    $ref: "#/components/schemas/ProductListV2"
         ProductListV2:
             type: object
             properties:
                 items:
                     type: array
                     items:
-                        $ref: '#/components/schemas/ItemList'
+                        $ref: "#/components/schemas/ItemList"
                 total_records:
                     type: integer
                     description: Total Records available
@@ -6143,7 +6315,7 @@ components:
                 hsn_code:
                     type: string
                     description: HSN Code
-                    example: '1234'
+                    example: "1234"
                 item_type:
                     type: string
                     description: Product or Service enum
@@ -6159,7 +6331,7 @@ components:
                 swipe_id:
                     type: string
                     description: Swipe ID assigned to the item
-                    example: '1'
+                    example: "1"
         ProductMappingResponseV2:
             type: object
             properties:
@@ -6174,7 +6346,7 @@ components:
                 error_code:
                     type: string
                     description: Error Code
-                    example: ''
+                    example: ""
                 errors:
                     type: object
                     properties: {}
@@ -6183,6 +6355,288 @@ components:
                     type: object
                     properties: {}
                     description: Data
+        SubscriptionErrorResponseV2:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: true
+                    default: true
+                message:
+                    type: string
+                    description: Success Message
+                    example: Message
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: ""
+                errors:
+                    type: object
+                    properties: {}
+                    description: Error details
+                data:
+                    type: object
+                    properties: {}
+                    description: Data
+        ListSubscriptionsV2:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                message:
+                    type: string
+                    description: Message
+                    example: Details Fetched
+                error_code:
+                    type: string
+                    description: Error code
+                    example: ""
+                errors:
+                    type: object
+                    properties: {}
+                    description: Error details
+                data:
+                    $ref: "#/components/schemas/ListSubscriptionDataV2"
+        ListSubscriptionDataV2:
+            type: object
+            properties:
+                transactions:
+                    type: array
+                    description: List of subscriptions
+                    items:
+                        $ref: "#/components/schemas/SubscriptionDetailsV2"
+                total_records:
+                    type: integer
+                    description: Total number of records
+                    example: 10
+        SubscriptionDetailsV2:
+            type: object
+            properties:
+                customer_id:
+                    type: string
+                    description: Customer ID
+                    example: Cust123
+                customer_name:
+                    type: string
+                    description: Customer Name
+                    example: CUST123
+                subscription_date:
+                    type: string
+                    description: Subscription Date
+                    example: 10 June 2024
+                subscription_start_time:
+                    type: string
+                    description: Subscription Start Time
+                    example: 10 June 2024
+                subscription_end_time:
+                    type: string
+                    description: Subscription End Time
+                    example: 10 Aug 2024
+                sub_serial_number:
+                    type: string
+                    description: Subscription Serial Number
+                    example: SUB-123
+                repeat_every:
+                    type: integer
+                    description: Repeat Every
+                    example: 1
+                repeat_unit:
+                    type: string
+                    description: Repeat Unit
+                    example: months
+                    enum:
+                        - days
+                        - weeks
+                        - months
+                        - years
+                status:
+                    type: string
+                    description: Subscription Status
+                    example: active
+                    enum:
+                        - active
+                        - expired
+                        - cancelled
+                invoice_count:
+                    type: integer
+                    description: Invoices Count
+                    example: 1
+                invoices:
+                    type: array
+                    description: List of invoices under this subscription
+                    items:
+                        $ref: "#/components/schemas/InvoiceV2"
+                last_created_invoice:
+                    type: string
+                    description: Last Created Invoice Date
+                    example: 10 June 2024
+                upcoming_date:
+                    type: string
+                    description: Upcoming Date
+                    example: 10 June 2024
+                hash_id:
+                    type: string
+                    description: Hash ID
+                    example: SUB123
+                total_amount:
+                    type: number
+                    description: Total Amount
+                    example: 1000.0
+        InvoiceV2:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: Customer Name
+                    example: CUST123
+                id:
+                    type: string
+                    description: Customer ID
+                    example: Cust123
+                serial_number:
+                    type: string
+                    description: Serial Number
+                    example: INV-123
+                status:
+                    type: string
+                    description: Status
+                    example: active
+                    enum:
+                        - paid
+                        - pending
+                        - cancelled
+                hash_id:
+                    type: string
+                    description: Hash ID
+                    example: SUB123
+                record_time:
+                    type: string
+                    description: Record Time
+                    example: 10 June 2024
+                total_amount:
+                    type: number
+                    description: Total Amount
+                    example: 1000.0
+        GetSubscriptionInvoicesV2:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                message:
+                    type: string
+                    description: Message
+                    example: Details Fetched
+                error_code:
+                    type: string
+                    description: Error code
+                    example: ""
+                errors:
+                    type: object
+                    properties: {}
+                    description: Error details
+                data:
+                    $ref: "#/components/schemas/SubscriptionDataV2"
+        SubscriptionDataV2:
+            type: object
+            properties:
+                invoices:
+                    type: array
+                    description: List of invoices
+                    items:
+                        $ref: "#/components/schemas/InvoiceV2"
+                total_records:
+                    type: integer
+                    description: Total number of records
+                    example: 10
+        GSTErrorModelV2:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success
+                    example: false
+                message:
+                    type: string
+                    description: Message
+                    example: ""
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: ""
+                errors:
+                    type: object
+                    properties: {}
+                    description: Error details
+                data:
+                    type: object
+                    properties: {}
+                    description: Data
+        GSTResponseModelV2:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success
+                    example: false
+                message:
+                    type: string
+                    description: Message
+                    example: ""
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: ""
+                errors:
+                    type: object
+                    properties: {}
+                    description: Error details
+                data:
+                    $ref: "#/components/schemas/GSTGetResponseV2"
+        GSTGetResponseV2:
+            type: object
+            properties:
+                company_name:
+                    type: string
+                    description: Company Name
+                    example: XYZ Company
+                status:
+                    type: string
+                    description: Status
+                is_sez:
+                    type: boolean
+                    description: Sez
+                is_ecom:
+                    type: boolean
+                    description: ECom
+                billing:
+                    $ref: "#/components/schemas/BillingAddressV2"
+        BillingAddressV2:
+            type: object
+            properties:
+                address_1:
+                    type: string
+                    description: Address Line 1
+                    example: 123 Street
+                address_2:
+                    type: string
+                    description: Address Line 2
+                    example: Apt 4B
+                city:
+                    type: string
+                    description: City
+                    example: City Name
+                pincode:
+                    type: string
+                    description: Pincode
+                    example: "123456"
+                state:
+                    type: string
+                    description: State
+                    example: State Name
     responses:
         ParseError:
             description: When a mask can't be parsed
@@ -6193,7 +6647,7 @@ components:
     securitySchemes:
         bearerAuth:
             type: apiKey
-            description: 'Bearer authentication header of the form Bearer <token>, where <token> is your auth token.'
+            description: "Bearer authentication header of the form Bearer <token>, where <token> is your auth token."
             name: Authorization
             in: header
-x-original-swagger-version: '2.0'
+x-original-swagger-version: "2.0"
