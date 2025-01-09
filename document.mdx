@@ -3,9 +3,14 @@ title: Document
 description: Create, cancel and get document PDFs
 ---
 
-We provide a comprehensive API solution for managing essential business documents such as invoices, subscriptions, pro forma invoices, sales returns, and purchase returns. Our APIs are designed to streamline your document creation, management, and retrieval processes with ease and efficiency.
+Our comprehensive API solution allows you to manage essential business documents such as invoices, subscriptions, pro forma invoices, sales returns, and purchase returns. With our APIs, you can effortlessly create, manage, and retrieve documents, including E-invoices and export invoices, ensuring streamlined and efficient operations.
 
 ## What We Offer
+
+<Note>
+    All the features mentioned below, and more, can be accessed directly using
+    the [Swipe Portal](https://app.getswipe.in).
+</Note>
 
 1.  [Document Creation](https://developers.getswipe.in/api-reference/document-v2/create-a-document): Easily generate professional invoices, pro forma invoices, sales returns, and purchase returns tailored to your business needs.
 
@@ -13,6 +18,12 @@ We provide a comprehensive API solution for managing essential business document
 
     1. Checkout the create document endpoint in the API playground and use your API key to test the endpoint.
     2. If your API key is valid, this API endpoint returns a 200 response with document details in a specified JSON format.
+
+    #### Things to keep in mind:
+
+    1. You can send your product_id and customer_id to create a document. These will be internally mapped to the product and customer details in Swipe.
+    2. If the Product or Party is not found, they will be created automatically with the details provided.
+    3. If new details for Party are provided, they will be updated in the system which will be reflected in your existing documents as well.
 
     <Card
         title="Create Document"
@@ -22,14 +33,6 @@ We provide a comprehensive API solution for managing essential business document
     >
         Try Creating a document
     </Card>
-
-    ### You can also manually create the documents on [Swipe Portal](https://app.getswipe.in/create/invoice)
-
-    <img
-        className="block"
-        src="/images/screenshots/doc_create.png"
-        alt="Create Document Screenshot"
-    />
 
 2.  [Fetch PDF](https://developers.getswipe.in/api-reference/document-v2/get-document-pdf): Access PDFs of already created documents.
 
@@ -47,20 +50,12 @@ We provide a comprehensive API solution for managing essential business document
         Fetch PDFs of documents that are already created
     </Card>
 
-    ### Snapshot of your document PDF
+    ### Snapshot of a document PDF
 
     <img
         className="block"
-        src="/images/screenshots/doc_pdf.png"
+        src="https://vx-erp-resources.s3.ap-south-1.amazonaws.com/invoice_templates/Template_1.webp"
         alt="Document PDF Screenshot"
-    />
-
-    ### You can view the PDFs from [Swipe Portal](https://app.getswipe.in/list/sales) by clicking on the **View** button
-
-    <img
-        className="block"
-        src="/images/screenshots/view_doc_pdf.png"
-        alt="View Document PDF Screenshot"
     />
 
 3.  [Get Document](https://developers.getswipe.in/api-reference/document-v2/get-a-document): Access specific product information quickly for operational needs or customer queries.
@@ -95,14 +90,6 @@ We provide a comprehensive API solution for managing essential business document
         Try Cancelling an active document
     </Card>
 
-    ### Keep track of your cancelled documents on [Swipe Portal](https://app.getswipe.in/list/sales?tab=cancelled)
-
-    <img
-        className="block"
-        src="/images/screenshots/cancel_doc.png"
-        alt="Cancel Document Screenshot"
-    />
-
 5.  [List of Documents](https://developers.getswipe.in/api-reference/document-v2/list-of-documents): Retrieve a complete list of all documents in your system based on the payment status, enabling seamless tracking and management.
 
     ### Steps to get list of documents created:
@@ -119,10 +106,7 @@ We provide a comprehensive API solution for managing essential business document
         Fetch List of all documents
     </Card>
 
-    ### You can keep track of all documents on [Swipe Portal](https://app.getswipe.in/list/sales)
-
-    <img
-        className="block"
-        src="/images/screenshots/documents.png"
-        alt="List of Documents Screenshot"
-    />
+    <Note>
+        You can keep track of all documents on [Swipe
+        Dashboard](https://app.getswipe.in/list/sales)
+    </Note>
