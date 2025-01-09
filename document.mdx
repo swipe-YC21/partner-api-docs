@@ -1,138 +1,128 @@
 ---
-title: Documents
-description: Create, cancel and get document pdfs
+title: Document
+description: Create, cancel and get document PDFs
 ---
 
 We provide a comprehensive API solution for managing essential business documents such as invoices, subscriptions, pro forma invoices, sales returns, and purchase returns. Our APIs are designed to streamline your document creation, management, and retrieval processes with ease and efficiency.
 
 ## What We Offer
 
-1.  [Document Creation](https://developers.getswipe.in/api-reference/document-v2/create-a-document) : Easily generate professional invoices, pro forma invoices, sales returns, and purchase returns tailored to your business needs.
+1.  [Document Creation](https://developers.getswipe.in/api-reference/document-v2/create-a-document): Easily generate professional invoices, pro forma invoices, sales returns, and purchase returns tailored to your business needs.
 
-### Steps to create a document:
+    ### Steps to create a document:
 
-    Checkout the create document endpoint in the API playground, use your API key to test the endpoint.
-        <Card
+    1. Checkout the create document endpoint in the API playground and use your API key to test the endpoint.
+    2. If your API key is valid, this API endpoint returns a 200 response with document details in a specified JSON format.
+
+    <Card
         title="Create Document"
         icon="play"
         horizontal
-        href="https://developers.getswipe.in/api-reference/document-v2/create-a-document" >
-
-    Try Creating document
-
-        </Card>
-
-    If your API key is valid, this api endpoint returns a 200 response with document details in a specified JSON format.
+        href="https://developers.getswipe.in/api-reference/document-v2/create-a-document"
+    >
+        Try Creating a document
+    </Card>
 
     ### You can also manually create the documents on [Swipe Portal](https://app.getswipe.in/create/invoice)
 
     <img
-        className="block "
+        className="block"
         src="/images/screenshots/doc_create.png"
-        alt="Hero Light"
+        alt="Create Document Screenshot"
     />
 
-2.  [Fetch PDF](https://developers.getswipe.in/api-reference/document-v2/get-document-pdf) : Access pdfs of already created documents.
+2.  [Fetch PDF](https://developers.getswipe.in/api-reference/document-v2/get-document-pdf): Access PDFs of already created documents.
 
-        ### Steps to get document PDFs:
+    ### Steps to get document PDFs:
 
-        Checkout the create document endpoint in the API playground, For doc_hash_id use hash_id received from create document.
-        <Card
+    1. Checkout the get document PDF endpoint in the API playground. For `doc_hash_id`, use the `hash_id` received from creating the document.
+    2. If your API key is valid, this API endpoint returns a 200 response along with the PDF.
+
+    <Card
         title="Fetch Document PDF"
         icon="play"
         horizontal
-        href="https://developers.getswipe.in/api-reference/document-v2/create-a-document" >
+        href="https://developers.getswipe.in/api-reference/document-v2/get-document-pdf"
+    >
+        Fetch PDFs of documents that are already created
+    </Card>
 
-    Fetch PDF's of documents that are already created
+    ### Snapshot of your document PDF
 
-        </Card>
+    <img
+        className="block"
+        src="/images/screenshots/doc_pdf.png"
+        alt="Document PDF Screenshot"
+    />
 
-        If your API key is valid, this api endpoint returns a 200 response along with pdf.
+    ### You can view the PDFs from [Swipe Portal](https://app.getswipe.in/list/sales) by clicking on the **View** button
 
-        ### Snapshot of your document pdf
+    <img
+        className="block"
+        src="/images/screenshots/view_doc_pdf.png"
+        alt="View Document PDF Screenshot"
+    />
 
-        <img
-            className="block "
-            src="/images/screenshots/doc_pdf.png"
-            alt="Hero Light"
-        />
+3.  [Get Document](https://developers.getswipe.in/api-reference/document-v2/get-a-document): Access specific product information quickly for operational needs or customer queries.
 
-        ### You can view the pdfs from [Swipe Portal](https://app.getswipe.in/list/sales) by clicking on **View** Button
+    ### Steps to get particular document details:
 
-        <img
-            className="block "
-            src="/images/screenshots/view_doc_pdf.png"
-            alt="Hero Light"
-        />
+    1. Checkout the get document endpoint in the API playground. For `doc_hash_id`, use the `hash_id` received from creating the document.
+    2. If your API key is valid, this API endpoint returns a 200 response with document details in a specified JSON format.
 
-3.  [Get Document](https://developers.getswipe.in/api-reference/document-v2/get-a-document) : Access specific product information quickly for operational needs or customer queries.
+    <Card
+        title="Get Document"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/document-v2/get-a-document"
+    >
+        Try fetching document details
+    </Card>
 
-           ### Steps to get particular document details:
-           Checkout the get document endpoint in the API playground, For doc_hash_id use hash_id received from create document.
-
-           <Card
-
-    title="Get Document"
-    icon="play"
-    horizontal
-    href="https://developers.getswipe.in/api-reference/document-v2/get-a-document" >
-
-           Try fetching document details
-
-               </Card>
-
-           If your API key is valid, this api endpoint returns a 200 response with document details in a specified JSON format.
-
-4.  [Document Cancellation](https://developers.getswipe.in/api-reference/document-v2/cancel-a-document) : Easily cancel your documents
+4.  [Document Cancellation](https://developers.getswipe.in/api-reference/document-v2/cancel-a-document): Easily cancel your documents.
 
     ### Steps to cancel a document:
 
-    Checkout the Cancel document endpoint in the API playground, For doc_hash_id use hash_id received from create document.
+    1. Checkout the cancel document endpoint in the API playground. For `doc_hash_id`, use the `hash_id` received from creating the document.
+    2. If your API key is valid, this API endpoint returns a 200 response with document details in a specified JSON format.
 
     <Card
-
-    title="Cancel a Document"
-    icon="play"
-    horizontal
-    href="https://developers.getswipe.in/api-reference/document-v2/cancel-a-document" >
-
+        title="Cancel a Document"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/document-v2/cancel-a-document"
+    >
         Try Cancelling an active document
-
     </Card>
-
-    If your API key is valid, this api endpoint returns a 200 response with document details in a specified JSON format.
 
     ### Keep track of your cancelled documents on [Swipe Portal](https://app.getswipe.in/list/sales?tab=cancelled)
 
     <img
-        className="block "
+        className="block"
         src="/images/screenshots/cancel_doc.png"
-        alt="Hero Light"
+        alt="Cancel Document Screenshot"
     />
 
-5.  [List of documents](https://developers.getswipe.in/api-reference/document-v2/list-of-documents) : Retrieve a complete list of all documents in your system based on the payment status, enabling seamless tracking and management.
+5.  [List of Documents](https://developers.getswipe.in/api-reference/document-v2/list-of-documents): Retrieve a complete list of all documents in your system based on the payment status, enabling seamless tracking and management.
 
     ### Steps to get list of documents created:
 
-    Checkout the list document endpoint in the API playground.
+    1. Checkout the list document endpoint in the API playground.
+    2. If your API key is valid, this API endpoint returns a 200 response with a list of all the documents with basic details in JSON format.
 
     <Card
-
-    title="List of Documents"
-    icon="play"
-    horizontal
-    href="https://developers.getswipe.in/api-reference/document-v2/list-of-documents" >
-
+        title="List of Documents"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/document-v2/list-of-documents"
+    >
         Fetch List of all documents
-
     </Card>
-
-    If your API key is valid, this api endpoint returns a 200 response with list of all the documents with basic details in json format.
 
     ### You can keep track of all documents on [Swipe Portal](https://app.getswipe.in/list/sales)
 
     <img
-        className="block "
+        className="block"
         src="/images/screenshots/documents.png"
-        alt="Hero Light"
+        alt="List of Documents Screenshot"
     />
