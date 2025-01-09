@@ -6,126 +6,88 @@ description: Organize and streamline all your products.
 Easily manage and synchronize product data across platforms, optimize inventory and pricing workflows, and deliver a seamless experience to your customers.
 
 ## What We Offer
+<Note>
+    All the features mentioned below, and more, can be accessed directly using
+    the [Swipe Portal](https://app.getswipe.in).
+</Note>
 
 1. [Add Product](https://developers.getswipe.in/api-reference/product-v2/add-an-item) : Add new product entries to build and expand your product catalog.
     ### Steps to add an item:
-    Run the following in your terminal after replacing `api-key` with your API key.
-    ```
-    curl --request POST \
-    --url https://app.getswipe.in/api/partner/v2/product \
-    --header 'Authorization: <api-key>' \
-    --header 'Content-Type: application/json' \
-    --data '{
-    "id": "ITEM123",
-    "name": "Item Name",
-    "quantity": 1,
-    "unit_price": 100,
-    "tax_rate": 18,
-    "price_with_tax": 118,
-    "discount_percent": 10,
-    "description": "Item Description",
-    "hsn_code": "1234",
-    "item_type": "Product",
-    "unit": "kg",
-    "category": "Electronics",
-    "status": "Active"
-    }'
-    ```
-    If your API key is valid, this api endpoint returns a 200 response with customer details in a specified JSON format.
+    1. Checkout the add item endpoint in the API playground and use your API key to test the endpoint.
+    2. If your API key is valid, this api endpoint returns a 200 response with item details in a specified JSON format.
 
-    ### You can also add products manually on [Swipe Portal](https://app.getswipe.in/products)
-    <img
-    className="block "
-    src="/images/screenshots/add_item.png"
-    alt="Hero Light"
-    />
+    ### You can also add items manually on [Swipe Portal](https://app.getswipe.in/products)
+    <Card
+        title="Add Item"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/product-v2/add-an-item"
+    >
+        Try Adding an item
+    </Card>
+
 2. [Get Product](https://developers.getswipe.in/api-reference/product-v2/get-a-item-details) : Access specific product information quickly for operational needs or customer queries.
     ### Steps to get an item:
-    Run the following in your terminal after replacing `api-key` with your API key and `item_id` with their corresponding item ids.
-    ```
-    curl --request GET \
-    --url https://app.getswipe.in/api/partner/v2/product/{item_id} \
-    --header 'Authorization: <api-key>'
-    ```
-    If your API key is valid, this api endpoint returns a 200 response with customer details in a specified JSON format.
+    1. Checkout the get item details endpoint in the API playground. For `item_id`, add the `item_id` used while adding an item.
+    2. If your API key is valid, this API endpoint returns a 200 response with item details in a specified JSON format.
+    
+    <Card
+        title="Get Item"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/product-v2/get-a-item-details"
+    >
+        Try fetching item details
+    </Card>
 3. [Update Product](https://developers.getswipe.in/api-reference/product-v2/update-a-item) : Modify existing product information to ensure accuracy and relevance, including name, description, pricing, and availability.
     ### Steps to update an item:
-    Run the following in your terminal after replacing `api-key` with your API key.
-    ```
-    curl --request PUT \
-    --url https://app.getswipe.in/api/partner/v2/product \
-    --header 'Authorization: <api-key>' \
-    --header 'Content-Type: application/json' \
-    --data '{
-    "id": "ITEM123",
-    "name": "Item Name",
-    "quantity": 1,
-    "unit_price": 100,
-    "tax_rate": 18,
-    "price_with_tax": 118,
-    "discount_percent": 10,
-    "description": "Item Description",
-    "hsn_code": "1234",
-    "item_type": "Product",
-    "unit": "kg",
-    "category": "Electronics",
-    "status": "Active"
-    }'
-    ```
-    If your API key is valid, this api endpoint returns a 200 response with customer details in a specified JSON format.
+    1. Checkout the update item endpoint in the API playground and use your API key to test the endpoint.
+    2. If your API key is valid, this api endpoint returns a 200 response with required details in a specified JSON format.
 
-    ### You can also update products manually on [Swipe Portal](https://app.getswipe.in/products)
-    <img
-    className="block "
-    src="/images/screenshots/update_item.png"
-    alt="Hero Light"
-    />
+    <Card
+        title="Update Item"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/product-v2/update-a-item"
+    >
+        Try Updating an item
+    </Card>
 4. [Delete Product](https://developers.getswipe.in/api-reference/product-v2/delete-a-item) : Remove outdated or inactive products to maintain a streamlined and updated catalog.
     ### Steps to delete an item:
-    Run the following in your terminal after replacing `api-key` with your API key and `item_id` with their corresponding item ids.
-    ```
-    curl --request DELETE \
-    --url https://app.getswipe.in/api/partner/v2/product/{item_id} \
-    --header 'Authorization: <api-key>'
-    ```
-    If your API key is valid, this api endpoint returns a 200 response.
-    ### Keep track of your deleted products on [Swipe Portal](https://app.getswipe.in/products?tab=deleted)
-    <img
-    className="block "
-    src="/images/screenshots/deleted_products.png"
-    alt="Hero Light"
-    />
+    1. Checkout the delete item endpoint in the API playground. For `item_id`, use the `item_id` that was used while adding an item.
+    2. If your API key is valid, this API endpoint returns a 200 response with document details in a specified JSON format.
+
+    <Card
+        title="Delete Item"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/product-v2/delete-a-item"
+    >
+        Try Deleting an Item
+    </Card>
 5. [Products List](https://developers.getswipe.in/api-reference/product-v2/get-list-of-items) : Retrieve a complete list of all products in your catalog, enabling efficient management and analysis.
     ### Steps to get list of items:
-    Run the following in your terminal after replacing `api-key` with your API key.
-    ```
-    curl --request GET \
-    --url https://app.getswipe.in/api/partner/v2/product/list \
-    --header 'Authorization: <api-key>'
-    ```
-    If your API key is valid, this api endpoint returns a 200 response with list of all the customer details in json format.
-    ### You can keep track of all items on [Swipe Portal](https://app.getswipe.in/products)
-    <img
-    className="block "
-    src="/images/screenshots/all_product.png"
-    alt="Hero Light"
-    />
+    1. Checkout the get items list endpoint in the API playground.
+    2. If your API key is valid, this API endpoint returns a 200 response with items list details in a specified JSON format.
+
+    <Card
+        title="List of Items"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/product-v2/get-list-of-items"
+    >
+        Fetch List of all items
+    </Card>
 6. [Update Product Mapping](https://developers.getswipe.in/api-reference/product-v2/update-items-mapping) : Seamlessly update product ID mappings to ensure consistency and alignment across systems, avoiding duplicate records and streamlining integrations.
     ### Steps to update item IDs:
-    Run the following in your terminal after replacing `api-key` with your API key.
-    ```
-    curl --request POST \
-    --url https://app.getswipe.in/api/partner/v2/product/list \
-    --header 'Authorization: <api-key>' \
-    --header 'Content-Type: application/json' \
-    --data '{
-    "item_mapping": [
-        {
-        "item_id": "<string>",
-        "swipe_id": "1",
-        "force_update": true
-        }
-    ]
-    }'
-    ```
-    If your API key is valid, this api endpoint returns a 200 response and required data in json format.
+    1. Checkout the update item mapping endpoint in the API playground.
+    2. If your API key is valid, this API endpoint returns a 200 response with data in a specified JSON format.
+
+    <Card
+        title="Update Item Mappings"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/product-v2/update-items-mapping"
+    >
+        Try updating item mappings
+    </Card>

@@ -6,28 +6,34 @@ description: Automated recurring invoices for your customers.
 Simplify invoicing through automated schedules. You can set up recurring invoicing schedule for your customers& create customized billing cycle for your customers
 
 ## What We Offer
+<Note>
+    All the features mentioned below, and more, can be accessed directly using
+    the [Swipe Portal](https://app.getswipe.in/list/subscriptions).
+</Note>
 
 1. [Fetch All Subscriptions](https://developers.getswipe.in/api-reference/subscriptions/list-of-subscriptions) : Retrieve a complete list of all subscriptions in your system based on the status, enabling seamless tracking and management.
     ### Steps to get list of subscriptions created:
-    Run the following in your terminal after replacing `api-key` with your API key.
-    ```
-    curl --request GET \
-    --url https://app.getswipe.in/api/partner/v1/subscriptions/list \
-    --header 'Authorization: <api-key>'
-    ```
-    If your API key is valid, this api endpoint returns a 200 response with list of all the subscription details in json format.
-    ### You can keep track of all subscriptions on [Swipe Portal](https://app.getswipe.in/list/subscriptions)
-    <img
-    className="block "
-    src="/images/screenshots/subscriptions.png"
-    alt="Hero Light"
-    />
+    1. Checkout the list subscriptions endpoint in the API playground.
+    2. If your API key is valid, this API endpoint returns a 200 response with a list of all the documents with basic details in JSON format.
+    
+    <Card
+        title="List of Subscriptions"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/subscriptions-v2/list-of-subscriptions"
+    >
+        Fetch List of all subscriptions
+    </Card>
 2. [Get Subscription Details](https://developers.getswipe.in/api-reference/subscriptions/get-subscription-details) : Access specific details of a particular subscription, including customer information, subscription dates, invoices, etc.
     ### Steps to get particular subscription details:
-    Run the following in your terminal after replacing `api-key` with your API key and `subscription_hash_id` with the hash id of that document.
-    ```
-    curl --request GET \
-    --url https://app.getswipe.in/api/partner/v1/subscriptions/{subscription_hash_id} \
-    --header 'Authorization: <api-key>'
-    ```
-    If your API key is valid, this api endpoint returns a 200 response with customer details in a specified JSON format.
+    1. Checkout the get document endpoint in the API playground. For `subscription_hash_id`, use the `hash_id` received from list of subscriptions.
+    2. If your API key is valid, this API endpoint returns a 200 response with subscription details in a specified JSON format.
+
+    <Card
+        title="Get Subscription"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/subscriptions-v2/get-subscription-details"
+    >
+        Try fetching document details
+    </Card>

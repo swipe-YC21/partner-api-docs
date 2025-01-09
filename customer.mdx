@@ -6,191 +6,103 @@ description: Effortlessly manage customer details, payments & invoices to ensure
 Our Customer APIs empower you to efficiently manage your customer database and financial interactions. It will allow you to know your customers better, organise your customer data effortlessly and get insights of your verified customers
 
 ## What We Offer
+<Note>
+    All the features mentioned below, and more, can be accessed directly using
+    the [Swipe Portal](https://app.getswipe.in).
+</Note>
 
 1. [Add Customer](https://developers.getswipe.in/api-reference/customer-v2/add-a-customer) : Add new customer records effortlessly to build and grow your customer base.
     ### Steps to add a customer:
-    Run the following in your terminal after replacing `api-key` with your API key.
-    ```
-    curl --request POST \
-    --url https://app.getswipe.in/api/partner/v2/customer \
-    --header 'Authorization: <api-key>' \
-    --header 'Content-Type: application/json' \
-    --data '{
-    "customer_id": "123",
-    "name": "TATA RATAN",
-    "phone": "1234567890",
-    "email": "reddi@reddi.reddi",
-    "discount": 10,
-    "gstin": "27AARCS7202C1ZD",
-    "company_name": "GSTN",
-    "opening_balance": "1245",
-    "credit_limit": 200,
-    "billing_address": [
-        {
-        "addr_id": -1,
-        "address_line1": "",
-        "address_line2": "",
-        "pincode": "500075",
-        "city": "",
-        "state": "State Name",
-        "country": "India"
-        }
-    ],
-    "shipping_address": [
-        {
-        "addr_id": -1,
-        "address_line1": "",
-        "address_line2": "",
-        "pincode": "500075",
-        "city": "",
-        "state": "State Name",
-        "country": "India"
-        }
-    ],
-    "opening_balance_type": 1,
-    "dial_code": "91",
-    "profile_image": "",
-    "pan": "ABCD1234F",
-    "notes": "Testing api",
-    "cc_emails": "reddi@reddi.reddi,acb.a@bcd.con",
-    "status": "Active"
-    }'
-    ```
-    If your API key is valid, this api endpoint returns a 200 response with customer details in a specified JSON format.
+    1. Checkout the add customer endpoint in the API playground and use your API key to test the endpoint.
+    2. If your API key is valid, this api endpoint returns a 200 response with customer details in a specified JSON format.
 
     ### You can also add customers manually on [Swipe Portal](https://app.getswipe.in/customer)
-    <img
-    className="block "
-    src="/images/screenshots/add_customer.png"
-    alt="Hero Light"
-    />
+    <Card
+        title="Add Customer"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/customer-v2/add-a-customer"
+    >
+        Try Adding a customer
+    </Card>
 2. [Get Customer](https://developers.getswipe.in/api-reference/customer-v2/get-a-customer) : Access specific customer information instantly for quick reference or operations.
     ### Steps to get a customer:
-    Run the following in your terminal after replacing `api-key` with your API key and `customer_id` with corresponding customer id whose details you want to fetch.
-    ```
-    curl --request GET \
-    --url https://app.getswipe.in/api/partner/v2/customer/{customer_id} \
-    --header 'Authorization: <api-key>'
-    ```
-    If your API key is valid, this api endpoint returns a 200 response with customer details in a specified JSON format.
+    1. Checkout the get customer endpoint in the API playground. For `customer_id`, add the `customer_id` used while adding the customer.
+    2. If your API key is valid, this API endpoint returns a 200 response with document details in a specified JSON format.
+    
+    <Card
+        title="Get Customer"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/customer-v2/get-a-customer"
+    >
+        Try fetching customer details
+    </Card>
 3. [Update Customer](https://developers.getswipe.in/api-reference/customer-v2/update-a-customer) : Keep customer information accurate and up-to-date to ensure seamless communication and transactions.
     ### Steps to update a customer:
-    Run the following in your terminal after replacing `api-key` with your API key.
-    ```
-    curl --request PUT \
-    --url https://app.getswipe.in/api/partner/v2/customer \
-    --header 'Authorization: <api-key>' \
-    --header 'Content-Type: application/json' \
-    --data '{
-    "customer_id": "123",
-    "name": "TATA RATAN",
-    "phone": "1234567890",
-    "email": "reddi@reddi.reddi",
-    "discount": 10,
-    "gstin": "27AARCS7202C1ZD",
-    "company_name": "GSTN",
-    "opening_balance": "1245",
-    "credit_limit": 200,
-    "billing_address": [
-        {
-        "addr_id": -1,
-        "address_line1": "",
-        "address_line2": "",
-        "pincode": "500075",
-        "city": "",
-        "state": "State Name",
-        "country": "India"
-        }
-    ],
-    "shipping_address": [
-        {
-        "addr_id": -1,
-        "address_line1": "",
-        "address_line2": "",
-        "pincode": "500075",
-        "city": "",
-        "state": "State Name",
-        "country": "India"
-        }
-    ],
-    "opening_balance_type": 1,
-    "dial_code": "91",
-    "profile_image": "",
-    "pan": "ABCD1234F",
-    "notes": "Testing api",
-    "cc_emails": "reddi@reddi.reddi,acb.a@bcd.con",
-    "status": "Active"
-    }'
-    ```
-    If your API key is valid, this api endpoint returns a 200 response with customer details in a specified JSON format.
+    1. Checkout the update customer endpoint in the API playground and use your API key to test the endpoint.
+    2. If your API key is valid, this api endpoint returns a 200 response with required details in a specified JSON format.
 
-    ### You can also update customers manually on [Swipe Portal](https://app.getswipe.in/customer)
-    <img
-    className="block "
-    src="/images/screenshots/update_customer.png"
-    alt="Hero Light"
-    />
+    <Card
+        title="Update Customer"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/document-v2/get-a-document"
+    >
+        Try Updating a customer
+    </Card>
+
 4. [Delete Customer](https://developers.getswipe.in/api-reference/customer-v2/delete-a-customer) : Remove outdated or unnecessary customer entries to maintain a clean and organized database.
     ### Steps to delete a customer:
-    Run the following in your terminal after replacing `api-key` with your API key and `customer_id` with corresponding customer id which you want to delete.
-    ```
-    curl --request DELETE \
-    --url https://app.getswipe.in/api/partner/v2/customer/{customer_id} \
-    --header 'Authorization: <api-key>'
-    ```
-    If your API key is valid, this api endpoint returns a 200 response.
-    ### Keep track of your deleted customers on [Swipe Portal](https://app.getswipe.in/customer?tab=deleted)
-    <img
-    className="block "
-    src="/images/screenshots/deleted_customers.png"
-    alt="Hero Light"
-    />
+    1. Checkout the delete customer endpoint in the API playground. For `customer_id`, use the `customer_id` that was used while adding the customer.
+    2. If your API key is valid, this API endpoint returns a 200 response with document details in a specified JSON format.
+
+    <Card
+        title="Delete Customer"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/customer-v2/delete-a-customer"
+    >
+        Try Deleting a customer
+    </Card>
 5. [Payment Ledger](https://developers.getswipe.in/api-reference/customer-v2/get-payment-ledger) : Retrieve a detailed payment ledger for individual customers, including payment history, outstanding balances, and transaction details, to ensure financial transparency and accountability.
     ### Steps to get a detailed payment ledger:
-    Run the following in your terminal after replacing `api-key` with your API key.
-    ```
-    curl --request GET \
-    --url https://app.getswipe.in/api/partner/v2/customer/ledger \
-    --header 'Authorization: <api-key>'
-    ```
-    If your API key is valid, this api endpoint returns a 200 response.
-    ### You can view the payment ledgers on [Swipe Portal](https://app.getswipe.in/customer) by clicking on the customer names
-    <img
-    className="block "
-    src="/images/screenshots/payment_ledger.png"
-    alt="Hero Light"
-    />
+    1. Checkout the get payment ledger endpoint in the API playground.
+    2. If your API key is valid, this API endpoint returns a 200 response with document details in a specified JSON format.
+
+    <Card
+        title="Payment Ledger"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/customer-v2/get-payment-ledger"
+    >
+        Get Payment Ledger 
+    </Card>
+
 6. [Customers List](https://developers.getswipe.in/api-reference/customer-v2/get-list-of-customers) : Fetch a comprehensive list of all customers, enabling better client management, segmentation, and analysis.
     ### Steps to get list of customer:
-    Run the following in your terminal after replacing `api-key` with your API key.
-    ```
-    curl --request GET \
-    --url https://app.getswipe.in/api/partner/v2/customer/list \
-    --header 'Authorization: <api-key>'
-    ```
-    If your API key is valid, this api endpoint returns a 200 response with list of all the customer details in json format.
-    ### You can keep track of all customers on [Swipe Portal](https://app.getswipe.in/customer)
-    <img
-    className="block "
-    src="/images/screenshots/customers.png"
-    alt="Hero Light"
-    />
+    1. Checkout the get customers list endpoint in the API playground.
+    2. If your API key is valid, this API endpoint returns a 200 response with customers list details in a specified JSON format.
+
+    <Card
+        title="List of Customers"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/customer-v2/get-list-of-customers"
+    >
+        Fetch List of all customers
+    </Card>
+
 7. [Update Customer Mapping](https://developers.getswipe.in/api-reference/customer-v2/update-customer-mapping) : Seamlessly update customer ID mappings to ensure consistency and alignment across systems, avoiding duplicate records and streamlining integrations.
     ### Steps to update customer IDs:
-    Run the following in your terminal after replacing `api-key` with your API key.
-    ```
-    curl --request POST \
-    --url https://app.getswipe.in/api/partner/v2/customer/list \
-    --header 'Authorization: <api-key>' \
-    --header 'Content-Type: application/json' \
-    --data '{
-    "customer_mapping": [
-        {
-        "customer_id": "<string>",
-        "swipe_id": "1",
-        "force_update": true
-        }
-    ]
-    }'
-    ```
-    If your API key is valid, this api endpoint returns a 200 response and required data in json format.
+    1. Checkout the update customer mapping endpoint in the API playground.
+    2. If your API key is valid, this API endpoint returns a 200 response with data in a specified JSON format.
+
+    <Card
+        title="Update Customer Mappings"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/customer-v2/update-customer-mapping"
+    >
+        Try updating customer mappings
+    </Card>
