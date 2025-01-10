@@ -149,6 +149,19 @@
                 "api-reference/product-v2/update-items-mapping"
             ],
             "version": "v2"
+        },
+        {
+            "group": "SubscriptionsV2",
+            "pages": [
+                "api-reference/subscriptionsv2/list-of-subscriptions",
+                "api-reference/subscriptionsv2/get-subscription-details"
+            ],
+            "version": "v2"
+        },
+        {
+            "group": "UtilityV2",
+            "pages": ["api-reference/utilityv2/get-v2utilsgstin"],
+            "version": "v2"
         }
     ],
     "footerSocials": {
