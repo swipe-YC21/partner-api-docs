@@ -28,9 +28,9 @@ tags:
       description: Payment related operations
     - name: Product V2
       description: Product related operations
-    - name: SubscriptionsV2
+    - name: Subscriptions V2
       description: Subscriptions related operations
-    - name: UtilityV2
+    - name: Utility V2
       description: Generic operations
 paths:
     /v1/customer:
@@ -170,8 +170,8 @@ paths:
                 - name: num_records
                   in: query
                   description:
-                      'Number of records to fetch, default : all customers will be\
-                      \ sent in response'
+                      "Number of records to fetch, default : all customers will be\
+                      \ sent in response"
                   schema:
                       type: integer
                 - name: page
@@ -2338,9 +2338,9 @@ paths:
     /v2/subscriptions/list:
         get:
             tags:
-                - SubscriptionsV2
+                - Subscriptions V2
             summary: List of Subscriptions
-            operationId: v2get_transactions
+            operationId: v2_get_transactions
             parameters:
                 - name: start_date
                   in: query
@@ -2413,7 +2413,7 @@ paths:
     /v2/subscriptions/{subscription_hash_id}:
         get:
             tags:
-                - SubscriptionsV2
+                - Subscriptions V2
             summary: Get subscription details
             operationId: v2_get_subscription
             parameters:
@@ -2469,7 +2469,7 @@ paths:
     /v2/utils/gstin/{gstin}:
         get:
             tags:
-                - UtilityV2
+                - Utility V2
             operationId: v2_get_utils
             parameters:
                 - name: gstin
@@ -3700,15 +3700,6 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
-        CustomerGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                customer_details:
-                    $ref: "#/components/schemas/BaseCustomer"
         CustomerResponse:
             type: object
             properties:
@@ -3720,6 +3711,15 @@ components:
                     type: string
                     description: Response message
                     example: Customer added successfully
+        CustomerGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                customer_details:
+                    $ref: "#/components/schemas/BaseCustomer"
         Payment_GET_Response:
             type: object
             properties:
@@ -4090,15 +4090,6 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
-        ProductGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                item:
-                    $ref: "#/components/schemas/Item"
         ProductResponse:
             type: object
             properties:
@@ -4110,6 +4101,15 @@ components:
                     type: string
                     description: Response message
                     example: Product added successfully
+        ProductGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                item:
+                    $ref: "#/components/schemas/Item"
         ListItemMapModel:
             required:
                 - item_mapping
@@ -4778,7 +4778,8 @@ components:
                     description:
                         "Bank Details, refer Bank Details Object below for parameters,\
                         \ If account_number, ifsc matched with existing bank details, it will\
-                        \ be used, else new bank details will be added to your swipe account"
+                        \ be used, else new bank details will be added to your swipe account.\
+                        \ It will link document payments to your company bank details."
                     allOf:
                         - $ref: "#/components/schemas/BankDetails"
         AdditionalChargesDeductionsV2:
@@ -5575,7 +5576,7 @@ components:
                     description: Phone number
                     example: "1234567890"
                 email:
-                    pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+(\\.[a-zA-Z]{2,5})+$'
+                    pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+(\\.[a-zA-Z]{2,5})+$"
                     type: string
                     description: Email address
                     example: reddi@reddi.reddi
