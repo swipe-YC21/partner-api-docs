@@ -153,14 +153,14 @@
         {
             "group": "SubscriptionsV2",
             "pages": [
-                "api-reference/subscriptionsv2/list-of-subscriptions",
-                "api-reference/subscriptionsv2/get-subscription-details"
+                "api-reference/subscriptions-v2/list-of-subscriptions",
+                "api-reference/subscriptions-v2/get-subscription-details"
             ],
             "version": "v2"
         },
         {
             "group": "UtilityV2",
-            "pages": ["api-reference/utilityv2/get-v2utilsgstin"],
+            "pages": ["api-reference/utility-v2/get-v2utilsgstin"],
             "version": "v2"
         }
     ],
