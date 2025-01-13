@@ -103,7 +103,7 @@
         },
         {
             "group": "Utility",
-            "pages": ["api-reference/utility/get-v1utilsgstin"],
+            "pages": ["api-reference/utility/get-gstin"],
             "version": "v1 (Deprecated)"
         },
         {
@@ -121,7 +121,7 @@
             "group": "Payment V2",
             "pages": [
                 "api-reference/payment-v2/record-payment",
-                "api-reference/payment-v2/list-of-documents"
+                "api-reference/payment-v2/list-of-payments"
             ],
             "version": "v2"
         },
@@ -151,7 +151,7 @@
             "version": "v2"
         },
         {
-            "group": "SubscriptionsV2",
+            "group": "Subscriptions V2",
             "pages": [
                 "api-reference/subscriptions-v2/list-of-subscriptions",
                 "api-reference/subscriptions-v2/get-subscription-details"
@@ -159,8 +159,8 @@
             "version": "v2"
         },
         {
-            "group": "UtilityV2",
-            "pages": ["api-reference/utility-v2/get-v2utilsgstin"],
+            "group": "Utility V2",
+            "pages": ["api-reference/utility-v2/get-gstin-v2"],
             "version": "v2"
         }
     ],
