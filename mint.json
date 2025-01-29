@@ -85,9 +85,9 @@
             "group": "Product",
             "pages": [
                 "api-reference/product/add-an-item",
-                "api-reference/product/get-a-item-details",
-                "api-reference/product/update-a-item",
-                "api-reference/product/delete-a-item",
+                "api-reference/product/get-item-details",
+                "api-reference/product/update-an-item",
+                "api-reference/product/delete-an-item",
                 "api-reference/product/get-list-of-items",
                 "api-reference/product/update-items-mapping"
             ],
@@ -129,7 +129,7 @@
             "group": "Customer V2",
             "pages": [
                 "api-reference/customer-v2/add-a-customer",
-                "api-reference/customer-v2/get-a-customer",
+                "api-reference/customer-v2/get-customer-details",
                 "api-reference/customer-v2/update-a-customer",
                 "api-reference/customer-v2/delete-a-customer",
                 "api-reference/customer-v2/get-payment-ledger",
@@ -142,9 +142,9 @@
             "group": "Product V2",
             "pages": [
                 "api-reference/product-v2/add-an-item",
-                "api-reference/product-v2/get-a-item-details",
-                "api-reference/product-v2/update-a-item",
-                "api-reference/product-v2/delete-a-item",
+                "api-reference/product-v2/get-item-details",
+                "api-reference/product-v2/update-an-item",
+                "api-reference/product-v2/delete-an-item",
                 "api-reference/product-v2/get-list-of-items",
                 "api-reference/product-v2/update-items-mapping"
             ],
