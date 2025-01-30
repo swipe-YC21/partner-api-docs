@@ -692,7 +692,7 @@ paths:
         put:
             tags:
                 - Product
-            summary: Update a Item
+            summary: Update an Item
             operationId: put_product
             requestBody:
                 content:
@@ -843,7 +843,7 @@ paths:
         get:
             tags:
                 - Product
-            summary: Get a Item Details
+            summary: Get Item Details
             operationId: get_product
             parameters:
                 - name: item_id
@@ -880,7 +880,7 @@ paths:
         delete:
             tags:
                 - Product
-            summary: Delete a Item
+            summary: Delete an Item
             operationId: delete_product
             parameters:
                 - name: item_id
@@ -1295,7 +1295,7 @@ paths:
         get:
             tags:
                 - Customer V2
-            summary: Get a customer
+            summary: Get Customer Details
             operationId: v2_get_customer
             parameters:
                 - name: customer_id
@@ -2054,7 +2054,7 @@ paths:
         get:
             tags:
                 - Payment V2
-            summary: List of documents
+            summary: List of payments
             operationId: v2_get_timeline
             parameters:
                 - name: start_date
@@ -2119,7 +2119,7 @@ paths:
         put:
             tags:
                 - Product V2
-            summary: Update a Item
+            summary: Update an Item
             operationId: v2_put_product
             requestBody:
                 content:
@@ -2270,7 +2270,7 @@ paths:
         get:
             tags:
                 - Product V2
-            summary: Get a Item Details
+            summary: Get Item Details
             operationId: v2_get_product
             parameters:
                 - name: item_id
@@ -2307,7 +2307,7 @@ paths:
         delete:
             tags:
                 - Product V2
-            summary: Delete a Item
+            summary: Delete an Item
             operationId: v2_delete_product
             parameters:
                 - name: item_id
@@ -3700,6 +3700,15 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
+        CustomerGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                customer_details:
+                    $ref: "#/components/schemas/BaseCustomer"
         CustomerResponse:
             type: object
             properties:
@@ -3711,15 +3720,6 @@ components:
                     type: string
                     description: Response message
                     example: Customer added successfully
-        CustomerGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                customer_details:
-                    $ref: "#/components/schemas/BaseCustomer"
         Payment_GET_Response:
             type: object
             properties:
@@ -4090,6 +4090,15 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
+        ProductGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                item:
+                    $ref: "#/components/schemas/Item"
         ProductResponse:
             type: object
             properties:
@@ -4101,15 +4110,6 @@ components:
                     type: string
                     description: Response message
                     example: Product added successfully
-        ProductGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                item:
-                    $ref: "#/components/schemas/Item"
         ListItemMapModel:
             required:
                 - item_mapping
