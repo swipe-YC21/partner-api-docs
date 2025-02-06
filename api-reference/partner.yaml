@@ -1376,11 +1376,11 @@ paths:
                                 value:
                                     document_type: invoice
                                     document_date: "15-11-2024"
+                                    due_date: "15-11-2024"
                                     party:
                                         id: CUST123
                                         type: customer
                                         name: John Doe
-                                        due_date: "15-11-2024"
                                     items:
                                         - id: ITEM123455667ghg
                                           name: Item Namgergggree
