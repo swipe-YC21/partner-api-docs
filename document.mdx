@@ -110,3 +110,24 @@ Our comprehensive API solution allows you to manage essential business documents
         You can keep track of all documents on [Swipe
         Dashboard](https://app.getswipe.in/list/sales)
     </Note>
+6.  [Document Edit](https://developers.getswipe.in/api-reference/document-v2/edit-a-document): Easily generate professional invoices, pro forma invoices, sales returns, and purchase returns tailored to your business needs.
+
+    ### Steps to edit a document:
+
+    1. Checkout the edit document endpoint in the API playground and use your API key to test the endpoint.
+    2. If your API key is valid, this API endpoint returns a 200 response with updated document details in a specified JSON format.
+
+    #### Things to keep in mind:
+
+    1. You have to send hash_id to edit a particular document.
+    2. If the Product or Party is not found, they will be created automatically with the details provided.
+    3. If new details for Party are provided, they will be updated in the system which will be reflected in your existing documents as well.
+
+    <Card
+        title="Edit Document"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/document-v2/edit-a-document"
+    >
+        Try Editing a document
+    </Card>
