@@ -112,6 +112,7 @@
                 "api-reference/document-v2/create-a-document",
                 "api-reference/document-v2/get-a-document",
                 "api-reference/document-v2/get-document-pdf",
+                "api-reference/document-v2/put-v2doc",
                 "api-reference/document-v2/cancel-a-document",
                 "api-reference/document-v2/list-of-documents"
             ],
@@ -135,6 +136,19 @@
                 "api-reference/customer-v2/get-payment-ledger",
                 "api-reference/customer-v2/get-list-of-customers",
                 "api-reference/customer-v2/update-customer-mapping"
+            ],
+            "version": "v2"
+        },
+        {
+            "group": "Vendor V2",
+            "pages": [
+                "api-reference/vendor-v2/update-a-vendor",
+                "api-reference/vendor-v2/add-a-vendor",
+                "api-reference/vendor-v2/get-payment-ledger",
+                "api-reference/vendor-v2/get-list-of-vendors",
+                "api-reference/vendor-v2/update-vendor-mapping",
+                "api-reference/vendor-v2/get-vendor-details",
+                "api-reference/vendor-v2/delete-a-vendor"
             ],
             "version": "v2"
         },
