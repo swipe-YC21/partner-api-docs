@@ -112,7 +112,7 @@
                 "api-reference/document-v2/create-a-document",
                 "api-reference/document-v2/get-a-document",
                 "api-reference/document-v2/get-document-pdf",
-                "api-reference/document-v2/put-v2doc",
+                "api-reference/document-v2/edit-a-document",
                 "api-reference/document-v2/cancel-a-document",
                 "api-reference/document-v2/list-of-documents"
             ],

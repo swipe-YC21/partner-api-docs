@@ -1363,42 +1363,6 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/CustomerResponseV2"
     /v2/doc:
-        put:
-            tags:
-                - Document V2
-            operationId: v2_put_invoice_resource
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/BaseDocumentEditV2"
-                required: true
-            responses:
-                "200":
-                    description: Success
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/DocCreateResponseV2"
-                "400":
-                    description: Error
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/DocCreateResponseV2"
-                "401":
-                    description: Unauthorized
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/DocCreateResponseV2"
-                "500":
-                    description: Server Error
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/DocCreateResponseV2"
-            x-codegen-request-body-name: payload
         post:
             tags:
                 - Document V2
@@ -2050,6 +2014,49 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/DocResponseV2"
+        put:
+            tags:
+                - Document V2
+            operationId: v2_put_invoice_resource
+            parameters:
+                - name: doc_hash_id
+                  in: path
+                  description: The hash id of the document to be fetched
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/BaseDocumentEditV2"
+                required: true
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DocCreateResponseV2"
+                "400":
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DocCreateResponseV2"
+                "401":
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DocCreateResponseV2"
+                "500":
+                    description: Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DocCreateResponseV2"
+            x-codegen-request-body-name: payload
     /v2/payment:
         post:
             tags:
