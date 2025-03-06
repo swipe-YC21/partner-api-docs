@@ -2021,7 +2021,7 @@ paths:
             parameters:
                 - name: doc_hash_id
                   in: path
-                  description: The hash id of the document to be fetched
+                  description: The hash ID of the document that needs to be updated.
                   required: true
                   schema:
                       type: string

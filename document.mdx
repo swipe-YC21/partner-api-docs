@@ -1,6 +1,6 @@
 ---
 title: Document
-description: Create, cancel and get document PDFs
+description: Create, edit, cancel and get document PDFs
 ---
 
 Our comprehensive API solution allows you to manage essential business documents such as invoices, subscriptions, pro forma invoices, sales returns, and purchase returns. With our APIs, you can effortlessly create, manage, and retrieve documents, including E-invoices and export invoices, ensuring streamlined and efficient operations.
@@ -110,3 +110,24 @@ Our comprehensive API solution allows you to manage essential business documents
         You can keep track of all documents on [Swipe
         Dashboard](https://app.getswipe.in/list/sales)
     </Note>
+
+6.  [Edit Document](https://developers.getswipe.in/api-reference/document-v2/edit-a-document): Seamlessly edit and update your documents to ensure accuracy and consistency.
+
+    ### Steps to create a document:
+
+    1. Checkout the edit document endpoint in the API playground and use your API key to test the endpoint.
+    2. If your API key is valid, this API endpoint returns a 200 response with updated document details in a specified JSON format.
+
+    #### Things to keep in mind:
+
+    1. In the request URL, provide the unique `doc_hash_id` of the document that needs to be updated.
+    2. In the request body, include all the keys with their respective updated values.
+
+    <Card
+        title="Edit Document"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/document-v2/edit-a-document"
+    >
+        Try Editing a document
+    </Card>
