@@ -49,6 +49,7 @@
                 "payment",
                 "product",
                 "subscriptions",
+                "ewaybill",
                 "api-reference/error-codes",
                 "api-reference/references",
                 "api-reference/change-log"

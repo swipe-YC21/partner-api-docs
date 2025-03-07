@@ -1,0 +1,58 @@
+---
+title: EwayBill
+description: Create and get ewaybill PDFs
+---
+
+Our comprehensive API solution allows you to manage essential business documents such as invoices, subscriptions, pro forma invoices, sales returns, and purchase returns. With our APIs, you can effortlessly create, manage, and retrieve documents, including E-invoices, EwayBills and export invoices, ensuring streamlined and efficient operations.
+
+## What We Offer
+
+<Note>
+    All the features mentioned below, and more, can be accessed directly using
+    the [Swipe Portal](https://app.getswipe.in).
+</Note>
+
+1.  [EwayBill Creation](https://developers.getswipe.in/api-reference/ewaybill/create-eway-bill): Easily generate professional invoices, pro forma invoices, sales returns, and purchase returns tailored to your business needs.
+
+    ### Steps to create an ewaybill:
+
+    1. Checkout the create ewaybill endpoint in the API playground and use your API key to test the endpoint.
+    2. If your API key is valid, this API endpoint returns a 200 response with document details in a specified JSON format.
+
+    #### Things to keep in mind:
+
+    1. To generate e-Way Bills from the APIs, first ensure that you are connected to the EWay Bill portal.
+    2. You can connect to EwayBill portal from [here](https://app.getswipe.in/ewaybills) by clicking on Connect to E-way Bill Portal.
+
+    <Card
+        title="Create EwayBill"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/ewaybill/create-eway-bill"
+    >
+        Try Creating an EwayBill
+    </Card>
+
+2.  [Fetch PDF](https://developers.getswipe.in/api-reference/ewaybill/get-ewaybill-pdf): Access PDFs of already created ewaybills.
+
+    ### Steps to get EwayBill PDFs:
+
+    1. Checkout the get EwayBill PDF endpoint in the API playground. For `doc_hash_id`, use the `hash_id` received from creating the document.
+    2. If your API key is valid, this API endpoint returns a 200 response along with the PDF.
+
+    <Card
+        title="Fetch EwayBill PDF"
+        icon="play"
+        horizontal
+        href="https://developers.getswipe.in/api-reference/ewaybill/get-ewaybill-pdf"
+    >
+        Fetch PDFs of EwayBills that are already created
+    </Card>
+
+    ### Snapshot of an ewaybill document PDF
+
+    <img
+        className="block"
+        src="https://vx-erp-resources.s3.ap-south-1.amazonaws.com/invoice_templates/Template_1.webp"
+        alt="Document PDF Screenshot"
+    />
