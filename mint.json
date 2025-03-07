@@ -49,6 +49,7 @@
                 "payment",
                 "product",
                 "subscriptions",
+                "ewaybill",
                 "api-reference/error-codes",
                 "api-reference/references",
                 "api-reference/change-log"
@@ -125,6 +126,13 @@
                 "api-reference/payment-v2/list-of-payments"
             ],
             "version": "v2"
+        },
+        {
+            "group": "EwayBill",
+            "pages": [
+                "api-reference/ewaybill/get-ewaybill-pdf",
+                "api-reference/ewaybill/create-eway-bill"
+            ]
         },
         {
             "group": "Customer V2",

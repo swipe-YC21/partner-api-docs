@@ -34,6 +34,8 @@ tags:
       description: Generic operations
     - name: Vendor V2
       description: Vendor related operations
+    - name: EwayBill
+      description: EwayBill related operations
 paths:
     /v1/customer:
         put:
@@ -1965,6 +1967,49 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/DocResponseV2"
+        put:
+            tags:
+                - Document V2
+            operationId: v2_put_invoice
+            parameters:
+                - name: doc_hash_id
+                  in: path
+                  description: The hash ID of the document that needs to be updated.
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/BaseDocumentEditV2"
+                required: true
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DocCreateResponseV2"
+                "400":
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DocCreateResponseV2"
+                "401":
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DocCreateResponseV2"
+                "500":
+                    description: Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DocCreateResponseV2"
+            x-codegen-request-body-name: payload
         delete:
             tags:
                 - Document V2
@@ -2014,14 +2059,51 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/DocResponseV2"
-        put:
+    /v2/ewaybill/pdf/{doc_hash_id}:
+        get:
             tags:
-                - Document V2
-            operationId: v2_put_invoice_resource
+                - EwayBill
+            summary: Get EwayBill PDF
+            operationId: v2_eway_bill_get_pdf
             parameters:
                 - name: doc_hash_id
                   in: path
-                  description: The hash ID of the document that needs to be updated.
+                  description: The hash id of the document to be fetched
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: File will be downloaded
+                    content: {}
+                "400":
+                    description: Invalid Document Hash ID
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorEwayBill"
+                "401":
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorEwayBill"
+                "500":
+                    description: Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorEwayBill"
+    /v2/ewaybill/{doc_hash_id}:
+        post:
+            tags:
+                - EwayBill
+            summary: Create Eway Bill
+            operationId: v2_post_eway_bill
+            parameters:
+                - name: doc_hash_id
+                  in: path
+                  description: The hash id of the document
                   required: true
                   schema:
                       type: string
@@ -2029,7 +2111,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: "#/components/schemas/BaseDocumentEditV2"
+                            $ref: "#/components/schemas/EwayBillModel"
                 required: true
             responses:
                 "200":
@@ -2037,25 +2119,25 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: "#/components/schemas/DocCreateResponseV2"
+                                $ref: "#/components/schemas/SuccessResponseEwayBill"
                 "400":
-                    description: Error
+                    description: Bad Request
                     content:
                         application/json:
                             schema:
-                                $ref: "#/components/schemas/DocCreateResponseV2"
+                                $ref: "#/components/schemas/ErrorEwayBill"
                 "401":
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: "#/components/schemas/DocCreateResponseV2"
+                                $ref: "#/components/schemas/ErrorEwayBill"
                 "500":
                     description: Server Error
                     content:
                         application/json:
                             schema:
-                                $ref: "#/components/schemas/DocCreateResponseV2"
+                                $ref: "#/components/schemas/ErrorEwayBill"
             x-codegen-request-body-name: payload
     /v2/payment:
         post:
@@ -4226,6 +4308,15 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
+        CustomerGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                customer_details:
+                    $ref: "#/components/schemas/BaseCustomer"
         CustomerResponse:
             type: object
             properties:
@@ -4237,15 +4328,6 @@ components:
                     type: string
                     description: Response message
                     example: Customer added successfully
-        CustomerGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                customer_details:
-                    $ref: "#/components/schemas/BaseCustomer"
         Payment_GET_Response:
             type: object
             properties:
@@ -4338,6 +4420,31 @@ components:
                         "Updates even if the customer id is already mapped with other\
                         \ swipe id, no customer details will be updated"
                     example: true
+        ListCustomerMapErrorModel:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                customer_mapping:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/CustomerMapModel"
+                duplicate_customer_ids:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/CustomerMapModel"
+                duplicate_swipe_ids:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/CustomerMapModel"
+                not_found_swipe_ids:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/CustomerMapModel"
+                message:
+                    type: string
+                    example: Customer ID already mapped !
         ListGETResponse:
             type: object
             properties:
@@ -4397,31 +4504,6 @@ components:
                     type: string
                     description: Swipe ID assigned to the customer
                     example: "1"
-        ListCustomerMapErrorModel:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    example: false
-                customer_mapping:
-                    type: array
-                    items:
-                        $ref: "#/components/schemas/CustomerMapModel"
-                duplicate_customer_ids:
-                    type: array
-                    items:
-                        $ref: "#/components/schemas/CustomerMapModel"
-                duplicate_swipe_ids:
-                    type: array
-                    items:
-                        $ref: "#/components/schemas/CustomerMapModel"
-                not_found_swipe_ids:
-                    type: array
-                    items:
-                        $ref: "#/components/schemas/CustomerMapModel"
-                message:
-                    type: string
-                    example: Customer ID already mapped !
         RecordPayment:
             required:
                 - amount
@@ -4616,6 +4698,15 @@ components:
                     properties: {}
                     description: Validation errors
                     example: List of errors
+        ProductGET_Response:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                item:
+                    $ref: "#/components/schemas/Item"
         ProductResponse:
             type: object
             properties:
@@ -4627,15 +4718,6 @@ components:
                     type: string
                     description: Response message
                     example: Product added successfully
-        ProductGET_Response:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                item:
-                    $ref: "#/components/schemas/Item"
         ListItemMapModel:
             required:
                 - item_mapping
@@ -5777,125 +5859,6 @@ components:
                     type: string
                 value:
                     type: string
-        BaseDocumentEditV2:
-            required:
-                - document_date
-                - document_type
-                - items
-            type: object
-            properties:
-                serial_number:
-                    type: string
-                    description: "Serial Number (deprecated, please use New Serial Number)"
-                    example: INV123
-                serial_number_v2:
-                    type: object
-                    example:
-                        prefix: INV
-                        doc_number: 1
-                        suffix: "2024"
-                    allOf:
-                        - $ref: "#/components/schemas/SerialNumber"
-                document_type:
-                    type: string
-                    description: Value should always be the string 'invoice'
-                    example: invoice
-                    enum:
-                        - invoice
-                        - subscription
-                        - pro_forma_invoice
-                        - estimate
-                        - sales_return
-                        - purchase_return
-                document_date:
-                    type: string
-                    description: DD-MM-YYYY
-                    example: 11-06-2024
-                party:
-                    type: object
-                    description:
-                        "Party. If there are any changes made to the party details,\
-                        \ we will update those details and any documents linked to this party\
-                        \ ID will be updated to reflect the changes."
-                    allOf:
-                        - $ref: "#/components/schemas/Party"
-                due_date:
-                    type: string
-                    description: DD-MM-YYYY
-                    example: 11-06-2024
-                reference:
-                    type: string
-                    description: Any references you want to add to the doc
-                    example: Reference Text
-                notes:
-                    type: string
-                    description:
-                        Notes to show in invoice - please check template in swipe application
-                        to see where this is displayed
-                    example: Notes for the document
-                terms:
-                    type: string
-                    description:
-                        Terms to show in invoice - please check template in swipe application
-                        to see where this is displayed
-                    example: Terms and Conditions
-                items:
-                    type: array
-                    description: "Array of Products/Services, refer Item Object below for parameters"
-                    items:
-                        $ref: "#/components/schemas/DocItemV2"
-                extra_discount:
-                    type: number
-                    description: "Adjustment on overall invoice, doesn’t effect any tax amounts."
-                    example: 20.0
-                round_off:
-                    type: boolean
-                    description: Should Round Off total amount
-                    example: true
-                    default: false
-                bank_details:
-                    type: object
-                    description:
-                        "Bank Details, it is used to display bank details in document\
-                        \ PDFs. No payments are associated with these bank details."
-                    allOf:
-                        - $ref: "#/components/schemas/BankDetails"
-                tds_id:
-                    type: integer
-                    description: You can check the tds id and details mapping from https://developers.getswipe.in/api-reference/references#tds-tax-deducted-at-source
-                tcs_id:
-                    type: integer
-                    description: You can check the tcs id and details mapping from https://developers.getswipe.in/api-reference/references#tcs-tax-collected-at-source
-                charges_and_deductions:
-                    type: array
-                    description:
-                        "Array of Charges and Deductions, refer Additional Charges\
-                        \ Deductions Object for parameters"
-                    items:
-                        $ref: "#/components/schemas/AdditionalChargesDeductionsV2"
-                company_shipping_address:
-                    type: object
-                    description:
-                        "Company shipping from Address, refer Shipping Address Object\
-                        \ for parameters"
-                    allOf:
-                        - $ref: "#/components/schemas/ShippingAddressV2"
-                company_billing_address:
-                    type: object
-                    description:
-                        "Company billing Address, refer Billing Address Object for\
-                        \ parameters"
-                    allOf:
-                        - $ref: "#/components/schemas/ShippingAddressV2"
-                is_export:
-                    type: boolean
-                    description: Is Export
-                    example: false
-                export_invoice_details:
-                    type: object
-                    description: Export Invoice Details
-                    allOf:
-                        - $ref: "#/components/schemas/ExportInvoiceDetailsV2"
         DocCreateResponseV2:
             type: object
             properties:
@@ -6097,6 +6060,125 @@ components:
                     type: string
                     description: GSTIN
                     example: 27AARCS7202C1ZD
+        BaseDocumentEditV2:
+            required:
+                - document_date
+                - document_type
+                - items
+            type: object
+            properties:
+                serial_number:
+                    type: string
+                    description: "Serial Number (deprecated, please use New Serial Number)"
+                    example: INV123
+                serial_number_v2:
+                    type: object
+                    example:
+                        prefix: INV
+                        doc_number: 1
+                        suffix: "2024"
+                    allOf:
+                        - $ref: "#/components/schemas/SerialNumber"
+                document_type:
+                    type: string
+                    description: Value should always be the string 'invoice'
+                    example: invoice
+                    enum:
+                        - invoice
+                        - subscription
+                        - pro_forma_invoice
+                        - estimate
+                        - sales_return
+                        - purchase_return
+                document_date:
+                    type: string
+                    description: DD-MM-YYYY
+                    example: 11-06-2024
+                party:
+                    type: object
+                    description:
+                        "Party. If there are any changes made to the party details,\
+                        \ we will update those details and any documents linked to this party\
+                        \ ID will be updated to reflect the changes."
+                    allOf:
+                        - $ref: "#/components/schemas/Party"
+                due_date:
+                    type: string
+                    description: DD-MM-YYYY
+                    example: 11-06-2024
+                reference:
+                    type: string
+                    description: Any references you want to add to the doc
+                    example: Reference Text
+                notes:
+                    type: string
+                    description:
+                        Notes to show in invoice - please check template in swipe application
+                        to see where this is displayed
+                    example: Notes for the document
+                terms:
+                    type: string
+                    description:
+                        Terms to show in invoice - please check template in swipe application
+                        to see where this is displayed
+                    example: Terms and Conditions
+                items:
+                    type: array
+                    description: "Array of Products/Services, refer Item Object below for parameters"
+                    items:
+                        $ref: "#/components/schemas/DocItemV2"
+                extra_discount:
+                    type: number
+                    description: "Adjustment on overall invoice, doesn’t effect any tax amounts."
+                    example: 20.0
+                round_off:
+                    type: boolean
+                    description: Should Round Off total amount
+                    example: true
+                    default: false
+                bank_details:
+                    type: object
+                    description:
+                        "Bank Details, it is used to display bank details in document\
+                        \ PDFs. No payments are associated with these bank details."
+                    allOf:
+                        - $ref: "#/components/schemas/BankDetails"
+                tds_id:
+                    type: integer
+                    description: You can check the tds id and details mapping from https://developers.getswipe.in/api-reference/references#tds-tax-deducted-at-source
+                tcs_id:
+                    type: integer
+                    description: You can check the tcs id and details mapping from https://developers.getswipe.in/api-reference/references#tcs-tax-collected-at-source
+                charges_and_deductions:
+                    type: array
+                    description:
+                        "Array of Charges and Deductions, refer Additional Charges\
+                        \ Deductions Object for parameters"
+                    items:
+                        $ref: "#/components/schemas/AdditionalChargesDeductionsV2"
+                company_shipping_address:
+                    type: object
+                    description:
+                        "Company shipping from Address, refer Shipping Address Object\
+                        \ for parameters"
+                    allOf:
+                        - $ref: "#/components/schemas/ShippingAddressV2"
+                company_billing_address:
+                    type: object
+                    description:
+                        "Company billing Address, refer Billing Address Object for\
+                        \ parameters"
+                    allOf:
+                        - $ref: "#/components/schemas/ShippingAddressV2"
+                is_export:
+                    type: boolean
+                    description: Is Export
+                    example: false
+                export_invoice_details:
+                    type: object
+                    description: Export Invoice Details
+                    allOf:
+                        - $ref: "#/components/schemas/ExportInvoiceDetailsV2"
         GetInvoice:
             type: object
             properties:
@@ -6882,6 +6964,29 @@ components:
                     description: Errors
                 data:
                     $ref: "#/components/schemas/Item"
+        ProductMappingResponseV2:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                message:
+                    type: string
+                    description: Response message
+                    example: Message
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: ""
+                errors:
+                    type: object
+                    properties: {}
+                    description: Errors
+                data:
+                    type: object
+                    properties: {}
+                    description: Data
         ListGETResponseV2:
             type: object
             properties:
@@ -6980,29 +7085,6 @@ components:
                     type: string
                     description: Swipe ID assigned to the item
                     example: "1"
-        ProductMappingResponseV2:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                    description: Success flag
-                    example: true
-                message:
-                    type: string
-                    description: Response message
-                    example: Message
-                error_code:
-                    type: string
-                    description: Error Code
-                    example: ""
-                errors:
-                    type: object
-                    properties: {}
-                    description: Errors
-                data:
-                    type: object
-                    properties: {}
-                    description: Data
         SubscriptionErrorResponseV2:
             type: object
             properties:
@@ -7407,6 +7489,29 @@ components:
                         "Updates even if the vendor id is already mapped with other\
                         \ swipe id, no vendor details will be updated"
                     example: true
+        VendorMappingResponseV2:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success flag
+                    example: true
+                message:
+                    type: string
+                    description: Response message
+                    example: Message
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: ""
+                errors:
+                    type: object
+                    properties: {}
+                    description: Errors
+                data:
+                    type: object
+                    properties: {}
+                    description: Data
         ListGETResponseVendor:
             type: object
             properties:
@@ -7466,29 +7571,414 @@ components:
                     type: string
                     description: Swipe ID assigned to the vendor
                     example: "1"
-        VendorMappingResponseV2:
+        ErrorEwayBill:
             type: object
             properties:
                 success:
                     type: boolean
-                    description: Success flag
-                    example: true
-                message:
-                    type: string
-                    description: Response message
-                    example: Message
+                    example: false
+                    default: false
                 error_code:
                     type: string
-                    description: Error Code
-                    example: ""
+                    description:
+                        "Error Code unique for a specific error. For ewaybill portal\
+                        \ errors, error_code will be PORTAL_ERROR_[ewaybill_portal_errorcode]\
+                        \ ex: PORTAL_ERROR_2247, we can refer description for error code from\
+                        \ here https://einvoice1.gst.gov.in/others/geterrorcodes/EWB"
+                    example: INVALID_HASH_ID
+                message:
+                    type: string
+                    description: Error message
+                    example: Some error occurred
                 errors:
                     type: object
                     properties: {}
-                    description: Errors
-                data:
+                    description: Error details
+        EwayBillModel:
+            required:
+                - dispatch_from
+                - dispatch_to
+                - sub_supply_type
+                - supply_type
+                - transport_mode
+                - transporter_doc_date
+            type: object
+            properties:
+                supply_type:
+                    type: string
+                    description: Supply Type
+                    example: Outward
+                    enum:
+                        - Outward
+                        - Inward
+                sub_supply_type:
+                    type: string
+                    description: Sub Supply Type
+                    example: Supply
+                    enum:
+                        - Supply
+                        - Export
+                        - Job Work
+                        - SKD/CKD/Lots
+                        - Recipient Not Known
+                        - For Own Use
+                        - Job Work Returns
+                        - Sales Returns
+                        - Exhibition or fairs
+                        - Line Sales
+                        - Others
+                transporter_doc_date:
+                    type: string
+                    description: DD-MM-YYYY
+                    example: 05-03-2025
+                dispatch_from:
                     type: object
-                    properties: {}
-                    description: Data
+                    description: Dispatch From Address
+                    allOf:
+                        - $ref: "#/components/schemas/EwayBillAddress"
+                dispatch_to:
+                    type: object
+                    description: Dispatch To Address
+                    allOf:
+                        - $ref: "#/components/schemas/EwayBillAddress"
+                vehicle_type:
+                    type: string
+                    description: Vehicle Type
+                    example: Regular
+                    enum:
+                        - Regular
+                        - Over Dimensional Cargo
+                transaction_type:
+                    type: string
+                    description: Transaction Type
+                    example: Regular
+                    enum:
+                        - Regular
+                        - Bill To - Ship To
+                        - Bill From - Dispatch From
+                        - Combination of 2 and 3
+                transport_mode:
+                    type: string
+                    description: Transport Mode
+                    example: Road
+                    enum:
+                        - Road
+                        - Rail
+                        - Air
+                        - Ship or Ship Cum Road/Rail
+                sub_supply_type_description:
+                    type: string
+                    description: Sub Supply Type Description
+                    example: Supply of goods
+                transporter_id:
+                    type: string
+                    description: Transporter ID
+                    example: "123456"
+                transporter_name:
+                    type: string
+                    description: Transporter Name
+                    example: Transporter Name
+                vehicle_number:
+                    type: string
+                    description: Vehicle Number
+                    example: KA01AB1234
+                transporter_doc_number:
+                    type: string
+                    description: Transporter Document Number
+                    example: "123456"
+        EwayBillAddress:
+            required:
+                - addr_id
+                - address_line1
+                - address_line2
+                - city
+                - country
+                - pincode
+                - state
+            type: object
+            properties:
+                addr_id:
+                    type: integer
+                    description:
+                        "Address ID. Value should be n >= 0 and n <= 999999, It will\
+                        \ automatically update the existing address if the address ID already\
+                        \ exists.\n                                  "
+                    example: -1
+                address_line1:
+                    type: string
+                    description: Address Line 1
+                    example: 123 Street
+                address_line2:
+                    type: string
+                    description: Address Line 2
+                    example: Apt 4B
+                city:
+                    type: string
+                    description: City
+                    example: City Name
+                state:
+                    type: string
+                    description:
+                        "State.\n                               Select OTHER TERRITORY\
+                        \ for countries other than India.\n                               You\
+                        \ can copy the state details from https://developers.getswipe.in/api-reference/references#state-details\n\
+                        \                               "
+                    example: State Name
+                    enum:
+                        - JAMMU AND KASHMIR
+                        - HIMACHAL PRADESH
+                        - PUNJAB
+                        - CHANDIGARH
+                        - UTTARAKHAND
+                        - HARYANA
+                        - DELHI
+                        - RAJASTHAN
+                        - UTTAR PRADESH
+                        - BIHAR
+                        - SIKKIM
+                        - ARUNACHAL PRADESH
+                        - NAGALAND
+                        - MANIPUR
+                        - MIZORAM
+                        - TRIPURA
+                        - MEGHALAYA
+                        - ASSAM
+                        - WEST BENGAL
+                        - JHARKHAND
+                        - ODISHA
+                        - CHHATTISGARH
+                        - MADHYA PRADESH
+                        - GUJARAT
+                        - DADRA & NAGAR HAVELI & DAMAN & DIU
+                        - MAHARASHTRA
+                        - ANDHRAPRADESH(BEFOREADDED)
+                        - KARNATAKA
+                        - GOA
+                        - LAKSHWADEEP
+                        - KERALA
+                        - TAMIL NADU
+                        - PUDUCHERRY
+                        - ANDAMAN & NICOBAR
+                        - TELANGANA
+                        - ANDHRA PRADESH
+                        - LADAKH(NEWLYADDED)
+                        - OTHER TERRITORY
+                country:
+                    type: string
+                    description: Country. You can copy the country details from https://developers.getswipe.in/api-reference/references#country-array
+                    example: Country Name
+                    enum:
+                        - Afghanistan
+                        - Albania
+                        - Algeria
+                        - Andorra
+                        - Angola
+                        - Antigua and Barbuda
+                        - Argentina
+                        - Armenia
+                        - Australia
+                        - Austria
+                        - Azerbaijan
+                        - Bahamas
+                        - Bahrain
+                        - Bangladesh
+                        - Barbados
+                        - Belarus
+                        - Belgium
+                        - Belize
+                        - Benin
+                        - Bhutan
+                        - Bolivia
+                        - Bosnia and Herzegovina
+                        - Botswana
+                        - Brazil
+                        - Brunei
+                        - Bulgaria
+                        - Burkina Faso
+                        - Burundi
+                        - Cabo Verde
+                        - Cambodia
+                        - Cameroon
+                        - Canada
+                        - Central African Republic
+                        - Chad
+                        - Chile
+                        - China
+                        - Colombia
+                        - Comoros
+                        - "Congo, Democratic Republic of the"
+                        - "Congo, Republic of the"
+                        - Costa Rica
+                        - Croatia
+                        - Cuba
+                        - Cyprus
+                        - Czechia
+                        - Denmark
+                        - Djibouti
+                        - Dominica
+                        - Dominican Republic
+                        - Ecuador
+                        - Egypt
+                        - El Salvador
+                        - Equatorial Guinea
+                        - Eritrea
+                        - Estonia
+                        - Eswatini
+                        - Ethiopia
+                        - Fiji
+                        - Finland
+                        - France
+                        - Gabon
+                        - Gambia
+                        - Georgia
+                        - Germany
+                        - Ghana
+                        - Greece
+                        - Grenada
+                        - Guatemala
+                        - Guinea
+                        - Guinea-Bissau
+                        - Guyana
+                        - Haiti
+                        - Honduras
+                        - Hungary
+                        - Iceland
+                        - India
+                        - Indonesia
+                        - Iran
+                        - Iraq
+                        - Ireland
+                        - Israel
+                        - Italy
+                        - Jamaica
+                        - Japan
+                        - Jordan
+                        - Kazakhstan
+                        - Kenya
+                        - Kiribati
+                        - "Korea, North"
+                        - "Korea, South"
+                        - Kosovo
+                        - Kuwait
+                        - Kyrgyzstan
+                        - Laos
+                        - Latvia
+                        - Lebanon
+                        - Lesotho
+                        - Liberia
+                        - Libya
+                        - Liechtenstein
+                        - Lithuania
+                        - Luxembourg
+                        - Madagascar
+                        - Malawi
+                        - Malaysia
+                        - Maldives
+                        - Mali
+                        - Malta
+                        - Marshall Islands
+                        - Mauritania
+                        - Mauritius
+                        - Mexico
+                        - Micronesia
+                        - Moldova
+                        - Monaco
+                        - Mongolia
+                        - Montenegro
+                        - Morocco
+                        - Mozambique
+                        - Myanmar
+                        - Namibia
+                        - Nauru
+                        - Nepal
+                        - Netherlands
+                        - New Zealand
+                        - Nicaragua
+                        - Niger
+                        - Nigeria
+                        - North Macedonia
+                        - Norway
+                        - Oman
+                        - Pakistan
+                        - Palau
+                        - Palestine
+                        - Panama
+                        - Papua New Guinea
+                        - Paraguay
+                        - Peru
+                        - Philippines
+                        - Poland
+                        - Portugal
+                        - Qatar
+                        - Romania
+                        - Russia
+                        - Rwanda
+                        - Saint Kitts and Nevis
+                        - Saint Lucia
+                        - Saint Vincent and the Grenadines
+                        - Samoa
+                        - San Marino
+                        - Sao Tome and Principe
+                        - Saudi Arabia
+                        - Senegal
+                        - Serbia
+                        - Seychelles
+                        - Sierra Leone
+                        - Singapore
+                        - Slovakia
+                        - Slovenia
+                        - Solomon Islands
+                        - Somalia
+                        - South Africa
+                        - South Sudan
+                        - Spain
+                        - Sri Lanka
+                        - Sudan
+                        - Suriname
+                        - Sweden
+                        - Switzerland
+                        - Syria
+                        - Taiwan
+                        - Tajikistan
+                        - Tanzania
+                        - Thailand
+                        - Timor-Leste
+                        - Togo
+                        - Tonga
+                        - Trinidad and Tobago
+                        - Tunisia
+                        - Turkey
+                        - Turkmenistan
+                        - Tuvalu
+                        - Uganda
+                        - Ukraine
+                        - United Arab Emirates
+                        - United Kingdom
+                        - United States
+                        - Uruguay
+                        - Uzbekistan
+                        - Vanuatu
+                        - Vatican City
+                        - Venezuela
+                        - Vietnam
+                        - Yemen
+                        - Zambia
+                        - Zimbabwe
+                pincode:
+                    type: string
+                    description: Pincode
+                    example: "123456"
+        SuccessResponseEwayBill:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Success
+                    example: true
+                message:
+                    type: string
+                    description: Message
+                    example: Eway Bill created successfully
     responses:
         ParseError:
             description: When a mask can't be parsed
