@@ -127,6 +127,13 @@
             "version": "v2"
         },
         {
+            "group": "EwayBill",
+            "pages": [
+                "api-reference/ewaybill/get-ewaybill-pdf",
+                "api-reference/ewaybill/create-eway-bill"
+            ]
+        },
+        {
             "group": "Customer V2",
             "pages": [
                 "api-reference/customer-v2/add-a-customer",
