@@ -19,7 +19,7 @@
     "topbarLinks": [
         {
             "name": "Support",
-            "url": "mailto:api@getswipe.in"
+            "url": "https://app.getswipe.in/user?tab=api_integration"
         }
     ],
     "topbarCtaButton": {
