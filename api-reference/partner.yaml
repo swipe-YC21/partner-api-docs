@@ -3946,6 +3946,7 @@ components:
         BaseCustomer:
             required:
                 - name
+                - customer_id
             type: object
             properties:
                 customer_id:
@@ -6290,6 +6291,7 @@ components:
         BaseCustomerV2:
             required:
                 - name
+                - customer_id
             type: object
             properties:
                 customer_id:
@@ -7370,6 +7372,7 @@ components:
         BaseVendorV2:
             required:
                 - name
+                - vendor_id
             type: object
             properties:
                 vendor_id:
