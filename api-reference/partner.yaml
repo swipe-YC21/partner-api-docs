@@ -7609,14 +7609,14 @@ components:
             properties:
                 supply_type:
                     type: string
-                    description: Supply Type
+                    description: Indicates whether the supply is outward (from the sender) or inward (to the sender)
                     example: Outward
                     enum:
                         - Outward
                         - Inward
                 sub_supply_type:
                     type: string
-                    description: Sub Supply Type
+                    description: Specifies the nature of supply, such as sale, transfer, or job work.
                     example: Supply
                     enum:
                         - Supply
@@ -7632,7 +7632,7 @@ components:
                         - Others
                 transporter_doc_date:
                     type: string
-                    description: DD-MM-YYYY
+                    description: The date on which the transporter issued the document(DD-MM-YYYY)
                     example: 05-03-2025
                 dispatch_from:
                     type: object
@@ -7646,14 +7646,14 @@ components:
                         - $ref: "#/components/schemas/EwayBillAddress"
                 vehicle_type:
                     type: string
-                    description: Vehicle Type
+                    description: Specifies whether the vehicle is regular or special (e.g., over-dimensional cargo).
                     example: Regular
                     enum:
                         - Regular
                         - Over Dimensional Cargo
                 transaction_type:
                     type: string
-                    description: Transaction Type
+                    description: Defines the type of transaction, such as regular, bill-to-ship-to, or bill-from-dispatch-from.
                     example: Regular
                     enum:
                         - Regular
@@ -7662,7 +7662,7 @@ components:
                         - Combination of 2 and 3
                 transport_mode:
                     type: string
-                    description: Transport Mode
+                    description: Mode of transportation used (e.g., road, rail, air, or ship)
                     example: Road
                     enum:
                         - Road
@@ -7671,23 +7671,23 @@ components:
                         - Ship or Ship Cum Road/Rail
                 sub_supply_type_description:
                     type: string
-                    description: Sub Supply Type Description
+                    description: Additional description of the sub-supply type.
                     example: Supply of goods
                 transporter_id:
                     type: string
-                    description: Transporter ID
+                    description: A unique identification number assigned to the transporter.
                     example: "123456"
                 transporter_name:
                     type: string
-                    description: Transporter Name
+                    description: The name of the transporter handling the shipment.
                     example: Transporter Name
                 vehicle_number:
                     type: string
-                    description: Vehicle Number
+                    description: The registration number of the vehicle carrying the goods.
                     example: KA01AB1234
                 transporter_doc_number:
                     type: string
-                    description: Transporter Document Number
+                    description: A reference number of the document issued by the transporter.
                     example: "123456"
         EwayBillAddress:
             required:
