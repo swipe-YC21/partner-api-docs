@@ -6061,6 +6061,39 @@ components:
                     type: string
                     description: GSTIN
                     example: 27AARCS7202C1ZD
+        GetPaymentV2:
+            required:
+                - amount
+                - method
+            properties:
+            amount:
+                type: number
+                description: Payment Amount
+                example: 100
+            method:
+                type: string
+                description: Payment method, use only specified values
+                example: upi
+                enum:
+                - cash
+                - card
+                - upi
+                - netBanking
+                - cheque
+                - emi
+            notes:
+                type: string
+                description: Any internal notes for payment
+                example: Payment notes
+            bank_details:
+                description: Bank Details, refer Bank Details Object below for parameters, If account_number, ifsc matched with existing bank details, it will be used, else new bank details will be added to your swipe account. It will link document payments to your company bank details.
+                allOf:
+                - $ref: '#/definitions/BankDetails'
+            payment_date:
+                type: string
+                description: Payment Date [DD-MM-YYYY]
+                example: 14-02-2024
+            type: object
         BaseDocumentEditV2:
             required:
                 - document_date
@@ -6366,10 +6399,19 @@ components:
                     type: string
                     description: CC email addresses
                     example: "reddi@reddi.reddi,acb.a@bcd.con"
-                status:
+                tags:
+                    type: array
+                    description: List of tags
+                    items:
                     type: string
-                    description: Status
-                    example: Active
+                custom_fields:
+                    type: array
+                    description: Customer Custom Fields. Custom fields should already be added in Swipe Portal.
+                    example:
+                    - label: Custom Field 1
+                      value: Value 1
+                    items:
+                    $ref: '#/components/schemas/CustomerCustomFields'
         AddressV2:
             required:
                 - addr_id
@@ -6643,6 +6685,16 @@ components:
                         - Yemen
                         - Zambia
                         - Zimbabwe
+        CustomerCustomFields:
+            type: object
+            required:
+                - label
+                - value
+            properties:
+            label:
+                type: string
+            value:
+                type: string
         CustomerResponseV2:
             type: object
             properties:
@@ -7284,6 +7336,22 @@ components:
                     type: integer
                     description: Total number of records
                     example: 10
+                upcoming_date:
+                    type: string
+                    description: Upcoming Date
+                    example: 10 June 2024
+                repeat_every:
+                    type: integer
+                    description: Repeat Every
+                    example: 1
+                repeat_unit:
+                    type: string
+                    description: Repeat Unit
+                    example: months
+                last_created:
+                    type: string
+                    description: Last Created Date
+                    example: 10 June 2024
         GSTErrorModelV2:
             type: object
             properties:
@@ -7439,10 +7507,29 @@ components:
                     type: string
                     description: CC email addresses
                     example: "reddi@reddi.reddi,acb.a@bcd.con"
-                status:
+                tags:
+                    type: array
+                    description: List of tags
+                    items:
                     type: string
-                    description: Status
-                    example: Active
+                custom_fields:
+                    type: array
+                    description: Vendor Custom Fields. Custom fields should already be added in Swipe Portal.
+                    example:
+                    - label: Custom Field 1
+                      value: Value 1
+                    items:
+                    $ref: '#/components/schemas/VendorCustomFields'
+        VendorCustomFields:
+            required:
+                - label
+                - value
+            properties:
+            label:
+                type: string
+            value:
+                type: string
+            type: object
         VendorResponseV2:
             type: object
             properties:
