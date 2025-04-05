@@ -6411,7 +6411,7 @@ components:
                     - label: Custom Field 1
                       value: Value 1
                     items:
-                    $ref: '#/components/schemas/CustomerCustomFields'
+                        $ref: '#/components/schemas/CustomerCustomFields'
         AddressV2:
             required:
                 - addr_id
@@ -7519,7 +7519,7 @@ components:
                     - label: Custom Field 1
                       value: Value 1
                     items:
-                    $ref: '#/components/schemas/VendorCustomFields'
+                        $ref: '#/components/schemas/VendorCustomFields'
         VendorCustomFields:
             required:
                 - label
