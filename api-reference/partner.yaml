@@ -2264,7 +2264,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: "#/components/schemas/Item"
+                            $ref: "#/components/schemas/ItemV2"
                 required: true
             responses:
                 "200":
@@ -2295,7 +2295,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: "#/components/schemas/Item"
+                            $ref: "#/components/schemas/ItemV2"
                 required: true
             responses:
                 "201":
@@ -4694,6 +4694,122 @@ components:
                     type: string
                     description: Status of the Item
                     example: Active
+        ItemV2:
+            required:
+                - id
+                - item_type
+                - name
+                - price_with_tax
+                - quantity
+                - unit_price
+            properties:
+                id:
+                    type: string
+                    description: Unique id for each item.
+                    example: ITEM123
+                name:
+                    type: string
+                    description: Name of the Product
+                    example: Item Name
+                quantity:
+                    type: number
+                    description: Opening Quantity
+                    example: 1
+                unit_price:
+                    type: number
+                    description: Price per item without Tax
+                    example: 100
+                tax_rate:
+                    type: number
+                    description: Tax percentage for each item . Only valid tax rates are accepted
+                    example: 18
+                price_with_tax:
+                    type: number
+                    description: Price per item with Tax
+                    example: 118
+                purchase_price_with_tax:
+                    type: number
+                    description: Purchase Price per item with Tax
+                    example: 118
+                discount_percent:
+                    type: number
+                    description: Default Discount Percent
+                    default: 0
+                    example: 10
+                description:
+                    type: string
+                    description: Item Description
+                    example: Item Description
+                hsn_code:
+                    type: string
+                    description: HSN Code
+                    example: '1234'
+                item_type:
+                    type: string
+                    description: Product or Service enum
+                    example: Product
+                    enum:
+                    - Product
+                    - Service
+                unit:
+                    type: string
+                    description: 'Item quantity unit. You can find the GST-approved units in the
+                    UQC Codes section at: https://einvoice1.gst.gov.in/Others/MasterCodes.'
+                    example: kg
+                cess_rate:
+                    type: number
+                    description: Cess Percent of the Item
+                    default: 0
+                    example: 0
+                    maximum: 100
+                cess_amount:
+                    type: number
+                    description: Cess Amount of the Item
+                    default: 0
+                    example: 0
+                barcode:
+                    type: string
+                    description: Barcode
+                    example: '2273546838467'
+                show_online:
+                    type: boolean
+                    description: Show item online
+                    example: false
+                not_for_sale:
+                    type: boolean
+                    description: Hides the item for sale and shows only while making a purchase. eg. Office equipment
+                    example: false
+                low_stock_alert:
+                    type: integer
+                    description: Low stock alert for the item
+                    example: 0
+                category:
+                    type: string
+                    description: Category
+                    example: Electronics
+                status:
+                    type: string
+                    description: Status of the Item
+                    example: Active
+                custom_columns:
+                    type: array
+                    description: Custom Fields
+                    example:
+                    - label: Custom Label
+                      value: Custom Value
+                    items:
+                        "$ref": "#/components/schemas/ProductCustomFieldsV2"
+            type: object
+        ProductCustomFieldsV2:
+            required:
+                - label
+                - value
+            type: object
+            properties:
+                label:
+                    type: string
+                value:
+                    type: string
         ProductError:
             type: object
             properties:
@@ -7037,7 +7153,7 @@ components:
                     properties: {}
                     description: Errors
                 data:
-                    $ref: "#/components/schemas/Item"
+                    $ref: "#/components/schemas/ItemV2"
         ProductMappingResponseV2:
             type: object
             properties:
