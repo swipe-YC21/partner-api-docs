@@ -4695,6 +4695,7 @@ components:
                     description: Status of the Item
                     example: Active
         ItemV2:
+            type: object
             required:
                 - id
                 - item_type
@@ -4731,11 +4732,6 @@ components:
                     type: number
                     description: Purchase Price per item with Tax
                     example: 118
-                discount_percent:
-                    type: number
-                    description: Default Discount Percent
-                    default: 0
-                    example: 10
                 description:
                     type: string
                     description: Item Description
@@ -4771,26 +4767,10 @@ components:
                     type: string
                     description: Barcode
                     example: '2273546838467'
-                show_online:
-                    type: boolean
-                    description: Show item online
-                    example: false
-                not_for_sale:
-                    type: boolean
-                    description: Hides the item for sale and shows only while making a purchase. eg. Office equipment
-                    example: false
-                low_stock_alert:
-                    type: integer
-                    description: Low stock alert for the item
-                    example: 0
                 category:
                     type: string
                     description: Category
                     example: Electronics
-                status:
-                    type: string
-                    description: Status of the Item
-                    example: Active
                 custom_columns:
                     type: array
                     description: Custom Fields
@@ -4799,7 +4779,19 @@ components:
                       value: Custom Value
                     items:
                         "$ref": "#/components/schemas/ProductCustomFieldsV2"
-            type: object
+                alternative_units:
+                    type: array
+                    description: Alternative Units
+                    example:
+                    - alternative_unit: g
+                      conversion_rate: 1000
+                    items:
+                        "$ref": "#/components/schemas/AlternativeUnitsV2"
+                preferences:
+                    type: object
+                    description: Product Preferences
+                    allOf:
+                        - $ref: "#/components/schemas/ProductPreferencesV2"
         ProductCustomFieldsV2:
             required:
                 - label
@@ -4810,6 +4802,162 @@ components:
                     type: string
                 value:
                     type: string
+        AlternativeUnitsV2:
+            properties:
+                alternative_unit:
+                    type: string
+                    description: Alternative Unit
+                    example: kg
+                    enum:
+                    - LAD
+                    - PET
+                    - JARS
+                    - HEGAR
+                    - POCH
+                    - BOR
+                    - COIL
+                    - FT
+                    - IN
+                    - PRT
+                    - CASE
+                    - EACH
+                    - CPS
+                    - PADS
+                    - REEL
+                    - BLISTER
+                    - PAD
+                    - PCS
+                    - PRS
+                    - QTL
+                    - ROL
+                    - SET
+                    - SQF
+                    - SQM
+                    - SQY
+                    - TBS
+                    - TGM
+                    - THD
+                    - TON
+                    - TUB
+                    - UGS
+                    - UNT
+                    - YDS
+                    - OTH
+                    - HRS
+                    - MINS
+                    - LTR
+                    - MTS
+                    - MLG
+                    - BCK
+                    - GLS
+                    - PLT
+                    - CTS
+                    - STRP
+                    - CFT
+                    - VIAL
+                    - BAG
+                    - BAL
+                    - BDL
+                    - BKL
+                    - BOU
+                    - BOX
+                    - BTL
+                    - BUN
+                    - CAN
+                    - CBM
+                    - CCM
+                    - CMS
+                    - CTN
+                    - DOZ
+                    - DRM
+                    - GGR
+                    - GMS
+                    - GRS
+                    - GYD
+                    - KGS
+                    - KLR
+                    - KME
+                    - MLT
+                    - MTR
+                    - NOS
+                    - PAC
+                    - CNT
+                    - RFT
+                    - RIM
+                    - TIN
+                    - CHUDI
+                    - PATTA
+                    - KIT
+                    - CUFT
+                    - RMT
+                    - MM
+                    - AMP
+                    - PAIR
+                    - ANA
+                    - CFM
+                    - YRS
+                    - MTH
+                    - MAN-DAY
+                    - NIGHT
+                    - DAY
+                    - SQIN
+                    - WEEK
+                    - PERSON
+                    - LOT
+                    - SAC
+                    - REAM
+                    - BRASS
+                    - NONE
+                    - COPY
+                    - TKT
+                    - KW
+                    - W
+                    - SEC
+                    - BARREL
+                    - SHEETS
+                    - HOLES
+                    - LINES
+                    - LGTH
+                    - TRIP
+                    - LPSM
+                    - WDTH
+                    - SQCM
+                    - SHFT
+                    - AU
+                    - SQKM
+                    - JOBS
+                    - CUIN
+                    - IDIA
+                    - INMT
+                    - AC
+                    - HA
+                    - BARS
+                    - PKTS
+                conversion_rate:
+                    type: number
+                    description: Conversion Rate
+                    example: 1
+            type: object
+        ProductPreferencesV2:
+            properties:
+                not_for_sale:
+                    type: boolean
+                    description: Hides the item for sale and shows only while making a purchase. eg. Office equipment
+                    example: false
+                low_stock_alert:
+                    type: integer
+                    description: Low stock alert for the item
+                    example: 0
+                show_online:
+                    type: boolean
+                    description: Show or hide the product in catalogue/ online store
+                    example: false
+                discount_percent:
+                    type: number
+                    description: Default Discount Percent
+                    default: 0
+                    example: 10
+            type: object
         ProductError:
             type: object
             properties:
