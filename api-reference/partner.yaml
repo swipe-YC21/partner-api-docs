@@ -36,6 +36,8 @@ tags:
       description: Vendor related operations
     - name: EwayBill
       description: EwayBill related operations
+    - name: Inventory V2
+      description: Inventory related operations
 paths:
     /v1/customer:
         put:
@@ -2151,6 +2153,61 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/ErrorEwayBill"
             x-codegen-request-body-name: payload
+    /v2/inventory/stock:
+        post:
+            responses:
+                '200':
+                    description: Success Response
+                    content:
+                        application/json:
+                          schema:
+                              $ref: "#/components/schemas/InventoryV2Response"
+                '400':
+                    description: Bad request
+                    content:
+                        application/json:
+                          schema:
+                              $ref: "#/components/schemas/InventoryV2Response"
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                          schema:
+                              $ref: "#/components/schemas/InventoryV2Response"
+            operationId: post_inventory
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/InventoryV2"
+                required: true
+            tags:
+                - Inventory V2
+    /v2/inventory/warehouses/list:
+        get:
+          responses:
+              '200':
+                  description: Success
+                  content:
+                      application/json:
+                        schema:
+                            "$ref": "#/components/schemas/WarehousesV2"
+              '400':
+                  description: Bad Request
+                  content:
+                      application/json:
+                        schema:
+                            "$ref": "#/components/schemas/WarehousesV2"
+              '500':
+                  description: Internal Server Error
+                  content:
+                      application/json:
+                        schema:
+                            "$ref": "#/components/schemas/WarehousesV2"
+          summary: Get all warehouses
+          operationId: get_warehouses
+          tags:
+              - Inventory V2
     /v2/payment:
         post:
             tags:
@@ -5429,6 +5486,10 @@ components:
                     description: "Array of Products/Services, refer Item Object below for parameters"
                     items:
                         $ref: "#/components/schemas/DocItemV2"
+                warehouse_id:
+                    type: integer
+                    description: Warehouse ID
+                    example: -1
                 extra_discount:
                     type: number
                     description: "Adjustment on overall invoice, doesn’t effect any tax amounts."
@@ -8353,6 +8414,92 @@ components:
                     type: string
                     description: Message
                     example: Eway Bill created successfully
+        WarehousesV2:
+            properties:
+                success:
+                    type: boolean
+                    description: Success
+                    example: false
+                errors:
+                    type: object
+                    description: Error details
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: ''
+                message:
+                    type: string
+                    description: Message
+                    example: ''
+                warehouses:
+                    type: array
+                    items:
+                        "$ref": "#/components/schemas/WarehousesGetV2"
+            type: object
+        WarehousesGetV2:
+            properties:
+                warehouse_id:
+                    type: integer
+                    description: Warehouse ID
+                    example: 1
+                name:
+                    type: string
+                    description: Warehouse Name
+                    example: Main Warehouse
+            type: object
+        InventoryV2:
+            required:
+                - action
+                - product_id
+                - quantity
+                - warehouse_id
+            properties:
+                product_id:
+                    type: string
+                    description: Product ID
+                    example: '123456'
+                quantity:
+                    type: number
+                    description: Opening Quantity
+                    example: 1
+                warehouse_id:
+                    type: integer
+                    description: Warehouse ID
+                    example: -1
+                remarks:
+                    type: string
+                    description: Remarks
+                    example: Remarks
+                record_date:
+                    type: string
+                    description: Record Date (DD-MM-YYYY)
+                    example: 06-05-2025
+                action:
+                    type: string
+                    description: Stock in or stock out
+                    example: in
+                    enum:
+                        - in
+                        - out
+            type: object
+        InventoryV2Response:
+            properties:
+                success:
+                    type: boolean
+                    description: Success
+                    example: false
+                errors:
+                    type: object
+                    description: Error details
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: ''
+                message:
+                    type: string
+                    description: Message
+                    example: ''
+            type: object
     responses:
         ParseError:
             description: When a mask can't be parsed
