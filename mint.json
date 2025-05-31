@@ -175,7 +175,7 @@
         {
             "group": "Inventory V2",
             "pages": [
-                "api-reference/inventory-v2/post-v2inventorystock",
+                "api-reference/inventory-v2/inventory-stock-in-out",
                 "api-reference/inventory-v2/get-all-warehouses"
             ],
             "version": "v2"
