@@ -173,6 +173,14 @@
             "version": "v2"
         },
         {
+            "group": "Inventory V2",
+            "pages": [
+                "api-reference/inventory-v2/post-v2inventorystock",
+                "api-reference/inventory-v2/get-all-warehouses"
+            ],
+            "version": "v2"
+        },
+        {
             "group": "Subscriptions V2",
             "pages": [
                 "api-reference/subscriptions-v2/list-of-subscriptions",
