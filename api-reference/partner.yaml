@@ -5159,6 +5159,14 @@ components:
                     type: string
                     description: Company Name
                     example: XYZ Company
+                trade_name:
+                    type: string
+                    description: Trade Name
+                    example: XYZ Company
+                legal_name:
+                    type: string
+                    description: Legal Name
+                    example: XYZ Company
                 status:
                     type: string
                     description: Status
@@ -7747,6 +7755,14 @@ components:
                 company_name:
                     type: string
                     description: Company Name
+                    example: XYZ Company
+                trade_name:
+                    type: string
+                    description: Trade Name
+                    example: XYZ Company
+                legal_name:
+                    type: string
+                    description: Legal Name
                     example: XYZ Company
                 status:
                     type: string
