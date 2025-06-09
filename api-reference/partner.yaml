@@ -5554,6 +5554,10 @@ components:
                     type: boolean
                     description: Is Export
                     example: false
+                is_multi_currency:
+                    type: boolean
+                    description: Is Multi Currency
+                    example: false
                 export_invoice_details:
                     type: object
                     description: Export Invoice Details
@@ -5802,6 +5806,7 @@ components:
                         - SEZ with IGST Payment
                         - SEZ without IGST Payment
                         - Deemed Export
+                        - Multi Currency
                 conversion_factor:
                     type: number
                     description:
@@ -6557,6 +6562,10 @@ components:
                 is_export:
                     type: boolean
                     description: Is Export
+                    example: false
+                is_multi_currency:
+                    type: boolean
+                    description: Is Multi Currency
                     example: false
                 export_invoice_details:
                     type: object
