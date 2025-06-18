@@ -29,6 +29,12 @@
     "versions": ["v2", "v1 (Deprecated)"],
     "anchors": [
         {
+            "name": "Run in Postman",
+            "url": "https://god.gw.postman.com/run-collection/43895811-b7327b9d-1e50-4fed-af6f-660a918aa817?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D43895811-b7327b9d-1e50-4fed-af6f-660a918aa817%26entityType%3Dcollection%26workspaceId%3D5d3fc3f0-668c-499e-833b-03222666ba2a",
+            "icon": "user-astronaut",
+            "iconType": "thin"
+        },
+        {
             "name": "Blog",
             "icon": "newspaper",
             "url": "https://getswipe.in/blog"
@@ -37,12 +43,6 @@
             "name": "Community",
             "icon": "slack",
             "url": "https://community.getswipe.in/c/api-integration/14"
-        },
-        {
-            "name": "Run in Postman",
-            "url": "https://god.gw.postman.com/run-collection/43895811-b7327b9d-1e50-4fed-af6f-660a918aa817?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D43895811-b7327b9d-1e50-4fed-af6f-660a918aa817%26entityType%3Dcollection%26workspaceId%3D5d3fc3f0-668c-499e-833b-03222666ba2a",
-            "icon": "user-astronaut",
-            "iconType": "thin"
         }
     ],
     "navigation": [
