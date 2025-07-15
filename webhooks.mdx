@@ -1,0 +1,176 @@
+
+
+Webhooks provide a powerful way to receive real-time notifications about events in your Swipe account. Instead of continuously polling our API, webhooks push data to your application immediately when events occur.
+
+## Overview
+
+When enabled, Swipe will send HTTP POST requests to your configured webhook URL whenever specific events occur in your account. Each webhook request includes:
+
+- **Event data**: Details about what happened
+- **Signature**: For request verification using HMAC
+- **Event type**: The specific type of event
+- **Event id**: The unique event id
+
+## Event Types
+
+### Document Events
+
+Receive notifications for all document-related activities:
+
+| Event Type | Description |
+|------------|-------------|
+| `document` | Triggered when documents are created, updated, or modified |
+
+**Document Event Data Fields:**
+- `document_type`: Type of document (e.g., "purchase", "invoice")
+- `serial_number`: Document serial number
+- `hash_id`: Unique document identifier
+- `message`: Event description (e.g., "Document Created")
+- `timestamp`: When the event occurred
+
+### Inventory Events
+
+Get real-time updates about inventory changes:
+
+| Event Type | Description |
+|------------|-------------|
+| `inventory` | Triggered when inventory levels change (stock in/out) |
+
+**Inventory Event Data Fields:**
+- `swipe_product_id`: Internal Swipe product ID
+- `partner_product_id`: Your system's product ID (-1 if not mapped)
+- `product_name`: Name of the product
+- `qty`: Quantity changed
+- `movement`: Direction of movement ("in" or "out")
+- `timestamp`: When the inventory change occurred
+
+## Security & Verification
+
+### HMAC Signature Verification
+
+Every webhook request includes an `X-Signature` header containing an HMAC signature. This ensures the request is authentic and comes from Swipe.
+
+#### Verification Process
+
+1. Extract the signature from the `X-Signature` header
+2. Create an HMAC using your webhook secret and the raw request body
+3. Compare the computed signature with the received signature
+
+#### Code Examples
+
+**Python**
+```python
+import hmac
+import hashlib
+import json
+
+def verify_webhook_signature(payload, signature, secret):
+    expected_signature = hmac.new(
+        secret.encode('utf-8'),
+        payload.encode('utf-8'),
+        hashlib.sha256
+    ).hexdigest()
+    
+    return hmac.compare_digest(signature, expected_signature)
+
+# Flask example
+from flask import Flask, request
+
+@app.route('/webhook', methods=['POST'])
+def handle_webhook():
+    signature = request.headers.get('X-Signature')
+    payload = request.get_data(as_text=True)
+    
+    if not verify_webhook_signature(payload, signature, WEBHOOK_SECRET):
+        return 'Invalid signature', 401
+    
+    event = json.loads(payload)
+    print(f"Received event: {event['event_type']}")
+    
+    return 'OK', 200
+```
+
+## Webhook Payloads
+
+### Document Event Payload
+```json
+{
+  "event_id": "ae24831c-6093-11f0-aef5-6045bd733335",
+  "event_type": "document",
+  "data": {
+    "document_type": "purchase",
+    "serial_number": "ui-1255test-25-26",
+    "hash_id": "PUlgCNPb",
+    "message": "Document Created",
+    "timestamp": "2025-07-14 09:19:44.000000"
+  }
+}
+```
+
+### Inventory Event Payload
+```json
+{
+  "event_id": "ae960d63-6093-11f0-aef5-6045bd733335",
+  "event_type": "inventory",
+  "data": {
+    "swipe_product_id": 39346,
+    "partner_product_id": -1,
+    "product_name": "brazil",
+    "qty": 1.0,
+    "movement": "in",
+    "timestamp": "2025-07-14 09:19:45.000000"
+  }
+}
+```
+
+### Sample Webhook Request
+Here's how a webhook request would look when sent to your endpoint:
+
+```bash
+curl -X POST https://your.webhook.endpoint \
+  -H "Content-Type: application/json" \
+  -H "X-Signature: f4c3b2d9d27d3fc4b0f53f2e1f1a9fda33e8b705f5155c9ef16e225b6a098765" \
+  -d '{"event_id":"236c2c42-58c7-11f0-aef5-6045bd733335","event_type":"inventory","data":{"swipe_product_id":4839,"partner_product_id":"install_1500_p","product_name":"Installation (Split AC)","qty":7.0,"timestamp":"2025-07-04 11:07:56.000000","movement":"in"}}'
+```
+
+This example shows:
+- **POST Request**: All webhooks are sent via HTTP POST
+- **Content-Type**: Always `application/json`
+- **X-Signature**: HMAC signature for request verification
+- **Payload**: The actual event data in JSON format
+
+## Configuration
+
+### Setting Up Webhooks
+
+1. **Access Settings**: Go to [Swipe dashboard](https://app.getswipe.in/user?tab=api_integration)
+2. **Add Webhook URL**: Enter your webhook endpoint URL
+3. **Select Events**: Choose which event types you want to receive
+4. **Set Secret**: Generate or provide a webhook secret for signature verification
+
+### Webhook URL Requirements
+
+- Must be a valid HTTPS URL (HTTP not supported in production)
+- Should respond with a 200 status code within 10 seconds
+- Must be publicly accessible (no localhost or private IPs)
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Signature Verification Failures**
+   - Ensure you're using the raw request body
+   - Verify the webhook secret is correct
+   - Check that the signature header name is `X-Signature`
+
+2. **Webhook Not Receiving Events**
+   - Confirm the webhook URL is correct and accessible
+   - Check that the event types are properly configured
+   - Verify your endpoint returns a 200 status code
+
+3. **Timeout Issues**
+   - Ensure your webhook endpoint responds within 30 seconds
+   - Process webhooks asynchronously for heavy operations
+   - Implement proper error handling
+
+For additional support with webhooks, contact our [support team](https://app.getswipe.in/user?tab=api_integration).
