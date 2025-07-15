@@ -73,3 +73,154 @@ Our RESTful API allows developers to effortlessly integrate Swipe’s invoicing 
 5. Fill in all the required fields for that specific API request.
 6. Click the "Send" button to make the API request and see the response.
 7. Review the response to verify if the API request was successful.
+
+# Webhooks
+
+Webhooks are HTTP callbacks that Swipe sends to your application when specific events occur in your account. Instead of repeatedly polling our API for changes, webhooks allow you to receive real-time notifications about important events, making your integration more efficient and responsive.
+
+## How Webhooks Work
+
+1. **Event Occurs**: When an event happens in your Swipe account (like document creation or inventory changes)
+2. **Webhook Triggered**: Swipe sends an HTTP POST request to your configured webhook URL
+3. **Your App Responds**: Your application processes the webhook payload and responds with a 200 status code
+4. **Verification**: Use the `X-Signature` header to verify the request authenticity
+
+## Available Event Types
+
+### Document Events
+Receive real-time updates when documents are created, updated, or modified:
+- Document creation
+- Document updates
+- Document status changes
+- Document cancellation
+
+### Inventory Events
+Get notified about inventory changes in real-time:
+- Stock in operations
+- Stock out operations
+- Inventory level changes
+
+## Security & Verification
+
+To ensure the webhook requests are genuinely from Swipe, we include an `X-Signature` header in each webhook request. This signature is generated using HMAC (Hash-based Message Authentication Code) with your webhook secret.
+
+### Verifying Webhook Signatures
+
+**Python**
+```python
+import hmac
+import hashlib
+import json
+
+def verify_webhook_signature(payload, signature, secret):
+    """
+    Verify webhook signature using HMAC-SHA256
+    
+    Args:
+        payload (str): Raw request body as string
+        signature (str): Signature from X-Signature header
+        secret (str): Your webhook secret
+    
+    Returns:
+        bool: True if signature is valid, False otherwise
+    """
+    expected_signature = hmac.new(
+        secret.encode('utf-8'),
+        payload.encode('utf-8'),
+        hashlib.sha256
+    ).hexdigest()
+    
+    return hmac.compare_digest(signature, expected_signature)
+
+# Flask example
+from flask import Flask, request
+
+@app.route('/webhook', methods=['POST'])
+def handle_webhook():
+    signature = request.headers.get('X-Signature')
+    payload = request.get_data(as_text=True)
+    
+    if not verify_webhook_signature(payload, signature, WEBHOOK_SECRET):
+        return 'Invalid signature', 401
+    
+    # Parse and process the webhook event
+    event = json.loads(payload)
+    print(f"Received event: {event['event_type']}")
+    
+    # Your webhook processing logic here
+    if event['event_type'] == 'inventory':
+        handle_inventory_event(event['data'])
+    elif event['event_type'] == 'document':
+        handle_document_event(event['data'])
+    
+    return 'OK', 200
+
+def handle_inventory_event(data):
+    product_id = data['swipe_product_id']
+    qty = data['qty']
+    movement = data['movement']
+    print(f"Inventory update: Product {product_id}, {movement} {qty}")
+
+def handle_document_event(data):
+    doc_type = data['document_type']
+    serial_number = data['serial_number']
+    print(f"Document event: {doc_type} {serial_number}")
+```
+
+## Setting Up Webhooks
+
+1. **Configure Webhook URL**: Set up your webhook endpoint in your [Swipe dashboard](https://app.getswipe.in/user?tab=api_integration)
+2. **Choose Event Types**: Select which events you want to receive (document, inventory)
+3. **Set Webhook Secret**: Configure a secret key for signature verification
+4. **Test Your Integration**: Use our webhook testing tools to ensure proper setup
+
+## Best Practices
+
+- **Respond Quickly**: Always respond with a 200 status code within 30 seconds
+- **Verify Signatures**: Always verify the `X-Signature` header for security
+- **Handle Retries**: Implement proper error handling as Swipe will retry failed webhooks
+- **Idempotency**: Make your webhook handlers idempotent to handle duplicate events
+- **Logging**: Log all webhook events for debugging and monitoring
+
+## Example Webhook Payloads
+
+### Document Event Payload
+```json
+{
+  "event_id": "ae24831c-6093-11f0-aef5-6045bd733335",
+  "event_type": "document",
+  "data": {
+    "document_type": "purchase",
+    "serial_number": "ui-1255test-25-26",
+    "hash_id": "PUlgCNPb",
+    "message": "Document Created",
+    "timestamp": "2025-07-14 09:19:44.000000"
+  }
+}
+```
+
+### Inventory Event Payload
+```json
+{
+  "event_id": "ae960d63-6093-11f0-aef5-6045bd733335",
+  "event_type": "inventory",
+  "data": {
+    "swipe_product_id": 39346,
+    "partner_product_id": -1,
+    "product_name": "brazil",
+    "qty": 1.0,
+    "movement": "in",
+    "timestamp": "2025-07-14 09:19:45.000000"
+  }
+}
+```
+
+### Sample Webhook Request
+Here's how a webhook request would look when sent to your endpoint:
+
+```bash
+curl -X POST https://your.webhook.endpoint \
+  -H "Content-Type: application/json" \
+  -H "X-Signature: f4c3b2d9d27d3fc4b0f53f2e1f1a9fda33e8b705f5155c9ef16e225b6a098765" \
+  -d '{"event_id":"236c2c42-58c7-11f0-aef5-6045bd733335","event_type":"inventory","data":{"swipe_product_id":4839,"partner_product_id":"install_1500_p","product_name":"Installation (Split AC)","qty":7.0,"timestamp":"2025-07-04 11:07:56.000000","movement":"in"}}'
+```
