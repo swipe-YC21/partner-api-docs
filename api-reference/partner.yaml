@@ -8534,8 +8534,8 @@ components:
             content: {}
     securitySchemes:
         bearerAuth:
-            type: apiKey
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
             description: "Bearer authentication header of the form Bearer <token>, where <token> is your auth token."
-            name: Authorization
-            in: header
 x-original-swagger-version: "2.0"
