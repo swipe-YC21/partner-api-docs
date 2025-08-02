@@ -5457,6 +5457,7 @@ components:
                         - sales_return
                         - purchase_return
                         - delivery_challan
+                        - purchase
                 document_date:
                     type: string
                     description: DD-MM-YYYY
