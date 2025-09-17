@@ -6573,6 +6573,32 @@ components:
                     description: Export Invoice Details
                     allOf:
                         - $ref: "#/components/schemas/ExportInvoiceDetailsV2"
+                is_subscription:
+                    type: boolean
+                    description: Is Subscription
+                    example: false
+                subscription_details:
+                    type: object
+                    description: Subscription Details
+                    allOf:
+                        - $ref: "#/components/schemas/Subscription"
+                convert:
+                    type: object
+                    description:
+                        Convert Document. Needed only when the document is already
+                        created and you want to convert it to another document
+                    allOf:
+                        - $ref: "#/components/schemas/Convert"
+                custom_headers:
+                    type: array
+                    description:
+                        Document Custom Headers. Custom headers should already be added
+                        in Swipe Portal.
+                    example:
+                        - label: Custom Header 1
+                          value: Value 1
+                    items:
+                        $ref: "#/components/schemas/CustomHeaders"
         GetInvoice:
             type: object
             properties:
