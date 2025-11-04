@@ -1915,6 +1915,12 @@ paths:
                   required: true
                   schema:
                       type: string
+                - name: delivery_challan
+                  in: query
+                  description: Set to 1 if you want to get a delivery challan copy of the document
+                  schema:
+                      type: integer
+                      default: 0
             responses:
                 "200":
                     description: File will be downloaded
