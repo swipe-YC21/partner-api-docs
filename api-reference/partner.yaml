@@ -6713,6 +6713,10 @@ components:
                     type: number
                     description: Discount given on this document
                     example: 100.0
+                record_time:
+                    type: string
+                    description: "Epoch Timestamp when the document was created"
+                    example: "1764141027"
         BaseCustomerV2:
             required:
                 - name
