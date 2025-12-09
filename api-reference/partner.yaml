@@ -4855,6 +4855,11 @@ components:
                     description: Product Preferences
                     allOf:
                         - $ref: "#/components/schemas/ProductPreferencesV2"
+                visibility:
+                    type: integer
+                    description: If set to 1, the product will be visible to all branches. If set to 0, the product will be visible only to the branch it was created in.
+                    example: 1
+                
         ProductCustomFieldsV2:
             required:
                 - label
@@ -6808,6 +6813,10 @@ components:
                       value: Value 1
                     items:
                         $ref: '#/components/schemas/CustomerCustomFields'
+                visibility:
+                    type: integer
+                    description: If set to 1, the customer will be visible to all branches. If set to 0, the customer will be visible only to the branch it was created in.
+                    example: 1
         AddressV2:
             required:
                 - country
@@ -7927,6 +7936,10 @@ components:
                       value: Value 1
                     items:
                         $ref: '#/components/schemas/VendorCustomFields'
+                visibility:
+                    type: integer
+                    description: If set to 1, the vendor will be visible to all branches. If set to 0, the vendor will be visible only to the branch it was created in.
+                    example: 1
         VendorCustomFields:
             required:
                 - label
