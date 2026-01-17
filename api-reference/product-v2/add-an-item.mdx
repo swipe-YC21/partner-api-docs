@@ -1,3 +1,11 @@
 ---
 openapi: post /v2/product
 ---
+<Note>
+**Uploading Product Images**
+
+To upload product images, use `multipart/form-data` instead of `application/json`. All the regular JSON fields are supported as form fields, plus:
+
+- `product_images`: Array of image files (JPEG, PNG, etc.)
+- For complex fields like `custom_columns`, `alternative_units`, and `preferences`, send them as JSON strings
+</Note>
