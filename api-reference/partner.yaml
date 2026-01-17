@@ -2325,9 +2325,32 @@ paths:
             operationId: v2_put_product
             requestBody:
                 content:
+                    multipart/form-data:
+                        schema:
+                            $ref: "#/components/schemas/ItemV2FormData"
+                        example:
+                            id: "ITEM123"
+                            name: "Updated Product Name"
+                            item_type: "Product"
+                            quantity: 15
+                            unit_price: 120
+                            tax_rate: 18
+                            price_with_tax: 141.6
+                            description: "Updated product description"
+                            custom_columns: '[{"label":"Updated Label","value":"Updated Value"}]'
+                            product_images: ["<binary_image_file_1>", "<binary_image_file_2>"]
                     application/json:
                         schema:
                             $ref: "#/components/schemas/ItemV2"
+                        example:
+                            id: "ITEM123"
+                            name: "Updated Product Name"
+                            item_type: "Product"
+                            quantity: 15
+                            unit_price: 120
+                            tax_rate: 18
+                            price_with_tax: 141.6
+                            description: "Updated product description"
                 required: true
             responses:
                 "200":
@@ -2356,9 +2379,38 @@ paths:
             operationId: v2_post_product
             requestBody:
                 content:
+                    multipart/form-data:
+                        schema:
+                            $ref: "#/components/schemas/ItemV2FormData"
+                        example:
+                            id: "ITEM123"
+                            name: "Sample Product"
+                            item_type: "Product" 
+                            quantity: 10
+                            unit_price: 100
+                            tax_rate: 18
+                            price_with_tax: 118
+                            description: "Sample product description"
+                            hsn_code: "1234"
+                            unit: "pcs"
+                            category: "Electronics"
+                            custom_columns: '[{"label":"Custom Label","value":"Custom Value"}]'
+                            product_images: ["<binary_image_file_1>", "<binary_image_file_2>"]
                     application/json:
                         schema:
                             $ref: "#/components/schemas/ItemV2"
+                        example:
+                            id: "ITEM123"
+                            name: "Sample Product"
+                            item_type: "Product"
+                            quantity: 10
+                            unit_price: 100
+                            tax_rate: 18
+                            price_with_tax: 118
+                            description: "Sample product description"
+                            hsn_code: "1234"
+                            unit: "pcs"
+                            category: "Electronics"
                 required: true
             responses:
                 "201":
@@ -4859,6 +4911,107 @@ components:
                     type: integer
                     description: If set to 1, the product will be visible to all branches. If set to 0, the product will be visible only to the branch it was created in.
                     example: 1
+        
+        ItemV2FormData:
+            type: object
+            description: Product/Item object for form data requests. Use this format when uploading product images.
+            required:
+                - id
+                - item_type
+                - name
+                - price_with_tax
+                - quantity
+                - unit_price
+            properties:
+                id:
+                    type: string
+                    description: Unique id for each item.
+                    example: ITEM123
+                name:
+                    type: string
+                    description: Name of the Product
+                    example: Item Name
+                quantity:
+                    type: number
+                    description: Opening Quantity
+                    example: 1
+                unit_price:
+                    type: number
+                    description: Price per item without Tax
+                    example: 100
+                tax_rate:
+                    type: number
+                    description: Tax percentage for each item . Only valid tax rates are accepted
+                    example: 18
+                price_with_tax:
+                    type: number
+                    description: Price per item with Tax
+                    example: 118
+                purchase_price_with_tax:
+                    type: number
+                    description: Purchase Price per item with Tax
+                    example: 118
+                description:
+                    type: string
+                    description: Item Description
+                    example: Item Description
+                hsn_code:
+                    type: string
+                    description: HSN Code
+                    example: '1234'
+                item_type:
+                    type: string
+                    description: Product or Service enum
+                    example: Product
+                    enum:
+                    - Product
+                    - Service
+                unit:
+                    type: string
+                    description: 'Item quantity unit. You can find the GST-approved units in the UQC Codes section at: https://einvoice1.gst.gov.in/Others/MasterCodes.'
+                    example: kg
+                cess_rate:
+                    type: number
+                    description: Cess Percent of the Item
+                    default: 0
+                    example: 0
+                    maximum: 100
+                cess_amount:
+                    type: number
+                    description: Cess Amount of the Item
+                    default: 0
+                    example: 0
+                barcode:
+                    type: string
+                    description: Barcode
+                    example: '2273546838467'
+                category:
+                    type: string
+                    description: Category
+                    example: Electronics
+                custom_columns:
+                    type: string
+                    description: Custom Fields as JSON string for form data. Example - [{"label":"Custom Label","value":"Custom Value"}]
+                    example: '[{"label":"Custom Label","value":"Custom Value"}]'
+                alternative_units:
+                    type: string
+                    description: Alternative Units as JSON string for form data. Example - [{"alternative_unit":"g","conversion_rate":1000}]
+                    example: '[{"alternative_unit":"g","conversion_rate":1000}]'
+                preferences:
+                    type: string
+                    description: Product Preferences as JSON string for form data. Example - {"not_for_sale":false}
+                    example: '{"not_for_sale":false}'
+                visibility:
+                    type: integer
+                    description: If set to 1, the product will be visible to all branches. If set to 0, the product will be visible only to the branch it was created in.
+                    example: 1
+                product_images:
+                    type: array
+                    description: Product images to upload. Each image should be sent as a file in the form data.
+                    items:
+                        type: string
+                        format: binary
+                        description: Image file (JPEG, PNG, etc.)
                 
         ProductCustomFieldsV2:
             required:
