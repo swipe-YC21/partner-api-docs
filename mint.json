@@ -6,6 +6,9 @@
         "light": "/logo/light.svg",
         "href": "/"
     },
+    "ai": {
+        "enabled": true
+    },
     "favicon": "/favicon.svg",
     "colors": {
         "primary": "#2045D1",
