@@ -1,0 +1,255 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Swipe",
+  "colors": {
+    "primary": "#2045D1",
+    "light": "#538DFF",
+    "dark": "#2045D1"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "versions": [
+      {
+        "version": "v2",
+        "anchors": [
+          {
+            "anchor": "Documentation",
+            "icon": "book-open",
+            "groups": [
+              {
+                "group": "Get Started",
+                "pages": [
+                  "introduction",
+                  "document",
+                  "customer",
+                  "payment",
+                  "product",
+                  "subscriptions",
+                  "ewaybills",
+                  "einvoices",
+                  "webhooks",
+                  "api-reference/error-codes",
+                  "api-reference/references",
+                  "api-reference/change-log"
+                ]
+              },
+              {
+                "group": "Document V2",
+                "pages": [
+                  "api-reference/document-v2/create-a-document",
+                  "api-reference/document-v2/get-a-document",
+                  "api-reference/document-v2/get-document-pdf",
+                  "api-reference/document-v2/edit-a-document",
+                  "api-reference/document-v2/cancel-a-document",
+                  "api-reference/document-v2/list-of-documents"
+                ]
+              },
+              {
+                "group": "Payment V2",
+                "pages": [
+                  "api-reference/payment-v2/record-payment",
+                  "api-reference/payment-v2/list-of-payments"
+                ]
+              },
+              {
+                "group": "EwayBill",
+                "pages": [
+                  "api-reference/ewaybill/get-ewaybill-pdf",
+                  "api-reference/ewaybill/create-eway-bill"
+                ]
+              },
+              {
+                "group": "Customer V2",
+                "pages": [
+                  "api-reference/customer-v2/add-a-customer",
+                  "api-reference/customer-v2/get-customer-details",
+                  "api-reference/customer-v2/update-a-customer",
+                  "api-reference/customer-v2/delete-a-customer",
+                  "api-reference/customer-v2/get-payment-ledger",
+                  "api-reference/customer-v2/get-list-of-customers",
+                  "api-reference/customer-v2/update-customer-mapping"
+                ]
+              },
+              {
+                "group": "Vendor V2",
+                "pages": [
+                  "api-reference/vendor-v2/update-a-vendor",
+                  "api-reference/vendor-v2/add-a-vendor",
+                  "api-reference/vendor-v2/get-payment-ledger",
+                  "api-reference/vendor-v2/get-list-of-vendors",
+                  "api-reference/vendor-v2/update-vendor-mapping",
+                  "api-reference/vendor-v2/get-vendor-details",
+                  "api-reference/vendor-v2/delete-a-vendor"
+                ]
+              },
+              {
+                "group": "Product V2",
+                "pages": [
+                  "api-reference/product-v2/add-an-item",
+                  "api-reference/product-v2/get-item-details",
+                  "api-reference/product-v2/update-an-item",
+                  "api-reference/product-v2/delete-an-item",
+                  "api-reference/product-v2/get-list-of-items",
+                  "api-reference/product-v2/update-items-mapping"
+                ]
+              },
+              {
+                "group": "Inventory V2",
+                "pages": [
+                  "api-reference/inventory-v2/inventory-stock-in-out",
+                  "api-reference/inventory-v2/get-all-warehouses"
+                ]
+              },
+              {
+                "group": "Subscriptions V2",
+                "pages": [
+                  "api-reference/subscriptions-v2/list-of-subscriptions",
+                  "api-reference/subscriptions-v2/get-subscription-details"
+                ]
+              },
+              {
+                "group": "Utility V2",
+                "pages": [
+                  "api-reference/utility-v2/get-gstin-v2"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "version": "v1 (Deprecated)",
+        "anchors": [
+          {
+            "anchor": "Documentation",
+            "icon": "book-open",
+            "groups": [
+              {
+                "group": "Get Started",
+                "pages": [
+                  "introduction",
+                  "document",
+                  "customer",
+                  "payment",
+                  "product",
+                  "subscriptions",
+                  "ewaybills",
+                  "einvoices",
+                  "webhooks",
+                  "api-reference/error-codes",
+                  "api-reference/references",
+                  "api-reference/change-log"
+                ]
+              },
+              {
+                "group": "Document",
+                "pages": [
+                  "api-reference/document/create-a-document",
+                  "api-reference/document/get-document-pdf",
+                  "api-reference/document/cancel-a-document"
+                ]
+              },
+              {
+                "group": "Payment",
+                "pages": [
+                  "api-reference/payment/record-payment"
+                ]
+              },
+              {
+                "group": "Customer",
+                "pages": [
+                  "api-reference/customer/add-a-customer",
+                  "api-reference/customer/get-a-customer",
+                  "api-reference/customer/update-a-customer",
+                  "api-reference/customer/delete-a-customer",
+                  "api-reference/customer/get-payment-ledger",
+                  "api-reference/customer/get-list-of-customers",
+                  "api-reference/customer/update-customer-mapping"
+                ]
+              },
+              {
+                "group": "Product",
+                "pages": [
+                  "api-reference/product/add-an-item",
+                  "api-reference/product/get-item-details",
+                  "api-reference/product/update-an-item",
+                  "api-reference/product/delete-an-item",
+                  "api-reference/product/get-list-of-items",
+                  "api-reference/product/update-items-mapping"
+                ]
+              },
+              {
+                "group": "Subscriptions",
+                "pages": [
+                  "api-reference/subscriptions/list-of-subscriptions",
+                  "api-reference/subscriptions/get-subscription-details"
+                ]
+              },
+              {
+                "group": "Utility",
+                "pages": [
+                  "api-reference/utility/get-gstin"
+                ]
+              },
+              {
+                "group": "EwayBill",
+                "pages": [
+                  "api-reference/ewaybill/get-ewaybill-pdf",
+                  "api-reference/ewaybill/create-eway-bill"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Run in Postman",
+          "href": "https://god.gw.postman.com/run-collection/43895811-b7327b9d-1e50-4fed-af6f-660a918aa817?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D43895811-b7327b9d-1e50-4fed-af6f-660a918aa817%26entityType%3Dcollection%26workspaceId%3D5d3fc3f0-668c-499e-833b-03222666ba2a",
+          "icon": {
+            "name": "user-astronaut",
+            "style": "thin"
+          }
+        },
+        {
+          "anchor": "Blog",
+          "href": "https://getswipe.in/blog",
+          "icon": "newspaper"
+        },
+        {
+          "anchor": "Community",
+          "href": "https://community.getswipe.in/c/api-integration/14",
+          "icon": "slack"
+        }
+      ]
+    }
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "href": "/"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "https://app.getswipe.in/user?tab=api_integration"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Dashboard",
+      "href": "https://app.getswipe.in"
+    }
+  },
+  "footer": {
+    "socials": {
+      "x": "https://twitter.com/swipebilling",
+      "instagram": "https://www.instagram.com/swipebilling",
+      "linkedin": "https://www.linkedin.com/company/swipebilling"
+    }
+  }
+}
