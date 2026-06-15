@@ -2161,33 +2161,6 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/ErrorEwayBill"
             x-codegen-request-body-name: payload
-    /v2/inventory/stock:
-        post:
-            responses:
-                '200':
-                    description: Success Response
-                    content:
-                        application/json:
-                          schema:
-                              $ref: "#/components/schemas/InventoryV2Response"
-                '400':
-                    description: Bad request
-                    content:
-                        application/json:
-                          schema:
-                              $ref: "#/components/schemas/InventoryV2Response"
-                '500':
-                    description: Internal server error
-                    content:
-                        application/json:
-                            schema:
-                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
-                "500":
-                    description: Server Error
-                    content:
-                        application/json:
-                            schema:
-                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
     "/v2/expense/list":
         get:
             tags:
@@ -2528,8 +2501,25 @@ paths:
                         schema:
                             $ref: "#/components/schemas/InventoryV2"
                 required: true
-            tags:
-                - Inventory V2
+            responses:
+                "200":
+                    description: Success Response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/InventoryV2Response"
+                "400":
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/InventoryV2Response"
+                "500":
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/InventoryV2Response"
     /v2/inventory/warehouses/list:
         get:
           responses:
@@ -4154,6 +4144,8 @@ components:
                 send_email:
                     type: boolean
                 send_sms:
+                    type: boolean
+                send_wtsp:
                     type: boolean
         ExportInvoiceDetails:
             required:
@@ -9070,6 +9062,273 @@ components:
                     description: Message
                     example: ''
             type: object
+        ExpenseErrorResponseV2:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                    default: true
+                message:
+                    type: string
+                    description: Success Message
+                    example: Message
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: ""
+                errors:
+                    type: object
+                    properties: {}
+                    description: Error details
+                data:
+                    "$ref": "#/components/schemas/ExpenseDetailsV2"
+        ExpenseDetailsV2:
+            type: object
+            properties:
+                amount_paid:
+                    type: number
+                    description: Amount paid
+                    example: 93.33333333
+                amount_pending:
+                    type: number
+                    description: Amount pending
+                    example: 0
+                bank_id:
+                    type: integer
+                    description: Bank ID
+                    example: 0
+                bank_name:
+                    type: string
+                    description: Bank name
+                    example: Cash
+                category:
+                    type: string
+                    description: Category
+                    example: ""
+                category_id:
+                    type: integer
+                    description: Category ID
+                    example: 0
+                created_time:
+                    type: string
+                    description: Created timestamp
+                    example: 20 Jun 25
+                description:
+                    type: string
+                    description: Description
+                    example: ""
+                doc_count:
+                    type: integer
+                    description: Document count
+                    example: 330
+                document_type:
+                    type: string
+                    description: Document type
+                    example: expense
+                expense_date:
+                    type: string
+                    description: Expense date
+                    example: 20 Jun 2025
+                is_tds:
+                    type: integer
+                    description: Is TDS flag
+                    example: 0
+                items:
+                    type: array
+                    description: Expense items
+                    items:
+                        "$ref": "#/components/schemas/ExpenseItemSchema"
+                party_details:
+                    type: object
+                    description: Party details
+                    allOf:
+                        - "$ref": "#/components/schemas/PartyDetailsSchema"
+                party_id:
+                    type: integer
+                    description: Party ID
+                    example: 3
+                party_type:
+                    type: string
+                    description: Party type
+                    example: vendor
+                payment_mode:
+                    type: string
+                    description: Payment mode
+                    example: ""
+                payment_status:
+                    type: string
+                    description: Payment status
+                    example: paid
+                payments:
+                    type: array
+                    description: Payment details
+                    items:
+                        "$ref": "#/components/schemas/PaymentSchema"
+                record_time:
+                    type: string
+                    description: Record timestamp
+                    example: 20 Jun 25, 02:34 PM
+                serial_number:
+                    type: string
+                    description: Serial number
+                    example: "330"
+                supplier_invoice_date:
+                    type: string
+                    description: Supplier invoice date
+                    example: 21-06-2025
+                supplier_invoice_serial_number:
+                    type: string
+                    description: Supplier invoice serial number
+                    example: ""
+                total_amount:
+                    type: number
+                    description: Total amount
+                    example: 93.33
+                with_tax:
+                    type: integer
+                    description: With tax flag
+                    example: 1
+                hash_id:
+                    type: string
+                    description: Hash ID of the document
+                    example: EXP123456
+                attachments:
+                    type: array
+                    description: Attachments List
+                    items:
+                        "$ref": "#/components/schemas/ExpenseAttachmentsV2"
+        ExpenseItemSchema:
+            type: object
+            properties:
+                category:
+                    type: string
+                    description: Item category
+                    example: test
+                category_id:
+                    type: integer
+                    description: Category ID
+                    example: 99
+                description:
+                    type: string
+                    description: Item description
+                    example: sasa
+                document_type:
+                    type: string
+                    description: Document type
+                    example: expense
+                net_amount:
+                    type: number
+                    description: Net amount
+                    example: 83.33333333
+                status:
+                    type: string
+                    description: Status
+                    example: ""
+                tax:
+                    type: number
+                    description: Tax percentage
+                    example: 12
+                tax_amount:
+                    type: number
+                    description: Tax amount
+                    example: 10
+                total_amount:
+                    type: number
+                    description: Total amount
+                    example: 93.33333333
+        PartyDetailsSchema:
+            type: object
+            properties:
+                customer_id:
+                    type: integer
+                    description: Customer ID
+                    example: -1
+                name:
+                    type: string
+                    description: Party name
+                    example: nishika
+                vendor_id:
+                    type: integer
+                    description: Vendor ID
+                    example: 3
+        PaymentSchema:
+            type: object
+            properties:
+                amount:
+                    type: number
+                    description: Payment amount
+                    example: 93.33333333
+                amount_paid:
+                    type: number
+                    description: Amount paid
+                    example: 93.33333333
+                bank_id:
+                    type: integer
+                    description: Bank ID
+                    example: 36
+                notes:
+                    type: string
+                    description: Payment notes
+                    example: EXP-330
+                payment_date:
+                    type: string
+                    description: Payment date
+                    example: 20-06-2025
+                payment_mode:
+                    type: string
+                    description: Payment mode
+                    example: UPI
+                po_serial_number:
+                    type: string
+                    description: PO serial number
+                    example: "330"
+                record_time:
+                    type: string
+                    description: Record timestamp
+                    example: Fri, 20 Jun 2025 09:04:18 GMT
+        ExpenseAttachmentsV2:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: Name of the document
+                url:
+                    type: string
+                    description: Url of the document
+        ExpenseListResponseV2:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: true
+                    default: true
+                message:
+                    type: string
+                    description: Success Message
+                    example: Message
+                error_code:
+                    type: string
+                    description: Error Code
+                    example: ""
+                errors:
+                    type: object
+                    properties: {}
+                    description: Error details
+                data:
+                    "$ref": "#/components/schemas/ExpenseListV2"
+        ExpenseListV2:
+            type: object
+            properties:
+                transactions:
+                    type: array
+                    description: List of Expense Transactions
+                    items:
+                        "$ref": "#/components/schemas/ExpenseDetailsV2"
+                total_records:
+                    type: integer
+                    description: Total Count of Expenses
+                    example: 100
     responses:
         ParseError:
             description: When a mask can't be parsed
