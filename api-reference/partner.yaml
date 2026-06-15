@@ -1053,6 +1053,7 @@ paths:
         get:
             tags:
                 - Utility
+            summary: Get GSTIN details
             operationId: get_utils
             parameters:
                 - name: gstin
@@ -2007,6 +2008,7 @@ paths:
         put:
             tags:
                 - Document V2
+            summary: Edit a document
             operationId: put_invoice
             parameters:
                 - name: doc_hash_id
@@ -2637,6 +2639,7 @@ paths:
         post:
             tags:
                 - Inventory V2
+            summary: Update inventory stock
             operationId: post_inventory
             requestBody:
                 content:
@@ -3398,6 +3401,7 @@ paths:
         get:
             tags:
                 - Utility V2
+            summary: Get GSTIN details
             operationId: get_utils_v2
             parameters:
                 - name: gstin
@@ -5699,12 +5703,6 @@ components:
                 value:
                     type: string
         AlternativeUnitsV2:
-                    description:
-                        "Product visibility status: If the value is 1, the product
-                        will be visible to all branches; otherwise, it will only be visible in
-                        the main branch."
-                    example: 1
-        AlternativeUnitsV2:
             type: object
             properties:
                 alternative_unit:
@@ -5840,16 +5838,6 @@ components:
                     type: number
                     description: Conversion Rate
                     example: 1
-        ProductCustomFieldsV2:
-            required:
-                - label
-                - value
-            type: object
-            properties:
-                label:
-                    type: string
-                value:
-                    type: string
         ProductPreferencesV2:
             type: object
             properties:
