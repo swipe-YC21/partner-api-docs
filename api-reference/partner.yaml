@@ -1049,6 +1049,7 @@ paths:
         get:
             tags:
                 - Utility
+            summary: Get GSTIN details
             operationId: get_utils
             parameters:
                 - name: gstin
@@ -1990,7 +1991,8 @@ paths:
         put:
             tags:
                 - Document V2
-            operationId: v2_put_invoice
+            summary: Edit a document
+            operationId: put_invoice
             parameters:
                 - name: doc_hash_id
                   in: path
@@ -2178,8 +2180,347 @@ paths:
                     description: Internal server error
                     content:
                         application/json:
-                          schema:
-                              $ref: "#/components/schemas/InventoryV2Response"
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+                "500":
+                    description: Server Error
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+    "/v2/expense/list":
+        get:
+            tags:
+                - Expense V2
+            summary: List of documents
+            operationId: get_expense_transactions
+            parameters:
+                - name: document_type
+                  in: query
+                  required: true
+                  schema:
+                      type: string
+                      default: invoice
+                      enum:
+                          - expense
+                          - indirect_income
+                          - invoice
+                - name: start_date
+                  in: query
+                  description: Start date for the list, [DD-MM-YYY]
+                  required: true
+                  schema:
+                      type: string
+                      default: 01-01-2024
+                - name: end_date
+                  in: query
+                  description: End date for the list, [DD-MM-YYY]
+                  required: true
+                  schema:
+                      type: string
+                      default: 31-12-2024
+                - name: num_records
+                  in: query
+                  description: Number of records to fetch max(100)
+                  schema:
+                      type: string
+                      default: "10"
+                - name: payment_status
+                  in: query
+                  description: Filter list based on payment status of the document.
+                  schema:
+                      type: string
+                      default: all
+                      enum:
+                          - all
+                          - pending
+                          - paid
+                          - cancelled
+                - name: page
+                  in: query
+                  description: Page number
+                  schema:
+                      type: integer
+                      default: 1
+            responses:
+                "200":
+                    description: Documents List fetched successfully
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseListResponseV2"
+                "400":
+                    description: Error in fetching documents list
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+                "401":
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+    "/v2/expense/pdf/{hash_id}":
+        get:
+            tags:
+                - Expense V2
+            summary: Get details of a specific expense document
+            operationId: get_expense_pdf
+            parameters:
+                - name: hash_id
+                  in: path
+                  description: The serial number of the document to be fetched
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: File will be downloaded
+                    content: {}
+                "400":
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+                "401":
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+                "404":
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+                "500":
+                    description: Server Error
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+    "/v2/expense/{hash_id}":
+        get:
+            tags:
+                - Expense V2
+            summary: Get details of a specific expense document
+            operationId: get_expense
+            parameters:
+                - name: hash_id
+                  in: path
+                  description: The hash id of the document to be fetched
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+                "400":
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+                "401":
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+                "404":
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+                "500":
+                    description: Server Error
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+        post:
+            tags:
+                - Expense V2
+            summary: Update an existing expense document with form data and file attachments
+            description: Supports both JSON and form data with file attachments.
+            operationId: post_expense
+            parameters:
+                - name: hash_id
+                  in: path
+                  description: The hash_id of the document to be fetched
+                  required: true
+                  schema:
+                      type: string
+                - name: amount
+                  in: query
+                  description: Total amount of the expense
+                  required: true
+                  schema:
+                      type: number
+                - name: document_date
+                  in: query
+                  description: Date of the document in DD-MM-YYYY format
+                  required: true
+                  schema:
+                      type: string
+                - name: supplier_invoice_date
+                  in: query
+                  description: Supplier invoice date in DD-MM-YYYY format
+                  schema:
+                      type: string
+                - name: items
+                  in: query
+                  description: JSON string of items array
+                  required: true
+                  schema:
+                      type: string
+                - name: party
+                  in: query
+                  description: JSON string of party details
+                  required: true
+                  schema:
+                      type: string
+                - name: with_tax
+                  in: query
+                  description: Whether the expense includes tax
+                  schema:
+                      type: boolean
+                      default: false
+                - name: category
+                  in: query
+                  description: Category of the expense
+                  schema:
+                      type: string
+                - name: description
+                  in: query
+                  description: Description of the expense
+                  schema:
+                      type: string
+                - name: tds_id
+                  in: query
+                  description: TDS ID if applicable
+                  schema:
+                      type: integer
+                      default: -1
+                - name: payment_details
+                  in: query
+                  description: JSON string of payment details
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                attachments:
+                                    type: array
+                                    description: File attachments (multiple files supported)
+                                    items:
+                                        type: string
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                attachments:
+                                    type: array
+                                    description: File attachments (multiple files supported)
+                                    items:
+                                        type: string
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/DocCreateResponseV2"
+                "400":
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+                "401":
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+                "404":
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+                "500":
+                    description: Server Error
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+        delete:
+            tags:
+                - Expense V2
+            summary: Cancel a document
+            operationId: delete_expense
+            parameters:
+                - name: hash_id
+                  in: path
+                  description: The hash id of the document to be fetched
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/DocCreateResponseV2"
+                "400":
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+                "401":
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+                "404":
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+                "500":
+                    description: Server Error
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/ExpenseErrorResponseV2"
+    "/v2/inventory/stock":
+        post:
+            tags:
+                - Inventory V2
+            summary: Update inventory stock
             operationId: post_inventory
             requestBody:
                 content:
@@ -2724,7 +3065,8 @@ paths:
         get:
             tags:
                 - Utility V2
-            operationId: v2_get_utils
+            summary: Get GSTIN details
+            operationId: get_utils_v2
             parameters:
                 - name: gstin
                   in: path
@@ -5024,6 +5366,7 @@ components:
                 value:
                     type: string
         AlternativeUnitsV2:
+            type: object
             properties:
                 alternative_unit:
                     type: string
@@ -5158,7 +5501,6 @@ components:
                     type: number
                     description: Conversion Rate
                     example: 1
-            type: object
         ProductPreferencesV2:
             properties:
                 not_for_sale:
