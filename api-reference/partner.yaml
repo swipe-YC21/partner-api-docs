@@ -8663,6 +8663,11 @@ components:
                         - Rail
                         - Air
                         - Ship or Ship Cum Road/Rail
+                ship_to_gstin:
+                    type: string
+                    description: GSTIN of the consignee, or 'URP' if unregistered. Mandatory when transaction_type is 'Bill To - Ship To' or 'Combination of 2 and 3'.
+                    example: 29ABCDE1234F1Z5
+                    maxLength: 15
                 sub_supply_type_description:
                     type: string
                     description: Additional description of the sub-supply type.
