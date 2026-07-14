@@ -228,8 +228,8 @@
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg",
+    "light": "/logo/logo_g_light.webp",
+    "dark": "/logo/logo_g_dark.webp",
     "href": "/"
   },
   "navbar": {
