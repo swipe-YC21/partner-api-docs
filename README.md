@@ -1,38 +1,46 @@
-# Mintlify Starter Kit
+# Swipe Partner API Documentation
 
-Click on `Use this template` to copy the Mintlify starter kit. The starter kit contains examples including
+Source for [developers.getswipe.in](https://developers.getswipe.in/) — the developer documentation for the Swipe Partner API, built with [Mintlify](https://mintlify.com).
 
--   Guide pages
--   Navigation
--   Customizations
--   API Reference pages
--   Use of popular components
+## Repo layout
 
-### Development
+- `docs.json` — site configuration (navigation, versions, theme, contextual menu)
+- `*.mdx` — guide pages (Introduction, Document, Customer, Payment, Product, Subscriptions, EwayBill, E-Invoices, Webhooks)
+- `api-reference/openapi.json` — the OpenAPI spec; the single source of truth for all endpoint pages
+- `api-reference/**/*.mdx` — generated endpoint pages, one per operation, referencing the spec via `openapi:` frontmatter
+- `images/`, `logo/` — static assets
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the documentation changes locally. To install, use the following command
+## Local development
 
-```
-npm i -g mintlify
-```
-
-Run the following command at the root of your documentation (where mint.json is)
+Install the Mintlify CLI and run the dev server from the repo root (where `docs.json` lives):
 
 ```
-mintlify dev
+npm i -g mint
+mint dev
 ```
 
-### Publishing Changes
+## Checking for broken links
 
-Install our Github App to auto propagate changes from your repo to your deployment. Changes will be deployed to production automatically after pushing to the default branch. Find the link to install on your dashboard.
-
-#### Troubleshooting
-
--   Mintlify dev isn't running - Run `mintlify install` it'll re-install dependencies.
--   Page loads as a 404 - Make sure you are running in a folder with `mint.json`
-
-#### Update API paths
+Run this before pushing — it validates all relative internal links:
 
 ```
-npx @mintlify/scraping@latest openapi-file ./api-reference/partner.yaml -o api-reference
+mint broken-links
 ```
+
+Internal links must be root-relative (`/api-reference/...`), never absolute (`https://developers.getswipe.in/...`), so the link checker can validate them.
+
+## Updating the API reference
+
+Edit `api-reference/openapi.json` (endpoint summaries, descriptions, fields, examples), then regenerate pages for any new endpoints:
+
+```
+npx @mintlify/scraping@latest openapi-file ./api-reference/openapi.json -o api-reference
+```
+
+Add any newly generated pages to the navigation in `docs.json` — pages not listed there are orphaned but still publicly served.
+
+When making an API-visible change, add an entry to `api-reference/change-log.mdx`.
+
+## Publishing
+
+Changes merged to `main` deploy automatically via the Mintlify GitHub App.

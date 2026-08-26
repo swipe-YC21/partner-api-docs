@@ -1414,7 +1414,7 @@
           {
             "name": "start_date",
             "in": "query",
-            "description": "Start date for the list, [DD-MM-YYY]",
+            "description": "Start date for the list, [DD-MM-YYYY]",
             "required": true,
             "schema": {
               "type": "string",
@@ -1424,7 +1424,7 @@
           {
             "name": "end_date",
             "in": "query",
-            "description": "End date for the list, [DD-MM-YYY]",
+            "description": "End date for the list, [DD-MM-YYYY]",
             "required": true,
             "schema": {
               "type": "string",
@@ -2715,7 +2715,7 @@
           {
             "name": "start_date",
             "in": "query",
-            "description": "Start date for the list, [DD-MM-YYY]",
+            "description": "Start date for the list, [DD-MM-YYYY]",
             "required": true,
             "schema": {
               "type": "string",
@@ -2725,7 +2725,7 @@
           {
             "name": "end_date",
             "in": "query",
-            "description": "End date for the list, [DD-MM-YYY]",
+            "description": "End date for the list, [DD-MM-YYYY]",
             "required": true,
             "schema": {
               "type": "string",
@@ -3261,7 +3261,7 @@
           {
             "name": "start_date",
             "in": "query",
-            "description": "Start date for the list, [DD-MM-YYY]",
+            "description": "Start date for the list, [DD-MM-YYYY]",
             "required": true,
             "schema": {
               "type": "string",
@@ -3271,7 +3271,7 @@
           {
             "name": "end_date",
             "in": "query",
-            "description": "End date for the list, [DD-MM-YYY]",
+            "description": "End date for the list, [DD-MM-YYYY]",
             "required": true,
             "schema": {
               "type": "string",
@@ -3920,7 +3920,7 @@
           {
             "name": "start_date",
             "in": "query",
-            "description": "Start date for the list, [DD-MM-YYY]",
+            "description": "Start date for the list, [DD-MM-YYYY]",
             "required": true,
             "schema": {
               "type": "string",
@@ -3930,7 +3930,7 @@
           {
             "name": "end_date",
             "in": "query",
-            "description": "End date for the list, [DD-MM-YYY]",
+            "description": "End date for the list, [DD-MM-YYYY]",
             "required": true,
             "schema": {
               "type": "string",
@@ -4441,7 +4441,7 @@
           {
             "name": "start_date",
             "in": "query",
-            "description": "Start date for the list, [DD-MM-YYY]",
+            "description": "Start date for the list, [DD-MM-YYYY]",
             "required": true,
             "schema": {
               "type": "string",
@@ -4451,7 +4451,7 @@
           {
             "name": "end_date",
             "in": "query",
-            "description": "End date for the list, [DD-MM-YYY]",
+            "description": "End date for the list, [DD-MM-YYYY]",
             "required": true,
             "schema": {
               "type": "string",
@@ -5195,7 +5195,7 @@
           },
           "document_type": {
             "type": "string",
-            "description": "Value should always be the string 'invoice'",
+            "description": "Type of document to create. One of the enum values listed below; use 'invoice' for a standard GST invoice.",
             "example": "invoice",
             "enum": [
               "invoice",
@@ -8236,7 +8236,7 @@
           },
           "document_type": {
             "type": "string",
-            "description": "Value should always be the string 'invoice'",
+            "description": "Type of document to create. One of the enum values listed below; use 'invoice' for a standard GST invoice.",
             "example": "invoice",
             "enum": [
               "invoice",
@@ -9441,7 +9441,7 @@
           },
           "document_type": {
             "type": "string",
-            "description": "Value should always be the string 'invoice'",
+            "description": "Type of document to create. One of the enum values listed below; use 'invoice' for a standard GST invoice.",
             "example": "invoice",
             "enum": [
               "invoice",

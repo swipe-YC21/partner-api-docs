@@ -1,0 +1,17 @@
+name: Check broken links
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  broken-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run Mintlify link checker
+        run: npx mint@latest broken-links

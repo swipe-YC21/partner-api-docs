@@ -1,3 +1,8 @@
+---
+title: References
+description: Reference data for API requests - TDS/TCS tax codes, currency codes, and accepted state and country values.
+---
+
 # TDS, TCS Details
 
 ## TDS (Tax Deducted at Source)
@@ -69,7 +74,7 @@
 
 | **Country Name**                 | **Currency ID** | **Currency Name**           |
 | -------------------------------- | --------------- | --------------------------- |
-| Zimbabwe                         | BWP             | Botswana pula               |
+| Zimbabwe                         | ZWL             | Zimbabwean dollar           |
 | Zambia                           | ZMW             | Zambian kwacha              |
 | South Africa                     | ZAR             | South African rand          |
 | Yemen                            | YER             | Yemeni rial                 |
@@ -260,14 +265,14 @@
 | Belgium                          | EUR             | Euro                        |
 | Bangladesh                       | BDT             | Bangladeshi taka            |
 | Barbados                         | BBD             | Barbadian dollar            |
-| Bosnia and Herzegovina           | KM              | konvertibilna marka         |
+| Bosnia and Herzegovina           | BAM             | Bosnia and Herzegovina convertible mark |
 | Azerbaijan                       | AZN             | Azerbaijani Manat           |
 | Aruba                            | AWG             | Aruban florin               |
 | Australia                        | AUD             | Australian dollar           |
 | Austria                          | EUR             | Euro                        |
 | Argentina                        | ARS             | Argentine peso              |
 | Angola                           | AOA             | Angolan kwanza              |
-| Armenia                          | AMD             | Congolese Franc             |
+| Armenia                          | AMD             | Armenian dram               |
 | Albania                          | ALL             | Albanian lek                |
 | Anguilla                         | XCD             | East Caribbean dollar       |
 | Antigua And Barbuda              | XCD             | East Caribbean dollar       |
@@ -278,6 +283,11 @@
 ## State Details
 
 You can copy the following array of state names and use it in your code:
+
+<Note>
+    Send state values exactly as they appear in this list (including spelling
+    and casing) — they must match the values the API validates against.
+</Note>
 
 ```json
 [
