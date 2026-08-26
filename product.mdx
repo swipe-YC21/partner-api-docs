@@ -1,94 +1,72 @@
 ---
-title: Product
+title: Products
 icon: 'boxes-stacked'
-description: Organize and streamline all your products.
+description: 'Manage your item catalog - products and services, pricing, taxes, and units.'
 ---
 
-Easily manage and synchronize product data across platforms, optimize inventory and pricing workflows, and deliver a seamless experience to your customers.
+Products (items) are what you sell and buy. They appear as `items` on every [document](/document), and stocked products are tracked by [Inventory](/inventory).
 
-## What We Offer
+## The item model
+
+Items use the same ID model as [customers](/customer): every call carries **your** `item_id`, unknown IDs are auto-created (including inline during document creation), and [Update items mapping](/api-reference/product-v2/update-items-mapping) re-links your IDs in bulk if they change.
+
+The fields that matter most:
+
+- `item_type` — `Product` (stocked, tracked by inventory) or `Service`
+- `unit_price`, `tax_rate`, `price_with_tax` — pricing with GST; only valid GST tax rates are accepted
+- `hsn_code` — the HSN/SAC code that GST compliance (and e-invoicing) relies on
+- `unit` — a GST-approved UQC unit such as `kg`, `pcs`, `mtr`
+
+## Add an item
+
+```bash
+curl --request POST \
+  --url https://app.getswipe.in/api/partner/v2/product \
+  --header "Authorization: Bearer YOUR_API_KEY" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "id": "ITEM001",
+    "item_type": "Product",
+    "name": "Test Product",
+    "unit_price": 100.0,
+    "tax_rate": 18.0,
+    "price_with_tax": 118.0,
+    "hsn_code": "8517",
+    "unit": "pcs"
+  }'
+```
+
 <Note>
-    All the features mentioned below, and more, can be accessed directly using
-    the [Swipe Portal](https://app.getswipe.in).
+    Item details sent inside a document apply to that document only — they never
+    overwrite the catalog record. To change the master record, use [Update an
+    item](/api-reference/product-v2/update-an-item).
 </Note>
 
-1. [Add Product](/api-reference/product-v2/add-an-item) : Add new product entries to build and expand your product catalog.
-    ### Steps to add an item:
-    1. Checkout the add item endpoint in the API playground and use your API key to test the endpoint.
-    2. If your API key is valid, this api endpoint returns a 200 response with item details in a specified JSON format.
+<Frame caption="The product catalog in the Swipe dashboard">
+    <img src="/images/screenshots/all_product.png" alt="Products and services list in the Swipe dashboard" />
+</Frame>
 
-    ### You can also add items manually on [Swipe Portal](https://app.getswipe.in/products)
-    <Card
-        title="Add Item"
-        icon="play"
-        horizontal
-        href="/api-reference/product-v2/add-an-item"
-    >
-        Try Adding an item
-    </Card>
+## Endpoints
 
-2. [Get Product](/api-reference/product-v2/get-item-details) : Access specific product information quickly for operational needs or customer queries.
-    ### Steps to get an item:
-    1. Checkout the get item details endpoint in the API playground. For `item_id`, add the `item_id` used while adding an item.
-    2. If your API key is valid, this API endpoint returns a 200 response with item details in a specified JSON format.
-    
-    <Card
-        title="Get Item"
-        icon="play"
-        horizontal
-        href="/api-reference/product-v2/get-item-details"
-    >
-        Try fetching item details
+<CardGroup cols={2}>
+    <Card title="Add an item" icon="plus" href="/api-reference/product-v2/add-an-item">
+        Create an item with your own ID.
     </Card>
-3. [Update Product](/api-reference/product-v2/update-an-item) : Modify existing product information to ensure accuracy and relevance, including name, description, pricing, and availability.
-    ### Steps to update an item:
-    1. Checkout the update item endpoint in the API playground and use your API key to test the endpoint.
-    2. If your API key is valid, this api endpoint returns a 200 response with required details in a specified JSON format.
+    <Card title="Get item details" icon="magnifying-glass" href="/api-reference/product-v2/get-item-details">
+        Fetch one item by your `item_id`.
+    </Card>
+    <Card title="Update an item" icon="pen" href="/api-reference/product-v2/update-an-item">
+        Change the catalog record.
+    </Card>
+    <Card title="Delete an item" icon="trash" href="/api-reference/product-v2/delete-an-item">
+        Remove an item from the catalog.
+    </Card>
+    <Card title="Get list of items" icon="list" href="/api-reference/product-v2/get-list-of-items">
+        Page through the catalog.
+    </Card>
+    <Card title="Update items mapping" icon="link" href="/api-reference/product-v2/update-items-mapping">
+        Re-link your IDs to Swipe records in bulk.
+    </Card>
+</CardGroup>
 
-    <Card
-        title="Update Item"
-        icon="play"
-        horizontal
-        href="/api-reference/product-v2/update-an-item"
-    >
-        Try Updating an item
-    </Card>
-4. [Delete Product](/api-reference/product-v2/delete-an-item) : Remove outdated or inactive products to maintain a streamlined and updated catalog.
-    ### Steps to delete an item:
-    1. Checkout the delete item endpoint in the API playground. For `item_id`, use the `item_id` that was used while adding an item.
-    2. If your API key is valid, this API endpoint returns a 200 response with document details in a specified JSON format.
-
-    <Card
-        title="Delete Item"
-        icon="play"
-        horizontal
-        href="/api-reference/product-v2/delete-an-item"
-    >
-        Try Deleting an Item
-    </Card>
-5. [Products List](/api-reference/product-v2/get-list-of-items) : Retrieve a complete list of all products in your catalog, enabling efficient management and analysis.
-    ### Steps to get list of items:
-    1. Checkout the get items list endpoint in the API playground.
-    2. If your API key is valid, this API endpoint returns a 200 response with items list details in a specified JSON format.
-
-    <Card
-        title="List of Items"
-        icon="play"
-        horizontal
-        href="/api-reference/product-v2/get-list-of-items"
-    >
-        Fetch List of all items
-    </Card>
-6. [Update Product Mapping](/api-reference/product-v2/update-items-mapping) : Seamlessly update product ID mappings to ensure consistency and alignment across systems, avoiding duplicate records and streamlining integrations.
-    ### Steps to update item IDs:
-    1. Checkout the update item mapping endpoint in the API playground.
-    2. If your API key is valid, this API endpoint returns a 200 response with data in a specified JSON format.
-
-    <Card
-        title="Update Item Mappings"
-        icon="play"
-        horizontal
-        href="/api-reference/product-v2/update-items-mapping"
-    >
-        Try updating item mappings
-    </Card>
+Tracking stock levels too? Continue to [Inventory](/inventory).

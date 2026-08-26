@@ -1,134 +1,96 @@
 ---
-title: Document
+title: Documents
 icon: 'file-invoice'
-description: Create, edit, cancel and get document PDFs
+description: 'Create, edit, cancel, list, and download the business documents at the core of the Swipe API.'
 ---
 
-Our comprehensive API solution allows you to manage essential business documents such as invoices, subscriptions, pro forma invoices, sales returns, and purchase returns. With our APIs, you can effortlessly create, manage, and retrieve documents, including E-invoices and export invoices, ensuring streamlined and efficient operations.
+Documents are the core resource of the Swipe API. An invoice, a purchase, an estimate, a sales return — they're all documents, created through one endpoint and addressed by one identifier.
 
-## What We Offer
+## The document model
+
+Every document is created with [`POST /v2/doc`](/api-reference/document-v2/create-a-document). The `document_type` field decides what you're creating:
+
+| `document_type`     | Use for                                              |
+| ------------------- | ---------------------------------------------------- |
+| `invoice`           | A standard GST sales invoice                         |
+| `purchase`          | A purchase recorded against a vendor                 |
+| `estimate`          | A quotation for a customer                           |
+| `pro_forma_invoice` | A pro forma invoice sent before the real one         |
+| `sales_return`      | Goods returned by a customer (credit note)           |
+| `purchase_return`   | Goods returned to a vendor (debit note)              |
+| `delivery_challan`  | Goods movement without a sale                        |
+| `subscription`      | A recurring invoice — see [Subscriptions](/subscriptions) |
+
+Sales-side documents take a `party` of type `customer`; purchase-side documents (`purchase`, `purchase_return`) take a `party` of type `vendor`.
+
+## The document lifecycle
+
+```mermaid
+flowchart LR
+    A["Create<br/>POST /v2/doc"] --> B["hash_id"]
+    B --> C["Get / PDF"]
+    B --> D["Edit<br/>PUT /v2/doc/{hash_id}"]
+    B --> E["Cancel<br/>DELETE /v2/doc/{hash_id}"]
+    B --> F["Record payment<br/>POST /v2/payment"]
+```
+
+The `hash_id` returned on creation is the document's address for everything that follows — fetching it, editing it, cancelling it, downloading its PDF, generating an [e-way bill](/ewaybills) for it, or settling it with a [payment](/payment).
+
+```json
+{
+  "success": true,
+  "message": "Document created successfully",
+  "data": {
+    "hash_id": "PUlgCNPb",
+    "serial_number": "INV-1"
+  }
+}
+```
+
+For a complete first request, follow the [Quickstart](/quickstart) — it creates an invoice and downloads its PDF in two calls.
+
+## Things to know before you build
 
 <Note>
-    All the features mentioned below, and more, can be accessed directly using
-    the [Swipe Portal](https://app.getswipe.in).
+    **Customers and products are auto-created.** The `party` and `items` in your
+    payload carry your own IDs. If an ID is new, Swipe creates the record from
+    the details you send; if it exists, the record is reused. See [API
+    conventions](/api-conventions#ids-yours-and-swipes).
 </Note>
 
-1.  [Document Creation](/api-reference/document-v2/create-a-document): Easily generate professional invoices, pro forma invoices, sales returns, and purchase returns tailored to your business needs.
+- **Party updates propagate.** If you send changed details for an existing party ID, the party is updated — and existing documents linked to that party reflect the change.
+- **Item details in a document don't update the catalog.** Sending different details for an existing item ID applies them to that document only; use [Update an item](/api-reference/product-v2/update-an-item) to change the master record.
+- **Serial numbers must be unique.** Send your own `serial_number` (or `serial_number_v2`) and a retried create fails safely with `DUPLICATE_DOC_SERIAL_NUMBER` instead of duplicating the document.
+- **Edits replace the document.** [Edit a document](/api-reference/document-v2/edit-a-document) expects the full payload with every field's updated value, not a partial diff.
+- **E-invoices ride on creation.** Pass `einvoice: true` when creating to also generate a GST e-invoice with IRN and QR code — see [E-Invoices](/einvoices).
 
-    ### Steps to create a document:
+## Documents in the dashboard
 
-    1. Checkout the create document endpoint in the API playground and use your API key to test the endpoint.
-    2. If your API key is valid, this API endpoint returns a 200 response with document details in a specified JSON format.
+Everything the API creates appears in the [Swipe dashboard](https://app.getswipe.in/list/sales) alongside documents made in the app — the invoice creation screen below works on the same data.
 
-    #### Things to keep in mind:
+<Frame caption="The same invoice, as it looks in the Swipe dashboard">
+    <img src="/images/screenshots/doc_create.png" alt="Create Invoice screen in the Swipe dashboard" />
+</Frame>
 
-    1. You can send your product_id and customer_id to create a document. These will be internally mapped to the product and customer details in Swipe.
-    2. If the Product or Party is not found, they will be created automatically with the details provided.
-    3. If new details for Party are provided, they will be updated in the system which will be reflected in your existing documents as well.
+## Endpoints
 
-    <Card
-        title="Create Document"
-        icon="play"
-        horizontal
-        href="/api-reference/document-v2/create-a-document"
-    >
-        Try Creating a document
+<CardGroup cols={2}>
+    <Card title="Create a document" icon="plus" href="/api-reference/document-v2/create-a-document">
+        The full payload — items, taxes, discounts, charges, export details.
     </Card>
-
-2.  [Fetch PDF](/api-reference/document-v2/get-document-pdf): Access PDFs of already created documents.
-
-    ### Steps to get document PDFs:
-
-    1. Checkout the get document PDF endpoint in the API playground. For `doc_hash_id`, use the `hash_id` received from creating the document.
-    2. If your API key is valid, this API endpoint returns a 200 response along with the PDF.
-
-    <Card
-        title="Fetch Document PDF"
-        icon="play"
-        horizontal
-        href="/api-reference/document-v2/get-document-pdf"
-    >
-        Fetch PDFs of documents that are already created
+    <Card title="Get a document" icon="magnifying-glass" href="/api-reference/document-v2/get-a-document">
+        Fetch a document's details by `hash_id`.
     </Card>
-
-    ### Snapshot of a document PDF
-
-    <img
-        className="block"
-        src="https://vx-erp-resources.s3.ap-south-1.amazonaws.com/invoice_templates/Template_1.webp"
-        alt="Document PDF Screenshot"
-    />
-
-3.  [Get Document](/api-reference/document-v2/get-a-document): Access specific product information quickly for operational needs or customer queries.
-
-    ### Steps to get particular document details:
-
-    1. Checkout the get document endpoint in the API playground. For `doc_hash_id`, use the `hash_id` received from creating the document.
-    2. If your API key is valid, this API endpoint returns a 200 response with document details in a specified JSON format.
-
-    <Card
-        title="Get Document"
-        icon="play"
-        horizontal
-        href="/api-reference/document-v2/get-a-document"
-    >
-        Try fetching document details
+    <Card title="Get document PDF" icon="file-pdf" href="/api-reference/document-v2/get-document-pdf">
+        Download the rendered PDF.
     </Card>
-
-4.  [Document Cancellation](/api-reference/document-v2/cancel-a-document): Easily cancel your documents.
-
-    ### Steps to cancel a document:
-
-    1. Checkout the cancel document endpoint in the API playground. For `doc_hash_id`, use the `hash_id` received from creating the document.
-    2. If your API key is valid, this API endpoint returns a 200 response with document details in a specified JSON format.
-
-    <Card
-        title="Cancel a Document"
-        icon="play"
-        horizontal
-        href="/api-reference/document-v2/cancel-a-document"
-    >
-        Try Cancelling an active document
+    <Card title="Edit a document" icon="pen" href="/api-reference/document-v2/edit-a-document">
+        Replace a document's contents by `hash_id`.
     </Card>
-
-5.  [List of Documents](/api-reference/document-v2/list-of-documents): Retrieve a complete list of all documents in your system based on the payment status, enabling seamless tracking and management.
-
-    ### Steps to get list of documents created:
-
-    1. Checkout the list document endpoint in the API playground.
-    2. If your API key is valid, this API endpoint returns a 200 response with a list of all the documents with basic details in JSON format.
-
-    <Card
-        title="List of Documents"
-        icon="play"
-        horizontal
-        href="/api-reference/document-v2/list-of-documents"
-    >
-        Fetch List of all documents
+    <Card title="Cancel a document" icon="ban" href="/api-reference/document-v2/cancel-a-document">
+        Cancel an active document.
     </Card>
-
-    <Note>
-        You can keep track of all documents on [Swipe
-        Dashboard](https://app.getswipe.in/list/sales)
-    </Note>
-
-6.  [Edit Document](/api-reference/document-v2/edit-a-document): Seamlessly edit and update your documents to ensure accuracy and consistency.
-
-    ### Steps to create a document:
-
-    1. Checkout the edit document endpoint in the API playground and use your API key to test the endpoint.
-    2. If your API key is valid, this API endpoint returns a 200 response with updated document details in a specified JSON format.
-
-    #### Things to keep in mind:
-
-    1. In the request URL, provide the unique `doc_hash_id` of the document that needs to be updated.
-    2. In the request body, include all the keys with their respective updated values.
-
-    <Card
-        title="Edit Document"
-        icon="play"
-        horizontal
-        href="/api-reference/document-v2/edit-a-document"
-    >
-        Try Editing a document
+    <Card title="List of documents" icon="list" href="/api-reference/document-v2/list-of-documents">
+        List documents by type, date range, and payment status.
     </Card>
+</CardGroup>

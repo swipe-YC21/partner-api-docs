@@ -1,0 +1,50 @@
+---
+title: Vendors
+icon: 'building'
+description: 'Manage the vendors you buy from - the purchase-side mirror of the customer API.'
+---
+
+Vendors are the parties you buy from. They appear as the `party` (type `vendor`) on purchases, purchase orders, and purchase returns, and — like customers — each vendor has a ledger of what you owe and have paid.
+
+The vendor API mirrors the [customer API](/customer) exactly, including the ID model: every call uses **your** `vendor_id`, new IDs create vendors automatically (also inline during [document creation](/api-reference/document-v2/create-a-document)), existing IDs reuse and update the record, and [Update vendor mapping](/api-reference/vendor-v2/update-vendor-mapping) re-links your IDs in bulk after a migration.
+
+## Add a vendor
+
+```bash
+curl --request POST \
+  --url https://app.getswipe.in/api/partner/v2/vendor \
+  --header "Authorization: Bearer YOUR_API_KEY" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "id": "VEND001",
+    "name": "Test Vendor",
+    "phone_number": "1234567890",
+    "gstin": "27AARCS7202C1ZD"
+  }'
+```
+
+## Endpoints
+
+<CardGroup cols={2}>
+    <Card title="Add a vendor" icon="plus" href="/api-reference/vendor-v2/add-a-vendor">
+        Create a vendor with your own ID.
+    </Card>
+    <Card title="Get vendor details" icon="magnifying-glass" href="/api-reference/vendor-v2/get-vendor-details">
+        Fetch one vendor by your `vendor_id`.
+    </Card>
+    <Card title="Update a vendor" icon="pen" href="/api-reference/vendor-v2/update-a-vendor">
+        Change a vendor's details.
+    </Card>
+    <Card title="Delete a vendor" icon="trash" href="/api-reference/vendor-v2/delete-a-vendor">
+        Remove a vendor record.
+    </Card>
+    <Card title="Get payment ledger" icon="book-open" href="/api-reference/vendor-v2/get-payment-ledger">
+        Transaction history and balance for one vendor.
+    </Card>
+    <Card title="Get list of vendors" icon="list" href="/api-reference/vendor-v2/get-list-of-vendors">
+        Page through all vendors.
+    </Card>
+    <Card title="Update vendor mapping" icon="link" href="/api-reference/vendor-v2/update-vendor-mapping">
+        Re-link your IDs to Swipe records in bulk.
+    </Card>
+</CardGroup>

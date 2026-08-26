@@ -1,67 +1,69 @@
 ---
-title: EwayBill
+title: E-Way Bills
 icon: 'truck-fast'
-description: Create and get ewaybill PDFs
+description: 'Generate GST e-way bills for your documents and download their PDFs.'
 ---
 
-Our comprehensive API solution allows you to manage essential business documents such as invoices, subscriptions, pro forma invoices, sales returns, and purchase returns. With our APIs, you can effortlessly create, manage, and retrieve documents, including E-invoices, EwayBills and export invoices, ensuring streamlined and efficient operations.
+An e-way bill is the GST transport document required for moving goods. In the Swipe API, an e-way bill is generated **for an existing document** — create the invoice first, then request its e-way bill with the transport details.
 
-## What We Offer
+## Before you start
 
-<Note>
-    All the features mentioned below, and more, can be accessed directly using
-    the [Swipe Portal](https://app.getswipe.in/ewaybills).
-</Note>
+<Steps>
+    <Step title="Enable the plan">
+        E-way bill APIs need the **E-Invoices & EwayBills plan** on your account.
+        Mail [api@getswipe.in](mailto:api@getswipe.in) for a trial and integration support.
+    </Step>
+    <Step title="Connect to the e-way bill portal">
+        Open [E-way bills in your dashboard](https://app.getswipe.in/ewaybills) and click
+        **Connect to E-way Bill Portal**.
+    </Step>
+    <Step title="Know which government portal you're on">
+        By default the API points to the **Government sandbox portal** — generated
+        bills aren't legally valid until you switch. Mail
+        [api@getswipe.in](mailto:api@getswipe.in) to connect to the production portal.
+    </Step>
+</Steps>
 
-<Warning>
-    To use EwayBill APIs, you need the **E-Invoices & EwayBills plan** enabled on your account. Reach out to [api@getswipe.in](mailto:api@getswipe.in) to get a trial activated and support for API integration.
-</Warning>
+## Generate an e-way bill
 
-<Warning>
-    By default, the API points to the **Government sandbox portal**. To connect to the production Government portal, please mail [api@getswipe.in](mailto:api@getswipe.in).
-</Warning>
+Call [`POST /v2/ewaybill/{doc_hash_id}`](/api-reference/ewaybill/create-eway-bill) with the document's `hash_id` (from [document creation](/api-reference/document-v2/create-a-document)) and the transport details. The required fields are `supply_type`, `sub_supply_type`, `transport_mode`, `transporter_doc_date`, and the `dispatch_from` / `dispatch_to` addresses; vehicle and transporter details complete the bill:
 
-1.  [EwayBill Creation](/api-reference/ewaybill/create-eway-bill): Easily generate professional invoices, pro forma invoices, sales returns, and purchase returns tailored to your business needs.
+```bash
+curl --request POST \
+  --url https://app.getswipe.in/api/partner/v2/ewaybill/PUlgCNPb \
+  --header "Authorization: Bearer YOUR_API_KEY" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "supply_type": "Outward",
+    "sub_supply_type": "Supply",
+    "transport_mode": "Road",
+    "vehicle_number": "KA01AB1234",
+    "transporter_doc_date": "26-08-2026",
+    "dispatch_from": { },
+    "dispatch_to": { }
+  }'
+```
 
-    ### Steps to create an ewaybill:
+Errors from the government portal are passed through as `PORTAL_ERROR_{code}` — see [Error codes](/api-reference/error-codes) for how to look them up.
 
-    1. Checkout the create ewaybill endpoint in the API playground and use your API key to test the endpoint.
-    2. If your API key is valid, this API endpoint returns a 200 response with document details in a specified JSON format.
+## Download the PDF
 
-    #### Things to keep in mind:
+[`GET /v2/ewaybill/pdf/{doc_hash_id}`](/api-reference/ewaybill/get-ewaybill-pdf) returns the e-way bill PDF for the same `doc_hash_id`.
 
-    1. To generate e-Way Bills from the APIs, first ensure that you are connected to the EWay Bill portal.
-    2. You can connect to EwayBill portal from [here](https://app.getswipe.in/ewaybills) by clicking on Connect to E-way Bill Portal.
-
-    <Card
-        title="Create EwayBill"
-        icon="play"
-        horizontal
-        href="/api-reference/ewaybill/create-eway-bill"
-    >
-        Try Creating an EwayBill
-    </Card>
-
-2.  [Fetch PDF](/api-reference/ewaybill/get-ewaybill-pdf): Access PDFs of already created ewaybills.
-
-    ### Steps to get EwayBill PDFs:
-
-    1. Checkout the get EwayBill PDF endpoint in the API playground. For `doc_hash_id`, use the `hash_id` received from creating the document.
-    2. If your API key is valid, this API endpoint returns a 200 response along with the PDF.
-
-    <Card
-        title="Fetch EwayBill PDF"
-        icon="play"
-        horizontal
-        href="/api-reference/ewaybill/get-ewaybill-pdf"
-    >
-        Fetch PDFs of EwayBills that are already created
-    </Card>
-
-    ### Snapshot of an ewaybill document PDF
-
+<Frame caption="A generated e-way bill PDF">
     <img
-        className="block"
         src="https://vx-erp-resources.s3.ap-south-1.amazonaws.com/1742535622-Screenshot_2025-03-21_at_11.png"
-        alt="Document PDF Screenshot"
+        alt="E-way bill PDF example"
     />
+</Frame>
+
+## Endpoints
+
+<CardGroup cols={2}>
+    <Card title="Create Eway Bill" icon="plus" href="/api-reference/ewaybill/create-eway-bill">
+        Generate an e-way bill for a document.
+    </Card>
+    <Card title="Get EwayBill PDF" icon="file-pdf" href="/api-reference/ewaybill/get-ewaybill-pdf">
+        Download the e-way bill PDF.
+    </Card>
+</CardGroup>

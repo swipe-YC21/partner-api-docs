@@ -1,40 +1,66 @@
 ---
 title: Subscriptions
 icon: 'repeat'
-description: Automated recurring invoices for your customers.
+description: 'Set up recurring invoices through the document API, then track them and their generated invoices.'
 ---
 
-Simplify invoicing through automated schedules. You can set up recurring invoicing schedule for your customers& create customized billing cycle for your customers
+A subscription generates invoices for a customer automatically on a schedule — daily, weekly, monthly, or yearly. Swipe creates each invoice when it falls due; you just define the schedule once.
 
-## What We Offer
+## Create a subscription
+
+There's no separate create-subscription endpoint — a subscription **is a document**. Call [Create a document](/api-reference/document-v2/create-a-document) with `document_type: "subscription"` and a `subscription_details` object describing the schedule:
+
+```bash
+curl --request POST \
+  --url https://app.getswipe.in/api/partner/v2/doc \
+  --header "Authorization: Bearer YOUR_API_KEY" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "document_type": "subscription",
+    "document_date": "26-08-2026",
+    "party": { "id": "CUST001", "type": "customer", "name": "Test Customer" },
+    "items": [
+      {
+        "id": "ITEM001", "item_type": "Service", "name": "Monthly Retainer",
+        "quantity": 1, "unit_price": 100.0, "tax_rate": 18.0,
+        "net_amount": 100.0, "price_with_tax": 118.0, "total_amount": 118.0
+      }
+    ],
+    "subscription_details": {
+      "start_time": "01-09-2026",
+      "end_time": "01-09-2027",
+      "repeat": 1,
+      "repeat_type": "months",
+      "send_email": true
+    }
+  }'
+```
+
+- `repeat` + `repeat_type` — the cadence: every `1` × `months` above; `repeat_type` is one of `days`, `weeks`, `months`, `years`
+- `start_time` / `end_time` — when the schedule runs, `DD-MM-YYYY`
+- `send_email` / `send_sms` / `send_wtsp` — deliver each generated invoice to the customer automatically
+
 <Note>
-    All the features mentioned below, and more, can be accessed directly using
-    the [Swipe Portal](https://app.getswipe.in/list/subscriptions).
+    Subscriptions must be enabled on your Swipe account — otherwise creation
+    fails with `SUBSCRIPTIONS_NOT_ENABLED`. Enable them in the [Swipe
+    dashboard](https://app.getswipe.in/list/subscriptions).
 </Note>
 
-1. [Fetch All Subscriptions](/api-reference/subscriptions-v2/list-of-subscriptions) : Retrieve a complete list of all subscriptions in your system based on the status, enabling seamless tracking and management.
-    ### Steps to get list of subscriptions created:
-    1. Checkout the list subscriptions endpoint in the API playground.
-    2. If your API key is valid, this API endpoint returns a 200 response with a list of all the documents with basic details in JSON format.
-    
-    <Card
-        title="List of Subscriptions"
-        icon="play"
-        horizontal
-        href="/api-reference/subscriptions-v2/list-of-subscriptions"
-    >
-        Fetch List of all subscriptions
-    </Card>
-2. [Get Subscription Details](/api-reference/subscriptions-v2/get-subscription-details) : Access specific details of a particular subscription, including customer information, subscription dates, invoices, etc.
-    ### Steps to get particular subscription details:
-    1. Checkout the get document endpoint in the API playground. For `subscription_hash_id`, use the `hash_id` received from list of subscriptions.
-    2. If your API key is valid, this API endpoint returns a 200 response with subscription details in a specified JSON format.
+## Track subscriptions and their invoices
 
-    <Card
-        title="Get Subscription"
-        icon="play"
-        horizontal
-        href="/api-reference/subscriptions-v2/get-subscription-details"
-    >
-        Try fetching document details
+[List of subscriptions](/api-reference/subscriptions-v2/list-of-subscriptions) returns subscriptions over a date range, filterable by `status` and `customer_id`. Each entry's hash ID feeds [Get subscription details](/api-reference/subscriptions-v2/get-subscription-details), which includes the invoices generated so far. The generated invoices are ordinary [documents](/document) — fetch their PDFs and record [payments](/payment) against them as usual.
+
+<Frame caption="Subscriptions and their generated invoices in the Swipe dashboard">
+    <img src="/images/screenshots/subscriptions.png" alt="Subscriptions list in the Swipe dashboard" />
+</Frame>
+
+## Endpoints
+
+<CardGroup cols={2}>
+    <Card title="List of subscriptions" icon="list" href="/api-reference/subscriptions-v2/list-of-subscriptions">
+        Filter by date range, status, and customer.
     </Card>
+    <Card title="Get subscription details" icon="magnifying-glass" href="/api-reference/subscriptions-v2/get-subscription-details">
+        One subscription with its generated invoices.
+    </Card>
+</CardGroup>

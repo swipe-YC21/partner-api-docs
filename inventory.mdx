@@ -1,0 +1,63 @@
+---
+title: Inventory
+icon: 'warehouse'
+description: 'Adjust stock in and out across warehouses, and track every movement with webhooks.'
+---
+
+Inventory tracks how much of each [product](/product) you hold, per warehouse. Stock moves in three ways: documents move it automatically (sales and sales returns move stock out and back in, purchases and purchase returns move it in and out), you adjust it directly through this API, or someone edits it in the dashboard.
+
+## Adjust stock
+
+[`POST /v2/inventory/stock`](/api-reference/inventory-v2/inventory-stock-in-out) records a manual movement — a correction, an opening balance, damage, or an internal transfer:
+
+```bash
+curl --request POST \
+  --url https://app.getswipe.in/api/partner/v2/inventory/stock \
+  --header "Authorization: Bearer YOUR_API_KEY" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "product_id": "ITEM001",
+    "action": "in",
+    "quantity": 10,
+    "warehouse_id": -1,
+    "remarks": "Opening stock"
+  }'
+```
+
+- `action` — `in` adds stock, `out` removes it
+- `product_id` — your item ID, the same one used in [documents](/document)
+- `warehouse_id` — from [Get all warehouses](/api-reference/inventory-v2/get-all-warehouses); use `-1` for the default warehouse
+- `record_date` — optional `DD-MM-YYYY` backdate for the movement
+
+Documents that would take stock below zero can fail with `INSUFFICIENT_STOCK` — see [Error codes](/api-reference/error-codes).
+
+## React to movements in real time
+
+Enable the `inventory` [webhook](/webhooks) and Swipe calls your endpoint on every stock movement — API, dashboard, or document-driven — with the product, quantity, and direction:
+
+```json
+{
+  "event_type": "inventory",
+  "data": {
+    "swipe_product_id": 39346,
+    "partner_product_id": "ITEM001",
+    "product_name": "Test Product",
+    "qty": 1.0,
+    "movement": "in",
+    "timestamp": "2025-07-14 09:19:45.000000"
+  }
+}
+```
+
+`partner_product_id` is `-1` when the product isn't mapped to one of your IDs yet — see [ID mapping](/api-conventions#ids-yours-and-swipes).
+
+## Endpoints
+
+<CardGroup cols={2}>
+    <Card title="Inventory stock in/out" icon="right-left" href="/api-reference/inventory-v2/inventory-stock-in-out">
+        Record a manual stock movement.
+    </Card>
+    <Card title="Get all warehouses" icon="warehouse" href="/api-reference/inventory-v2/get-all-warehouses">
+        List warehouse IDs for stock operations.
+    </Card>
+</CardGroup>

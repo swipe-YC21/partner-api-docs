@@ -13,7 +13,11 @@
       "display": "interactive"
     },
     "examples": {
-      "languages": ["curl", "python", "javascript"],
+      "languages": [
+        "curl",
+        "python",
+        "javascript"
+      ],
       "defaults": "required"
     }
   },
@@ -88,6 +92,10 @@
     {
       "source": "/api-reference/payment-v2/list-of-documents",
       "destination": "/api-reference/payment-v2/list-of-payments"
+    },
+    {
+      "source": "/api-reference/references",
+      "destination": "/api-reference/tax-codes"
     }
   ],
   "contextual": {
@@ -117,22 +125,35 @@
                   "introduction",
                   "quickstart",
                   "authentication",
-                  "api-conventions",
+                  "api-conventions"
+                ]
+              },
+              {
+                "group": "Guides",
+                "pages": [
                   "document",
                   "customer",
+                  "vendor",
                   "payment",
                   "product",
+                  "inventory",
                   "subscriptions",
                   "ewaybills",
                   "einvoices",
-                  "webhooks",
+                  "webhooks"
+                ]
+              },
+              {
+                "group": "Resources",
+                "pages": [
                   "api-reference/error-codes",
-                  "api-reference/references",
+                  "api-reference/tax-codes",
+                  "api-reference/reference-data",
                   "api-reference/change-log"
                 ]
               },
               {
-                "group": "Document V2",
+                "group": "Documents",
                 "pages": [
                   "api-reference/document-v2/create-a-document",
                   "api-reference/document-v2/get-a-document",
@@ -143,21 +164,21 @@
                 ]
               },
               {
-                "group": "Payment V2",
+                "group": "Payments",
                 "pages": [
                   "api-reference/payment-v2/record-payment",
                   "api-reference/payment-v2/list-of-payments"
                 ]
               },
               {
-                "group": "EwayBill",
+                "group": "E-Way Bills",
                 "pages": [
-                  "api-reference/ewaybill/get-ewaybill-pdf",
-                  "api-reference/ewaybill/create-eway-bill"
+                  "api-reference/ewaybill/create-eway-bill",
+                  "api-reference/ewaybill/get-ewaybill-pdf"
                 ]
               },
               {
-                "group": "Customer V2",
+                "group": "Customers",
                 "pages": [
                   "api-reference/customer-v2/add-a-customer",
                   "api-reference/customer-v2/get-customer-details",
@@ -169,19 +190,19 @@
                 ]
               },
               {
-                "group": "Vendor V2",
+                "group": "Vendors",
                 "pages": [
-                  "api-reference/vendor-v2/update-a-vendor",
                   "api-reference/vendor-v2/add-a-vendor",
+                  "api-reference/vendor-v2/get-vendor-details",
+                  "api-reference/vendor-v2/update-a-vendor",
+                  "api-reference/vendor-v2/delete-a-vendor",
                   "api-reference/vendor-v2/get-payment-ledger",
                   "api-reference/vendor-v2/get-list-of-vendors",
-                  "api-reference/vendor-v2/update-vendor-mapping",
-                  "api-reference/vendor-v2/get-vendor-details",
-                  "api-reference/vendor-v2/delete-a-vendor"
+                  "api-reference/vendor-v2/update-vendor-mapping"
                 ]
               },
               {
-                "group": "Product V2",
+                "group": "Products",
                 "pages": [
                   "api-reference/product-v2/add-an-item",
                   "api-reference/product-v2/get-item-details",
@@ -192,21 +213,21 @@
                 ]
               },
               {
-                "group": "Inventory V2",
+                "group": "Inventory",
                 "pages": [
                   "api-reference/inventory-v2/inventory-stock-in-out",
                   "api-reference/inventory-v2/get-all-warehouses"
                 ]
               },
               {
-                "group": "Subscriptions V2",
+                "group": "Subscriptions",
                 "pages": [
                   "api-reference/subscriptions-v2/list-of-subscriptions",
                   "api-reference/subscriptions-v2/get-subscription-details"
                 ]
               },
               {
-                "group": "Utility V2",
+                "group": "Utility",
                 "pages": [
                   "api-reference/utility-v2/get-gstin-v2"
                 ]
@@ -228,17 +249,30 @@
                   "introduction",
                   "quickstart",
                   "authentication",
-                  "api-conventions",
+                  "api-conventions"
+                ]
+              },
+              {
+                "group": "Guides",
+                "pages": [
                   "document",
                   "customer",
+                  "vendor",
                   "payment",
                   "product",
+                  "inventory",
                   "subscriptions",
                   "ewaybills",
                   "einvoices",
-                  "webhooks",
+                  "webhooks"
+                ]
+              },
+              {
+                "group": "Resources",
+                "pages": [
                   "api-reference/error-codes",
-                  "api-reference/references",
+                  "api-reference/tax-codes",
+                  "api-reference/reference-data",
                   "api-reference/change-log"
                 ]
               },

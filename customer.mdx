@@ -1,109 +1,69 @@
 ---
-title: Customer
+title: Customers
 icon: 'users'
-description: Effortlessly manage customer details, payments & invoices to ensure your business runs smoothly.
+description: 'Manage customer records, keep your IDs mapped to Swipe, and pull payment ledgers.'
 ---
 
-Our Customer APIs empower you to efficiently manage your customer database and financial interactions. It will allow you to know your customers better, organise your customer data effortlessly and get insights of your verified customers
+Customers are the parties you sell to. They appear as the `party` (type `customer`) on invoices, estimates, sales returns, and other sales-side [documents](/document), and every customer carries a running balance you can read as a ledger.
 
-## What We Offer
-<Note>
-    All the features mentioned below, and more, can be accessed directly using
-    the [Swipe Portal](https://app.getswipe.in).
-</Note>
+## Your IDs, mapped to Swipe
 
-1. [Add Customer](/api-reference/customer-v2/add-a-customer) : Add new customer records effortlessly to build and grow your customer base.
-    ### Steps to add a customer:
-    1. Checkout the add customer endpoint in the API playground and use your API key to test the endpoint.
-    2. If your API key is valid, this api endpoint returns a 200 response with customer details in a specified JSON format.
+Every customer API call uses **your** `customer_id` — the ID from your own system. Swipe keeps a mapping between your IDs and its records:
 
-    ### You can also add customers manually on [Swipe Portal](https://app.getswipe.in/customer)
-    <Card
-        title="Add Customer"
-        icon="play"
-        horizontal
-        href="/api-reference/customer-v2/add-a-customer"
-    >
-        Try Adding a customer
+- **New ID** → the customer is created automatically from the details you send. This also happens inline when you [create a document](/api-reference/document-v2/create-a-document) with an unknown `party.id` — you rarely need to pre-create customers.
+- **Existing ID** → the record is reused. If the details you send differ, the customer is updated, and existing documents linked to them reflect the change.
+- **Changed your IDs?** [Update customer mapping](/api-reference/customer-v2/update-customer-mapping) re-links your new IDs to the existing Swipe records in bulk, so you don't end up with duplicates after a migration.
+
+## Add a customer
+
+```bash
+curl --request POST \
+  --url https://app.getswipe.in/api/partner/v2/customer \
+  --header "Authorization: Bearer YOUR_API_KEY" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "id": "CUST001",
+    "name": "Test Customer",
+    "phone_number": "1234567890",
+    "email": "customer@example.com",
+    "gstin": "27AARCS7202C1ZD"
+  }'
+```
+
+Include `gstin` for registered businesses — it drives GST treatment on their invoices. Billing and shipping addresses use the state and country values listed in [Currencies, States & Countries](/api-reference/reference-data).
+
+## The payment ledger
+
+[Get payment ledger](/api-reference/customer-v2/get-payment-ledger) returns a customer's transaction history — invoices, payments, and the resulting balance — over a date range. It's the API equivalent of the customer ledger in the dashboard.
+
+<Frame caption="Customers in the Swipe dashboard, with balances and ledgers">
+    <img src="/images/screenshots/customers.png" alt="Customer list in the Swipe dashboard" />
+</Frame>
+
+## Endpoints
+
+<CardGroup cols={2}>
+    <Card title="Add a customer" icon="plus" href="/api-reference/customer-v2/add-a-customer">
+        Create a customer with your own ID.
     </Card>
-2. [Get Customer](/api-reference/customer-v2/get-customer-details) : Access specific customer information instantly for quick reference or operations.
-    ### Steps to get a customer:
-    1. Checkout the get customer endpoint in the API playground. For `customer_id`, add the `customer_id` used while adding the customer.
-    2. If your API key is valid, this API endpoint returns a 200 response with document details in a specified JSON format.
-    
-    <Card
-        title="Get Customer"
-        icon="play"
-        horizontal
-        href="/api-reference/customer-v2/get-customer-details"
-    >
-        Try fetching customer details
+    <Card title="Get customer details" icon="magnifying-glass" href="/api-reference/customer-v2/get-customer-details">
+        Fetch one customer by your `customer_id`.
     </Card>
-3. [Update Customer](/api-reference/customer-v2/update-a-customer) : Keep customer information accurate and up-to-date to ensure seamless communication and transactions.
-    ### Steps to update a customer:
-    1. Checkout the update customer endpoint in the API playground and use your API key to test the endpoint.
-    2. If your API key is valid, this api endpoint returns a 200 response with required details in a specified JSON format.
-
-    <Card
-        title="Update Customer"
-        icon="play"
-        horizontal
-        href="/api-reference/customer-v2/update-a-customer"
-    >
-        Try Updating a customer
+    <Card title="Update a customer" icon="pen" href="/api-reference/customer-v2/update-a-customer">
+        Change a customer's details.
     </Card>
-
-4. [Delete Customer](/api-reference/customer-v2/delete-a-customer) : Remove outdated or unnecessary customer entries to maintain a clean and organized database.
-    ### Steps to delete a customer:
-    1. Checkout the delete customer endpoint in the API playground. For `customer_id`, use the `customer_id` that was used while adding the customer.
-    2. If your API key is valid, this API endpoint returns a 200 response with document details in a specified JSON format.
-
-    <Card
-        title="Delete Customer"
-        icon="play"
-        horizontal
-        href="/api-reference/customer-v2/delete-a-customer"
-    >
-        Try Deleting a customer
+    <Card title="Delete a customer" icon="trash" href="/api-reference/customer-v2/delete-a-customer">
+        Remove a customer record.
     </Card>
-5. [Payment Ledger](/api-reference/customer-v2/get-payment-ledger) : Retrieve a detailed payment ledger for individual customers, including payment history, outstanding balances, and transaction details, to ensure financial transparency and accountability.
-    ### Steps to get a detailed payment ledger:
-    1. Checkout the get payment ledger endpoint in the API playground.
-    2. If your API key is valid, this API endpoint returns a 200 response with document details in a specified JSON format.
-
-    <Card
-        title="Payment Ledger"
-        icon="play"
-        horizontal
-        href="/api-reference/customer-v2/get-payment-ledger"
-    >
-        Get Payment Ledger 
+    <Card title="Get payment ledger" icon="book-open" href="/api-reference/customer-v2/get-payment-ledger">
+        Transaction history and balance for one customer.
     </Card>
-
-6. [Customers List](/api-reference/customer-v2/get-list-of-customers) : Fetch a comprehensive list of all customers, enabling better client management, segmentation, and analysis.
-    ### Steps to get list of customer:
-    1. Checkout the get customers list endpoint in the API playground.
-    2. If your API key is valid, this API endpoint returns a 200 response with customers list details in a specified JSON format.
-
-    <Card
-        title="List of Customers"
-        icon="play"
-        horizontal
-        href="/api-reference/customer-v2/get-list-of-customers"
-    >
-        Fetch List of all customers
+    <Card title="Get list of customers" icon="list" href="/api-reference/customer-v2/get-list-of-customers">
+        Page through all customers.
     </Card>
-
-7. [Update Customer Mapping](/api-reference/customer-v2/update-customer-mapping) : Seamlessly update customer ID mappings to ensure consistency and alignment across systems, avoiding duplicate records and streamlining integrations.
-    ### Steps to update customer IDs:
-    1. Checkout the update customer mapping endpoint in the API playground.
-    2. If your API key is valid, this API endpoint returns a 200 response with data in a specified JSON format.
-
-    <Card
-        title="Update Customer Mappings"
-        icon="play"
-        horizontal
-        href="/api-reference/customer-v2/update-customer-mapping"
-    >
-        Try updating customer mappings
+    <Card title="Update customer mapping" icon="link" href="/api-reference/customer-v2/update-customer-mapping">
+        Re-link your IDs to Swipe records in bulk.
     </Card>
+</CardGroup>
+
+Buying from someone instead? See [Vendors](/vendor) — the purchase-side mirror of this API.

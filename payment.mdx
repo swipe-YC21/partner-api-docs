@@ -1,41 +1,49 @@
 ---
-title: Payment
+title: Payments
 icon: 'credit-card'
-description: Record payments
+description: 'Record customer payments and settle them against documents.'
 ---
 
-Log payments made by customers against their documents with accuracy and efficiency.
+Payments record money received from a customer. A payment belongs to a customer, and can settle one or more of that customer's [documents](/document) — fully or partially.
 
-## What We Offer
-<Note>
-    All the features mentioned below, and more, can be accessed directly using
-    the [Swipe Portal](https://app.getswipe.in/paymentsTimeline).
-</Note>
+## Record a payment
 
-1. [Record Payment](/api-reference/payment-v2/record-payment) : Record payments made by customers against their documents with accuracy and efficiency
-    ### Steps to record a payment:
-    1. Checkout the record payment endpoint in the API playground and use your API key to test the endpoint.
-    2. If your API key is valid, this api endpoint returns a 200 response with required details in a specified JSON format.
-    
-    <Card
-        title="Record Payment"
-        icon="play"
-        horizontal
-        href="/api-reference/payment-v2/record-payment"
-    >
-        Try Recording a payment
+[`POST /v2/payment`](/api-reference/payment-v2/record-payment) needs four things: the customer, an amount, a date, and a payment mode. Add a `documents` array to settle specific invoices by `hash_id`:
+
+```bash
+curl --request POST \
+  --url https://app.getswipe.in/api/partner/v2/payment \
+  --header "Authorization: Bearer YOUR_API_KEY" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "customer": "CUST001",
+    "amount": 118.0,
+    "payment_date": "26-08-2026",
+    "payment_mode": "UPI",
+    "documents": [
+      { "hash_id": "PUlgCNPb", "amount_paying": 118.0 }
+    ]
+  }'
+```
+
+- `payment_mode` — one of `Cash`, `Cheque`, `UPI`, `Card`, `Net Banking`, `paylater`, `cardless_emi`, `EMI`, `TDS`, `Credits`
+- `documents` — optional; each entry pairs a document `hash_id` with the `amount_paying` toward it. Partial amounts are fine — the document's payment status tracks what's outstanding.
+- `send_sms` / `send_email` — notify the customer about the recorded payment
+- Non-cash modes need a bank account configured on your Swipe account — otherwise the request fails with `MISSING_BANK_ACCOUNT`
+
+Payments and balances also flow into each customer's [payment ledger](/api-reference/customer-v2/get-payment-ledger).
+
+<Frame caption="The same payment, recorded in the Swipe dashboard">
+    <img src="/images/screenshots/record_payment.png" alt="Record payment screen in the Swipe dashboard" />
+</Frame>
+
+## Endpoints
+
+<CardGroup cols={2}>
+    <Card title="Record payment" icon="plus" href="/api-reference/payment-v2/record-payment">
+        Record a payment and settle documents.
     </Card>
-
-2. [Fetch All Payments](/api-reference/payment-v2/list-of-payments) : Retrieve a complete list of all payments in your system based on the status enabling seamless tracking and management.
-    ### Steps to get list of recorded payments:
-    1. Checkout the list document endpoint in the API playground.
-    2. If your API key is valid, this API endpoint returns a 200 response with a list of all the documents with basic details in JSON format.
-    
-    <Card
-        title="List of Payments"
-        icon="play"
-        horizontal
-        href="/api-reference/payment-v2/list-of-payments"
-    >
-        Fetch List of all payments
+    <Card title="List of payments" icon="list" href="/api-reference/payment-v2/list-of-payments">
+        List recorded payments over a date range.
     </Card>
+</CardGroup>

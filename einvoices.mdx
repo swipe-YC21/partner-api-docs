@@ -1,61 +1,59 @@
 ---
 title: E-Invoices
 icon: 'file-circle-check'
-description: Create e-invoices and manage them via the Swipe API
+description: 'Generate GST e-invoices with IRN and QR code as part of document creation.'
 ---
 
-Our comprehensive API solution allows you to manage essential business documents such as invoices, subscriptions, pro forma invoices, sales returns, and purchase returns. With our APIs, you can effortlessly create, manage, and retrieve documents, including E-invoices, EwayBills and export invoices, ensuring streamlined and efficient operations.
+An e-invoice is a GST invoice registered with the government portal, which assigns it an IRN (Invoice Reference Number) and QR code. In the Swipe API, e-invoicing is a flag on [document creation](/api-reference/document-v2/create-a-document) — not a separate endpoint.
 
-## What We Offer
+## Before you start
 
-<Note>
-    All the features mentioned below, and more, can be accessed directly using
-    the [Swipe Portal](https://app.getswipe.in/einvoices).
-</Note>
+<Steps>
+    <Step title="Enable the plan">
+        E-invoice APIs need the **E-Invoices & EwayBills plan** on your account.
+        Mail [api@getswipe.in](mailto:api@getswipe.in) for a trial and integration support.
+    </Step>
+    <Step title="Connect to the e-invoice portal">
+        Open [E-invoices in your dashboard](https://app.getswipe.in/einvoices) and click
+        **Connect to E-Invoice Portal**.
+    </Step>
+    <Step title="Know which government portal you're on">
+        By default the API points to the **Government sandbox portal** — generated
+        e-invoices aren't legally valid until you switch. Mail
+        [api@getswipe.in](mailto:api@getswipe.in) to connect to the production portal.
+    </Step>
+</Steps>
 
-<Warning>
-    To use E-Invoice APIs, you need the **E-Invoices & EwayBills plan** enabled on your account. Reach out to [api@getswipe.in](mailto:api@getswipe.in) to get a trial activated and support for API integration.
-</Warning>
+## Generate an e-invoice
 
-<Warning>
-    By default, the API points to the **Government sandbox portal**. To connect to the production Government portal, please mail [api@getswipe.in](mailto:api@getswipe.in).
-</Warning>
+Create the document as usual and set `einvoice: true`. The response then carries the government-issued identifiers alongside the normal document fields:
 
-1.  [E-Invoice Creation](/api-reference/document-v2/create-a-document): Easily generate e-invoices by passing `einvoice=1` in the document creation API request.
+```json
+{
+  "success": true,
+  "message": "Document created successfully",
+  "data": {
+    "hash_id": "PUlgCNPb",
+    "serial_number": "INV-1",
+    "irn": "35054cc24d1b3ad27b1b3aabf4966a1ae0d663fdb98f5b2f2fdbd5b0f0d5a133",
+    "qr_code": "..."
+  }
+}
+```
 
-    ### Steps to create an e-invoice:
+For a valid e-invoice the government portal needs correct GST data — the party's `gstin`, item `hsn_code`s, and address state values from [Currencies, States & Countries](/api-reference/reference-data). Portal rejections come back as `PORTAL_ERROR_{code}` — see [Error codes](/api-reference/error-codes).
 
-    1. Checkout the create document endpoint in the API playground and use your API key to test the endpoint.
-    2. Pass `einvoice=1` in the request body along with the other document details to generate an e-invoice.
-    3. If your API key is valid, this API endpoint returns a 200 response with document details including the IRN (Invoice Reference Number) in a specified JSON format.
+## Download the PDF
 
-    #### Things to keep in mind:
+The e-invoice PDF (with its QR code) comes from the standard [Get document PDF](/api-reference/document-v2/get-document-pdf) endpoint using the document's `hash_id`.
 
-    1. To generate E-Invoices from the APIs, first ensure that you are connected to the E-Invoice portal.
-    2. You can connect to the E-Invoice portal from [here](https://app.getswipe.in/einvoices) by clicking on Connect to E-Invoice Portal.
-    3. The `einvoice=1` field in the [Create Document API](/api-reference/document-v2/create-a-document#body-einvoice) triggers e-invoice generation along with the document.
+## Endpoints
 
-    <Card
-        title="Create E-Invoice"
-        icon="play"
-        horizontal
-        href="/api-reference/document-v2/create-a-document"
-    >
-        Try Creating an E-Invoice
+<CardGroup cols={2}>
+    <Card title="Create a document" icon="plus" href="/api-reference/document-v2/create-a-document">
+        Set `einvoice: true` in the create payload.
     </Card>
-
-2.  [Fetch PDF](/api-reference/document-v2/get-document-pdf): Access PDFs of already created e-invoice documents.
-
-    ### Steps to get E-Invoice PDFs:
-
-    1. Checkout the get document PDF endpoint in the API playground. For `doc_hash_id`, use the `hash_id` received from creating the document.
-    2. If your API key is valid, this API endpoint returns a 200 response along with the PDF.
-
-    <Card
-        title="Fetch E-Invoice PDF"
-        icon="play"
-        horizontal
-        href="/api-reference/document-v2/get-document-pdf"
-    >
-        Fetch PDFs of E-Invoices that are already created
+    <Card title="Get document PDF" icon="file-pdf" href="/api-reference/document-v2/get-document-pdf">
+        Download the e-invoice PDF.
     </Card>
+</CardGroup>
