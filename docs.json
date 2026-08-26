@@ -8,6 +8,88 @@
     "dark": "#2045D1"
   },
   "favicon": "/favicon.svg",
+  "api": {
+    "playground": {
+      "display": "interactive"
+    },
+    "examples": {
+      "languages": ["curl", "python", "javascript"],
+      "defaults": "required"
+    }
+  },
+  "search": {
+    "prompt": "Search the Swipe API docs..."
+  },
+  "seo": {
+    "metatags": {
+      "og:site_name": "Swipe API Documentation",
+      "og:type": "website"
+    }
+  },
+  "errors": {
+    "404": {
+      "redirect": true
+    }
+  },
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true,
+    "raiseIssue": true
+  },
+  "redirects": [
+    {
+      "source": "/development",
+      "destination": "/introduction"
+    },
+    {
+      "source": "/essentials/:slug",
+      "destination": "/introduction"
+    },
+    {
+      "source": "/snippets/snippet-intro",
+      "destination": "/introduction"
+    },
+    {
+      "source": "/api-reference/document-v2/put-v2doc",
+      "destination": "/api-reference/document-v2/edit-a-document"
+    },
+    {
+      "source": "/api-reference/utility-v2/get-v2utilsgstin",
+      "destination": "/api-reference/utility-v2/get-gstin-v2"
+    },
+    {
+      "source": "/api-reference/utility/get-v1utilsgstin",
+      "destination": "/api-reference/utility/get-gstin"
+    },
+    {
+      "source": "/api-reference/subscriptions/list-of-documents",
+      "destination": "/api-reference/subscriptions/list-of-subscriptions"
+    },
+    {
+      "source": "/api-reference/customer/get-customer-details",
+      "destination": "/api-reference/customer/get-a-customer"
+    },
+    {
+      "source": "/api-reference/customer-v2/get-a-customer",
+      "destination": "/api-reference/customer-v2/get-customer-details"
+    },
+    {
+      "source": "/api-reference/product-v2/get-a-item-details",
+      "destination": "/api-reference/product-v2/get-item-details"
+    },
+    {
+      "source": "/api-reference/product-v2/update-a-item",
+      "destination": "/api-reference/product-v2/update-an-item"
+    },
+    {
+      "source": "/api-reference/product-v2/delete-a-item",
+      "destination": "/api-reference/product-v2/delete-an-item"
+    },
+    {
+      "source": "/api-reference/payment-v2/list-of-documents",
+      "destination": "/api-reference/payment-v2/list-of-payments"
+    }
+  ],
   "contextual": {
     "options": [
       "copy",
