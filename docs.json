@@ -115,6 +115,9 @@
                 "group": "Get Started",
                 "pages": [
                   "introduction",
+                  "quickstart",
+                  "authentication",
+                  "api-conventions",
                   "document",
                   "customer",
                   "payment",
@@ -223,6 +226,9 @@
                 "group": "Get Started",
                 "pages": [
                   "introduction",
+                  "quickstart",
+                  "authentication",
+                  "api-conventions",
                   "document",
                   "customer",
                   "payment",

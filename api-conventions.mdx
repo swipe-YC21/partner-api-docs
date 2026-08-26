@@ -1,0 +1,85 @@
+---
+title: API Conventions
+icon: 'list-check'
+description: 'Response format, error handling, dates, IDs, list endpoints, and rate limits - the rules every Swipe API endpoint follows.'
+---
+
+The rules on this page apply to every endpoint, so the reference pages don't repeat them.
+
+## Requests
+
+- Base URL: `https://app.getswipe.in/api/partner` (see [Authentication](/authentication))
+- Request and response bodies are JSON — send `Content-Type: application/json`
+- All dates use the **`DD-MM-YYYY`** format (for example `26-08-2026`), in requests and responses alike
+
+## Rate limit
+
+The API accepts up to **1 request per second** per API key. For bulk work — syncing a catalog, importing customers — send requests sequentially and space them out rather than firing them in parallel. If a request is rejected because of the limit, wait and retry with backoff.
+
+## Response format
+
+Every endpoint that returns JSON wraps its result in the same envelope:
+
+```json
+{
+  "success": true,
+  "message": "Document created successfully",
+  "error_code": "",
+  "errors": {},
+  "data": { }
+}
+```
+
+- `success` — `true` when the request worked; check this first
+- `message` — human-readable summary of what happened
+- `error_code` — empty on success; a stable machine-readable code on failure
+- `errors` — field-level details when validation fails
+- `data` — the actual result (a document, a list, identifiers, and so on)
+
+File endpoints (such as [Get document PDF](/api-reference/document-v2/get-document-pdf)) return the file itself instead of JSON.
+
+## Error handling
+
+Failed requests return the same envelope with `success: false`:
+
+```json
+{
+  "success": false,
+  "message": "The provided hash ID is invalid.",
+  "error_code": "INVALID_HASH_ID",
+  "errors": {}
+}
+```
+
+| HTTP status | Meaning                                                                 |
+| ----------- | ----------------------------------------------------------------------- |
+| `200`       | Request succeeded                                                       |
+| `400`       | The request is invalid — inspect `error_code` and fix the payload       |
+| `401`       | Authentication failed — see [Authentication](/authentication)           |
+| `500`       | Something went wrong on Swipe's side — retry with backoff, then contact support |
+
+Handle errors by `error_code`, not by matching `message` text — messages can change, codes are stable. The full catalog is on the [Error codes](/api-reference/error-codes) page. E-invoice and e-way bill failures surface government portal errors as `PORTAL_ERROR_{code}`.
+
+## IDs: yours and Swipe's
+
+Two kinds of identifiers appear throughout the API:
+
+- **Your IDs** — the `id` you send for customers, vendors, and products (for example `CUST001`). Swipe maps them to its own records: send a new ID and the record is created automatically; send an existing ID and it's reused. The mapping endpoints ([customers](/api-reference/customer-v2/update-customer-mapping), [products](/api-reference/product-v2/update-items-mapping)) let you re-link these later.
+- **`hash_id`** — Swipe's identifier for a document, returned when you create one. It's the address for everything you do with that document afterwards: [get](/api-reference/document-v2/get-a-document), [edit](/api-reference/document-v2/edit-a-document), [cancel](/api-reference/document-v2/cancel-a-document), and [PDF](/api-reference/document-v2/get-document-pdf).
+
+## Retries and duplicates
+
+Requests that create data are **not idempotent** — retrying a timed-out create request can create a second record. To stay safe:
+
+- Send your own `serial_number` when creating documents. If the first attempt actually succeeded, the retry fails with `DUPLICATE_DOC_SERIAL_NUMBER` instead of creating a duplicate.
+- Retry only on network errors and `500` responses, never on `400` — a validation error will fail the same way again until the payload changes.
+
+## List endpoints
+
+List endpoints (documents, payments, ledgers) are filtered by a required date range:
+
+- `start_date` and `end_date` — `DD-MM-YYYY`, both required
+- Document lists also require `document_type` (for example `invoice`)
+- Some lists accept additional filters such as `payment_status` — see each endpoint's reference page
+
+Keep date ranges as narrow as your use case allows; requesting a year of documents in one call returns a large response.

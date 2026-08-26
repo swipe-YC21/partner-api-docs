@@ -1,0 +1,184 @@
+---
+title: Quickstart
+icon: 'play'
+description: 'Create your first invoice and download its PDF in under five minutes.'
+---
+
+This guide takes you from zero to a real invoice PDF using two API calls. All you need is a Swipe account.
+
+<Warning>
+    API calls run against your live Swipe account — documents you create here
+    are real. You can [cancel a test
+    document](/api-reference/document-v2/cancel-a-document) at any time using
+    its `hash_id`.
+</Warning>
+
+<Steps>
+    <Step title="Get your API key">
+        Sign in to Swipe and open the [API Integration](https://app.getswipe.in/user?tab=api_integration)
+        section of your dashboard. Generate an API key and store it securely — it is sent
+        as a Bearer token with every request. See [Authentication](/authentication) for details.
+    </Step>
+    <Step title="Create your first invoice">
+        Send a `POST` request to `/v2/doc` with a minimal payload — a date, a document type,
+        a customer, and one line item. Replace `YOUR_API_KEY` with the key from step 1.
+
+        <CodeGroup>
+
+        ```bash cURL
+        curl --request POST \
+          --url https://app.getswipe.in/api/partner/v2/doc \
+          --header "Authorization: Bearer YOUR_API_KEY" \
+          --header "Content-Type: application/json" \
+          --data '{
+            "document_type": "invoice",
+            "document_date": "26-08-2026",
+            "party": {
+              "id": "CUST001",
+              "type": "customer",
+              "name": "Test Customer"
+            },
+            "items": [
+              {
+                "id": "ITEM001",
+                "item_type": "Product",
+                "name": "Test Product",
+                "quantity": 1,
+                "unit_price": 100.0,
+                "tax_rate": 18.0,
+                "net_amount": 100.0,
+                "price_with_tax": 118.0,
+                "total_amount": 118.0
+              }
+            ]
+          }'
+        ```
+
+        ```python Python
+        import requests
+
+        API_KEY = "YOUR_API_KEY"
+
+        payload = {
+            "document_type": "invoice",
+            "document_date": "26-08-2026",
+            "party": {"id": "CUST001", "type": "customer", "name": "Test Customer"},
+            "items": [
+                {
+                    "id": "ITEM001",
+                    "item_type": "Product",
+                    "name": "Test Product",
+                    "quantity": 1,
+                    "unit_price": 100.0,
+                    "tax_rate": 18.0,
+                    "net_amount": 100.0,
+                    "price_with_tax": 118.0,
+                    "total_amount": 118.0,
+                }
+            ],
+        }
+
+        response = requests.post(
+            "https://app.getswipe.in/api/partner/v2/doc",
+            headers={"Authorization": f"Bearer {API_KEY}"},
+            json=payload,
+        )
+        print(response.json())
+        ```
+
+        ```javascript JavaScript
+        const API_KEY = "YOUR_API_KEY";
+
+        const payload = {
+          document_type: "invoice",
+          document_date: "26-08-2026",
+          party: { id: "CUST001", type: "customer", name: "Test Customer" },
+          items: [
+            {
+              id: "ITEM001",
+              item_type: "Product",
+              name: "Test Product",
+              quantity: 1,
+              unit_price: 100.0,
+              tax_rate: 18.0,
+              net_amount: 100.0,
+              price_with_tax: 118.0,
+              total_amount: 118.0,
+            },
+          ],
+        };
+
+        const response = await fetch("https://app.getswipe.in/api/partner/v2/doc", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+        console.log(await response.json());
+        ```
+
+        </CodeGroup>
+
+        <Note>
+            The customer `CUST001` and item `ITEM001` don't need to exist yet —
+            Swipe creates them automatically from the details you send, and reuses
+            them the next time you send the same IDs. See
+            [Create a document](/api-reference/document-v2/create-a-document) for
+            every available field.
+        </Note>
+    </Step>
+    <Step title="Grab the hash_id from the response">
+        A successful call returns the document's identifiers. The `hash_id` is
+        the document's address in every other API call — fetching, editing,
+        cancelling, and downloading the PDF.
+
+        ```json
+        {
+          "success": true,
+          "message": "Document created successfully",
+          "error_code": "",
+          "errors": {},
+          "data": {
+            "hash_id": "PUlgCNPb",
+            "serial_number": "INV-1",
+            "irn": "",
+            "qr_code": ""
+          }
+        }
+        ```
+    </Step>
+    <Step title="Download the invoice PDF">
+        Pass the `hash_id` to the PDF endpoint — the response is the PDF file itself.
+
+        ```bash
+        curl --request GET \
+          --url https://app.getswipe.in/api/partner/v2/doc/pdf/PUlgCNPb \
+          --header "Authorization: Bearer YOUR_API_KEY" \
+          --output invoice.pdf
+        ```
+    </Step>
+    <Step title="See it in your dashboard">
+        The invoice also appears in your [Swipe dashboard](https://app.getswipe.in/list/sales)
+        alongside documents created in the app — the API and the dashboard work on the
+        same data.
+    </Step>
+</Steps>
+
+## Next steps
+
+<CardGroup cols={2}>
+    <Card title="API conventions" icon="list-check" href="/api-conventions">
+        Response format, error codes, dates, list endpoints, and rate limits.
+    </Card>
+    <Card title="Create a document" icon="file-invoice" href="/api-reference/document-v2/create-a-document">
+        The full document payload — taxes, discounts, serial numbers, and more.
+    </Card>
+    <Card title="Webhooks" icon="bolt" href="/webhooks">
+        Get notified in real time when documents or inventory change.
+    </Card>
+    <Card title="E-Invoices" icon="file-circle-check" href="/einvoices">
+        Generate GST-compliant e-invoices with IRN and QR codes.
+    </Card>
+</CardGroup>
