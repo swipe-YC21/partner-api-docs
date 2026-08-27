@@ -6,12 +6,15 @@ description: 'Create your first invoice and download its PDF in under five minut
 
 This guide takes you from zero to a real invoice PDF using two API calls. All you need is a Swipe account.
 
-<Warning>
-    API calls run against your live Swipe account — documents you create here
-    are real. You can [cancel a test
-    document](/api-reference/document-v2/cancel-a-document) at any time using
-    its `hash_id`.
-</Warning>
+<Tip>
+    **Test in a separate company.** API keys are scoped to a company, so the
+    cleanest way to experiment is to [add a new company](https://community.getswipe.in/t/how-to-add-new-company-on-web/1191)
+    in your Swipe account (e.g. "API Testing"), switch to it, and generate your
+    API key from its [API Integration](https://app.getswipe.in/user?tab=api_integration)
+    section. Everything you create with that key stays in the test company,
+    leaving your real books untouched. When you go live, generate a key in your
+    actual company and swap it in.
+</Tip>
 
 <Steps>
     <Step title="Get your API key">
