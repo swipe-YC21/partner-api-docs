@@ -167,10 +167,21 @@ def update_collection(key, cfg, spec_path):
     if not uid:
         sys.exit("postman.json needs collection_uid for --update-collection.")
 
+    # The public collection carries v2 only — v1 is deprecated and stays
+    # visible in the docs/spec, but new integrators shouldn't fork it.
+    spec = json.loads(Path(spec_path).read_text())
+    v1 = [p for p in spec["paths"] if p.startswith("/v1")]
+    for p in v1:
+        del spec["paths"][p]
+    print(f"collection scope: v2 only ({len(v1)} v1 paths excluded)")
+    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as tf:
+        json.dump(spec, tf)
+        v2_spec_path = tf.name
+
     with tempfile.NamedTemporaryFile(suffix=".json", delete=False) as tf:
         out_path = tf.name
     r = subprocess.run(
-        ["npx", "--yes", "openapi-to-postmanv2", "-s", spec_path, "-o", out_path,
+        ["npx", "--yes", "openapi-to-postmanv2", "-s", v2_spec_path, "-o", out_path,
          "-p", "-O", "folderStrategy=Tags,requestParametersResolution=Example"],
         capture_output=True, text=True)
     if r.returncode != 0:
@@ -180,6 +191,13 @@ def update_collection(key, cfg, spec_path):
     if isinstance(converted, list):
         converted = converted[0]
     collection = converted.get("collection", converted)
+
+    # Folder names come from backend namespace tags ("Customer V2" etc.);
+    # with v1 gone the suffix is noise.
+    for folder in collection.get("item", []):
+        name = folder.get("name", "")
+        if name.endswith(" V2"):
+            folder["name"] = name[:-3]
 
     # Keep the public collection's existing display name.
     status, data = api("GET", f"/collections/{uid}", key)

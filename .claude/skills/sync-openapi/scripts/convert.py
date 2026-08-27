@@ -143,9 +143,20 @@ def convert(spec2: dict) -> dict:
     if spec2.get("swagger") != "2.0":
         sys.exit(f"Source is not Swagger 2.0 (got: {spec2.get('swagger') or spec2.get('openapi')})")
 
+    info = dict(spec2.get("info", {}))
+    info["description"] = (
+        "The Swipe Partner API — invoicing, payments, and GST compliance for "
+        "your application. Create GST invoices and other documents, manage "
+        "customers, vendors, products and inventory, record payments, and "
+        "generate e-invoices and e-way bills.\n\n"
+        "- Docs & guides: https://developers.getswipe.in\n"
+        "- Quickstart: https://developers.getswipe.in/quickstart\n"
+        "- Rate limit: 1 request/second per API key\n"
+        "- All dates are DD-MM-YYYY"
+    )
     out = {
         "openapi": "3.0.1",
-        "info": spec2.get("info", {}),
+        "info": info,
         "servers": [{"url": SERVER_URL}],
         "security": [{"bearerAuth": []}],
         "paths": {},
@@ -171,16 +182,22 @@ def convert(spec2: dict) -> dict:
 
     consumes = spec2.get("consumes", ["application/json"])
     produces = spec2.get("produces", ["application/json"])
-    for path, item in spec2.get("paths", {}).items():
+    # Deterministic ordering: flask_restx emits paths/methods in varying order
+    # across restarts, which would produce phantom diffs on every sync.
+    method_order = ["get", "post", "put", "patch", "delete", "options", "head"]
+    for path in sorted(spec2.get("paths", {})):
+        item = spec2["paths"][path]
         shared_params = [convert_parameter(p) for p in item.get("parameters", [])
                          if p.get("in") != "body"]
         new_item = {}
         if shared_params:
             new_item["parameters"] = shared_params
-        for m, op in item.items():
-            if m in HTTP_METHODS and isinstance(op, dict):
-                new_item[m] = convert_operation(rewrite_refs(op), consumes, produces)
+        for m in sorted((m for m in item if m in HTTP_METHODS),
+                        key=method_order.index):
+            if isinstance(item[m], dict):
+                new_item[m] = convert_operation(rewrite_refs(item[m]), consumes, produces)
         out["paths"][path] = new_item
+    out["components"]["schemas"] = dict(sorted(out["components"]["schemas"].items()))
     return out
 
 
