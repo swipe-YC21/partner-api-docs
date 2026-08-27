@@ -53,6 +53,13 @@ This converts to OpenAPI 3.0.1 and applies `spec-overlay.json`:
 - The converter also garbage-collects unreferenced schemas and reports
   added/removed paths. New paths need an MDX page, a nav entry, and a
   changelog entry; removed paths need page deletion + a redirect.
+- **Postman**: the spec is mirrored to Postman's Spec Hub AND the public
+  "Run in Postman" collection is regenerated from it. A push to `main`
+  touching `openapi.json` triggers `.github/workflows/postman-sync.yml`
+  (needs the `POSTMAN_API_KEY` repo secret), which runs
+  `push_postman.py --update-collection`. The collection is purely generated —
+  never hand-edit it in Postman, every sync overwrites it. Workspace/spec ids
+  live in `scripts/postman.json` — never store the API key in the repo.
 
 **Backend gotcha**: flask_restx registers swagger models in a global registry
 keyed by name. Two models with the same name silently overwrite each other and

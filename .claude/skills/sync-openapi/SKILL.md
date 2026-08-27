@@ -39,6 +39,27 @@ swagger output into `api-reference/openapi.json` — run the converter.
 4. Verify: `npx --yes mint@latest broken-links` must pass. Do not commit or push —
    leave changes for review.
 
+5. **Postman**: the same spec lives in Postman's Spec Hub (workspace and ids in
+   `scripts/postman.json`). It syncs automatically — a push to `main` that touches
+   `api-reference/openapi.json` triggers `.github/workflows/postman-sync.yml`,
+   which runs `scripts/push_postman.py` using the `POSTMAN_API_KEY` repo secret.
+   To push manually instead:
+
+   ```bash
+   POSTMAN_API_KEY=pmak-... python3 .claude/skills/sync-openapi/scripts/push_postman.py
+   ```
+
+   First-time setup: run with `--discover` once to resolve and store the spec id,
+   and add `POSTMAN_API_KEY` as a GitHub Actions secret. The script never stores
+   the key; it only reads the environment.
+
+   CI also passes `--update-collection`, which converts the spec with
+   `openapi-to-postmanv2` and PUTs it over the public "Run in Postman"
+   collection (uid in `scripts/postman.json`). The collection is **purely
+   generated — never hand-edit it in Postman**; every sync overwrites it.
+   Postman's spec→collection "Update" button has no public API, which is why
+   the collection is written directly.
+
 ## The overlay (`api-reference/spec-overlay.json`)
 
 Applied automatically by the converter, after conversion:

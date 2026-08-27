@@ -1,0 +1,25 @@
+name: Sync spec to Postman
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "api-reference/openapi.json"
+
+jobs:
+  postman-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Push spec to Postman and update the public collection
+        env:
+          POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+        run: |
+          if [ -z "$POSTMAN_API_KEY" ]; then
+            echo "POSTMAN_API_KEY secret not set - skipping Postman sync."
+            exit 0
+          fi
+          python3 .claude/skills/sync-openapi/scripts/push_postman.py --update-collection
