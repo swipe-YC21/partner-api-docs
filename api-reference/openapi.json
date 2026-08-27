@@ -220,76 +220,6 @@
       }
     },
     "/v1/customer/list": {
-      "get": {
-        "summary": "Get list of customers",
-        "operationId": "get_customer_list",
-        "tags": [
-          "Customer"
-        ],
-        "parameters": [
-          {
-            "name": "num_records",
-            "in": "query",
-            "description": "Number of records to fetch (max 100), default : 25 customers will be sent in response",
-            "schema": {
-              "type": "string",
-              "default": 25
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Page number",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          }
-        ],
-        "responses": {
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerError"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerError"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Error in fetching Customer List",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerError"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Customer List fetched successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ListCustomersResponseV1"
-                }
-              }
-            }
-          }
-        },
-        "description": "**v1 is deprecated — use the v2 endpoint instead.** Lists your customers with their basic details."
-      },
       "post": {
         "summary": "Update customer mapping",
         "operationId": "post_customer_list",
@@ -359,9 +289,130 @@
           }
         },
         "description": "**v1 is deprecated — use the v2 endpoint instead.** Re-links your customer IDs to existing Swipe records in bulk. Use this after changing IDs in your own system, so future calls don't create duplicate customers."
+      },
+      "get": {
+        "summary": "Get list of customers",
+        "operationId": "get_customer_list",
+        "tags": [
+          "Customer"
+        ],
+        "parameters": [
+          {
+            "name": "num_records",
+            "in": "query",
+            "description": "Number of records to fetch (max 100), default : 25 customers will be sent in response",
+            "schema": {
+              "type": "string",
+              "default": 25
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerError"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error in fetching Customer List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerError"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Customer List fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListCustomersResponseV1"
+                }
+              }
+            }
+          }
+        },
+        "description": "**v1 is deprecated — use the v2 endpoint instead.** Lists your customers with their basic details."
       }
     },
     "/v1/customer/{customer_id}": {
+      "delete": {
+        "summary": "Delete a customer",
+        "operationId": "delete_customer",
+        "tags": [
+          "Customer"
+        ],
+        "parameters": [
+          {
+            "name": "customer_id",
+            "in": "path",
+            "description": "The customer ID to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerError"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Customer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerError"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerResponse"
+                }
+              }
+            }
+          }
+        },
+        "description": "**v1 is deprecated — use the v2 endpoint instead.** Deletes a customer by your `customer_id`. Deleted customers move to the Deleted tab in the dashboard."
+      },
       "get": {
         "summary": "Get a customer",
         "operationId": "get_customer",
@@ -422,57 +473,6 @@
           }
         },
         "description": "**v1 is deprecated — use the v2 endpoint instead.** Returns one customer's details by your `customer_id`."
-      },
-      "delete": {
-        "summary": "Delete a customer",
-        "operationId": "delete_customer",
-        "tags": [
-          "Customer"
-        ],
-        "parameters": [
-          {
-            "name": "customer_id",
-            "in": "path",
-            "description": "The customer ID to be deleted",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerError"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Customer not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerError"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerResponse"
-                }
-              }
-            }
-          }
-        },
-        "description": "**v1 is deprecated — use the v2 endpoint instead.** Deletes a customer by your `customer_id`. Deleted customers move to the Deleted tab in the dashboard."
       }
     },
     "/v1/doc": {
@@ -840,76 +840,6 @@
       }
     },
     "/v1/product/list": {
-      "get": {
-        "summary": "Get list of items",
-        "operationId": "get_item_list",
-        "tags": [
-          "Product"
-        ],
-        "parameters": [
-          {
-            "name": "num_records",
-            "in": "query",
-            "description": "Number of records to fetch (max 100), default : 25 items will be sent in response",
-            "schema": {
-              "type": "string",
-              "default": 25
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Page number",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          }
-        ],
-        "responses": {
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductError"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductError"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Error in fetching Item List",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductError"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Item List fetched successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ListItemsResponseV1"
-                }
-              }
-            }
-          }
-        },
-        "description": "**v1 is deprecated — use the v2 endpoint instead.** Lists the items in your catalog."
-      },
       "post": {
         "summary": "Update items mapping",
         "operationId": "post_item_list",
@@ -979,9 +909,130 @@
           }
         },
         "description": "**v1 is deprecated — use the v2 endpoint instead.** Re-links your item IDs to existing Swipe records in bulk. Use this after changing IDs in your own system, so future calls don't create duplicate items."
+      },
+      "get": {
+        "summary": "Get list of items",
+        "operationId": "get_item_list",
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "num_records",
+            "in": "query",
+            "description": "Number of records to fetch (max 100), default : 25 items will be sent in response",
+            "schema": {
+              "type": "string",
+              "default": 25
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductError"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error in fetching Item List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductError"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Item List fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListItemsResponseV1"
+                }
+              }
+            }
+          }
+        },
+        "description": "**v1 is deprecated — use the v2 endpoint instead.** Lists the items in your catalog."
       }
     },
     "/v1/product/{item_id}": {
+      "delete": {
+        "summary": "Delete an item",
+        "operationId": "delete_product",
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "description": "The item ID to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductError"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Item not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductError"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponse"
+                }
+              }
+            }
+          }
+        },
+        "description": "**v1 is deprecated — use the v2 endpoint instead.** Deletes an item by your `item_id`. Deleted items move to the Deleted tab in the dashboard."
+      },
       "get": {
         "summary": "Get item details",
         "operationId": "get_product",
@@ -1042,57 +1093,6 @@
           }
         },
         "description": "**v1 is deprecated — use the v2 endpoint instead.** Returns one item's catalog details by your `item_id`."
-      },
-      "delete": {
-        "summary": "Delete an item",
-        "operationId": "delete_product",
-        "tags": [
-          "Product"
-        ],
-        "parameters": [
-          {
-            "name": "item_id",
-            "in": "path",
-            "description": "The item ID to be deleted",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductError"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Item not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductError"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponse"
-                }
-              }
-            }
-          }
-        },
-        "description": "**v1 is deprecated — use the v2 endpoint instead.** Deletes an item by your `item_id`. Deleted items move to the Deleted tab in the dashboard."
       }
     },
     "/v1/subscriptions/list": {
@@ -1572,76 +1572,6 @@
       }
     },
     "/v2/customer/list": {
-      "get": {
-        "summary": "Get list of customers",
-        "operationId": "get_customer_list",
-        "tags": [
-          "Customer V2"
-        ],
-        "parameters": [
-          {
-            "name": "num_records",
-            "in": "query",
-            "description": "Number of records to fetch(max 100), default : 25 customers will be sent in response",
-            "schema": {
-              "type": "string",
-              "default": 25
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Page number",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          }
-        ],
-        "responses": {
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerResponseV2"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerResponseV2"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Error in fetching Customer List",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerResponseV2"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Customer List fetched successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ListGETResponse"
-                }
-              }
-            }
-          }
-        },
-        "description": "Lists your customers with their basic details."
-      },
       "post": {
         "summary": "Update customer mapping",
         "operationId": "post_customer_list",
@@ -1711,9 +1641,130 @@
           }
         },
         "description": "Re-links your customer IDs to existing Swipe records in bulk. Use this after changing IDs in your own system, so future calls don't create duplicate customers."
+      },
+      "get": {
+        "summary": "Get list of customers",
+        "operationId": "get_customer_list",
+        "tags": [
+          "Customer V2"
+        ],
+        "parameters": [
+          {
+            "name": "num_records",
+            "in": "query",
+            "description": "Number of records to fetch(max 100), default : 25 customers will be sent in response",
+            "schema": {
+              "type": "string",
+              "default": 25
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerResponseV2"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error in fetching Customer List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerResponseV2"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Customer List fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListGETResponse"
+                }
+              }
+            }
+          }
+        },
+        "description": "Lists your customers with their basic details."
       }
     },
     "/v2/customer/{customer_id}": {
+      "delete": {
+        "summary": "Delete a customer",
+        "operationId": "delete_customer",
+        "tags": [
+          "Customer V2"
+        ],
+        "parameters": [
+          {
+            "name": "customer_id",
+            "in": "path",
+            "description": "The customer ID to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Customer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerResponseV2"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerResponseV2"
+                }
+              }
+            }
+          }
+        },
+        "description": "Deletes a customer by your `customer_id`. Deleted customers move to the Deleted tab in the dashboard."
+      },
       "get": {
         "summary": "Get customer details",
         "operationId": "get_customer",
@@ -1774,57 +1825,6 @@
           }
         },
         "description": "Returns one customer's details by your `customer_id`."
-      },
-      "delete": {
-        "summary": "Delete a customer",
-        "operationId": "delete_customer",
-        "tags": [
-          "Customer V2"
-        ],
-        "parameters": [
-          {
-            "name": "customer_id",
-            "in": "path",
-            "description": "The customer ID to be deleted",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerResponseV2"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Customer not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerResponseV2"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerResponseV2"
-                }
-              }
-            }
-          }
-        },
-        "description": "Deletes a customer by your `customer_id`. Deleted customers move to the Deleted tab in the dashboard."
       }
     },
     "/v2/doc": {
@@ -2110,77 +2110,6 @@
       }
     },
     "/v2/doc/{doc_hash_id}": {
-      "get": {
-        "summary": "Get a document",
-        "operationId": "get_invoice",
-        "tags": [
-          "Document V2"
-        ],
-        "parameters": [
-          {
-            "name": "doc_hash_id",
-            "in": "path",
-            "description": "The hash id of the document to be fetched",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DocResponseV2"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DocResponseV2"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DocResponseV2"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DocResponseV2"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetInvoice"
-                }
-              }
-            }
-          }
-        },
-        "description": "Returns the full details of a document by its `hash_id` — party, items, amounts, and status."
-      },
       "delete": {
         "summary": "Cancel a document",
         "operationId": "delete_invoice",
@@ -2331,6 +2260,77 @@
           }
         },
         "description": "Replaces the contents of an existing document. Send the complete payload with every field's updated value — this is a full replacement, not a partial update. The document keeps its `hash_id`."
+      },
+      "get": {
+        "summary": "Get a document",
+        "operationId": "get_invoice",
+        "tags": [
+          "Document V2"
+        ],
+        "parameters": [
+          {
+            "name": "doc_hash_id",
+            "in": "path",
+            "description": "The hash id of the document to be fetched",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocResponseV2"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocResponseV2"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocResponseV2"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetInvoice"
+                }
+              }
+            }
+          }
+        },
+        "description": "Returns the full details of a document by its `hash_id` — party, items, amounts, and status."
       }
     },
     "/v2/ewaybill/pdf/{doc_hash_id}": {
@@ -3145,76 +3145,6 @@
       }
     },
     "/v2/product/list": {
-      "get": {
-        "summary": "Get list of items",
-        "operationId": "get_item_list",
-        "tags": [
-          "Product V2"
-        ],
-        "parameters": [
-          {
-            "name": "num_records",
-            "in": "query",
-            "description": "Number of records to fetch(max 100), default : 25 items will be sent in response",
-            "schema": {
-              "type": "string",
-              "default": 25
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Page number",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          }
-        ],
-        "responses": {
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseV2"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseV2"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Error in fetching Item List",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseV2"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Item List fetched successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ListGETResponseV2"
-                }
-              }
-            }
-          }
-        },
-        "description": "Lists the items in your catalog."
-      },
       "post": {
         "summary": "Update items mapping",
         "operationId": "post_item_list",
@@ -3284,9 +3214,130 @@
           }
         },
         "description": "Re-links your item IDs to existing Swipe records in bulk. Use this after changing IDs in your own system, so future calls don't create duplicate items."
+      },
+      "get": {
+        "summary": "Get list of items",
+        "operationId": "get_item_list",
+        "tags": [
+          "Product V2"
+        ],
+        "parameters": [
+          {
+            "name": "num_records",
+            "in": "query",
+            "description": "Number of records to fetch(max 100), default : 25 items will be sent in response",
+            "schema": {
+              "type": "string",
+              "default": 25
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponseV2"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error in fetching Item List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponseV2"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Item List fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListGETResponseV2"
+                }
+              }
+            }
+          }
+        },
+        "description": "Lists the items in your catalog."
       }
     },
     "/v2/product/{item_id}": {
+      "delete": {
+        "summary": "Delete an item",
+        "operationId": "delete_product",
+        "tags": [
+          "Product V2"
+        ],
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "description": "The item ID to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Item not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponseV2"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponseV2"
+                }
+              }
+            }
+          }
+        },
+        "description": "Deletes an item by your `item_id`. Deleted items move to the Deleted tab in the dashboard."
+      },
       "get": {
         "summary": "Get item details",
         "operationId": "get_product",
@@ -3347,57 +3398,6 @@
           }
         },
         "description": "Returns one item's catalog details by your `item_id`."
-      },
-      "delete": {
-        "summary": "Delete an item",
-        "operationId": "delete_product",
-        "tags": [
-          "Product V2"
-        ],
-        "parameters": [
-          {
-            "name": "item_id",
-            "in": "path",
-            "description": "The item ID to be deleted",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseV2"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Item not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseV2"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseV2"
-                }
-              }
-            }
-          }
-        },
-        "description": "Deletes an item by your `item_id`. Deleted items move to the Deleted tab in the dashboard."
       }
     },
     "/v2/subscriptions/list": {
@@ -3877,75 +3877,6 @@
       }
     },
     "/v2/vendor/list": {
-      "get": {
-        "summary": "Get list of vendors",
-        "operationId": "get_vendor_list",
-        "tags": [
-          "Vendor V2"
-        ],
-        "parameters": [
-          {
-            "name": "num_records",
-            "in": "query",
-            "description": "Number of records to fetch, default : all vendors will be sent in response",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Page number",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          }
-        ],
-        "responses": {
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VendorResponseV2"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VendorResponseV2"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Error in fetching Vendor List",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VendorResponseV2"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Vendor List fetched successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ListGETResponseVendor"
-                }
-              }
-            }
-          }
-        },
-        "description": "Lists your vendors with their basic details."
-      },
       "post": {
         "summary": "Update vendor mapping",
         "operationId": "post_vendor_list",
@@ -4015,9 +3946,129 @@
           }
         },
         "description": "Re-links your vendor IDs to existing Swipe records in bulk. Use this after changing IDs in your own system, so future calls don't create duplicate vendors."
+      },
+      "get": {
+        "summary": "Get list of vendors",
+        "operationId": "get_vendor_list",
+        "tags": [
+          "Vendor V2"
+        ],
+        "parameters": [
+          {
+            "name": "num_records",
+            "in": "query",
+            "description": "Number of records to fetch, default : all vendors will be sent in response",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorResponseV2"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error in fetching Vendor List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorResponseV2"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Vendor List fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListGETResponseVendor"
+                }
+              }
+            }
+          }
+        },
+        "description": "Lists your vendors with their basic details."
       }
     },
     "/v2/vendor/{vendor_id}": {
+      "delete": {
+        "summary": "Delete a vendor",
+        "operationId": "delete_vendor",
+        "tags": [
+          "Vendor V2"
+        ],
+        "parameters": [
+          {
+            "name": "vendor_id",
+            "in": "path",
+            "description": "The vendor ID to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Vendor not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorResponseV2"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorResponseV2"
+                }
+              }
+            }
+          }
+        },
+        "description": "Deletes a vendor by your `vendor_id`. Deleted vendors move to the Deleted tab in the dashboard."
+      },
       "get": {
         "summary": "Get vendor details",
         "operationId": "get_vendor",
@@ -4078,57 +4129,6 @@
           }
         },
         "description": "Returns one vendor's details by your `vendor_id`."
-      },
-      "delete": {
-        "summary": "Delete a vendor",
-        "operationId": "delete_vendor",
-        "tags": [
-          "Vendor V2"
-        ],
-        "parameters": [
-          {
-            "name": "vendor_id",
-            "in": "path",
-            "description": "The vendor ID to be deleted",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VendorResponseV2"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Vendor not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VendorResponseV2"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VendorResponseV2"
-                }
-              }
-            }
-          }
-        },
-        "description": "Deletes a vendor by your `vendor_id`. Deleted vendors move to the Deleted tab in the dashboard."
       }
     }
   },
@@ -4138,7 +4138,7 @@
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT",
-        "description": "Bearer authentication header of the form Bearer <token>, where <token> is your auth token."
+        "description": "Bearer authentication header of the form `Bearer <token>`, where `<token>` is an API key from the [API Integration](https://app.getswipe.in/user?tab=api_integration) section of your dashboard. Keys are scoped to the company they are generated in — for testing, [add a separate test company](https://community.getswipe.in/t/how-to-add-new-company-on-web/1191) and generate the key there, so requests never touch your real books."
       }
     },
     "schemas": {
@@ -5375,19 +5375,6 @@
         },
         "type": "object"
       },
-      "CustomerGET_Response": {
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "description": "Success flag",
-            "example": true
-          },
-          "customer_details": {
-            "$ref": "#/components/schemas/BaseCustomer"
-          }
-        },
-        "type": "object"
-      },
       "CustomerResponse": {
         "properties": {
           "success": {
@@ -5399,6 +5386,19 @@
             "type": "string",
             "description": "Response message",
             "example": "Customer added successfully"
+          }
+        },
+        "type": "object"
+      },
+      "CustomerGET_Response": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Success flag",
+            "example": true
+          },
+          "customer_details": {
+            "$ref": "#/components/schemas/BaseCustomer"
           }
         },
         "type": "object"
@@ -5524,6 +5524,43 @@
         },
         "type": "object"
       },
+      "ListCustomerMapErrorModel": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "customer_mapping": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerMapModel"
+            }
+          },
+          "duplicate_customer_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerMapModel"
+            }
+          },
+          "duplicate_swipe_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerMapModel"
+            }
+          },
+          "not_found_swipe_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerMapModel"
+            }
+          },
+          "message": {
+            "type": "string",
+            "example": "Customer ID already mapped !"
+          }
+        },
+        "type": "object"
+      },
       "ListCustomersResponseV1": {
         "properties": {
           "success": {
@@ -5576,43 +5613,6 @@
             "type": "string",
             "description": "Swipe ID assigned to the customer",
             "example": 1
-          }
-        },
-        "type": "object"
-      },
-      "ListCustomerMapErrorModel": {
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "example": false
-          },
-          "customer_mapping": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CustomerMapModel"
-            }
-          },
-          "duplicate_customer_ids": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CustomerMapModel"
-            }
-          },
-          "duplicate_swipe_ids": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CustomerMapModel"
-            }
-          },
-          "not_found_swipe_ids": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CustomerMapModel"
-            }
-          },
-          "message": {
-            "type": "string",
-            "example": "Customer ID already mapped !"
           }
         },
         "type": "object"
@@ -5862,19 +5862,6 @@
         },
         "type": "object"
       },
-      "ProductGET_Response": {
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "description": "Success flag",
-            "example": true
-          },
-          "item": {
-            "$ref": "#/components/schemas/ItemV1"
-          }
-        },
-        "type": "object"
-      },
       "ProductResponse": {
         "properties": {
           "success": {
@@ -5886,6 +5873,19 @@
             "type": "string",
             "description": "Response message",
             "example": "Product added successfully"
+          }
+        },
+        "type": "object"
+      },
+      "ProductGET_Response": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Success flag",
+            "example": true
+          },
+          "item": {
+            "$ref": "#/components/schemas/ItemV1"
           }
         },
         "type": "object"
@@ -5923,6 +5923,43 @@
             "type": "boolean",
             "description": "Updates even if the item id is already mapped with other swipe id, no item details will be updated",
             "example": true
+          }
+        },
+        "type": "object"
+      },
+      "ListItemMapErrorModel": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "item_mapping": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemMapModel"
+            }
+          },
+          "duplicate_item_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemMapModel"
+            }
+          },
+          "duplicate_swipe_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemMapModel"
+            }
+          },
+          "not_found_swipe_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemMapModel"
+            }
+          },
+          "message": {
+            "type": "string",
+            "example": "Item ID already mapped !"
           }
         },
         "type": "object"
@@ -6023,43 +6060,6 @@
             "type": "string",
             "description": "Swipe ID assigned to the item",
             "example": 1
-          }
-        },
-        "type": "object"
-      },
-      "ListItemMapErrorModel": {
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "example": false
-          },
-          "item_mapping": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ItemMapModel"
-            }
-          },
-          "duplicate_item_ids": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ItemMapModel"
-            }
-          },
-          "duplicate_swipe_ids": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ItemMapModel"
-            }
-          },
-          "not_found_swipe_ids": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ItemMapModel"
-            }
-          },
-          "message": {
-            "type": "string",
-            "example": "Item ID already mapped !"
           }
         },
         "type": "object"
@@ -8961,6 +8961,34 @@
         },
         "type": "object"
       },
+      "CustomerMappingResponseV2": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Success flag",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Message"
+          },
+          "error_code": {
+            "type": "string",
+            "description": "Error Code",
+            "example": ""
+          },
+          "errors": {
+            "type": "object",
+            "description": "Errors"
+          },
+          "data": {
+            "type": "object",
+            "description": "Data"
+          }
+        },
+        "type": "object"
+      },
       "ListGETResponse": {
         "properties": {
           "success": {
@@ -9040,34 +9068,6 @@
             "type": "string",
             "description": "Developer Notes: This field is for internal use.",
             "example": "This is a developer note"
-          }
-        },
-        "type": "object"
-      },
-      "CustomerMappingResponseV2": {
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "description": "Success flag",
-            "example": true
-          },
-          "message": {
-            "type": "string",
-            "description": "Response message",
-            "example": "Message"
-          },
-          "error_code": {
-            "type": "string",
-            "description": "Error Code",
-            "example": ""
-          },
-          "errors": {
-            "type": "object",
-            "description": "Errors"
-          },
-          "data": {
-            "type": "object",
-            "description": "Data"
           }
         },
         "type": "object"
@@ -9682,6 +9682,34 @@
         },
         "type": "object"
       },
+      "ProductMappingResponseV2": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Success flag",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Message"
+          },
+          "error_code": {
+            "type": "string",
+            "description": "Error Code",
+            "example": ""
+          },
+          "errors": {
+            "type": "object",
+            "description": "Errors"
+          },
+          "data": {
+            "type": "object",
+            "description": "Data"
+          }
+        },
+        "type": "object"
+      },
       "ListGETResponseV2": {
         "properties": {
           "success": {
@@ -9805,34 +9833,6 @@
             "type": "string",
             "description": "Developer Notes: This field is for internal use.",
             "example": "This is a developer note"
-          }
-        },
-        "type": "object"
-      },
-      "ProductMappingResponseV2": {
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "description": "Success flag",
-            "example": true
-          },
-          "message": {
-            "type": "string",
-            "description": "Response message",
-            "example": "Message"
-          },
-          "error_code": {
-            "type": "string",
-            "description": "Error Code",
-            "example": ""
-          },
-          "errors": {
-            "type": "object",
-            "description": "Errors"
-          },
-          "data": {
-            "type": "object",
-            "description": "Data"
           }
         },
         "type": "object"
@@ -10741,6 +10741,34 @@
         },
         "type": "object"
       },
+      "VendorMappingResponseV2": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Success flag",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Message"
+          },
+          "error_code": {
+            "type": "string",
+            "description": "Error Code",
+            "example": ""
+          },
+          "errors": {
+            "type": "object",
+            "description": "Errors"
+          },
+          "data": {
+            "type": "object",
+            "description": "Data"
+          }
+        },
+        "type": "object"
+      },
       "ListGETResponseVendor": {
         "properties": {
           "success": {
@@ -10815,34 +10843,6 @@
             "type": "string",
             "description": "Swipe ID assigned to the vendor",
             "example": 1
-          }
-        },
-        "type": "object"
-      },
-      "VendorMappingResponseV2": {
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "description": "Success flag",
-            "example": true
-          },
-          "message": {
-            "type": "string",
-            "description": "Response message",
-            "example": "Message"
-          },
-          "error_code": {
-            "type": "string",
-            "description": "Error Code",
-            "example": ""
-          },
-          "errors": {
-            "type": "object",
-            "description": "Errors"
-          },
-          "data": {
-            "type": "object",
-            "description": "Data"
           }
         },
         "type": "object"

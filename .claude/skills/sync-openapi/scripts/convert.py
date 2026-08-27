@@ -156,7 +156,13 @@ def convert(spec2: dict) -> dict:
                     "scheme": "bearer",
                     "bearerFormat": "JWT",
                     "description": "Bearer authentication header of the form "
-                                   "Bearer <token>, where <token> is your auth token.",
+                                   "`Bearer <token>`, where `<token>` is an API key "
+                                   "from the [API Integration](https://app.getswipe.in/user?tab=api_integration) "
+                                   "section of your dashboard. Keys are scoped to the "
+                                   "company they are generated in — for testing, "
+                                   "[add a separate test company](https://community.getswipe.in/t/how-to-add-new-company-on-web/1191) "
+                                   "and generate the key there, so requests never "
+                                   "touch your real books.",
                 }
             },
             "schemas": rewrite_refs(spec2.get("definitions", {})),
