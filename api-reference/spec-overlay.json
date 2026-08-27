@@ -1,0 +1,188 @@
+{
+  "_comment": "Docs-maintained overlay applied by .claude/skills/sync-openapi after converting the backend swagger 2.0 schema. Descriptions here fill in ONLY when the backend operation has none - once a description is added to the flask_restx docstring, it wins. exclude_path_prefixes are stripped from the public spec regardless.",
+  "exclude_path_prefixes": [
+    "/v2/expense"
+  ],
+  "summaries": {
+    "Get Item Details": "Get item details",
+    "Add an Item": "Add an item",
+    "Update an Item": "Update an item",
+    "Delete an Item": "Delete an item",
+    "Get Customer Details": "Get customer details",
+    "Get Vendor Details": "Get vendor details",
+    "List of Subscriptions": "List of subscriptions",
+    "Get EwayBill PDF": "Get e-way bill PDF",
+    "Create Eway Bill": "Create e-way bill"
+  },
+  "operations": {
+    "PUT /v1/customer": {
+      "description": "**v1 is deprecated — use the v2 endpoint instead.** Updates an existing customer's details. Changes propagate to the documents linked to this customer."
+    },
+    "POST /v1/customer": {
+      "description": "**v1 is deprecated — use the v2 endpoint instead.** Creates a customer keyed by your own `id`. Sending an ID that already exists fails with `CUSTOMER_ALREADY_EXISTS` — use Update a customer to change an existing record. Customers are also created automatically when a document references an unknown `party.id`."
+    },
+    "GET /v1/customer/ledger": {
+      "description": "**v1 is deprecated — use the v2 endpoint instead.** Returns a customer's payment ledger over a required date range — documents, payments, and the running balance."
+    },
+    "GET /v1/customer/list": {
+      "description": "**v1 is deprecated — use the v2 endpoint instead.** Lists your customers with their basic details."
+    },
+    "POST /v1/customer/list": {
+      "description": "**v1 is deprecated — use the v2 endpoint instead.** Re-links your customer IDs to existing Swipe records in bulk. Use this after changing IDs in your own system, so future calls don't create duplicate customers."
+    },
+    "GET /v1/customer/{customer_id}": {
+      "description": "**v1 is deprecated — use the v2 endpoint instead.** Returns one customer's details by your `customer_id`."
+    },
+    "DELETE /v1/customer/{customer_id}": {
+      "description": "**v1 is deprecated — use the v2 endpoint instead.** Deletes a customer by your `customer_id`. Deleted customers move to the Deleted tab in the dashboard."
+    },
+    "POST /v1/doc": {
+      "description": "**v1 is deprecated — use the v2 endpoint instead.** Creates a document — an invoice, purchase, estimate, return, delivery challan, or subscription — based on `document_type`. Unknown `party` and `items` IDs are created automatically from the details you send; existing IDs are reused. Returns the document's `hash_id`, which addresses the document in every subsequent call, plus the IRN and QR code when `einvoice` is set. Send your own `serial_number` to make retries safe — a duplicate fails with `DUPLICATE_DOC_SERIAL_NUMBER` instead of creating a second document."
+    },
+    "GET /v1/doc/pdf/{doc_hash_id}": {
+      "description": "**v1 is deprecated — use the v2 endpoint instead.** Returns the rendered PDF file for a document. The PDF uses the invoice templates and document settings configured on your Swipe account. Pass `delivery_challan=1` to get a delivery-challan copy instead."
+    },
+    "DELETE /v1/doc/{doc_hash_id}": {
+      "description": "**v1 is deprecated — use the v2 endpoint instead.** Cancels an active document by its `hash_id`. The document remains in your account with a cancelled status."
+    },
+    "POST /v1/payment": {
+      "description": "**v1 is deprecated — use the v2 endpoint instead.** Records a payment received from a customer. Optionally settle specific documents by pairing each `hash_id` with an `amount_paying` — partial settlement is supported and the document's payment status tracks what remains. Non-cash payment modes need a bank account configured on your account, otherwise the request fails with `MISSING_BANK_ACCOUNT`. Set `send_sms` or `send_email` to notify the customer."
+    },
+    "PUT /v1/product": {
+      "description": "**v1 is deprecated — use the v2 endpoint instead.** Updates an item's master record in the catalog. This is the only way to change catalog details — item fields sent inside a document apply to that document only."
+    },
+    "POST /v1/product": {
+      "description": "**v1 is deprecated — use the v2 endpoint instead.** Creates an item in your catalog keyed by your own `id`. Sending an ID that already exists fails with `PRODUCT_ALREADY_EXISTS` — use Update an item to change the catalog record. Items are also created automatically when a document references an unknown item `id`."
+    },
+    "GET /v1/product/list": {
+      "description": "**v1 is deprecated — use the v2 endpoint instead.** Lists the items in your catalog."
+    },
+    "POST /v1/product/list": {
+      "description": "**v1 is deprecated — use the v2 endpoint instead.** Re-links your item IDs to existing Swipe records in bulk. Use this after changing IDs in your own system, so future calls don't create duplicate items."
+    },
+    "GET /v1/product/{item_id}": {
+      "description": "**v1 is deprecated — use the v2 endpoint instead.** Returns one item's catalog details by your `item_id`."
+    },
+    "DELETE /v1/product/{item_id}": {
+      "description": "**v1 is deprecated — use the v2 endpoint instead.** Deletes an item by your `item_id`. Deleted items move to the Deleted tab in the dashboard."
+    },
+    "GET /v1/subscriptions/list": {
+      "description": "**v1 is deprecated — use the v2 endpoint instead.** Lists subscriptions within a required date range, filterable by `status` and `customer_id`. Subscriptions are created through Create a document with `document_type=subscription`."
+    },
+    "GET /v1/subscriptions/{subscription_hash_id}": {
+      "description": "**v1 is deprecated — use the v2 endpoint instead.** Returns one subscription's details, including the invoices generated from it so far."
+    },
+    "GET /v1/utils/gstin/{gstin}": {
+      "description": "**v1 is deprecated — use the v2 endpoint instead.** Looks up a GSTIN on the GST portal and returns the registered business's details. Useful for validating a party's GSTIN and prefilling their name and address.",
+      "summary": "Get GSTIN details"
+    },
+    "PUT /v2/customer": {
+      "description": "Updates an existing customer's details. Changes propagate to the documents linked to this customer."
+    },
+    "POST /v2/customer": {
+      "description": "Creates a customer keyed by your own `id`. Sending an ID that already exists fails with `CUSTOMER_ALREADY_EXISTS` — use Update a customer to change an existing record. Customers are also created automatically when a document references an unknown `party.id`."
+    },
+    "GET /v2/customer/ledger": {
+      "description": "Returns a customer's payment ledger over a required date range — documents, payments, and the running balance."
+    },
+    "GET /v2/customer/list": {
+      "description": "Lists your customers with their basic details."
+    },
+    "POST /v2/customer/list": {
+      "description": "Re-links your customer IDs to existing Swipe records in bulk. Use this after changing IDs in your own system, so future calls don't create duplicate customers."
+    },
+    "GET /v2/customer/{customer_id}": {
+      "description": "Returns one customer's details by your `customer_id`."
+    },
+    "DELETE /v2/customer/{customer_id}": {
+      "description": "Deletes a customer by your `customer_id`. Deleted customers move to the Deleted tab in the dashboard."
+    },
+    "POST /v2/doc": {
+      "description": "Creates a document — an invoice, purchase, estimate, return, delivery challan, or subscription — based on `document_type`. Unknown `party` and `items` IDs are created automatically from the details you send; existing IDs are reused. Returns the document's `hash_id`, which addresses the document in every subsequent call, plus the IRN and QR code when `einvoice` is set. Send your own `serial_number` to make retries safe — a duplicate fails with `DUPLICATE_DOC_SERIAL_NUMBER` instead of creating a second document."
+    },
+    "GET /v2/doc/list": {
+      "description": "Lists documents of one `document_type` within a required date range. Filter by `payment_status` to track pending, partially paid, or fully paid documents."
+    },
+    "GET /v2/doc/pdf/{doc_hash_id}": {
+      "description": "Returns the rendered PDF file for a document. The PDF uses the invoice templates and document settings configured on your Swipe account. Pass `delivery_challan=1` to get a delivery-challan copy instead."
+    },
+    "GET /v2/doc/{doc_hash_id}": {
+      "description": "Returns the full details of a document by its `hash_id` — party, items, amounts, and status."
+    },
+    "PUT /v2/doc/{doc_hash_id}": {
+      "description": "Replaces the contents of an existing document. Send the complete payload with every field's updated value — this is a full replacement, not a partial update. The document keeps its `hash_id`.",
+      "summary": "Edit a document"
+    },
+    "DELETE /v2/doc/{doc_hash_id}": {
+      "description": "Cancels an active document by its `hash_id`. The document remains in your account with a cancelled status."
+    },
+    "GET /v2/ewaybill/pdf/{doc_hash_id}": {
+      "description": "Returns the e-way bill PDF for a document whose e-way bill has already been generated."
+    },
+    "POST /v2/ewaybill/{doc_hash_id}": {
+      "description": "Generates an e-way bill for an existing document, identified by its `hash_id`. Requires the transport details: supply type, transport mode, dispatch addresses, and transporter document date. Your account must be connected to the e-way bill portal; portal rejections are returned as `PORTAL_ERROR_{code}`. By default this points to the government sandbox portal."
+    },
+    "POST /v2/inventory/stock": {
+      "description": "Records a manual stock movement for a product — `in` adds stock, `out` removes it. Use `warehouse_id` -1 for the default warehouse and `record_date` to backdate the movement. Sales and purchase documents also move stock automatically.",
+      "summary": "Update inventory stock"
+    },
+    "GET /v2/inventory/warehouses/list": {
+      "description": "Returns all warehouses with their IDs, for use in stock operations."
+    },
+    "POST /v2/payment": {
+      "description": "Records a payment received from a customer. Optionally settle specific documents by pairing each `hash_id` with an `amount_paying` — partial settlement is supported and the document's payment status tracks what remains. Non-cash payment modes need a bank account configured on your account, otherwise the request fails with `MISSING_BANK_ACCOUNT`. Set `send_sms` or `send_email` to notify the customer."
+    },
+    "GET /v2/payment/list": {
+      "description": "Lists payments recorded within a required date range."
+    },
+    "PUT /v2/product": {
+      "description": "Updates an item's master record in the catalog. This is the only way to change catalog details — item fields sent inside a document apply to that document only."
+    },
+    "POST /v2/product": {
+      "description": "Creates an item in your catalog keyed by your own `id`. Sending an ID that already exists fails with `PRODUCT_ALREADY_EXISTS` — use Update an item to change the catalog record. Items are also created automatically when a document references an unknown item `id`."
+    },
+    "GET /v2/product/list": {
+      "description": "Lists the items in your catalog."
+    },
+    "POST /v2/product/list": {
+      "description": "Re-links your item IDs to existing Swipe records in bulk. Use this after changing IDs in your own system, so future calls don't create duplicate items."
+    },
+    "GET /v2/product/{item_id}": {
+      "description": "Returns one item's catalog details by your `item_id`."
+    },
+    "DELETE /v2/product/{item_id}": {
+      "description": "Deletes an item by your `item_id`. Deleted items move to the Deleted tab in the dashboard."
+    },
+    "GET /v2/subscriptions/list": {
+      "description": "Lists subscriptions within a required date range, filterable by `status` and `customer_id`. Subscriptions are created through Create a document with `document_type=subscription`."
+    },
+    "GET /v2/subscriptions/{subscription_hash_id}": {
+      "description": "Returns one subscription's details, including the invoices generated from it so far."
+    },
+    "GET /v2/utils/gstin/{gstin}": {
+      "description": "Looks up a GSTIN on the GST portal and returns the registered business's details. Useful for validating a party's GSTIN and prefilling their name and address.",
+      "summary": "Get GSTIN details"
+    },
+    "PUT /v2/vendor": {
+      "description": "Updates an existing vendor's details. Changes propagate to the documents linked to this vendor."
+    },
+    "POST /v2/vendor": {
+      "description": "Creates a vendor keyed by your own `id`. Vendors are the parties on purchase-side documents. They are also created automatically when a document references an unknown vendor `party.id`."
+    },
+    "GET /v2/vendor/ledger": {
+      "description": "Returns a vendor's payment ledger over a required date range — documents, payments, and the running balance."
+    },
+    "GET /v2/vendor/list": {
+      "description": "Lists your vendors with their basic details."
+    },
+    "POST /v2/vendor/list": {
+      "description": "Re-links your vendor IDs to existing Swipe records in bulk. Use this after changing IDs in your own system, so future calls don't create duplicate vendors."
+    },
+    "GET /v2/vendor/{vendor_id}": {
+      "description": "Returns one vendor's details by your `vendor_id`."
+    },
+    "DELETE /v2/vendor/{vendor_id}": {
+      "description": "Deletes a vendor by your `vendor_id`. Deleted vendors move to the Deleted tab in the dashboard."
+    }
+  }
+}

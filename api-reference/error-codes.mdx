@@ -1,74 +1,82 @@
 ---
 title: Error Codes
 icon: 'triangle-exclamation'
-description: All error codes returned by the Swipe API, grouped by resource, with their meanings.
+description: 'Every error code the Swipe API returns, with its HTTP status, cause, and how to resolve it.'
 ---
 
-## Document Errors
+Failed requests return the standard [response envelope](/api-conventions#response-format) with `success: false` and a stable `error_code`:
 
-| Error Code                                        | Description                                         |
-| ------------------------------------------------- | --------------------------------------------------- |
-| `HASH_ID_MISSING`                                 | The hash ID is missing.                             |
-| `INVALID_HASH_ID`                                 | The provided hash ID is invalid.                    |
-| `TCS_DETAILS_NOT_FOUND`                           | TCS details could not be found.                     |
-| `TDS_DETAILS_NOT_FOUND`                           | TDS details could not be found.                     |
-| `SUBSCRIPTION_DETAILS_NOT_FOUND`                  | Subscription details could not be found.            |
-| `EINVOICE_NOT_FOUND`                              | The e-invoice could not be found.                   |
-| `ITEM_NOT_FOUND`                                  | The item could not be found.                        |
-| `DUPLICATE_DOC_SERIAL_NUMBER`                     | The document serial number is duplicate.            |
-| `DOCUMENT_TYPE_NOT_FOUND`                         | The document type could not be found.               |
-| `BATCH_OR_SERIAL_NUMBER_NOT_SELECTED`             | Batch or serial number not selected.                |
-| `RETURN_NOT_POSSIBLE_FOR_AVAILABLE_SERIAL_NUMBER` | Return not possible for available serial number.    |
-| `INVALID_DOCUMENT_NUMBER`                         | The document number is invalid.                     |
-| `INVALID_SERIAL_NUMBER`                           | The serial number is invalid.                       |
-| `FORBIDDEN_USING_BACK_DATE`                       | Forbidden using back date.                          |
-| `DUPLICATE_SUPPLIER_INVOICE_SERIAL_NUMBER`        | Duplicate supplier invoice serial number.           |
-| `CAN_NOT_APPLY_TDS_AND_TCS_TOGETHER`              | Cannot apply TDS and TCS together.                  |
-| `MISSING_BANK_ACCOUNT`                            | The bank account is missing.                        |
-| `AMOUNT_RECEIVED_GREATER_THAN_TOTAL_AMOUNT`       | Amount received is greater than total amount.       |
-| `SUBSCRIPTIONS_NOT_ENABLED`                       | Subscriptions are not enabled.                      |
-| `INVALID_REPEAT`                                  | The repeat value is invalid.                        |
-| `INVALID_CUSTOM_COLUMN_VALUE`                     | The custom column value is invalid.                 |
-| `INVALID_HEADER_FORMAT`                           | The header format is invalid.                       |
-| `FREE_USER_EXPORT_LIMIT_EXCEEDED`                 | Free user export limit exceeded.                    |
-| `BANK_DETAILS_MISSING_NON_CASH`                   | Bank details are missing for non-cash transactions. |
-| `INVALID_TAX_RATE`                                | The provided tax rate is invalid.                   |
-| `DUPLICATE_PRODUCT_SERIAL_NUMBER`                 | The product serial number is duplicate.             |
-| `INSUFFICIENT_STOCK`                              | There is not enough stock available.                |
-| `PRODUCT_ALREADY_EXISTS`                          | The product already exists in the system.           |
-| `CUSTOMER_NOT_FOUND`                              | The customer could not be found.                    |
-| `INVALID_CUSTOMER_ID`                             | The provided customer ID is invalid.                |
+```json
+{
+  "success": false,
+  "message": "The provided hash ID is invalid.",
+  "error_code": "INVALID_HASH_ID",
+  "errors": {}
+}
+```
 
-## EInvoice Document Errors
+Handle errors by `error_code`, not by matching `message` text — messages can change, codes are stable. Validation and business errors come with HTTP `400`, authentication failures with `401`, and unexpected failures with `500` (safe to retry with backoff).
 
-| Error Code            | Description                                                                                                                                                                                                                                              |
-| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `PORTAL_ERROR_{code}` | e-Invoice Portal Error: This error code comes directly from the e-Invoice portal. For example, `PORTAL_ERROR_2247` reflects error code `2247`. View all possible e-Invoice error codes [here](https://einv-apisandbox.nic.in/api-error-codes-list.html). |
+## Document errors
 
-## Product Errors
+All returned with HTTP `400`.
 
-| Error Code               | Description                               |
-| ------------------------ | ----------------------------------------- |
-| `PRODUCT_ALREADY_EXISTS` | The product already exists in the system. |
+| Error code | Cause and resolution |
+| ---------- | -------------------- |
+| `HASH_ID_MISSING` | No `hash_id` in the request. Pass the `hash_id` returned when the document was created. |
+| `INVALID_HASH_ID` | The `hash_id` doesn't match any document. Check for typos, or find it via [List of documents](/api-reference/document-v2/list-of-documents). |
+| `DUPLICATE_DOC_SERIAL_NUMBER` | A document with this serial number already exists. If this was a retry, the original succeeded — fetch it instead of re-creating. Otherwise use a new serial number. |
+| `DOCUMENT_TYPE_NOT_FOUND` | Unknown `document_type`. Use one of the values listed in [Documents](/document#the-document-model). |
+| `INVALID_DOCUMENT_NUMBER` / `INVALID_SERIAL_NUMBER` | The document/serial number is malformed. Check the `serial_number` (or `serial_number_v2`) format. |
+| `DUPLICATE_SUPPLIER_INVOICE_SERIAL_NUMBER` | A purchase with this supplier invoice serial already exists. |
+| `FORBIDDEN_USING_BACK_DATE` | Back-dated documents are disabled on your account's settings. Use the current date or change the setting in the dashboard. |
+| `INVALID_TAX_RATE` | The `tax_rate` is not a valid GST rate. |
+| `ITEM_NOT_FOUND` | The referenced item doesn't exist. Check the item `id`, or send full item details to auto-create it. |
+| `CUSTOMER_NOT_FOUND` / `INVALID_CUSTOMER_ID` | The referenced customer doesn't exist or the ID is malformed. Check the `party.id`, or send full party details to auto-create. |
+| `INSUFFICIENT_STOCK` | The sale would take stock below zero. Add stock via [Inventory](/inventory) or adjust the quantity. |
+| `BATCH_OR_SERIAL_NUMBER_NOT_SELECTED` | The item is batch/serial tracked; the document must specify which batch or serial numbers move. |
+| `DUPLICATE_PRODUCT_SERIAL_NUMBER` | This product serial number is already in stock. |
+| `RETURN_NOT_POSSIBLE_FOR_AVAILABLE_SERIAL_NUMBER` | The serial number being returned is already in stock, so it can't be returned again. |
+| `CAN_NOT_APPLY_TDS_AND_TCS_TOGETHER` | A document can carry TDS or TCS, not both. Send only one of `tds_id` / `tcs_id` — see [Tax codes](/api-reference/tax-codes). |
+| `TDS_DETAILS_NOT_FOUND` / `TCS_DETAILS_NOT_FOUND` | The `tds_id` / `tcs_id` doesn't match a known code. Use an ID from [Tax codes](/api-reference/tax-codes). |
+| `MISSING_BANK_ACCOUNT` / `BANK_DETAILS_MISSING_NON_CASH` | Non-cash payments need a bank account configured on your Swipe account. Add one in the dashboard. |
+| `AMOUNT_RECEIVED_GREATER_THAN_TOTAL_AMOUNT` | The payment amount exceeds the document total. Reduce `amount_received` / `amount_paying`. |
+| `SUBSCRIPTIONS_NOT_ENABLED` | Enable subscriptions in the [dashboard](https://app.getswipe.in/list/subscriptions) before creating `document_type=subscription`. |
+| `SUBSCRIPTION_DETAILS_NOT_FOUND` | `document_type=subscription` needs a `subscription_details` object — see [Subscriptions](/subscriptions#create-a-subscription). |
+| `INVALID_REPEAT` | `subscription_details.repeat` / `repeat_type` is invalid. Use a positive number with one of `days`, `weeks`, `months`, `years`. |
+| `INVALID_CUSTOM_COLUMN_VALUE` / `INVALID_HEADER_FORMAT` | A custom column value or custom header doesn't match the columns configured on your account. |
+| `EINVOICE_NOT_FOUND` | No e-invoice exists for this document. Generate one by creating the document with `einvoice: true`. |
+| `FREE_USER_EXPORT_LIMIT_EXCEEDED` | Export document limit on the free plan reached. Upgrade the account to continue. |
 
-## Customer Errors
+## E-invoice and e-way bill portal errors
 
-| Error Code                | Description                                |
-| ------------------------- | ------------------------------------------ |
-| `CUSTOMER_NOT_FOUND`      | The customer could not be found.           |
-| `CUSTOMER_ALREADY_EXISTS` | The customer already exists in the system. |
-| `INVALID_CUSTOMER_ID`     | The provided customer ID is invalid.       |
+| Error code | Cause and resolution |
+| ---------- | -------------------- |
+| `PORTAL_ERROR_{code}` | The government portal rejected the request; `{code}` is the portal's own error number (for example `PORTAL_ERROR_2247`). Look the code up in the [official e-invoice error list](https://einv-apisandbox.nic.in/api-error-codes-list.html) — common causes are GSTIN mismatches, wrong state codes, and duplicate IRNs. |
 
-## Authentication and Authorization Errors
+## Customer, vendor, and product errors
 
-| Error Code     | Description                  |
-| -------------- | ---------------------------- |
-| `FORBIDDEN`    | Access is forbidden.         |
-| `UNAUTHORIZED` | The request is unauthorized. |
+All returned with HTTP `400`.
 
-## General Errors
+| Error code | Cause and resolution |
+| ---------- | -------------------- |
+| `CUSTOMER_ALREADY_EXISTS` | A customer with this `id` already exists. Use [Update a customer](/api-reference/customer-v2/update-a-customer) instead of adding again. |
+| `CUSTOMER_NOT_FOUND` | No customer with this `customer_id`. Check the ID or list customers to find it. |
+| `INVALID_CUSTOMER_ID` | The `customer_id` is malformed. |
+| `PRODUCT_ALREADY_EXISTS` | An item with this `id` already exists. Use [Update an item](/api-reference/product-v2/update-an-item) instead of adding again. |
 
-| Error Code      | Description                          |
-| --------------- | ------------------------------------ |
-| `UNKNOWN_ERROR` | An unknown error has occurred.       |
-| `BAD_REQUEST`   | The request is invalid or malformed. |
+## Authentication errors
+
+Returned with HTTP `401` — see [Authentication](/authentication).
+
+| Error code | Cause and resolution |
+| ---------- | -------------------- |
+| `UNAUTHORIZED` | The API key is missing, malformed, or invalid. Send `Authorization: Bearer YOUR_API_KEY`. |
+| `FORBIDDEN` | The key is valid but not allowed to perform this action. Check the account's plan and permissions. |
+
+## General errors
+
+| Error code | HTTP status | Cause and resolution |
+| ---------- | ----------- | -------------------- |
+| `BAD_REQUEST` | `400` | The request is malformed — invalid JSON, wrong types, or missing required fields. Check `errors` for field-level details. |
+| `UNKNOWN_ERROR` | `500` | Something failed on Swipe's side. Retry with backoff; if it persists, contact [support](https://app.getswipe.in/user?tab=api_integration) with the request details. |

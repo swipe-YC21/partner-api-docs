@@ -4,6 +4,57 @@ icon: 'clock-rotate-left'
 description: 'Updates and changes to the Swipe API'
 ---
 
+<Update label="2026-08-26" description="Docs overhaul">
+    The documentation got a full overhaul:
+
+    - New [Quickstart](/quickstart), [Authentication](/authentication), and [API conventions](/api-conventions) pages — including the documented rate limit of **1 request per second**
+    - Every guide rewritten around lifecycles and real payloads, with new [Vendors](/vendor) and [Inventory](/inventory) guides and the [subscription creation flow](/subscriptions#create-a-subscription)
+    - A description on every endpoint, an upgraded [error reference](/api-reference/error-codes) with causes and resolutions, and playground examples that now show the minimal required payload
+    - Every page can be copied as Markdown or opened in ChatGPT / Claude / Cursor from the contextual menu, and the docs are published as [llms.txt](https://developers.getswipe.in/llms.txt) for AI tools
+</Update>
+
+<Update label="2026-06-29" description="E-way bills">
+    <Card title="ship_to_gstin">
+        Added the `ship_to_gstin` field to [Create e-way bill](/api-reference/ewaybill/create-eway-bill) — the consignee's GSTIN (or `URP` for unregistered), required for Bill To – Ship To transactions.
+    </Card>
+</Update>
+
+<Update label="2026-06-15" description="Subscriptions">
+    <Card title="send_wtsp">
+        Added the `send_wtsp` flag to `subscription_details` in [Create a document](/api-reference/document-v2/create-a-document) — generated subscription invoices can now be delivered to the customer on WhatsApp, alongside the existing `send_email` and `send_sms`.
+    </Card>
+</Update>
+
+<Update label="2026-01-17" description="Products">
+    <Card title="Product images">
+        Documented the `product_images` support on item endpoints — attach image URLs to catalog items.
+    </Card>
+</Update>
+
+<Update label="2025-12-09" description="Products">
+    <Card title="Branch visibility">
+        Added the `visibility` key on items: `1` makes the product visible to all branches, `0` restricts it to the branch it was created in.
+    </Card>
+</Update>
+
+<Update label="2025-11-29" description="Documents">
+    <Card title="record_time">
+        Added the `record_time` field to document payloads for capturing the time of the record alongside its date.
+    </Card>
+</Update>
+
+<Update label="2025-11-04" description="Documents">
+    <Card title="Delivery challan copy">
+        Added the `delivery_challan` query parameter to [Get document PDF](/api-reference/document-v2/get-document-pdf) — set it to `1` to download a delivery-challan copy of the document.
+    </Card>
+</Update>
+
+<Update label="2025-09-17" description="Documents">
+    <Card title="Subscription & convert on edit">
+        Added the `subscription_details` and `convert` keys to [Edit a document](/api-reference/document-v2/edit-a-document) — update a subscription's schedule, or convert an existing document to another type.
+    </Card>
+</Update>
+
 <Update label="2025-01-04" description="v2">
     <Frame>
         <img src="/images/update-1.png" />
