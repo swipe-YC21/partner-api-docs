@@ -1,0 +1,109 @@
+---
+title: Build with AI
+icon: 'robot'
+description: 'Connect Swipe to Claude, Cursor, and other AI tools - MCP servers, machine-readable docs, and a bootstrap prompt.'
+---
+
+Everything on this page is designed for AI tools: two MCP servers (one to operate Swipe, one to search these docs), machine-readable exports of every page, and a prompt to bootstrap an integration.
+
+## The Swipe MCP server
+
+Connect your AI assistant directly to your Swipe account. The server exposes tools to create invoices, search customers and products, record stock movements, analyse reports, and more — your assistant does the work in your account, with your permission.
+
+```
+https://app.getswipe.in/api/mcp/sse
+```
+
+Authentication is OAuth: when you connect, your browser opens a Swipe login (OTP to your registered mobile), you pick which **company** the connection can access, and the client stays authorized for 30 days.
+
+<Tip>
+    The server includes tools that edit and cancel documents. Connect it to a
+    [test company](https://community.getswipe.in/t/how-to-add-new-company-on-web/1191)
+    while you experiment, the same way you would with a test API key.
+</Tip>
+
+### Connecting
+
+<Tabs>
+    <Tab title="Claude">
+        In [claude.ai](https://claude.ai) or the Claude desktop app: **Settings → Connectors →
+        Add custom connector**, then paste the server URL. Claude walks you through the
+        OTP login and company selection.
+    </Tab>
+    <Tab title="Claude Code">
+        ```bash
+        claude mcp add --transport http swipe https://app.getswipe.in/api/mcp/sse
+        ```
+        Then run `/mcp` inside Claude Code to complete the OAuth login.
+    </Tab>
+    <Tab title="Cursor">
+        Add to `~/.cursor/mcp.json` (or `.cursor/mcp.json` in your project):
+        ```json
+        {
+          "mcpServers": {
+            "swipe": {
+              "url": "https://app.getswipe.in/api/mcp/sse"
+            }
+          }
+        }
+        ```
+        Cursor prompts for the OAuth login on first use.
+    </Tab>
+</Tabs>
+
+### Available tools
+
+The exact list can vary with your company's plan and enabled features. Tools are annotated so clients know what's safe:
+
+| Read-only | Adds records | Edits or cancels records |
+| --------- | ------------ | ------------------------ |
+| List Transactions | Create Document | Edit Document |
+| Get Document Details | Log Expense | Cancel Document |
+| Search Products | Add Product | Update Product |
+| Search Customers & Vendors | Add Customer | Update Customer |
+| Search HSN Codes | Add Vendor | Update Company Name / GSTIN |
+| Search GST Rate Changes | Record Stock In / Out | Update Company / Invoice Settings |
+| Analyse Financial Reports | | Get or Update Document Prefix |
+| Analyse Product Performance | | |
+| List Expense Categories | | |
+
+## The docs MCP server
+
+A separate, unauthenticated server that gives AI tools **search and retrieval over this documentation** — useful while coding an integration, without connecting a Swipe account:
+
+```
+https://developers.getswipe.in/mcp
+```
+
+Add it the same way as above (for Claude Code: `claude mcp add --transport http swipe-docs https://developers.getswipe.in/mcp`), or use the contextual menu on any page of these docs — the copy/open options next to each page title connect the current page to ChatGPT, Claude, Cursor, or VS Code directly.
+
+## Machine-readable documentation
+
+| Resource | URL |
+| -------- | --- |
+| Docs index for AI tools | [`/llms.txt`](https://developers.getswipe.in/llms.txt) |
+| Entire docs as one file | [`/llms-full.txt`](https://developers.getswipe.in/llms-full.txt) |
+| Any page as Markdown | append `.md` to its URL, e.g. [`/quickstart.md`](https://developers.getswipe.in/quickstart.md) |
+| OpenAPI 3.0.1 spec | [`/api-reference/openapi.json`](https://developers.getswipe.in/api-reference/openapi.json) |
+
+## Bootstrap prompt
+
+Starting an integration with an AI coding assistant? Paste this in first:
+
+```text
+You are helping me integrate the Swipe Partner API (Indian GST invoicing).
+
+- Base URL: https://app.getswipe.in/api/partner
+- Auth: Authorization: Bearer <API_KEY> (keys are company-scoped; I'm using a test company)
+- Rate limit: 1 request/second — make calls sequentially
+- All dates are DD-MM-YYYY
+- Full API spec: https://developers.getswipe.in/api-reference/openapi.json
+- Docs index: https://developers.getswipe.in/llms.txt
+- Responses use the envelope {success, message, error_code, errors, data};
+  handle failures by error_code, not message text
+- Documents (invoices etc.) are addressed by the hash_id returned at creation
+
+Start by creating a minimal invoice (POST /v2/doc with document_type,
+document_date, party, items), then fetch its PDF
+(GET /v2/doc/pdf/{hash_id}) to verify the flow works.
+```
