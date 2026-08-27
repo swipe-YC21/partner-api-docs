@@ -21,7 +21,7 @@ mint dev
 
 ## Checking for broken links
 
-Run this before pushing — it validates all relative internal links:
+Run this before pushing — it validates all relative internal links to find broken ones:
 
 ```
 mint broken-links
