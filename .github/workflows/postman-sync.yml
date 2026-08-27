@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "api-reference/openapi.json"
+  workflow_dispatch:
 
 jobs:
   postman-sync:
