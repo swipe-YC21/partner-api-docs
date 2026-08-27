@@ -220,6 +220,76 @@
       }
     },
     "/v1/customer/list": {
+      "get": {
+        "summary": "Get list of customers",
+        "operationId": "get_customer_list",
+        "tags": [
+          "Customer"
+        ],
+        "parameters": [
+          {
+            "name": "num_records",
+            "in": "query",
+            "description": "Number of records to fetch (max 100), default : 25 customers will be sent in response",
+            "schema": {
+              "type": "string",
+              "default": 25
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerError"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error in fetching Customer List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerError"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Customer List fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListCustomersResponseV1"
+                }
+              }
+            }
+          }
+        },
+        "description": "**v1 is deprecated — use the v2 endpoint instead.** Lists your customers with their basic details."
+      },
       "post": {
         "summary": "Update customer mapping",
         "operationId": "post_customer_list",
@@ -289,130 +359,9 @@
           }
         },
         "description": "**v1 is deprecated — use the v2 endpoint instead.** Re-links your customer IDs to existing Swipe records in bulk. Use this after changing IDs in your own system, so future calls don't create duplicate customers."
-      },
-      "get": {
-        "summary": "Get list of customers",
-        "operationId": "get_customer_list",
-        "tags": [
-          "Customer"
-        ],
-        "parameters": [
-          {
-            "name": "num_records",
-            "in": "query",
-            "description": "Number of records to fetch (max 100), default : 25 customers will be sent in response",
-            "schema": {
-              "type": "string",
-              "default": 25
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Page number",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          }
-        ],
-        "responses": {
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerError"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerError"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Error in fetching Customer List",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerError"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Customer List fetched successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ListGETResponse"
-                }
-              }
-            }
-          }
-        },
-        "description": "**v1 is deprecated — use the v2 endpoint instead.** Lists your customers with their basic details."
       }
     },
     "/v1/customer/{customer_id}": {
-      "delete": {
-        "summary": "Delete a customer",
-        "operationId": "delete_customer",
-        "tags": [
-          "Customer"
-        ],
-        "parameters": [
-          {
-            "name": "customer_id",
-            "in": "path",
-            "description": "The customer ID to be deleted",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerError"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Customer not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerError"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerResponse"
-                }
-              }
-            }
-          }
-        },
-        "description": "**v1 is deprecated — use the v2 endpoint instead.** Deletes a customer by your `customer_id`. Deleted customers move to the Deleted tab in the dashboard."
-      },
       "get": {
         "summary": "Get a customer",
         "operationId": "get_customer",
@@ -473,6 +422,57 @@
           }
         },
         "description": "**v1 is deprecated — use the v2 endpoint instead.** Returns one customer's details by your `customer_id`."
+      },
+      "delete": {
+        "summary": "Delete a customer",
+        "operationId": "delete_customer",
+        "tags": [
+          "Customer"
+        ],
+        "parameters": [
+          {
+            "name": "customer_id",
+            "in": "path",
+            "description": "The customer ID to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerError"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Customer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerError"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerResponse"
+                }
+              }
+            }
+          }
+        },
+        "description": "**v1 is deprecated — use the v2 endpoint instead.** Deletes a customer by your `customer_id`. Deleted customers move to the Deleted tab in the dashboard."
       }
     },
     "/v1/doc": {
@@ -748,7 +748,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Item"
+                "$ref": "#/components/schemas/ItemV1"
               }
             }
           },
@@ -798,7 +798,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Item"
+                "$ref": "#/components/schemas/ItemV1"
               }
             }
           },
@@ -840,6 +840,76 @@
       }
     },
     "/v1/product/list": {
+      "get": {
+        "summary": "Get list of items",
+        "operationId": "get_item_list",
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "num_records",
+            "in": "query",
+            "description": "Number of records to fetch (max 100), default : 25 items will be sent in response",
+            "schema": {
+              "type": "string",
+              "default": 25
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductError"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error in fetching Item List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductError"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Item List fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListItemsResponseV1"
+                }
+              }
+            }
+          }
+        },
+        "description": "**v1 is deprecated — use the v2 endpoint instead.** Lists the items in your catalog."
+      },
       "post": {
         "summary": "Update items mapping",
         "operationId": "post_item_list",
@@ -909,130 +979,9 @@
           }
         },
         "description": "**v1 is deprecated — use the v2 endpoint instead.** Re-links your item IDs to existing Swipe records in bulk. Use this after changing IDs in your own system, so future calls don't create duplicate items."
-      },
-      "get": {
-        "summary": "Get list of items",
-        "operationId": "get_item_list",
-        "tags": [
-          "Product"
-        ],
-        "parameters": [
-          {
-            "name": "num_records",
-            "in": "query",
-            "description": "Number of records to fetch (max 100), default : 25 items will be sent in response",
-            "schema": {
-              "type": "string",
-              "default": 25
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Page number",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          }
-        ],
-        "responses": {
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductError"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductError"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Error in fetching Item List",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductError"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Item List fetched successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ListGETResponse"
-                }
-              }
-            }
-          }
-        },
-        "description": "**v1 is deprecated — use the v2 endpoint instead.** Lists the items in your catalog."
       }
     },
     "/v1/product/{item_id}": {
-      "delete": {
-        "summary": "Delete an item",
-        "operationId": "delete_product",
-        "tags": [
-          "Product"
-        ],
-        "parameters": [
-          {
-            "name": "item_id",
-            "in": "path",
-            "description": "The item ID to be deleted",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductError"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Item not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductError"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponse"
-                }
-              }
-            }
-          }
-        },
-        "description": "**v1 is deprecated — use the v2 endpoint instead.** Deletes an item by your `item_id`. Deleted items move to the Deleted tab in the dashboard."
-      },
       "get": {
         "summary": "Get item details",
         "operationId": "get_product",
@@ -1093,6 +1042,57 @@
           }
         },
         "description": "**v1 is deprecated — use the v2 endpoint instead.** Returns one item's catalog details by your `item_id`."
+      },
+      "delete": {
+        "summary": "Delete an item",
+        "operationId": "delete_product",
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "description": "The item ID to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductError"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Item not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductError"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponse"
+                }
+              }
+            }
+          }
+        },
+        "description": "**v1 is deprecated — use the v2 endpoint instead.** Deletes an item by your `item_id`. Deleted items move to the Deleted tab in the dashboard."
       }
     },
     "/v1/subscriptions/list": {
@@ -1572,76 +1572,6 @@
       }
     },
     "/v2/customer/list": {
-      "post": {
-        "summary": "Update customer mapping",
-        "operationId": "post_customer_list",
-        "tags": [
-          "Customer V2"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ListCustomerMapModel"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerResponseV2"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerResponseV2"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "Error in mapping Customer List",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerMappingResponseV2"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Error in mapping Customer List",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerResponseV2"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerResponseV2"
-                }
-              }
-            }
-          }
-        },
-        "description": "Re-links your customer IDs to existing Swipe records in bulk. Use this after changing IDs in your own system, so future calls don't create duplicate customers."
-      },
       "get": {
         "summary": "Get list of customers",
         "operationId": "get_customer_list",
@@ -1711,27 +1641,34 @@
           }
         },
         "description": "Lists your customers with their basic details."
-      }
-    },
-    "/v2/customer/{customer_id}": {
-      "delete": {
-        "summary": "Delete a customer",
-        "operationId": "delete_customer",
+      },
+      "post": {
+        "summary": "Update customer mapping",
+        "operationId": "post_customer_list",
         "tags": [
           "Customer V2"
         ],
-        "parameters": [
-          {
-            "name": "customer_id",
-            "in": "path",
-            "description": "The customer ID to be deleted",
-            "required": true,
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListCustomerMapModel"
+              }
             }
-          }
-        ],
+          },
+          "required": true
+        },
         "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerResponseV2"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -1742,8 +1679,18 @@
               }
             }
           },
+          "409": {
+            "description": "Error in mapping Customer List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerMappingResponseV2"
+                }
+              }
+            }
+          },
           "400": {
-            "description": "Customer not found",
+            "description": "Error in mapping Customer List",
             "content": {
               "application/json": {
                 "schema": {
@@ -1753,7 +1700,7 @@
             }
           },
           "200": {
-            "description": "Success",
+            "description": "Updated successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -1763,8 +1710,10 @@
             }
           }
         },
-        "description": "Deletes a customer by your `customer_id`. Deleted customers move to the Deleted tab in the dashboard."
-      },
+        "description": "Re-links your customer IDs to existing Swipe records in bulk. Use this after changing IDs in your own system, so future calls don't create duplicate customers."
+      }
+    },
+    "/v2/customer/{customer_id}": {
       "get": {
         "summary": "Get customer details",
         "operationId": "get_customer",
@@ -1818,13 +1767,64 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CustomerResponseV2"
+                  "$ref": "#/components/schemas/CustomerDetailsResponseV2"
                 }
               }
             }
           }
         },
         "description": "Returns one customer's details by your `customer_id`."
+      },
+      "delete": {
+        "summary": "Delete a customer",
+        "operationId": "delete_customer",
+        "tags": [
+          "Customer V2"
+        ],
+        "parameters": [
+          {
+            "name": "customer_id",
+            "in": "path",
+            "description": "The customer ID to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Customer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerResponseV2"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerResponseV2"
+                }
+              }
+            }
+          }
+        },
+        "description": "Deletes a customer by your `customer_id`. Deleted customers move to the Deleted tab in the dashboard."
       }
     },
     "/v2/doc": {
@@ -2110,6 +2110,77 @@
       }
     },
     "/v2/doc/{doc_hash_id}": {
+      "get": {
+        "summary": "Get a document",
+        "operationId": "get_invoice",
+        "tags": [
+          "Document V2"
+        ],
+        "parameters": [
+          {
+            "name": "doc_hash_id",
+            "in": "path",
+            "description": "The hash id of the document to be fetched",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocResponseV2"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocResponseV2"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocResponseV2"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetInvoice"
+                }
+              }
+            }
+          }
+        },
+        "description": "Returns the full details of a document by its `hash_id` — party, items, amounts, and status."
+      },
       "delete": {
         "summary": "Cancel a document",
         "operationId": "delete_invoice",
@@ -2260,77 +2331,6 @@
           }
         },
         "description": "Replaces the contents of an existing document. Send the complete payload with every field's updated value — this is a full replacement, not a partial update. The document keeps its `hash_id`."
-      },
-      "get": {
-        "summary": "Get a document",
-        "operationId": "get_invoice",
-        "tags": [
-          "Document V2"
-        ],
-        "parameters": [
-          {
-            "name": "doc_hash_id",
-            "in": "path",
-            "description": "The hash id of the document to be fetched",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DocResponseV2"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DocResponseV2"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DocResponseV2"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DocResponseV2"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetInvoice"
-                }
-              }
-            }
-          }
-        },
-        "description": "Returns the full details of a document by its `hash_id` — party, items, amounts, and status."
       }
     },
     "/v2/ewaybill/pdf/{doc_hash_id}": {
@@ -3145,76 +3145,6 @@
       }
     },
     "/v2/product/list": {
-      "post": {
-        "summary": "Update items mapping",
-        "operationId": "post_item_list",
-        "tags": [
-          "Product V2"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ListItemMapModel"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseV2"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseV2"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "Error in mapping Item List",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductMappingResponseV2"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Error in mapping Item List",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseV2"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseV2"
-                }
-              }
-            }
-          }
-        },
-        "description": "Re-links your item IDs to existing Swipe records in bulk. Use this after changing IDs in your own system, so future calls don't create duplicate items."
-      },
       "get": {
         "summary": "Get list of items",
         "operationId": "get_item_list",
@@ -3284,27 +3214,34 @@
           }
         },
         "description": "Lists the items in your catalog."
-      }
-    },
-    "/v2/product/{item_id}": {
-      "delete": {
-        "summary": "Delete an item",
-        "operationId": "delete_product",
+      },
+      "post": {
+        "summary": "Update items mapping",
+        "operationId": "post_item_list",
         "tags": [
           "Product V2"
         ],
-        "parameters": [
-          {
-            "name": "item_id",
-            "in": "path",
-            "description": "The item ID to be deleted",
-            "required": true,
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListItemMapModel"
+              }
             }
-          }
-        ],
+          },
+          "required": true
+        },
         "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponseV2"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -3315,8 +3252,18 @@
               }
             }
           },
+          "409": {
+            "description": "Error in mapping Item List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductMappingResponseV2"
+                }
+              }
+            }
+          },
           "400": {
-            "description": "Item not found",
+            "description": "Error in mapping Item List",
             "content": {
               "application/json": {
                 "schema": {
@@ -3326,7 +3273,7 @@
             }
           },
           "200": {
-            "description": "Success",
+            "description": "Updated successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -3336,8 +3283,10 @@
             }
           }
         },
-        "description": "Deletes an item by your `item_id`. Deleted items move to the Deleted tab in the dashboard."
-      },
+        "description": "Re-links your item IDs to existing Swipe records in bulk. Use this after changing IDs in your own system, so future calls don't create duplicate items."
+      }
+    },
+    "/v2/product/{item_id}": {
       "get": {
         "summary": "Get item details",
         "operationId": "get_product",
@@ -3398,6 +3347,57 @@
           }
         },
         "description": "Returns one item's catalog details by your `item_id`."
+      },
+      "delete": {
+        "summary": "Delete an item",
+        "operationId": "delete_product",
+        "tags": [
+          "Product V2"
+        ],
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "description": "The item ID to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Item not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponseV2"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponseV2"
+                }
+              }
+            }
+          }
+        },
+        "description": "Deletes an item by your `item_id`. Deleted items move to the Deleted tab in the dashboard."
       }
     },
     "/v2/subscriptions/list": {
@@ -3877,6 +3877,75 @@
       }
     },
     "/v2/vendor/list": {
+      "get": {
+        "summary": "Get list of vendors",
+        "operationId": "get_vendor_list",
+        "tags": [
+          "Vendor V2"
+        ],
+        "parameters": [
+          {
+            "name": "num_records",
+            "in": "query",
+            "description": "Number of records to fetch, default : all vendors will be sent in response",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorResponseV2"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error in fetching Vendor List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorResponseV2"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Vendor List fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListGETResponseVendor"
+                }
+              }
+            }
+          }
+        },
+        "description": "Lists your vendors with their basic details."
+      },
       "post": {
         "summary": "Update vendor mapping",
         "operationId": "post_vendor_list",
@@ -3946,129 +4015,9 @@
           }
         },
         "description": "Re-links your vendor IDs to existing Swipe records in bulk. Use this after changing IDs in your own system, so future calls don't create duplicate vendors."
-      },
-      "get": {
-        "summary": "Get list of vendors",
-        "operationId": "get_vendor_list",
-        "tags": [
-          "Vendor V2"
-        ],
-        "parameters": [
-          {
-            "name": "num_records",
-            "in": "query",
-            "description": "Number of records to fetch, default : all vendors will be sent in response",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Page number",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          }
-        ],
-        "responses": {
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VendorResponseV2"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VendorResponseV2"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Error in fetching Vendor List",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VendorResponseV2"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Vendor List fetched successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ListGETResponseVendor"
-                }
-              }
-            }
-          }
-        },
-        "description": "Lists your vendors with their basic details."
       }
     },
     "/v2/vendor/{vendor_id}": {
-      "delete": {
-        "summary": "Delete a vendor",
-        "operationId": "delete_vendor",
-        "tags": [
-          "Vendor V2"
-        ],
-        "parameters": [
-          {
-            "name": "vendor_id",
-            "in": "path",
-            "description": "The vendor ID to be deleted",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VendorResponseV2"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Vendor not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VendorResponseV2"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VendorResponseV2"
-                }
-              }
-            }
-          }
-        },
-        "description": "Deletes a vendor by your `vendor_id`. Deleted vendors move to the Deleted tab in the dashboard."
-      },
       "get": {
         "summary": "Get vendor details",
         "operationId": "get_vendor",
@@ -4122,13 +4071,64 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/VendorResponseV2"
+                  "$ref": "#/components/schemas/VendorDetailsResponseV2"
                 }
               }
             }
           }
         },
         "description": "Returns one vendor's details by your `vendor_id`."
+      },
+      "delete": {
+        "summary": "Delete a vendor",
+        "operationId": "delete_vendor",
+        "tags": [
+          "Vendor V2"
+        ],
+        "parameters": [
+          {
+            "name": "vendor_id",
+            "in": "path",
+            "description": "The vendor ID to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Vendor not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorResponseV2"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorResponseV2"
+                }
+              }
+            }
+          }
+        },
+        "description": "Deletes a vendor by your `vendor_id`. Deleted vendors move to the Deleted tab in the dashboard."
       }
     }
   },
@@ -4200,7 +4200,7 @@
             "description": "Customer (deprecated, please use Party). If there are any changes made to the customer's details, we will update those details and any documents linked to this customer's ID will be updated to reflect the changes.",
             "allOf": [
               {
-                "$ref": "#/components/schemas/Customer"
+                "$ref": "#/components/schemas/CustomerV1"
               }
             ]
           },
@@ -4208,7 +4208,7 @@
             "description": "Party. If there are any changes made to the party details, we will update those details and any documents linked to this party ID will be updated to reflect the changes.",
             "allOf": [
               {
-                "$ref": "#/components/schemas/Party"
+                "$ref": "#/components/schemas/PartyV1"
               }
             ]
           },
@@ -4332,7 +4332,7 @@
         },
         "type": "object"
       },
-      "Customer": {
+      "CustomerV1": {
         "required": [
           "id",
           "name"
@@ -4340,7 +4340,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "Unique id for each customer. If a new id  is sent, a new Customer with the below details will be automatically created.",
+            "description": "Unique id for each customer. If a new id  is sent, a new Customer with the below details will be automatically created.\n                                                      If existing Customer id is sent the details will not override the original customer details.\n                                                      They will be applicable only to the current invoice",
             "example": "CUST123"
           },
           "name": {
@@ -4358,15 +4358,25 @@
             "description": "Customer Phone Number",
             "example": "1234567890"
           },
+          "company_name": {
+            "type": "string",
+            "description": "Company Name",
+            "example": "Company Name"
+          },
           "email": {
             "type": "string",
             "description": "Customer Email",
             "example": "johndoe@example.com"
+          },
+          "gstin": {
+            "type": "string",
+            "description": "GSTIN",
+            "example": "27AARCS7202C1ZD"
           }
         },
         "type": "object"
       },
-      "Party": {
+      "PartyV1": {
         "required": [
           "id",
           "name",
@@ -4380,7 +4390,7 @@
           },
           "type": {
             "type": "string",
-            "description": "Party type, use only specified values.\n                           Party type customer can be used for creating invoices, sales returns, estimates, pro forma invoices and delivery challans.\n                           Party type vendor can be used for creating purchases, purchase orders & purchase returns, .\n                           ",
+            "description": "Party type, use only specified values",
             "example": "customer",
             "enum": [
               "customer",
@@ -4416,313 +4426,6 @@
             "type": "string",
             "description": "GSTIN",
             "example": "27AARCS7202C1ZD"
-          },
-          "shipping_address": {
-            "description": "Party shipping to Address, refer Shipping Address Object for parameters",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ShippingAddressV2"
-              }
-            ]
-          },
-          "billing_address": {
-            "description": "Party billing to Address, refer Shipping Address Object for parameters",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ShippingAddressV2"
-              }
-            ]
-          }
-        },
-        "type": "object"
-      },
-      "ShippingAddressV2": {
-        "required": [
-          "address_line1",
-          "address_line2",
-          "city",
-          "country",
-          "pincode",
-          "state"
-        ],
-        "properties": {
-          "addr_id": {
-            "type": "integer",
-            "description": "Address ID. Value should be between 0 and 999999.",
-            "example": -1
-          },
-          "addr_id_v2": {
-            "type": "string",
-            "description": "Address ID. Value should be not be empty,  It should be alphanumeric with length upto 16 characters.",
-            "example": "addr1"
-          },
-          "address_line1": {
-            "type": "string",
-            "description": "Address Line 1",
-            "example": "123 Street"
-          },
-          "address_line2": {
-            "type": "string",
-            "description": "Address Line 2",
-            "example": "Apt 4B"
-          },
-          "city": {
-            "type": "string",
-            "description": "City",
-            "example": "City Name"
-          },
-          "state": {
-            "type": "string",
-            "description": "State.\n                               Select OTHER TERRITORY for countries other than India.\n                               You can copy the state details from https://developers.getswipe.in/api-reference/references#state-details\n                               ",
-            "example": "State Name",
-            "enum": [
-              "JAMMU AND KASHMIR",
-              "HIMACHAL PRADESH",
-              "PUNJAB",
-              "CHANDIGARH",
-              "UTTARAKHAND",
-              "HARYANA",
-              "DELHI",
-              "RAJASTHAN",
-              "UTTAR PRADESH",
-              "BIHAR",
-              "SIKKIM",
-              "ARUNACHAL PRADESH",
-              "NAGALAND",
-              "MANIPUR",
-              "MIZORAM",
-              "TRIPURA",
-              "MEGHALAYA",
-              "ASSAM",
-              "WEST BENGAL",
-              "JHARKHAND",
-              "ODISHA",
-              "CHHATTISGARH",
-              "MADHYA PRADESH",
-              "GUJARAT",
-              "DADRA & NAGAR HAVELI & DAMAN & DIU",
-              "MAHARASHTRA",
-              "ANDHRAPRADESH(BEFOREADDED)",
-              "KARNATAKA",
-              "GOA",
-              "LAKSHWADEEP",
-              "KERALA",
-              "TAMIL NADU",
-              "PUDUCHERRY",
-              "ANDAMAN & NICOBAR",
-              "TELANGANA",
-              "ANDHRA PRADESH",
-              "LADAKH(NEWLYADDED)",
-              "LADAKH(NEWLY ADDED)",
-              "OTHER TERRITORY"
-            ]
-          },
-          "country": {
-            "type": "string",
-            "description": "Country. You can copy the country details from https://developers.getswipe.in/api-reference/references#country-array",
-            "example": "Country Name",
-            "enum": [
-              "Afghanistan",
-              "Albania",
-              "Algeria",
-              "Andorra",
-              "Angola",
-              "Antigua and Barbuda",
-              "Argentina",
-              "Armenia",
-              "Australia",
-              "Austria",
-              "Azerbaijan",
-              "Bahamas",
-              "Bahrain",
-              "Bangladesh",
-              "Barbados",
-              "Belarus",
-              "Belgium",
-              "Belize",
-              "Benin",
-              "Bhutan",
-              "Bolivia",
-              "Bosnia and Herzegovina",
-              "Botswana",
-              "Brazil",
-              "Brunei",
-              "Bulgaria",
-              "Burkina Faso",
-              "Burundi",
-              "Cabo Verde",
-              "Cambodia",
-              "Cameroon",
-              "Canada",
-              "Central African Republic",
-              "Chad",
-              "Chile",
-              "China",
-              "Colombia",
-              "Comoros",
-              "Congo, Democratic Republic of the",
-              "Congo, Republic of the",
-              "Costa Rica",
-              "Croatia",
-              "Cuba",
-              "Cyprus",
-              "Czechia",
-              "Denmark",
-              "Djibouti",
-              "Dominica",
-              "Dominican Republic",
-              "Ecuador",
-              "Egypt",
-              "El Salvador",
-              "Equatorial Guinea",
-              "Eritrea",
-              "Estonia",
-              "Eswatini",
-              "Ethiopia",
-              "Fiji",
-              "Finland",
-              "France",
-              "Gabon",
-              "Gambia",
-              "Georgia",
-              "Germany",
-              "Ghana",
-              "Greece",
-              "Grenada",
-              "Guatemala",
-              "Guinea",
-              "Guinea-Bissau",
-              "Guyana",
-              "Haiti",
-              "Honduras",
-              "Hungary",
-              "Iceland",
-              "India",
-              "Indonesia",
-              "Iran",
-              "Iraq",
-              "Ireland",
-              "Israel",
-              "Italy",
-              "Jamaica",
-              "Japan",
-              "Jordan",
-              "Kazakhstan",
-              "Kenya",
-              "Kiribati",
-              "Republic of Korea (South Korea)",
-              "Kosovo",
-              "Kuwait",
-              "Kyrgyzstan",
-              "Laos",
-              "Latvia",
-              "Lebanon",
-              "Lesotho",
-              "Liberia",
-              "Libya",
-              "Liechtenstein",
-              "Lithuania",
-              "Luxembourg",
-              "Madagascar",
-              "Malawi",
-              "Malaysia",
-              "Maldives",
-              "Mali",
-              "Malta",
-              "Marshall Islands",
-              "Mauritania",
-              "Mauritius",
-              "Mexico",
-              "Micronesia",
-              "Moldova",
-              "Monaco",
-              "Mongolia",
-              "Montenegro",
-              "Morocco",
-              "Mozambique",
-              "Myanmar",
-              "Namibia",
-              "Nauru",
-              "Nepal",
-              "Netherlands",
-              "New Zealand",
-              "Nicaragua",
-              "Niger",
-              "Nigeria",
-              "North Macedonia",
-              "Norway",
-              "Oman",
-              "Pakistan",
-              "Palau",
-              "Palestine",
-              "Panama",
-              "Papua New Guinea",
-              "Paraguay",
-              "Peru",
-              "Philippines",
-              "Poland",
-              "Portugal",
-              "Qatar",
-              "Romania",
-              "Russia",
-              "Rwanda",
-              "Saint Kitts and Nevis",
-              "Saint Lucia",
-              "Saint Vincent and the Grenadines",
-              "Samoa",
-              "San Marino",
-              "Sao Tome and Principe",
-              "Saudi Arabia",
-              "Senegal",
-              "Serbia",
-              "Seychelles",
-              "Sierra Leone",
-              "Singapore",
-              "Slovakia",
-              "Slovenia",
-              "Solomon Islands",
-              "Somalia",
-              "South Africa",
-              "South Sudan",
-              "Spain",
-              "Sri Lanka",
-              "Sudan",
-              "Suriname",
-              "Sweden",
-              "Switzerland",
-              "Syria",
-              "Taiwan",
-              "Tajikistan",
-              "Tanzania",
-              "Thailand",
-              "Timor-Leste",
-              "Togo",
-              "Tonga",
-              "Trinidad and Tobago",
-              "Tunisia",
-              "Turkey",
-              "Turkmenistan",
-              "Tuvalu",
-              "Uganda",
-              "Ukraine",
-              "United Arab Emirates",
-              "United Kingdom",
-              "United States",
-              "Uruguay",
-              "Uzbekistan",
-              "Vanuatu",
-              "Vatican City",
-              "Venezuela",
-              "Vietnam",
-              "Yemen",
-              "Zambia",
-              "Zimbabwe"
-            ]
-          },
-          "pincode": {
-            "type": "string",
-            "description": "Pincode",
-            "example": "123456"
           }
         },
         "type": "object"
@@ -5268,26 +4971,6 @@
             "type": "string",
             "description": "Hash ID",
             "example": "SL123"
-          },
-          "irn": {
-            "type": "string",
-            "description": "IRN",
-            "example": "SL123"
-          },
-          "qrCode": {
-            "type": "string",
-            "description": "QR Code",
-            "example": ""
-          },
-          "einvoiceSuccess": {
-            "type": "boolean",
-            "description": "EInvoice Success",
-            "example": true
-          },
-          "einvoiceMessage": {
-            "type": "string",
-            "description": "EInvoice Message",
-            "example": true
           }
         },
         "type": "object"
@@ -5692,6 +5375,19 @@
         },
         "type": "object"
       },
+      "CustomerGET_Response": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Success flag",
+            "example": true
+          },
+          "customer_details": {
+            "$ref": "#/components/schemas/BaseCustomer"
+          }
+        },
+        "type": "object"
+      },
       "CustomerResponse": {
         "properties": {
           "success": {
@@ -5707,19 +5403,6 @@
         },
         "type": "object"
       },
-      "CustomerGET_Response": {
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "description": "Success flag",
-            "example": true
-          },
-          "customer_details": {
-            "$ref": "#/components/schemas/BaseCustomer"
-          }
-        },
-        "type": "object"
-      },
       "Payment_GET_Response": {
         "properties": {
           "success": {
@@ -5730,7 +5413,7 @@
           "ledger": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/LedgerRecord"
+              "$ref": "#/components/schemas/LedgerRecordV1"
             }
           },
           "closing_balance": {
@@ -5751,7 +5434,7 @@
         },
         "type": "object"
       },
-      "LedgerRecord": {
+      "LedgerRecordV1": {
         "properties": {
           "serial_number": {
             "type": "string",
@@ -5841,6 +5524,62 @@
         },
         "type": "object"
       },
+      "ListCustomersResponseV1": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Success flag",
+            "example": true
+          },
+          "customers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerListRecordV1"
+            }
+          },
+          "total_records": {
+            "type": "integer",
+            "description": "Total Records available",
+            "example": 10
+          }
+        },
+        "type": "object"
+      },
+      "CustomerListRecordV1": {
+        "properties": {
+          "customer_id": {
+            "type": "string",
+            "description": "Customer ID",
+            "example": "CUST-2"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the Customer",
+            "example": "Customer"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone Number of the customer",
+            "example": "1234567890"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email of the customer",
+            "example": "john@doe.com"
+          },
+          "gstin": {
+            "type": "string",
+            "description": "GSTIN of the customer",
+            "example": ""
+          },
+          "swipe_id": {
+            "type": "string",
+            "description": "Swipe ID assigned to the customer",
+            "example": 1
+          }
+        },
+        "type": "object"
+      },
       "ListCustomerMapErrorModel": {
         "properties": {
           "success": {
@@ -5874,89 +5613,6 @@
           "message": {
             "type": "string",
             "example": "Customer ID already mapped !"
-          }
-        },
-        "type": "object"
-      },
-      "ListGETResponse": {
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "description": "Success flag",
-            "example": true
-          },
-          "message": {
-            "type": "string",
-            "description": "Response message",
-            "example": ""
-          },
-          "error_code": {
-            "type": "string",
-            "description": "Error Code",
-            "example": ""
-          },
-          "errors": {
-            "type": "object",
-            "description": "Errors"
-          },
-          "data": {
-            "$ref": "#/components/schemas/CustomerList"
-          }
-        },
-        "type": "object"
-      },
-      "CustomerList": {
-        "properties": {
-          "customers": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CustomerListRecord"
-            }
-          },
-          "total_records": {
-            "type": "integer",
-            "description": "Total Records available",
-            "example": 10
-          }
-        },
-        "type": "object"
-      },
-      "CustomerListRecord": {
-        "properties": {
-          "customer_id": {
-            "type": "string",
-            "description": "Customer ID",
-            "example": "CUST-2"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the Customer",
-            "example": "Customer"
-          },
-          "phone": {
-            "type": "string",
-            "description": "Phone Number of the customer",
-            "example": "1234567890"
-          },
-          "email": {
-            "type": "string",
-            "description": "Email of the customer",
-            "example": "john@doe.com"
-          },
-          "gstin": {
-            "type": "string",
-            "description": "GSTIN of the customer",
-            "example": ""
-          },
-          "swipe_id": {
-            "type": "string",
-            "description": "Swipe ID assigned to the customer",
-            "example": 1
-          },
-          "developer_note": {
-            "type": "string",
-            "description": "Developer Notes: This field is for internal use.",
-            "example": "This is a developer note"
           }
         },
         "type": "object"
@@ -6102,7 +5758,7 @@
         },
         "type": "object"
       },
-      "Item": {
+      "ItemV1": {
         "required": [
           "id",
           "item_type",
@@ -6142,10 +5798,11 @@
             "description": "Price per item with Tax",
             "example": 118.0
           },
-          "purchase_price_with_tax": {
+          "discount_percent": {
             "type": "number",
-            "description": "Purchase Price per item with Tax",
-            "example": 118.0
+            "description": "Default Discount Percent",
+            "default": 0,
+            "example": 10.0
           },
           "description": {
             "type": "string",
@@ -6160,266 +5817,22 @@
           "item_type": {
             "type": "string",
             "description": "Product or Service enum",
-            "example": "Product",
-            "enum": [
-              "Product",
-              "Service"
-            ]
+            "example": "Product"
           },
           "unit": {
             "type": "string",
             "description": "Item quantity unit. You can find the GST-approved units in the UQC Codes section at: https://einvoice1.gst.gov.in/Others/MasterCodes.",
             "example": "kg"
           },
-          "cess_rate": {
-            "type": "number",
-            "description": "Cess Percent of the Item",
-            "default": 0,
-            "example": 0,
-            "maximum": 100
-          },
-          "cess_amount": {
-            "type": "number",
-            "description": "Cess Amount of the Item",
-            "default": 0,
-            "example": 0
-          },
-          "barcode": {
-            "type": "string",
-            "description": "Barcode",
-            "example": "2273546838467"
-          },
           "category": {
             "type": "string",
             "description": "Category",
             "example": "Electronics"
           },
-          "alternative_units": {
-            "type": "array",
-            "description": "Alternative Units",
-            "example": [
-              {
-                "alternative_unit": "g",
-                "conversion_rate": 1000.0
-              }
-            ],
-            "items": {
-              "$ref": "#/components/schemas/AlternativeUnitsV2"
-            }
-          },
-          "custom_columns": {
-            "type": "array",
-            "description": "Custom Fields",
-            "example": [
-              {
-                "label": "Custom Label",
-                "value": "Custom Value"
-              }
-            ],
-            "items": {
-              "$ref": "#/components/schemas/ProductCustomFieldsV2"
-            }
-          },
-          "preferences": {
-            "description": "Product Preferences",
-            "example": {
-              "not_for_sale": false,
-              "low_stock_alert": 0,
-              "show_online": false,
-              "discount_percent": 10.0
-            },
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ProductPreferencesV2"
-              }
-            ]
-          },
-          "visibility": {
-            "type": "integer",
-            "description": "Product visibility status: If the value is 1, the product will be visible to all branches; otherwise, it will only be visible in the main branch.",
-            "example": 1
-          }
-        },
-        "type": "object"
-      },
-      "AlternativeUnitsV2": {
-        "properties": {
-          "alternative_unit": {
+          "status": {
             "type": "string",
-            "description": "Alternative Unit",
-            "example": "kg",
-            "enum": [
-              "LAD",
-              "PET",
-              "JARS",
-              "HEGAR",
-              "POCH",
-              "BOR",
-              "COIL",
-              "FT",
-              "IN",
-              "PRT",
-              "CASE",
-              "EACH",
-              "CPS",
-              "PADS",
-              "REEL",
-              "BLISTER",
-              "PAD",
-              "PCS",
-              "PRS",
-              "QTL",
-              "ROL",
-              "SET",
-              "SQF",
-              "SQM",
-              "SQY",
-              "TBS",
-              "TGM",
-              "THD",
-              "TON",
-              "TUB",
-              "UGS",
-              "UNT",
-              "YDS",
-              "OTH",
-              "HRS",
-              "MINS",
-              "LTR",
-              "MTS",
-              "MLG",
-              "BCK",
-              "GLS",
-              "PLT",
-              "CTS",
-              "STRP",
-              "CFT",
-              "VIAL",
-              "BAG",
-              "BAL",
-              "BDL",
-              "BKL",
-              "BOU",
-              "BOX",
-              "BTL",
-              "BUN",
-              "CAN",
-              "CBM",
-              "CCM",
-              "CMS",
-              "CTN",
-              "DOZ",
-              "DRM",
-              "GGR",
-              "GMS",
-              "GRS",
-              "GYD",
-              "KGS",
-              "KLR",
-              "KME",
-              "MLT",
-              "MTR",
-              "NOS",
-              "PAC",
-              "CNT",
-              "RFT",
-              "RIM",
-              "TIN",
-              "CHUDI",
-              "PATTA",
-              "KIT",
-              "CUFT",
-              "RMT",
-              "MM",
-              "AMP",
-              "PAIR",
-              "ANA",
-              "CFM",
-              "YRS",
-              "MTH",
-              "MAN-DAY",
-              "NIGHT",
-              "DAY",
-              "SQIN",
-              "WEEK",
-              "PERSON",
-              "LOT",
-              "SAC",
-              "REAM",
-              "BRASS",
-              "NONE",
-              "COPY",
-              "TKT",
-              "KW",
-              "W",
-              "SEC",
-              "BARREL",
-              "SHEETS",
-              "HOLES",
-              "LINES",
-              "LGTH",
-              "TRIP",
-              "LPSM",
-              "WDTH",
-              "SQCM",
-              "SHFT",
-              "AU",
-              "SQKM",
-              "JOBS",
-              "CUIN",
-              "IDIA",
-              "INMT",
-              "AC",
-              "HA",
-              "BARS",
-              "PKTS"
-            ]
-          },
-          "conversion_rate": {
-            "type": "number",
-            "description": "Conversion Rate",
-            "example": 1.0
-          }
-        },
-        "type": "object"
-      },
-      "ProductCustomFieldsV2": {
-        "required": [
-          "label",
-          "value"
-        ],
-        "properties": {
-          "label": {
-            "type": "string"
-          },
-          "value": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "ProductPreferencesV2": {
-        "properties": {
-          "not_for_sale": {
-            "type": "boolean",
-            "description": "Hides the item for sale and shows only while making a purchase. eg. Office equipment",
-            "example": false
-          },
-          "low_stock_alert": {
-            "type": "integer",
-            "description": "Low stock alert for the item",
-            "example": 0
-          },
-          "show_online": {
-            "type": "boolean",
-            "description": "Show or hide the product in catalogue/ online store",
-            "example": false
-          },
-          "discount_percent": {
-            "type": "number",
-            "description": "Default Discount Percent",
-            "default": 0,
-            "example": 10.0
+            "description": "Status of the Item",
+            "example": "Active"
           }
         },
         "type": "object"
@@ -6449,6 +5862,19 @@
         },
         "type": "object"
       },
+      "ProductGET_Response": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Success flag",
+            "example": true
+          },
+          "item": {
+            "$ref": "#/components/schemas/ItemV1"
+          }
+        },
+        "type": "object"
+      },
       "ProductResponse": {
         "properties": {
           "success": {
@@ -6460,19 +5886,6 @@
             "type": "string",
             "description": "Response message",
             "example": "Product added successfully"
-          }
-        },
-        "type": "object"
-      },
-      "ProductGET_Response": {
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "description": "Success flag",
-            "example": true
-          },
-          "item": {
-            "$ref": "#/components/schemas/Item"
           }
         },
         "type": "object"
@@ -6510,6 +5923,106 @@
             "type": "boolean",
             "description": "Updates even if the item id is already mapped with other swipe id, no item details will be updated",
             "example": true
+          }
+        },
+        "type": "object"
+      },
+      "ListItemsResponseV1": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Success flag",
+            "example": true
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemListV1"
+            }
+          },
+          "total_records": {
+            "type": "integer",
+            "description": "Total Records available",
+            "example": 10
+          }
+        },
+        "type": "object"
+      },
+      "ItemListV1": {
+        "required": [
+          "id",
+          "item_type",
+          "name",
+          "price_with_tax",
+          "quantity",
+          "unit_price"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique id for each item. If a new id  is sent, a new Item with the below details will be automatically created. if existing Item id is sent the details will not override the original item details. They will be applicable only to the current invoice",
+            "example": "ITEM123"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the Product",
+            "example": "Item Name"
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Current Quantity",
+            "example": 1.0
+          },
+          "unit_price": {
+            "type": "number",
+            "description": "Price per item without Tax",
+            "example": 100.0
+          },
+          "tax_rate": {
+            "type": "number",
+            "description": "Tax percentage for each item . Only valid tax rates are accepted",
+            "example": 18.0
+          },
+          "price_with_tax": {
+            "type": "number",
+            "description": "Price per item with Tax",
+            "example": 118.0
+          },
+          "discount_percent": {
+            "type": "number",
+            "description": "Default Discount Percent",
+            "default": 0,
+            "example": 10.0
+          },
+          "description": {
+            "type": "string",
+            "description": "Item Description",
+            "example": "Item Description"
+          },
+          "hsn_code": {
+            "type": "string",
+            "description": "HSN Code",
+            "example": "1234"
+          },
+          "item_type": {
+            "type": "string",
+            "description": "Product or Service enum",
+            "example": "Product"
+          },
+          "unit": {
+            "type": "string",
+            "description": "item quantity unit",
+            "example": "kg"
+          },
+          "category": {
+            "type": "string",
+            "description": "Category",
+            "example": "Electronics"
+          },
+          "swipe_id": {
+            "type": "string",
+            "description": "Swipe ID assigned to the item",
+            "example": 1
           }
         },
         "type": "object"
@@ -7177,6 +6690,367 @@
           "suffix": {
             "type": "string",
             "example": "-suffix, /-suffix,-/suffix, /suffix"
+          }
+        },
+        "type": "object"
+      },
+      "Party": {
+        "required": [
+          "id",
+          "name",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique id for each party.",
+            "example": "CUST123"
+          },
+          "type": {
+            "type": "string",
+            "description": "Party type, use only specified values.\n                           Party type customer can be used for creating invoices, sales returns, estimates, pro forma invoices and delivery challans.\n                           Party type vendor can be used for creating purchases, purchase orders & purchase returns, .\n                           ",
+            "example": "customer",
+            "enum": [
+              "customer",
+              "vendor"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the Party",
+            "example": "John Doe"
+          },
+          "country_code": {
+            "type": "string",
+            "description": "Party Phone Number Country code",
+            "example": "91"
+          },
+          "phone_number": {
+            "type": "string",
+            "description": "Party Phone Number",
+            "example": "1234567890"
+          },
+          "company_name": {
+            "type": "string",
+            "description": "Company Name",
+            "example": "Company Name"
+          },
+          "email": {
+            "type": "string",
+            "description": "Party Email",
+            "example": "johndoe@example.com"
+          },
+          "gstin": {
+            "type": "string",
+            "description": "GSTIN",
+            "example": "27AARCS7202C1ZD"
+          },
+          "shipping_address": {
+            "description": "Party shipping to Address, refer Shipping Address Object for parameters",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ShippingAddressV2"
+              }
+            ]
+          },
+          "billing_address": {
+            "description": "Party billing to Address, refer Shipping Address Object for parameters",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ShippingAddressV2"
+              }
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "ShippingAddressV2": {
+        "required": [
+          "address_line1",
+          "address_line2",
+          "city",
+          "country",
+          "pincode",
+          "state"
+        ],
+        "properties": {
+          "addr_id": {
+            "type": "integer",
+            "description": "Address ID. Value should be between 0 and 999999.",
+            "example": -1
+          },
+          "addr_id_v2": {
+            "type": "string",
+            "description": "Address ID. Value should be not be empty,  It should be alphanumeric with length upto 16 characters.",
+            "example": "addr1"
+          },
+          "address_line1": {
+            "type": "string",
+            "description": "Address Line 1",
+            "example": "123 Street"
+          },
+          "address_line2": {
+            "type": "string",
+            "description": "Address Line 2",
+            "example": "Apt 4B"
+          },
+          "city": {
+            "type": "string",
+            "description": "City",
+            "example": "City Name"
+          },
+          "state": {
+            "type": "string",
+            "description": "State.\n                               Select OTHER TERRITORY for countries other than India.\n                               You can copy the state details from https://developers.getswipe.in/api-reference/references#state-details\n                               ",
+            "example": "State Name",
+            "enum": [
+              "JAMMU AND KASHMIR",
+              "HIMACHAL PRADESH",
+              "PUNJAB",
+              "CHANDIGARH",
+              "UTTARAKHAND",
+              "HARYANA",
+              "DELHI",
+              "RAJASTHAN",
+              "UTTAR PRADESH",
+              "BIHAR",
+              "SIKKIM",
+              "ARUNACHAL PRADESH",
+              "NAGALAND",
+              "MANIPUR",
+              "MIZORAM",
+              "TRIPURA",
+              "MEGHALAYA",
+              "ASSAM",
+              "WEST BENGAL",
+              "JHARKHAND",
+              "ODISHA",
+              "CHHATTISGARH",
+              "MADHYA PRADESH",
+              "GUJARAT",
+              "DADRA & NAGAR HAVELI & DAMAN & DIU",
+              "MAHARASHTRA",
+              "ANDHRAPRADESH(BEFOREADDED)",
+              "KARNATAKA",
+              "GOA",
+              "LAKSHWADEEP",
+              "KERALA",
+              "TAMIL NADU",
+              "PUDUCHERRY",
+              "ANDAMAN & NICOBAR",
+              "TELANGANA",
+              "ANDHRA PRADESH",
+              "LADAKH(NEWLYADDED)",
+              "LADAKH(NEWLY ADDED)",
+              "OTHER TERRITORY"
+            ]
+          },
+          "country": {
+            "type": "string",
+            "description": "Country. You can copy the country details from https://developers.getswipe.in/api-reference/references#country-array",
+            "example": "Country Name",
+            "enum": [
+              "Afghanistan",
+              "Albania",
+              "Algeria",
+              "Andorra",
+              "Angola",
+              "Antigua and Barbuda",
+              "Argentina",
+              "Armenia",
+              "Australia",
+              "Austria",
+              "Azerbaijan",
+              "Bahamas",
+              "Bahrain",
+              "Bangladesh",
+              "Barbados",
+              "Belarus",
+              "Belgium",
+              "Belize",
+              "Benin",
+              "Bhutan",
+              "Bolivia",
+              "Bosnia and Herzegovina",
+              "Botswana",
+              "Brazil",
+              "Brunei",
+              "Bulgaria",
+              "Burkina Faso",
+              "Burundi",
+              "Cabo Verde",
+              "Cambodia",
+              "Cameroon",
+              "Canada",
+              "Central African Republic",
+              "Chad",
+              "Chile",
+              "China",
+              "Colombia",
+              "Comoros",
+              "Congo, Democratic Republic of the",
+              "Congo, Republic of the",
+              "Costa Rica",
+              "Croatia",
+              "Cuba",
+              "Cyprus",
+              "Czechia",
+              "Denmark",
+              "Djibouti",
+              "Dominica",
+              "Dominican Republic",
+              "Ecuador",
+              "Egypt",
+              "El Salvador",
+              "Equatorial Guinea",
+              "Eritrea",
+              "Estonia",
+              "Eswatini",
+              "Ethiopia",
+              "Fiji",
+              "Finland",
+              "France",
+              "Gabon",
+              "Gambia",
+              "Georgia",
+              "Germany",
+              "Ghana",
+              "Greece",
+              "Grenada",
+              "Guatemala",
+              "Guinea",
+              "Guinea-Bissau",
+              "Guyana",
+              "Haiti",
+              "Honduras",
+              "Hungary",
+              "Iceland",
+              "India",
+              "Indonesia",
+              "Iran",
+              "Iraq",
+              "Ireland",
+              "Israel",
+              "Italy",
+              "Jamaica",
+              "Japan",
+              "Jordan",
+              "Kazakhstan",
+              "Kenya",
+              "Kiribati",
+              "Republic of Korea (South Korea)",
+              "Kosovo",
+              "Kuwait",
+              "Kyrgyzstan",
+              "Laos",
+              "Latvia",
+              "Lebanon",
+              "Lesotho",
+              "Liberia",
+              "Libya",
+              "Liechtenstein",
+              "Lithuania",
+              "Luxembourg",
+              "Madagascar",
+              "Malawi",
+              "Malaysia",
+              "Maldives",
+              "Mali",
+              "Malta",
+              "Marshall Islands",
+              "Mauritania",
+              "Mauritius",
+              "Mexico",
+              "Micronesia",
+              "Moldova",
+              "Monaco",
+              "Mongolia",
+              "Montenegro",
+              "Morocco",
+              "Mozambique",
+              "Myanmar",
+              "Namibia",
+              "Nauru",
+              "Nepal",
+              "Netherlands",
+              "New Zealand",
+              "Nicaragua",
+              "Niger",
+              "Nigeria",
+              "North Macedonia",
+              "Norway",
+              "Oman",
+              "Pakistan",
+              "Palau",
+              "Palestine",
+              "Panama",
+              "Papua New Guinea",
+              "Paraguay",
+              "Peru",
+              "Philippines",
+              "Poland",
+              "Portugal",
+              "Qatar",
+              "Romania",
+              "Russia",
+              "Rwanda",
+              "Saint Kitts and Nevis",
+              "Saint Lucia",
+              "Saint Vincent and the Grenadines",
+              "Samoa",
+              "San Marino",
+              "Sao Tome and Principe",
+              "Saudi Arabia",
+              "Senegal",
+              "Serbia",
+              "Seychelles",
+              "Sierra Leone",
+              "Singapore",
+              "Slovakia",
+              "Slovenia",
+              "Solomon Islands",
+              "Somalia",
+              "South Africa",
+              "South Sudan",
+              "Spain",
+              "Sri Lanka",
+              "Sudan",
+              "Suriname",
+              "Sweden",
+              "Switzerland",
+              "Syria",
+              "Taiwan",
+              "Tajikistan",
+              "Tanzania",
+              "Thailand",
+              "Timor-Leste",
+              "Togo",
+              "Tonga",
+              "Trinidad and Tobago",
+              "Tunisia",
+              "Turkey",
+              "Turkmenistan",
+              "Tuvalu",
+              "Uganda",
+              "Ukraine",
+              "United Arab Emirates",
+              "United Kingdom",
+              "United States",
+              "Uruguay",
+              "Uzbekistan",
+              "Vanuatu",
+              "Vatican City",
+              "Venezuela",
+              "Vietnam",
+              "Yemen",
+              "Zambia",
+              "Zimbabwe"
+            ]
+          },
+          "pincode": {
+            "type": "string",
+            "description": "Pincode",
+            "example": "123456"
           }
         },
         "type": "object"
@@ -8518,6 +8392,11 @@
             "description": "Email address",
             "example": "reddi@reddi.reddi"
           },
+          "cc_emails": {
+            "type": "string",
+            "description": "CC email addresses, comma-separated",
+            "example": "a@example.com,b@example.com"
+          },
           "discount": {
             "type": "integer",
             "description": "Discount",
@@ -8611,11 +8490,15 @@
         "type": "object"
       },
       "AddressV2": {
+        "required": [
+          "country",
+          "state"
+        ],
         "properties": {
           "addr_id": {
             "type": "integer",
-            "description": "Address ID.  It will automatically update the existing address if the address ID already exists.",
-            "example": -1
+            "description": "Address ID. It will automatically update the existing address if the address ID already exists.",
+            "example": 1
           },
           "addr_id_v2": {
             "type": "string",
@@ -8945,6 +8828,36 @@
         },
         "type": "object"
       },
+      "CustomerDetailsResponseV2": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Success flag",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": ""
+          },
+          "error_code": {
+            "type": "string",
+            "description": "Error Code",
+            "example": ""
+          },
+          "errors": {
+            "type": "object",
+            "description": "Errors"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BaseCustomerV2"
+            }
+          }
+        },
+        "type": "object"
+      },
       "LedgerDataResponseV2": {
         "properties": {
           "success": {
@@ -9044,6 +8957,89 @@
             "type": "number",
             "description": "Total Amount",
             "example": 100
+          }
+        },
+        "type": "object"
+      },
+      "ListGETResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Success flag",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": ""
+          },
+          "error_code": {
+            "type": "string",
+            "description": "Error Code",
+            "example": ""
+          },
+          "errors": {
+            "type": "object",
+            "description": "Errors"
+          },
+          "data": {
+            "$ref": "#/components/schemas/CustomerList"
+          }
+        },
+        "type": "object"
+      },
+      "CustomerList": {
+        "properties": {
+          "customers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerListRecord"
+            }
+          },
+          "total_records": {
+            "type": "integer",
+            "description": "Total Records available",
+            "example": 10
+          }
+        },
+        "type": "object"
+      },
+      "CustomerListRecord": {
+        "properties": {
+          "customer_id": {
+            "type": "string",
+            "description": "Customer ID",
+            "example": "CUST-2"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the Customer",
+            "example": "Customer"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone Number of the customer",
+            "example": "1234567890"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email of the customer",
+            "example": "john@doe.com"
+          },
+          "gstin": {
+            "type": "string",
+            "description": "GSTIN of the customer",
+            "example": ""
+          },
+          "swipe_id": {
+            "type": "string",
+            "description": "Swipe ID assigned to the customer",
+            "example": 1
+          },
+          "developer_note": {
+            "type": "string",
+            "description": "Developer Notes: This field is for internal use.",
+            "example": "This is a developer note"
           }
         },
         "type": "object"
@@ -9256,6 +9252,40 @@
         },
         "type": "object"
       },
+      "Customer": {
+        "required": [
+          "id",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique id for each customer. If a new id  is sent, a new Customer with the below details will be automatically created.",
+            "example": "CUST123"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the Customer",
+            "example": "John Doe"
+          },
+          "country_code": {
+            "type": "string",
+            "description": "Customer Phone Number Country code",
+            "example": "91"
+          },
+          "phone_number": {
+            "type": "string",
+            "description": "Customer Phone Number",
+            "example": "1234567890"
+          },
+          "email": {
+            "type": "string",
+            "description": "Customer Email",
+            "example": "johndoe@example.com"
+          }
+        },
+        "type": "object"
+      },
       "LinkedDocs": {
         "properties": {
           "amount_settled": {
@@ -9330,30 +9360,324 @@
         },
         "type": "object"
       },
-      "ProductMappingResponseV2": {
+      "Item": {
+        "required": [
+          "id",
+          "item_type",
+          "name",
+          "price_with_tax",
+          "quantity",
+          "unit_price"
+        ],
         "properties": {
-          "success": {
+          "id": {
+            "type": "string",
+            "description": "Unique id for each item.",
+            "example": "ITEM123"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the Product",
+            "example": "Item Name"
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Opening Quantity",
+            "example": 1.0
+          },
+          "unit_price": {
+            "type": "number",
+            "description": "Price per item without Tax",
+            "example": 100.0
+          },
+          "tax_rate": {
+            "type": "number",
+            "description": "Tax percentage for each item . Only valid tax rates are accepted",
+            "example": 18.0
+          },
+          "price_with_tax": {
+            "type": "number",
+            "description": "Price per item with Tax",
+            "example": 118.0
+          },
+          "purchase_price_with_tax": {
+            "type": "number",
+            "description": "Purchase Price per item with Tax",
+            "example": 118.0
+          },
+          "description": {
+            "type": "string",
+            "description": "Item Description",
+            "example": "Item Description"
+          },
+          "hsn_code": {
+            "type": "string",
+            "description": "HSN Code",
+            "example": "1234"
+          },
+          "item_type": {
+            "type": "string",
+            "description": "Product or Service enum",
+            "example": "Product",
+            "enum": [
+              "Product",
+              "Service"
+            ]
+          },
+          "unit": {
+            "type": "string",
+            "description": "Item quantity unit. You can find the GST-approved units in the UQC Codes section at: https://einvoice1.gst.gov.in/Others/MasterCodes.",
+            "example": "kg"
+          },
+          "cess_rate": {
+            "type": "number",
+            "description": "Cess Percent of the Item",
+            "default": 0,
+            "example": 0,
+            "maximum": 100
+          },
+          "cess_amount": {
+            "type": "number",
+            "description": "Cess Amount of the Item",
+            "default": 0,
+            "example": 0
+          },
+          "barcode": {
+            "type": "string",
+            "description": "Barcode",
+            "example": "2273546838467"
+          },
+          "category": {
+            "type": "string",
+            "description": "Category",
+            "example": "Electronics"
+          },
+          "alternative_units": {
+            "type": "array",
+            "description": "Alternative Units",
+            "example": [
+              {
+                "alternative_unit": "g",
+                "conversion_rate": 1000.0
+              }
+            ],
+            "items": {
+              "$ref": "#/components/schemas/AlternativeUnitsV2"
+            }
+          },
+          "custom_columns": {
+            "type": "array",
+            "description": "Custom Fields",
+            "example": [
+              {
+                "label": "Custom Label",
+                "value": "Custom Value"
+              }
+            ],
+            "items": {
+              "$ref": "#/components/schemas/ProductCustomFieldsV2"
+            }
+          },
+          "preferences": {
+            "description": "Product Preferences",
+            "example": {
+              "not_for_sale": false,
+              "low_stock_alert": 0,
+              "show_online": false,
+              "discount_percent": 10.0
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductPreferencesV2"
+              }
+            ]
+          },
+          "visibility": {
+            "type": "integer",
+            "description": "Product visibility status: If the value is 1, the product will be visible to all branches; otherwise, it will only be visible in the main branch.",
+            "example": 1
+          }
+        },
+        "type": "object"
+      },
+      "AlternativeUnitsV2": {
+        "properties": {
+          "alternative_unit": {
+            "type": "string",
+            "description": "Alternative Unit",
+            "example": "kg",
+            "enum": [
+              "LAD",
+              "PET",
+              "JARS",
+              "HEGAR",
+              "POCH",
+              "BOR",
+              "COIL",
+              "FT",
+              "IN",
+              "PRT",
+              "CASE",
+              "EACH",
+              "CPS",
+              "PADS",
+              "REEL",
+              "BLISTER",
+              "PAD",
+              "PCS",
+              "PRS",
+              "QTL",
+              "ROL",
+              "SET",
+              "SQF",
+              "SQM",
+              "SQY",
+              "TBS",
+              "TGM",
+              "THD",
+              "TON",
+              "TUB",
+              "UGS",
+              "UNT",
+              "YDS",
+              "OTH",
+              "HRS",
+              "MINS",
+              "LTR",
+              "MTS",
+              "MLG",
+              "BCK",
+              "GLS",
+              "PLT",
+              "CTS",
+              "STRP",
+              "CFT",
+              "VIAL",
+              "BAG",
+              "BAL",
+              "BDL",
+              "BKL",
+              "BOU",
+              "BOX",
+              "BTL",
+              "BUN",
+              "CAN",
+              "CBM",
+              "CCM",
+              "CMS",
+              "CTN",
+              "DOZ",
+              "DRM",
+              "GGR",
+              "GMS",
+              "GRS",
+              "GYD",
+              "KGS",
+              "KLR",
+              "KME",
+              "MLT",
+              "MTR",
+              "NOS",
+              "PAC",
+              "CNT",
+              "RFT",
+              "RIM",
+              "TIN",
+              "CHUDI",
+              "PATTA",
+              "KIT",
+              "CUFT",
+              "RMT",
+              "MM",
+              "AMP",
+              "PAIR",
+              "ANA",
+              "CFM",
+              "YRS",
+              "MTH",
+              "MAN-DAY",
+              "NIGHT",
+              "DAY",
+              "SQIN",
+              "WEEK",
+              "PERSON",
+              "LOT",
+              "SAC",
+              "REAM",
+              "BRASS",
+              "NONE",
+              "COPY",
+              "TKT",
+              "KW",
+              "W",
+              "SEC",
+              "BARREL",
+              "SHEETS",
+              "HOLES",
+              "LINES",
+              "LGTH",
+              "TRIP",
+              "LPSM",
+              "WDTH",
+              "SQCM",
+              "SHFT",
+              "AU",
+              "SQKM",
+              "JOBS",
+              "CUIN",
+              "IDIA",
+              "INMT",
+              "AC",
+              "HA",
+              "BARS",
+              "PKTS"
+            ]
+          },
+          "conversion_rate": {
+            "type": "number",
+            "description": "Conversion Rate",
+            "example": 1.0
+          }
+        },
+        "type": "object"
+      },
+      "ProductCustomFieldsV2": {
+        "required": [
+          "label",
+          "value"
+        ],
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ProductPreferencesV2": {
+        "properties": {
+          "not_for_sale": {
             "type": "boolean",
-            "description": "Success flag",
-            "example": true
+            "description": "Hides the item for sale and shows only while making a purchase. eg. Office equipment",
+            "example": false
           },
-          "message": {
-            "type": "string",
-            "description": "Response message",
-            "example": "Message"
+          "low_stock_alert": {
+            "type": "integer",
+            "description": "Low stock alert for the item",
+            "example": 0
           },
-          "error_code": {
-            "type": "string",
-            "description": "Error Code",
-            "example": ""
+          "show_online": {
+            "type": "boolean",
+            "description": "Show or hide the product in catalogue/ online store",
+            "example": false
           },
-          "errors": {
-            "type": "object",
-            "description": "Errors"
-          },
-          "data": {
-            "type": "object",
-            "description": "Data"
+          "discount_percent": {
+            "type": "number",
+            "description": "Default Discount Percent",
+            "default": 0,
+            "example": 10.0
           }
         },
         "type": "object"
@@ -9481,6 +9805,34 @@
             "type": "string",
             "description": "Developer Notes: This field is for internal use.",
             "example": "This is a developer note"
+          }
+        },
+        "type": "object"
+      },
+      "ProductMappingResponseV2": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Success flag",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Message"
+          },
+          "error_code": {
+            "type": "string",
+            "description": "Error Code",
+            "example": ""
+          },
+          "errors": {
+            "type": "object",
+            "description": "Errors"
+          },
+          "data": {
+            "type": "object",
+            "description": "Data"
           }
         },
         "type": "object"
@@ -9932,7 +10284,7 @@
             "example": 200
           },
           "billing_address": {
-            "$ref": "#/components/schemas/AddressV2"
+            "$ref": "#/components/schemas/VendorAddressV2"
           },
           "opening_balance_type": {
             "type": "integer",
@@ -9997,6 +10349,289 @@
         },
         "type": "object"
       },
+      "VendorAddressV2": {
+        "properties": {
+          "addr_id": {
+            "type": "integer",
+            "description": "Address ID.  It will automatically update the existing address if the address ID already exists.",
+            "example": -1
+          },
+          "addr_id_v2": {
+            "type": "string",
+            "description": "Address ID. It should be alphanumeric with length upto 16 characters.",
+            "example": "addr1"
+          },
+          "address_line1": {
+            "type": "string",
+            "description": "Address line 1",
+            "example": ""
+          },
+          "address_line2": {
+            "type": "string",
+            "description": "Address line 2",
+            "example": ""
+          },
+          "pincode": {
+            "type": "string",
+            "description": "Pincode",
+            "example": "500075"
+          },
+          "city": {
+            "type": "string",
+            "description": "City",
+            "example": ""
+          },
+          "state": {
+            "type": "string",
+            "description": "State. You can copy the state details from https://developers.getswipe.in/api-reference/references#state-details",
+            "example": "State Name",
+            "enum": [
+              "JAMMU AND KASHMIR",
+              "HIMACHAL PRADESH",
+              "PUNJAB",
+              "CHANDIGARH",
+              "UTTARAKHAND",
+              "HARYANA",
+              "DELHI",
+              "RAJASTHAN",
+              "UTTAR PRADESH",
+              "BIHAR",
+              "SIKKIM",
+              "ARUNACHAL PRADESH",
+              "NAGALAND",
+              "MANIPUR",
+              "MIZORAM",
+              "TRIPURA",
+              "MEGHALAYA",
+              "ASSAM",
+              "WEST BENGAL",
+              "JHARKHAND",
+              "ODISHA",
+              "CHHATTISGARH",
+              "MADHYA PRADESH",
+              "GUJARAT",
+              "DADRA & NAGAR HAVELI & DAMAN & DIU",
+              "MAHARASHTRA",
+              "ANDHRAPRADESH(BEFOREADDED)",
+              "KARNATAKA",
+              "GOA",
+              "LAKSHWADEEP",
+              "KERALA",
+              "TAMIL NADU",
+              "PUDUCHERRY",
+              "ANDAMAN & NICOBAR",
+              "TELANGANA",
+              "ANDHRA PRADESH",
+              "LADAKH(NEWLYADDED)",
+              "LADAKH(NEWLY ADDED)",
+              "OTHER TERRITORY"
+            ]
+          },
+          "country": {
+            "type": "string",
+            "description": "Country. You can copy the country details from https://developers.getswipe.in/api-reference/references#country-array",
+            "example": "India",
+            "enum": [
+              "Afghanistan",
+              "Albania",
+              "Algeria",
+              "Andorra",
+              "Angola",
+              "Antigua and Barbuda",
+              "Argentina",
+              "Armenia",
+              "Australia",
+              "Austria",
+              "Azerbaijan",
+              "Bahamas",
+              "Bahrain",
+              "Bangladesh",
+              "Barbados",
+              "Belarus",
+              "Belgium",
+              "Belize",
+              "Benin",
+              "Bhutan",
+              "Bolivia",
+              "Bosnia and Herzegovina",
+              "Botswana",
+              "Brazil",
+              "Brunei",
+              "Bulgaria",
+              "Burkina Faso",
+              "Burundi",
+              "Cabo Verde",
+              "Cambodia",
+              "Cameroon",
+              "Canada",
+              "Central African Republic",
+              "Chad",
+              "Chile",
+              "China",
+              "Colombia",
+              "Comoros",
+              "Congo, Democratic Republic of the",
+              "Congo, Republic of the",
+              "Costa Rica",
+              "Croatia",
+              "Cuba",
+              "Cyprus",
+              "Czechia",
+              "Denmark",
+              "Djibouti",
+              "Dominica",
+              "Dominican Republic",
+              "Ecuador",
+              "Egypt",
+              "El Salvador",
+              "Equatorial Guinea",
+              "Eritrea",
+              "Estonia",
+              "Eswatini",
+              "Ethiopia",
+              "Fiji",
+              "Finland",
+              "France",
+              "Gabon",
+              "Gambia",
+              "Georgia",
+              "Germany",
+              "Ghana",
+              "Greece",
+              "Grenada",
+              "Guatemala",
+              "Guinea",
+              "Guinea-Bissau",
+              "Guyana",
+              "Haiti",
+              "Honduras",
+              "Hungary",
+              "Iceland",
+              "India",
+              "Indonesia",
+              "Iran",
+              "Iraq",
+              "Ireland",
+              "Israel",
+              "Italy",
+              "Jamaica",
+              "Japan",
+              "Jordan",
+              "Kazakhstan",
+              "Kenya",
+              "Kiribati",
+              "Republic of Korea (South Korea)",
+              "Kosovo",
+              "Kuwait",
+              "Kyrgyzstan",
+              "Laos",
+              "Latvia",
+              "Lebanon",
+              "Lesotho",
+              "Liberia",
+              "Libya",
+              "Liechtenstein",
+              "Lithuania",
+              "Luxembourg",
+              "Madagascar",
+              "Malawi",
+              "Malaysia",
+              "Maldives",
+              "Mali",
+              "Malta",
+              "Marshall Islands",
+              "Mauritania",
+              "Mauritius",
+              "Mexico",
+              "Micronesia",
+              "Moldova",
+              "Monaco",
+              "Mongolia",
+              "Montenegro",
+              "Morocco",
+              "Mozambique",
+              "Myanmar",
+              "Namibia",
+              "Nauru",
+              "Nepal",
+              "Netherlands",
+              "New Zealand",
+              "Nicaragua",
+              "Niger",
+              "Nigeria",
+              "North Macedonia",
+              "Norway",
+              "Oman",
+              "Pakistan",
+              "Palau",
+              "Palestine",
+              "Panama",
+              "Papua New Guinea",
+              "Paraguay",
+              "Peru",
+              "Philippines",
+              "Poland",
+              "Portugal",
+              "Qatar",
+              "Romania",
+              "Russia",
+              "Rwanda",
+              "Saint Kitts and Nevis",
+              "Saint Lucia",
+              "Saint Vincent and the Grenadines",
+              "Samoa",
+              "San Marino",
+              "Sao Tome and Principe",
+              "Saudi Arabia",
+              "Senegal",
+              "Serbia",
+              "Seychelles",
+              "Sierra Leone",
+              "Singapore",
+              "Slovakia",
+              "Slovenia",
+              "Solomon Islands",
+              "Somalia",
+              "South Africa",
+              "South Sudan",
+              "Spain",
+              "Sri Lanka",
+              "Sudan",
+              "Suriname",
+              "Sweden",
+              "Switzerland",
+              "Syria",
+              "Taiwan",
+              "Tajikistan",
+              "Tanzania",
+              "Thailand",
+              "Timor-Leste",
+              "Togo",
+              "Tonga",
+              "Trinidad and Tobago",
+              "Tunisia",
+              "Turkey",
+              "Turkmenistan",
+              "Tuvalu",
+              "Uganda",
+              "Ukraine",
+              "United Arab Emirates",
+              "United Kingdom",
+              "United States",
+              "Uruguay",
+              "Uzbekistan",
+              "Vanuatu",
+              "Vatican City",
+              "Venezuela",
+              "Vietnam",
+              "Yemen",
+              "Zambia",
+              "Zimbabwe"
+            ]
+          }
+        },
+        "type": "object"
+      },
       "VendorCustomFields": {
         "required": [
           "label",
@@ -10039,6 +10674,36 @@
         },
         "type": "object"
       },
+      "VendorDetailsResponseV2": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Success flag",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": ""
+          },
+          "error_code": {
+            "type": "string",
+            "description": "Error Code",
+            "example": ""
+          },
+          "errors": {
+            "type": "object",
+            "description": "Errors"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BaseVendorV2"
+            }
+          }
+        },
+        "type": "object"
+      },
       "ListVendorMapModel": {
         "required": [
           "vendor_mapping"
@@ -10072,34 +10737,6 @@
             "type": "boolean",
             "description": "Updates even if the vendor id is already mapped with other swipe id, no vendor details will be updated",
             "example": true
-          }
-        },
-        "type": "object"
-      },
-      "VendorMappingResponseV2": {
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "description": "Success flag",
-            "example": true
-          },
-          "message": {
-            "type": "string",
-            "description": "Response message",
-            "example": "Message"
-          },
-          "error_code": {
-            "type": "string",
-            "description": "Error Code",
-            "example": ""
-          },
-          "errors": {
-            "type": "object",
-            "description": "Errors"
-          },
-          "data": {
-            "type": "object",
-            "description": "Data"
           }
         },
         "type": "object"
@@ -10178,6 +10815,34 @@
             "type": "string",
             "description": "Swipe ID assigned to the vendor",
             "example": 1
+          }
+        },
+        "type": "object"
+      },
+      "VendorMappingResponseV2": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Success flag",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Message"
+          },
+          "error_code": {
+            "type": "string",
+            "description": "Error Code",
+            "example": ""
+          },
+          "errors": {
+            "type": "object",
+            "description": "Errors"
+          },
+          "data": {
+            "type": "object",
+            "description": "Data"
           }
         },
         "type": "object"
