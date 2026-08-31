@@ -203,6 +203,7 @@ def convert(spec2: dict) -> dict:
 
 def apply_overlay(spec3: dict, overlay: dict):
     stripped, filled, renamed = [], 0, 0
+    req_examples = overlay.get("request_examples", {})
     for prefix in overlay.get("exclude_path_prefixes", []):
         for path in [p for p in spec3["paths"] if p.startswith(prefix)]:
             del spec3["paths"][path]
@@ -223,6 +224,10 @@ def apply_overlay(spec3: dict, overlay: dict):
                 filled += 1
             if not op.get("summary") and entry.get("summary"):
                 op["summary"] = entry["summary"]
+            if key in req_examples:
+                media = op.get("requestBody", {}).get("content", {}).get("application/json")
+                if media is not None:
+                    media["examples"] = req_examples[key]
     return stripped, filled, renamed
 
 
