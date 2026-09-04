@@ -1117,6 +1117,37 @@
               "type": "integer",
               "default": 1
             }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "description": "Field to sort the items by: one of name, category, quantity, unit_price, price_with_tax, tax_rate, created_at, updated_at. If omitted, items are returned in creation order.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "name",
+                "category",
+                "quantity",
+                "unit_price",
+                "price_with_tax",
+                "tax_rate",
+                "created_at",
+                "updated_at"
+              ]
+            }
+          },
+          {
+            "name": "sort_order",
+            "in": "query",
+            "description": "Sort direction applied when sort_by is set: 'asc' (default) or 'desc'.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "asc"
+            }
           }
         ],
         "responses": {
@@ -3951,6 +3982,37 @@
             "schema": {
               "type": "integer",
               "default": 1
+            }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "description": "Field to sort the items by: one of name, category, quantity, unit_price, price_with_tax, tax_rate, created_at, updated_at. If omitted, items are returned in creation order.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "name",
+                "category",
+                "quantity",
+                "unit_price",
+                "price_with_tax",
+                "tax_rate",
+                "created_at",
+                "updated_at"
+              ]
+            }
+          },
+          {
+            "name": "sort_order",
+            "in": "query",
+            "description": "Sort direction applied when sort_by is set: 'asc' (default) or 'desc'.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "asc"
             }
           }
         ],
