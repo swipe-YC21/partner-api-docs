@@ -5924,6 +5924,11 @@
             "type": "integer",
             "description": "Customer visibility status: If the value is 1, the customer will be visible to all branches; otherwise, it will only be visible in the main branch.",
             "example": 1
+          },
+          "swipe_id": {
+            "type": "string",
+            "description": "Swipe ID assigned to the customer",
+            "example": 1
           }
         },
         "type": "object"
@@ -9176,6 +9181,11 @@
           "visibility": {
             "type": "integer",
             "description": "Product visibility status: If the value is 1, the product will be visible to all branches; otherwise, it will only be visible in the main branch.",
+            "example": 1
+          },
+          "swipe_id": {
+            "type": "string",
+            "description": "Swipe ID assigned to the item",
             "example": 1
           }
         },
