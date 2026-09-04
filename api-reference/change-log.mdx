@@ -4,6 +4,12 @@ icon: 'clock-rotate-left'
 description: 'Updates and changes to the Swipe API'
 ---
 
+<Update label="2026-09-04" description="Products">
+    <Card title="List sorting">
+        Added the `sort_by` and `sort_order` query parameters to [Get list of items](/api-reference/product-v2/get-list-of-items) (and its v1 equivalent). `sort_by` accepts `name`, `category`, `quantity`, `unit_price`, `price_with_tax`, `tax_rate`, `created_at`, or `updated_at`; `sort_order` is `asc` (default) or `desc`. Sorting is applied across the full catalog before pagination. Omitting `sort_by` keeps the existing creation-order response.
+    </Card>
+</Update>
+
 <Update label="2026-08-26" description="Docs overhaul">
     The documentation got a full overhaul:
 
