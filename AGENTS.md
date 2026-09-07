@@ -97,10 +97,18 @@ When adding backend models, keep names globally unique.
 - Documents are addressed by the `hash_id` returned at creation.
   Subscriptions are created via `POST /v2/doc` with
   `document_type=subscription` — there is no separate create endpoint.
-- Two MCP servers exist: `https://app.getswipe.in/api/mcp/sse` (self-hosted,
-  OAuth OTP + company selection, ~26 tools; source in the backend repo at
-  `services/api/src/mcp_server/`) and `https://developers.getswipe.in/mcp`
-  (Mintlify-hosted docs search, free). Both documented on `/build-with-ai`.
+- **The only MCP server documented here is the docs one**,
+  `https://developers.getswipe.in/mcp` (Mintlify-hosted docs search, free,
+  unauthenticated), on `/build-with-ai`.
+- **Do not document `https://app.getswipe.in/api/mcp/sse` in this repo.** That is
+  the Swipe AI assistant over MCP, a separate end-user product: different Flask
+  blueprint (`/mcp` vs `/partner`), and it authenticates with an OAuth PKCE plus
+  mobile-OTP JWT rather than a Partner API key. **A Partner API key returns 401
+  against it.** It is account-scoped to one logged-in person for 30 days, so a
+  partner backend serving many companies cannot use it at all. It was documented
+  here once and removed; its home is the product/help docs. (Its tools reuse
+  `src/partner/v2/*` business logic internally, which is why it looks like a
+  Partner API surface in the backend code. It is not one.)
 - The site is on Mintlify's free tier: the paid Assistant ("Ask AI") and
   personalization (playground key-prefill) are **not** available — don't
   reference them as existing features.
