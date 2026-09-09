@@ -63,6 +63,7 @@ For a complete first request, follow the [Quickstart](/quickstart) — it create
 - **Serial numbers must be unique.** Send your own `serial_number` (or `serial_number_v2`) and a retried create fails safely with `DUPLICATE_DOC_SERIAL_NUMBER` instead of duplicating the document.
 - **Edits replace the document.** [Edit a document](/api-reference/document-v2/edit-a-document) expects the full payload with every field's updated value, not a partial diff.
 - **E-invoices ride on creation.** Pass `einvoice: true` when creating to also generate a GST e-invoice with IRN and QR code — see [E-Invoices](/einvoices).
+- **`with_tax` picks Invoice vs. Bill of Supply.** Send `with_tax: true` for a tax invoice or `false` for a Bill of Supply (tax and item GST fields zeroed). Omit it and Swipe decides for you — from the item tax amounts on create, or by keeping the document's current value on edit. Composition-scheme companies are always forced to `false`.
 
 ## Documents in the dashboard
 
