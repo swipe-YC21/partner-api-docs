@@ -6341,6 +6341,11 @@
             "items": {
               "$ref": "#/components/schemas/CustomHeaders"
             }
+          },
+          "with_tax": {
+            "type": "boolean",
+            "description": "Controls whether the document is titled Invoice or Bill of Supply. `true` -> Invoice (tax charged); `false` -> Bill of Supply (no tax; the document's tax amount and item GST fields are zeroed). Omit to keep the document's current value unchanged. Composition-scheme companies are always forced to `false`.",
+            "example": true
           }
         },
         "type": "object"
@@ -6543,6 +6548,11 @@
             "items": {
               "$ref": "#/components/schemas/CustomHeaders"
             }
+          },
+          "with_tax": {
+            "type": "boolean",
+            "description": "Controls whether the document is titled Invoice or Bill of Supply. `true` -> Invoice (tax charged); `false` -> Bill of Supply (no tax; the document's tax amount and item GST fields are zeroed). Omit to derive it automatically from the item tax amounts. Composition-scheme companies are always forced to `false`.",
+            "example": true
           }
         },
         "type": "object"

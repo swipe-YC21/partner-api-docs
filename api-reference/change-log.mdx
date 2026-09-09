@@ -4,6 +4,12 @@ icon: 'clock-rotate-left'
 description: 'Updates and changes to the Swipe API'
 ---
 
+<Update label="2026-09-09" description="Documents">
+    <Card title="with_tax">
+        Added the `with_tax` field to [Create a document](/api-reference/document-v2/create-a-document) and [Edit a document](/api-reference/document-v2/edit-a-document) — controls whether the document is titled Invoice (`true`) or Bill of Supply (`false`, tax and item GST fields zeroed). Omit it to derive the value automatically (create) or keep the document's current value (edit). Composition-scheme companies are always forced to `false`.
+    </Card>
+</Update>
+
 <Update label="2026-09-04" description="Products">
     <Card title="List sorting">
         Added the `sort_by` and `sort_order` query parameters to [Get list of items](/api-reference/product-v2/get-list-of-items) (and its v1 equivalent). `sort_by` accepts `name`, `category`, `quantity`, `unit_price`, `price_with_tax`, `tax_rate`, `created_at`, or `updated_at`; `sort_order` is `asc` (default) or `desc`. Sorting is applied across the full catalog before pagination. Omitting `sort_by` keeps the existing creation-order response.
