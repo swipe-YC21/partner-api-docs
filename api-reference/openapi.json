@@ -6232,6 +6232,11 @@
             "description": "Terms to show in invoice - please check template in swipe application to see where this is displayed",
             "example": "Terms and Conditions"
           },
+          "exclusive_notes": {
+            "type": "string",
+            "description": "Internal notes, visible only inside Swipe and never printed on the document. On edit, leave it out to keep the existing notes.",
+            "example": "Internal reference"
+          },
           "items": {
             "type": "array",
             "description": "Array of Products/Services, refer Item Object below for parameters",
@@ -6386,7 +6391,10 @@
               "sales_return",
               "purchase_return",
               "delivery_challan",
-              "purchase"
+              "purchase",
+              "purchase_order",
+              "sales_order",
+              "sales_debit_note"
             ]
           },
           "document_date": {
@@ -6421,6 +6429,11 @@
             "type": "string",
             "description": "Terms to show in invoice - please check template in swipe application to see where this is displayed",
             "example": "Terms and Conditions"
+          },
+          "exclusive_notes": {
+            "type": "string",
+            "description": "Internal notes, visible only inside Swipe and never printed on the document. On edit, leave it out to keep the existing notes.",
+            "example": "Internal reference"
           },
           "items": {
             "type": "array",
@@ -7845,6 +7858,69 @@
             "type": "string",
             "description": "Pincode",
             "example": "123456"
+          }
+        },
+        "type": "object"
+      },
+      "EwayBillCreateData": {
+        "properties": {
+          "ewaybill_number": {
+            "type": "string",
+            "description": "E-way bill number",
+            "example": "381012345678"
+          },
+          "ewaybill_date": {
+            "type": "string",
+            "description": "E-way bill generation date and time [DD-MM-YYYY HH:MM:SS]",
+            "example": "25-11-2026 14:05:00"
+          },
+          "valid_until": {
+            "type": "string",
+            "description": "E-way bill valid until date and time [DD-MM-YYYY HH:MM:SS]. null until Part-B (vehicle or transport details) is updated",
+            "example": "26-11-2026 23:59:00"
+          },
+          "status": {
+            "type": "string",
+            "description": "E-way bill status. success - generated and active, closed - closed on the e-way bill portal",
+            "example": "success",
+            "enum": [
+              "success",
+              "closed"
+            ]
+          },
+          "alert": {
+            "type": "string",
+            "description": "Warning returned by the e-way bill portal, if any, e.g. when it corrected the distance",
+            "example": ""
+          }
+        },
+        "type": "object"
+      },
+      "EwayBillDetails": {
+        "properties": {
+          "ewaybill_number": {
+            "type": "string",
+            "description": "E-way bill number",
+            "example": "381012345678"
+          },
+          "ewaybill_date": {
+            "type": "string",
+            "description": "E-way bill generation date and time [DD-MM-YYYY HH:MM:SS]",
+            "example": "25-11-2026 14:05:00"
+          },
+          "valid_until": {
+            "type": "string",
+            "description": "E-way bill valid until date and time [DD-MM-YYYY HH:MM:SS]. null until Part-B (vehicle or transport details) is updated",
+            "example": "26-11-2026 23:59:00"
+          },
+          "status": {
+            "type": "string",
+            "description": "E-way bill status. success - generated and active, closed - closed on the e-way bill portal",
+            "example": "success",
+            "enum": [
+              "success",
+              "closed"
+            ]
           }
         },
         "type": "object"
@@ -11550,6 +11626,14 @@
             "type": "string",
             "description": "Message",
             "example": "Eway Bill created successfully"
+          },
+          "data": {
+            "description": "Details of the created e-way bill",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EwayBillCreateData"
+              }
+            ]
           }
         },
         "type": "object"
@@ -11768,6 +11852,14 @@
             "type": "string",
             "description": "Epoch Timestamp when the document was created",
             "example": "1764141027"
+          },
+          "ewaybill": {
+            "description": "E-way bill generated for this document, null if none",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EwayBillDetails"
+              }
+            ]
           }
         },
         "type": "object"
