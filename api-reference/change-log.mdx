@@ -4,6 +4,12 @@ icon: 'clock-rotate-left'
 description: 'Updates and changes to the Swipe API'
 ---
 
+<Update label="2026-11-26" description="E-way bills">
+    <Card title="E-way bill details">
+        [Create e-way bill](/api-reference/ewaybill/create-eway-bill) now returns the generated bill in `data`: `ewaybill_number`, `ewaybill_date`, `valid_until`, `status`, and the portal's `alert`. [Get a document](/api-reference/document-v2/get-a-document) has a new `ewaybill` object with the same fields (without `alert`), or `null` if the document has no active or closed e-way bill. `valid_until` is `null` until Part-B is updated.
+    </Card>
+</Update>
+
 <Update label="2026-09-09" description="Documents">
     <Card title="with_tax">
         Added the `with_tax` field to [Create a document](/api-reference/document-v2/create-a-document) and [Edit a document](/api-reference/document-v2/edit-a-document) — controls whether the document is titled Invoice (`true`) or Bill of Supply (`false`, tax and item GST fields zeroed). Omit it to derive the value automatically (create) or keep the document's current value (edit). Composition-scheme companies are always forced to `false`.

@@ -44,7 +44,33 @@ curl --request POST \
   }'
 ```
 
+On success, `data` carries the generated e-way bill:
+
+```json
+{
+  "success": true,
+  "message": "Eway Bill created successfully",
+  "data": {
+    "ewaybill_number": "381012345678",
+    "ewaybill_date": "25-11-2026 14:05:00",
+    "valid_until": "26-11-2026 23:59:00",
+    "status": "success",
+    "alert": ""
+  }
+}
+```
+
+Dates are `DD-MM-YYYY HH:MM:SS`. `alert` carries any warning from the portal, such as a corrected distance.
+
+<Note>
+    `valid_until` is `null` when the bill has only Part-A (no vehicle or transport document number). The portal sets the validity once Part-B is updated.
+</Note>
+
 Errors from the government portal are passed through as `PORTAL_ERROR_{code}` — see [Error codes](/api-reference/error-codes) for how to look them up.
+
+## Check a document's e-way bill
+
+[`GET /v2/doc/{hash_id}`](/api-reference/document-v2/get-a-document) returns the same fields (without `alert`) in its `ewaybill` object. The object holds the latest active or closed e-way bill for the document, and is `null` when none has been generated or the only one was cancelled.
 
 ## Download the PDF
 
