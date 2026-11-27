@@ -74,6 +74,15 @@ Returned with HTTP `401` — see [Authentication](/authentication).
 | `UNAUTHORIZED` | The API key is missing, malformed, or invalid. Send `Authorization: Bearer YOUR_API_KEY`. |
 | `FORBIDDEN` | The key is valid but not allowed to perform this action. Check the account's plan and permissions. |
 
+## Usage limit errors
+
+Returned when your API plan's call limits are used up — see [Pricing](/pricing#how-usage-is-counted).
+
+| Error code | Cause and resolution |
+| ---------- | -------------------- |
+| `MONTHLY_LIMIT_EXCEEDED` | The API plan's calls for this calendar month are used up. Upgrade the plan from [API Integration](https://app.getswipe.in/user?tab=api_integration), or wait for the reset on the 1st. |
+| `DAILY_LIMIT_EXCEEDED` | The daily call limit set for your company is used up. Raise it in [API Integration](https://app.getswipe.in/user?tab=api_integration), or retry the next day. |
+
 ## General errors
 
 | Error code | HTTP status | Cause and resolution |

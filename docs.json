@@ -126,6 +126,7 @@
                   "quickstart",
                   "authentication",
                   "api-conventions",
+                  "pricing",
                   "build-with-ai"
                 ]
               },
@@ -251,6 +252,7 @@
                   "quickstart",
                   "authentication",
                   "api-conventions",
+                  "pricing",
                   "build-with-ai"
                 ]
               },
@@ -370,6 +372,10 @@
   },
   "navbar": {
     "links": [
+      {
+        "label": "Pricing",
+        "href": "/pricing"
+      },
       {
         "label": "Support",
         "href": "https://app.getswipe.in/user?tab=api_integration"
