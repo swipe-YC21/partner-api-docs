@@ -1,91 +1,64 @@
 ---
 title: Pricing
 icon: 'tags'
-description: 'Swipe API plans: monthly prices, API call limits, what each plan includes, and how usage is counted.'
+description: 'API plans, prices, and monthly call limits.'
 ---
 
-Each API plan sets how many calls your API key can make in a month. Pick a plan for the volume you need. If you generate GST e-invoices through the API, pick an E-Invoice plan. All plans are billed monthly, and prices are shown **before GST**.
+Prices are per month, before GST. E-invoice and e-way bill APIs need an E-Invoice plan.
 
-## Standard API
-
-Documents, customers, vendors, products, inventory, payments, subscriptions, and webhooks.
-
-<CardGroup cols={2}>
-    <Card title="Basic" icon="paper-plane">
-        <div className="text-3xl font-bold text-gray-900 dark:text-gray-100">₹999</div>
-        <div className="text-sm">per month + GST</div>
-        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-white/10">Up to <strong>2,500</strong> API calls a month</div>
-    </Card>
-    <Card title="Advance" icon="rocket">
-        <div className="text-3xl font-bold text-gray-900 dark:text-gray-100">₹2,999</div>
-        <div className="text-sm">per month + GST</div>
-        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-white/10">Up to <strong>10,000</strong> API calls a month</div>
-    </Card>
-</CardGroup>
-
-<Card title="Included with any paid Swipe subscription" icon="circle-check" horizontal>
-    Already on a paid Swipe plan? You get up to **100** API calls a month at no extra cost, with no API plan needed.
-</Card>
-
-## Standard API + E-Invoice & E-Way Bill APIs
-
-Everything in Standard API, plus [e-invoices](/einvoices) and [e-way bills](/ewaybills).
-
-<CardGroup cols={2}>
-    <Card title="Einvoice Basic" icon="file-circle-check">
-        <div className="text-3xl font-bold text-gray-900 dark:text-gray-100">₹1,499</div>
-        <div className="text-sm">per month + GST</div>
-        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-white/10">Up to <strong>2,500</strong> API calls a month</div>
-    </Card>
-    <Card title="Einvoice Advance" icon="file-shield">
-        <div className="text-3xl font-bold text-gray-900 dark:text-gray-100">₹4,499</div>
-        <div className="text-sm">per month + GST</div>
-        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-white/10">Up to <strong>10,000</strong> API calls a month</div>
-    </Card>
-</CardGroup>
-
-## Enterprise
-
-<Card title="Business" icon="building" href="mailto:api@getswipe.in" horizontal>
-    **Custom pricing**, with a monthly limit set for your volume. Write to api@getswipe.in.
-</Card>
-
-## Compare plans
-
-| Plan | Price | API calls / month | Standard APIs | E-invoice APIs |
-| ---- | ----- | ----------------- | :-----------: | :------------: |
-| Paid | Included with a paid Swipe subscription | 100 | ✓ | — |
-| Basic | ₹999 / month | 2,500 | ✓ | — |
-| Advance | ₹2,999 / month | 10,000 | ✓ | — |
-| Einvoice Basic | ₹1,499 / month | 2,500 | ✓ | ✓ |
-| Einvoice Advance | ₹4,499 / month | 10,000 | ✓ | ✓ |
-| Business | Custom | Set for your volume | ✓ | ✓ |
+<div className="not-prose overflow-hidden rounded-2xl border border-gray-200 divide-y divide-gray-200 dark:border-white/10 dark:divide-white/10">
+    <div className="bg-gray-50 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:bg-white/5 dark:text-gray-400">Standard API</div>
+    <div className="flex items-center gap-4 px-5 py-4">
+        <div className="flex-1">
+            <div className="font-semibold text-gray-900 dark:text-gray-100">Basic</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">2,500 calls / month</div>
+        </div>
+        <div className="w-48 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"><span className="text-lg font-bold text-gray-900 dark:text-gray-100">₹999</span> / month + GST</div>
+        <div className="w-28 text-right"><a href="https://app.getswipe.in/user?tab=api_integration" className="inline-block rounded-lg bg-primary px-3.5 py-1.5 text-sm font-semibold text-white no-underline hover:opacity-90 dark:bg-primary dark:text-white">Subscribe</a></div>
+    </div>
+    <div className="flex items-center gap-4 px-5 py-4">
+        <div className="flex-1">
+            <div className="font-semibold text-gray-900 dark:text-gray-100">Advance</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">10,000 calls / month</div>
+        </div>
+        <div className="w-48 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"><span className="text-lg font-bold text-gray-900 dark:text-gray-100">₹2,999</span> / month + GST</div>
+        <div className="w-28 text-right"><a href="https://app.getswipe.in/user?tab=api_integration" className="inline-block rounded-lg bg-primary px-3.5 py-1.5 text-sm font-semibold text-white no-underline hover:opacity-90 dark:bg-primary dark:text-white">Subscribe</a></div>
+    </div>
+    <div className="bg-gray-50 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:bg-white/5 dark:text-gray-400">Standard API + E-Invoice &amp; E-Way Bill APIs</div>
+    <div className="flex items-center gap-4 px-5 py-4">
+        <div className="flex-1">
+            <div className="font-semibold text-gray-900 dark:text-gray-100">Einvoice Basic</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">2,500 calls / month</div>
+        </div>
+        <div className="w-48 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"><span className="text-lg font-bold text-gray-900 dark:text-gray-100">₹1,499</span> / month + GST</div>
+        <div className="w-28 text-right"><a href="https://app.getswipe.in/user?tab=api_integration" className="inline-block rounded-lg bg-primary px-3.5 py-1.5 text-sm font-semibold text-white no-underline hover:opacity-90 dark:bg-primary dark:text-white">Subscribe</a></div>
+    </div>
+    <div className="flex items-center gap-4 px-5 py-4">
+        <div className="flex-1">
+            <div className="font-semibold text-gray-900 dark:text-gray-100">Einvoice Advance</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">10,000 calls / month</div>
+        </div>
+        <div className="w-48 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"><span className="text-lg font-bold text-gray-900 dark:text-gray-100">₹4,499</span> / month + GST</div>
+        <div className="w-28 text-right"><a href="https://app.getswipe.in/user?tab=api_integration" className="inline-block rounded-lg bg-primary px-3.5 py-1.5 text-sm font-semibold text-white no-underline hover:opacity-90 dark:bg-primary dark:text-white">Subscribe</a></div>
+    </div>
+    <div className="bg-gray-50 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:bg-white/5 dark:text-gray-400">Enterprise</div>
+    <div className="flex items-center gap-4 px-5 py-4">
+        <div className="flex-1">
+            <div className="font-semibold text-gray-900 dark:text-gray-100">Business</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">Limits based on your business needs</div>
+        </div>
+        <div className="w-48 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Custom pricing</div>
+        <div className="w-28 text-right"><a href="mailto:api@getswipe.in" className="text-sm font-semibold text-primary no-underline hover:underline dark:text-primary-light">Contact us</a></div>
+    </div>
+</div>
 
 <Info>
-**Trying the API first?** A company with no API plan and no paid Swipe subscription gets **100 API calls in total**, to build and test an integration. If you need more to finish testing, write to [api@getswipe.in](mailto:api@getswipe.in).
+    Every paid Swipe plan includes **100 API calls a month** at no extra cost, which can be used to build and test integration. For higher volumes, please choose one of the API plans above.
 </Info>
-
-## Subscribe to a plan
-
-<Steps>
-    <Step title="Open API Integration">
-        Go to [API Integration](https://app.getswipe.in/user?tab=api_integration) in your Swipe dashboard.
-    </Step>
-    <Step title="Choose a plan">
-        Basic, Advance, Einvoice Basic, and Einvoice Advance can be bought there directly. For the Business plan, write to [api@getswipe.in](mailto:api@getswipe.in).
-    </Step>
-    <Step title="Pay and start">
-        The plan's limit applies as soon as the payment goes through.
-    </Step>
-</Steps>
-
-**Upgrading** starts the new plan right away. If your current plan is already paid for, you pay only the price difference for the days left. **Downgrading** takes effect when the current plan's paid period ends, and nothing is refunded.
 
 ## How usage is counted
 
-- **Every request counts**, whichever endpoint it calls and whether it succeeds or returns an error.
-- **The monthly limit resets on the 1st of each calendar month.** In the month you subscribe, only calls made after the plan starts are counted.
-- **A daily limit applies on top of the monthly one.** You can see it and change it in [API Integration](https://app.getswipe.in/user?tab=api_integration). On a bought plan you can raise it to **5,000 calls a day** yourself. For more, contact [support](https://app.getswipe.in/user?tab=api_integration).
-- **The [rate limit](/api-conventions#rate-limit) of 1 request per second** applies on every plan.
-- **E-invoice generation needs an E-Invoice plan.** A request with `einvoice: true` from any other plan is rejected with `FORBIDDEN`.
-- **Once a limit is reached**, requests are rejected with `MONTHLY_LIMIT_EXCEEDED` or `DAILY_LIMIT_EXCEEDED` until it resets. See [Error codes](/api-reference/error-codes#usage-limit-errors).
+- **Every request counts** toward your limits, whichever endpoint it calls and whether it succeeds or returns an error.
+- **Monthly limits reset on the 1st** of each calendar month. In the month you subscribe, only calls made after the plan starts are counted.
+- **A daily limit applies on top of the monthly one.** You can view and change it in [API Integration](https://app.getswipe.in/user?tab=api_integration); on an API plan you can raise it to 5,000 calls a day yourself.
+- **Once a limit is reached**, requests fail with `MONTHLY_LIMIT_EXCEEDED` or `DAILY_LIMIT_EXCEEDED` until it resets. See [Error codes](/api-reference/error-codes#usage-limit-errors) for how to handle them.
