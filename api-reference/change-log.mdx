@@ -4,6 +4,12 @@ icon: 'clock-rotate-left'
 description: 'Updates and changes to the Swipe API'
 ---
 
+<Update label="2026-11-27" description="Pricing">
+    <Card title="API plans and usage limits">
+        New [Pricing](/pricing) page with every API plan, its monthly call limit, and how usage is counted. The [error reference](/api-reference/error-codes#usage-limit-errors) now lists `MONTHLY_LIMIT_EXCEEDED` and `DAILY_LIMIT_EXCEEDED`.
+    </Card>
+</Update>
+
 <Update label="2026-11-26" description="E-way bills">
     <Card title="E-way bill details">
         [Create e-way bill](/api-reference/ewaybill/create-eway-bill) now returns the generated bill in `data`: `ewaybill_number`, `ewaybill_date`, `valid_until`, `status`, and the portal's `alert`. [Get a document](/api-reference/document-v2/get-a-document) has a new `ewaybill` object with the same fields (without `alert`), or `null` if the document has no active or closed e-way bill. `valid_until` is `null` until Part-B is updated.
